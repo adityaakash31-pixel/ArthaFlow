@@ -4,7 +4,8 @@
 // ===============================
 
 // Total Income
-let totalIncome = 0;
+let totalIncome =
+Number(localStorage.getItem("totalIncome")) || 0;
 
 // Save Income
 function saveIncome() {
@@ -23,6 +24,10 @@ function saveIncome() {
     }
 
     totalIncome = totalIncome + amount;
+    localStorage.setItem(
+    "totalIncome",
+    totalIncome
+);
 
     alert("Income Saved Successfully");
 
