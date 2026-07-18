@@ -23,3 +23,21 @@ p{
     margin-top:10px;
     margin-bottom:30px;
 }
+.card{
+    background:#ffffff;
+    border-radius:18px;
+    padding:20px;
+    margin:20px 0;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+.card h2{
+    color:#2563EB;
+    margin-bottom:10px;
+}
+
+.card p{
+    text-align:left;
+    margin:0;
+    color:#555;
+}
