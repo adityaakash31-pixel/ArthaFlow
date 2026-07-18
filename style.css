@@ -58,3 +58,16 @@ button{
 button:hover{
     background:#1D4ED8;
 }
+input{
+    width:100%;
+    padding:14px;
+    margin:10px 0;
+    border:1px solid #ddd;
+    border-radius:12px;
+    font-size:16px;
+}
+
+label{
+    font-weight:bold;
+    color:#333;
+}
