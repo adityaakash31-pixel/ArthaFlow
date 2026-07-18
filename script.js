@@ -35,3 +35,14 @@ function saveIncome() {
     document.getElementById("amount").value = "";
 
 }
+window.onload = function(){
+
+    let incomeBox =
+    document.getElementById("totalIncome");
+
+    if(incomeBox){
+        incomeBox.innerText =
+        "₹" + totalIncome;
+    }
+
+};
