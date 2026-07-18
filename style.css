@@ -1,1 +1,25 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
 
+body{
+    background:#F8FAFC;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+    color:#2563EB;
+    font-size:34px;
+    margin-top:20px;
+}
+
+p{
+    text-align:center;
+    color:#555;
+    margin-top:10px;
+    margin-bottom:30px;
+}
