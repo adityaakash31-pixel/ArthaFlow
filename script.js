@@ -119,14 +119,6 @@ if(dashboardBalance){
     "₹" + (totalIncome - totalExpense);
 }
 
-// Total Transactions
-let totalEntries =
-document.getElementById("totalEntries");
-
-if(totalEntries){
-    totalEntries.innerText =
-    incomeHistory.length + expenseHistory.length;
-}
 // Save Income
 function saveIncome() {
 
