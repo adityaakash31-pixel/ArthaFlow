@@ -119,6 +119,14 @@ if(dashboardBalance){
     "₹" + (totalIncome - totalExpense);
 }
 
+let dashboardSavings =
+document.getElementById("dashboardSavings");
+
+if(dashboardSavings){
+    dashboardSavings.innerText =
+    "₹" + (totalIncome - totalExpense);
+}
+
 // Save Income
 function saveIncome() {
 
@@ -394,4 +402,12 @@ document.getElementById("reportTransactions");
 if(reportTransactions){
     reportTransactions.innerText =
     incomeHistory.length + expenseHistory.length;
+}
+
+let reportSavings =
+document.getElementById("reportSavings");
+
+if(reportSavings){
+    reportSavings.innerText =
+    "₹" + (totalIncome - totalExpense);
 }
