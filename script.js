@@ -447,3 +447,33 @@ location.href="index.html";
 }
 
 }
+let financeChart =
+document.getElementById("financeChart");
+
+if(financeChart){
+
+new Chart(financeChart,{
+
+type:"pie",
+
+data:{
+
+labels:[
+"Income",
+"Expense"
+],
+
+datasets:[{
+
+data:[
+totalIncome,
+totalExpense
+]
+
+}]
+
+}
+
+});
+
+}
