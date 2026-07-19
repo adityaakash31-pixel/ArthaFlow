@@ -460,17 +460,53 @@ data:{
 
 labels:[
 "Income",
-"Expense"
+"Expense",
+"Balance"
 ],
 
 datasets:[{
 
 data:[
 totalIncome,
-totalExpense
-]
+totalExpense,
+totalIncome-totalExpense
+],
+
+backgroundColor:[
+"#4CAF50",
+"#F44336",
+"#2196F3"
+],
+
+borderColor:"#ffffff",
+
+borderWidth:2
 
 }]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+
+position:"bottom"
+
+},
+
+title:{
+
+display:true,
+
+text:"ArthaFlow Finance Overview"
+
+}
+
+}
 
 }
 
