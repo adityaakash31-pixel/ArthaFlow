@@ -101,6 +101,32 @@ if(expenseList){
     });
 
 }
+
+// Dashboard Expense
+let dashboardExpense =
+document.getElementById("dashboardExpense");
+
+if(dashboardExpense){
+    dashboardExpense.innerText = "₹" + totalExpense;
+}
+
+// Dashboard Balance
+let dashboardBalance =
+document.getElementById("dashboardBalance");
+
+if(dashboardBalance){
+    dashboardBalance.innerText =
+    "₹" + (totalIncome - totalExpense);
+}
+
+// Total Transactions
+let totalEntries =
+document.getElementById("totalEntries");
+
+if(totalEntries){
+    totalEntries.innerText =
+    incomeHistory.length + expenseHistory.length;
+}
 // Save Income
 function saveIncome() {
 
