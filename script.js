@@ -22,6 +22,23 @@ window.onload = function(){
 
 };
 
+let list = document.getElementById("incomeList");
+
+if(list){
+
+    incomeHistory.forEach(function(item){
+
+        let li = document.createElement("li");
+
+        li.innerText =
+        item.category + " - ₹" + item.amount;
+
+        list.appendChild(li);
+
+    });
+
+}
+
 // Save Income
 function saveIncome() {
 
