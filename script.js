@@ -84,18 +84,18 @@ if(expenseList){
 
     expenseList.innerHTML = "";
     
-    ' <button onclick="editExpense('+index+')">✏️</button> '
-
     expenseHistory.forEach(function(item,index){
 
         let li = document.createElement("li");
 
         li.innerHTML =
-        item.category +
-        " - ₹" + item.amount +
-        ' <button onclick="editExpense('+index+')">✏️</button> ' +
-        ' <button onclick="deleteExpense('+index+')">🗑️</button>';
-
+item.category +
+" - ₹" + item.amount +
+" | 📅 " + item.date +
+" | 📝 " + item.note +
+' <button onclick="editExpense(' + index + ')">✏️</button> ' +
+' <button onclick="deleteExpense(' + index + ')">🗑️</button>';
+        
         expenseList.appendChild(li);
 
     });
