@@ -7,6 +7,21 @@
 let totalIncome =
 Number(localStorage.getItem("totalIncome")) || 0;
 
+// Income History
+let incomeHistory =
+JSON.parse(localStorage.getItem("incomeHistory")) || [];
+
+window.onload = function(){
+
+    let incomeBox =
+    document.getElementById("totalIncome");
+
+    if(incomeBox){
+        incomeBox.innerText = "₹" + totalIncome;
+    }
+
+};
+
 // Save Income
 function saveIncome() {
 
@@ -28,6 +43,15 @@ function saveIncome() {
     "totalIncome",
     totalIncome
 );
+    incomeHistory.push({
+    category: category,
+    amount: amount
+});
+
+localStorage.setItem(
+    "incomeHistory",
+    JSON.stringify(incomeHistory)
+);
 
     alert("Income Saved Successfully");
 
@@ -35,14 +59,3 @@ function saveIncome() {
     document.getElementById("amount").value = "";
 
 }
-window.onload = function(){
-
-    let incomeBox =
-    document.getElementById("totalIncome");
-
-    if(incomeBox){
-        incomeBox.innerText =
-        "₹" + totalIncome;
-    }
-
-};
