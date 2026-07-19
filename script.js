@@ -26,12 +26,13 @@ let list = document.getElementById("incomeList");
 
 if(list){
 
-    incomeHistory.forEach(function(item){
+    incomeHistory.forEach(function(item, index){
 
         let li = document.createElement("li");
 
-        li.innerText =
-        item.category + " - ₹" + item.amount;
+        li.innerHTML =
+item.category + " - ₹" + item.amount +
+' <button onclick="deleteIncome(' + index + ')">🗑 Delete</button>';
 
         list.appendChild(li);
 
@@ -75,5 +76,29 @@ localStorage.setItem(
 
     document.getElementById("category").value = "";
     document.getElementById("amount").value = "";
+
+}
+function deleteIncome(index){
+
+    if(!confirm("Delete this income?")){
+        return;
+    }
+
+    totalIncome =
+    totalIncome - incomeHistory[index].amount;
+
+    localStorage.setItem(
+        "totalIncome",
+        totalIncome
+    );
+
+    incomeHistory.splice(index,1);
+
+    localStorage.setItem(
+        "incomeHistory",
+        JSON.stringify(incomeHistory)
+    );
+
+    location.reload();
 
 }
