@@ -32,7 +32,8 @@ if(list){
 
         li.innerHTML =
 item.category + " - ₹" + item.amount +
-' <button onclick="deleteIncome(' + index + ')">🗑 Delete</button>';
+' <button onclick="editIncome(' + index + ')">✏️</button> ' +
+' <button onclick="deleteIncome(' + index + ')">🗑</button>';
 
         list.appendChild(li);
 
@@ -97,6 +98,44 @@ function deleteIncome(index){
     localStorage.setItem(
         "incomeHistory",
         JSON.stringify(incomeHistory)
+    );
+
+    location.reload();
+
+}
+function editIncome(index){
+
+    let newAmount = prompt(
+        "Enter New Amount",
+        incomeHistory[index].amount
+    );
+
+    if(newAmount == null){
+        return;
+    }
+
+    newAmount = Number(newAmount);
+
+    if(newAmount <= 0){
+        alert("Invalid Amount");
+        return;
+    }
+
+    totalIncome =
+        totalIncome
+        - incomeHistory[index].amount
+        + newAmount;
+
+    incomeHistory[index].amount = newAmount;
+
+    localStorage.setItem(
+        "incomeHistory",
+        JSON.stringify(incomeHistory)
+    );
+
+    localStorage.setItem(
+        "totalIncome",
+        totalIncome
     );
 
     location.reload();
