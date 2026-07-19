@@ -7,6 +7,14 @@
 let totalIncome =
 Number(localStorage.getItem("totalIncome")) || 0;
 
+// Total Expense
+let totalExpense =
+Number(localStorage.getItem("totalExpense")) || 0;
+
+// Expense History
+let expenseHistory =
+JSON.parse(localStorage.getItem("expenseHistory")) || [];
+
 // Income History
 let incomeHistory =
 JSON.parse(localStorage.getItem("incomeHistory")) || [];
@@ -60,6 +68,37 @@ if(totalEntries){
     totalEntries.innerText = incomeHistory.length;
 }
 
+// Expense Total
+let expenseBox =
+document.getElementById("totalExpense");
+
+if(expenseBox){
+    expenseBox.innerText = "₹" + totalExpense;
+}
+
+// Expense History
+let expenseList =
+document.getElementById("expenseList");
+
+if(expenseList){
+
+    expenseList.innerHTML = "";
+
+    expenseHistory.forEach(function(item,index){
+
+        let li = document.createElement("li");
+
+        li.innerHTML =
+        item.category +
+        " - ₹" + item.amount +
+        ' <button onclick="editExpense('+index+')">✏️</button> ' +
+        ' <button onclick="deleteExpense('+index+')">🗑️</button>';
+
+        expenseList.appendChild(li);
+
+    });
+
+}
 // Save Income
 function saveIncome() {
 
@@ -188,5 +227,43 @@ function searchIncome(){
         }
 
     }
+
+}
+function saveExpense(){
+
+    let category =
+    document.getElementById("expenseCategory").value;
+
+    let amount =
+    Number(document.getElementById("expenseAmount").value);
+
+    if(category==""){
+        alert("Enter Category");
+        return;
+    }
+
+    if(amount<=0){
+        alert("Enter Amount");
+        return;
+    }
+
+    expenseHistory.push({
+        category:category,
+        amount:amount
+    });
+
+    localStorage.setItem(
+        "expenseHistory",
+        JSON.stringify(expenseHistory)
+    );
+
+    totalExpense += amount;
+
+    localStorage.setItem(
+        "totalExpense",
+        totalExpense
+    );
+
+    location.reload();
 
 }
