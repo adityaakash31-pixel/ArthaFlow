@@ -362,3 +362,36 @@ function editExpense(index){
     location.reload();
 
        }
+// ===============================
+// Reports
+// ===============================
+
+let reportIncome =
+document.getElementById("reportIncome");
+
+if(reportIncome){
+    reportIncome.innerText = "₹" + totalIncome;
+}
+
+let reportExpense =
+document.getElementById("reportExpense");
+
+if(reportExpense){
+    reportExpense.innerText = "₹" + totalExpense;
+}
+
+let reportBalance =
+document.getElementById("reportBalance");
+
+if(reportBalance){
+    reportBalance.innerText =
+    "₹" + (totalIncome - totalExpense);
+}
+
+let reportTransactions =
+document.getElementById("reportTransactions");
+
+if(reportTransactions){
+    reportTransactions.innerText =
+    incomeHistory.length + expenseHistory.length;
+}
