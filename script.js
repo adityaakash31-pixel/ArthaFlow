@@ -267,3 +267,63 @@ function saveExpense(){
     location.reload();
 
 }
+function deleteExpense(index){
+
+    if(!confirm("Delete this expense?")){
+        return;
+    }
+
+    totalExpense -= expenseHistory[index].amount;
+
+    localStorage.setItem(
+        "totalExpense",
+        totalExpense
+    );
+
+    expenseHistory.splice(index,1);
+
+    localStorage.setItem(
+        "expenseHistory",
+        JSON.stringify(expenseHistory)
+    );
+
+    location.reload();
+
+}
+function editExpense(index){
+
+    let newAmount = prompt(
+        "Enter New Amount",
+        expenseHistory[index].amount
+    );
+
+    if(newAmount==null){
+        return;
+    }
+
+    newAmount = Number(newAmount);
+
+    if(newAmount<=0){
+        return;
+    }
+
+    totalExpense =
+    totalExpense
+    - expenseHistory[index].amount
+    + newAmount;
+
+    expenseHistory[index].amount = newAmount;
+
+    localStorage.setItem(
+        "expenseHistory",
+        JSON.stringify(expenseHistory)
+    );
+
+    localStorage.setItem(
+        "totalExpense",
+        totalExpense
+    );
+
+    location.reload();
+
+       }
