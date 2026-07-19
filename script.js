@@ -83,6 +83,8 @@ document.getElementById("expenseList");
 if(expenseList){
 
     expenseList.innerHTML = "";
+    
+    ' <button onclick="editExpense('+index+')">✏️</button> '
 
     expenseHistory.forEach(function(item,index){
 
