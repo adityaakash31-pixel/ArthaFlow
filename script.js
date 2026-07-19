@@ -31,7 +31,10 @@ if(list){
         let li = document.createElement("li");
 
         li.innerHTML =
-item.category + " - ₹" + item.amount +
+item.category +
+" - ₹" + item.amount +
+" | 📅 " + item.date +
+" | 📝 " + item.note
 ' <button onclick="editIncome(' + index + ')">✏️</button> ' +
 ' <button onclick="deleteIncome(' + index + ')">🗑</button>';
 
@@ -57,6 +60,9 @@ function saveIncome() {
         return;
     }
 
+    let date = document.getElementById("incomeDate").value;
+let note = document.getElementById("incomeNote").value;
+
     totalIncome = totalIncome + amount;
     localStorage.setItem(
     "totalIncome",
@@ -65,7 +71,9 @@ function saveIncome() {
 
     incomeHistory.push({
     category: category,
-    amount: amount
+    amount: amount,
+    date: date,
+    note: note
 });
 
 localStorage.setItem(
