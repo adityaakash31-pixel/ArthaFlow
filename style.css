@@ -142,3 +142,12 @@ transition:0.3s;
 color:yellow;
 
 }
+canvas{
+
+max-width:350px;
+
+margin:auto;
+
+display:block;
+
+}
