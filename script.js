@@ -265,6 +265,12 @@ function saveExpense(){
     let amount =
     Number(document.getElementById("expenseAmount").value);
 
+    let date =
+document.getElementById("expenseDate").value;
+
+let note =
+document.getElementById("expenseNote").value;
+
     if(category==""){
         alert("Enter Category");
         return;
@@ -276,9 +282,11 @@ function saveExpense(){
     }
 
     expenseHistory.push({
-        category:category,
-        amount:amount
-    });
+    category: category,
+    amount: amount,
+    date: date,
+    note: note
+});
 
     localStorage.setItem(
         "expenseHistory",
@@ -291,6 +299,9 @@ function saveExpense(){
         "totalExpense",
         totalExpense
     );
+
+        document.getElementById("expenseDate").value = "";
+document.getElementById("expenseNote").value = "";
 
     location.reload();
 
