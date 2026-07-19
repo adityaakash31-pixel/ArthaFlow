@@ -434,3 +434,16 @@ if(monthBalance){
     monthBalance.innerText =
     "₹" + (totalIncome - totalExpense);
 }
+function resetData(){
+
+if(confirm("Are you sure?\nAll Data will be deleted.")){
+
+localStorage.clear();
+
+alert("All Data Deleted Successfully");
+
+location.href="index.html";
+
+}
+
+}
