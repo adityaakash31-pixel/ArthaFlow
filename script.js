@@ -411,3 +411,26 @@ if(reportSavings){
     reportSavings.innerText =
     "₹" + (totalIncome - totalExpense);
 }
+// Monthly Summary
+
+let monthIncome =
+document.getElementById("monthIncome");
+
+if(monthIncome){
+    monthIncome.innerText = "₹" + totalIncome;
+}
+
+let monthExpense =
+document.getElementById("monthExpense");
+
+if(monthExpense){
+    monthExpense.innerText = "₹" + totalExpense;
+}
+
+let monthBalance =
+document.getElementById("monthBalance");
+
+if(monthBalance){
+    monthBalance.innerText =
+    "₹" + (totalIncome - totalExpense);
+}
