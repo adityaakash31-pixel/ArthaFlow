@@ -43,6 +43,7 @@ function saveIncome() {
     "totalIncome",
     totalIncome
 );
+
     incomeHistory.push({
     category: category,
     amount: amount
