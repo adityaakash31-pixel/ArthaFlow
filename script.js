@@ -149,3 +149,28 @@ function editIncome(index){
     location.reload();
 
 }
+function searchIncome(){
+
+    let input =
+    document.getElementById("searchIncome").value.toLowerCase();
+
+    let list =
+    document.getElementById("incomeList");
+
+    let items =
+    list.getElementsByTagName("li");
+
+    for(let i = 0; i < items.length; i++){
+
+        let text =
+        items[i].innerText.toLowerCase();
+
+        if(text.indexOf(input) > -1){
+            items[i].style.display = "";
+        }else{
+            items[i].style.display = "none";
+        }
+
+    }
+
+}
