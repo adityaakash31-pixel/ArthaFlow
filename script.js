@@ -44,6 +44,20 @@ item.category +
 
 }
 
+let dashboardIncome =
+document.getElementById("dashboardIncome");
+
+if(dashboardIncome){
+    dashboardIncome.innerText = "₹" + totalIncome;
+}
+
+let totalEntries =
+document.getElementById("totalEntries");
+
+if(totalEntries){
+    totalEntries.innerText = incomeHistory.length;
+}
+
 // Save Income
 function saveIncome() {
 
