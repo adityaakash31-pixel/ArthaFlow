@@ -1,1 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Expense - ArthaFlow</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<h1>💸 Expense</h1>
+
+<p>Add your expense</p>
+
+<h2>Total Expense</h2>
+
+<h1 id="totalExpense">₹0</h1>
+
+<div class="card">
+
+<label>Category</label>
+<input type="text" id="expenseCategory" placeholder="Food / Travel / Shopping">
+
+<label>Amount</label>
+<input type="number" id="expenseAmount" placeholder="₹ Enter Amount">
+
+<button onclick="saveExpense()">
+💾 Save Expense
+</button>
+
+</div>
+
+<h2>Expense History</h2>
+
+<ul id="expenseList"></ul>
+
+<script src="script.js"></script>
+
+</body>
+</html>
