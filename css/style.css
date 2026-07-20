@@ -244,3 +244,17 @@ font-weight:bold;
     cursor:pointer;
     font-weight:bold;
 }
+#monthIncome{
+    color:green;
+    font-weight:bold;
+}
+
+#monthExpense{
+    color:red;
+    font-weight:bold;
+}
+
+#monthBalance{
+    color:blue;
+    font-weight:bold;
+}
