@@ -127,6 +127,14 @@ if(dashboardSavings){
     "₹" + (totalIncome - totalExpense);
 }
 
+if(localStorage.getItem("theme")=="dark"){
+    document.body.classList.add("dark-mode");
+    let btn=document.getElementById("themeBtn");
+    if(btn){
+        btn.innerHTML="☀️ Light Mode";
+    }
+}
+
 // Save Income
 function saveIncome() {
 
