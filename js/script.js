@@ -119,6 +119,28 @@ if(dashboardBalance){
     "₹" + (totalIncome - totalExpense);
 }
 
+let monthIncome =
+document.getElementById("monthIncome");
+
+let monthExpense =
+document.getElementById("monthExpense");
+
+let monthBalance =
+document.getElementById("monthBalance");
+
+if(monthIncome){
+    monthIncome.innerText = "₹" + totalIncome;
+}
+
+if(monthExpense){
+    monthExpense.innerText = "₹" + totalExpense;
+}
+
+if(monthBalance){
+    monthBalance.innerText =
+    "₹" + (totalIncome - totalExpense);
+}
+
 let dashboardSavings =
 document.getElementById("dashboardSavings");
 
