@@ -202,3 +202,22 @@ font-size:28px;
 font-weight:bold;
 
 }
+.top-header{
+    text-align:center;
+    padding:20px;
+    border-radius:15px;
+    margin:15px;
+    background:linear-gradient(135deg,#4CAF50,#2196F3);
+    color:white;
+    box-shadow:0 4px 10px rgba(0,0,0,.2);
+}
+
+.top-header h1{
+    margin:0;
+    font-size:32px;
+}
+
+.top-header p{
+    margin-top:8px;
+    opacity:.9;
+}
