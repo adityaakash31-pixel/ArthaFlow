@@ -29,6 +29,8 @@ p{
     padding:20px;
     margin:20px 0;
     box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    transition: 0.3s;
+cursor: pointer;
 }
 
 .card h2{
@@ -221,3 +223,6 @@ font-weight:bold;
     margin-top:8px;
     opacity:.9;
 }
+.card:hover{
+    transform: translateY(-5px);
+    }
