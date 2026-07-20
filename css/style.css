@@ -1,1 +1,204 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
 
+body{
+    background:#F8FAFC;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+    color:#2563EB;
+    font-size:34px;
+    margin-top:20px;
+}
+
+p{
+    text-align:center;
+    color:#555;
+    margin-top:10px;
+    margin-bottom:30px;
+}
+.card{
+    background:#ffffff;
+    border-radius:18px;
+    padding:20px;
+    margin:20px 0;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+.card h2{
+    color:#2563EB;
+    margin-bottom:10px;
+}
+
+.card p{
+    text-align:left;
+    margin:0;
+    color:#555;
+}
+button{
+    width:100%;
+    padding:15px;
+    margin-top:15px;
+    border:none;
+    border-radius:12px;
+    background:#2563EB;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    background:#1D4ED8;
+}
+input{
+    width:100%;
+    padding:14px;
+    margin:10px 0;
+    border:1px solid #ddd;
+    border-radius:12px;
+    font-size:16px;
+}
+
+label{
+    font-weight:bold;
+    color:#333;
+}
+.card button{
+
+width:100%;
+
+padding:12px;
+
+margin-top:10px;
+
+font-size:16px;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+background:#4CAF50;
+
+color:white;
+
+font-weight:bold;
+
+transition:0.3s;
+
+}
+
+.card button:hover{
+
+background:#2E7D32;
+
+}
+
+/* Navigation Bar */
+
+.navbar{
+
+display:flex;
+
+justify-content:space-around;
+
+align-items:center;
+
+background:#1E88E5;
+
+padding:15px;
+
+border-radius:12px;
+
+margin-bottom:20px;
+
+}
+
+.navbar a{
+
+color:white;
+
+text-decoration:none;
+
+font-weight:bold;
+
+font-size:15px;
+
+transition:0.3s;
+
+}
+
+.navbar a:hover{
+
+color:yellow;
+
+}
+canvas{
+
+max-width:350px;
+
+margin:auto;
+
+display:block;
+
+}
+.dashboard-card{
+
+padding:20px;
+
+border-radius:15px;
+
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+
+margin-top:20px;
+
+}
+
+.income-card{
+
+color:#2E7D32;
+
+font-size:28px;
+
+font-weight:bold;
+
+}
+
+.expense-card{
+
+color:#C62828;
+
+font-size:28px;
+
+font-weight:bold;
+
+}
+
+.balance-card{
+
+color:#1565C0;
+
+font-size:28px;
+
+font-weight:bold;
+
+}
+
+.saving-card{
+
+color:#6A1B9A;
+
+font-size:28px;
+
+font-weight:bold;
+
+}
