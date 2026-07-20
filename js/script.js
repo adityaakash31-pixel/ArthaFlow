@@ -19,13 +19,16 @@ JSON.parse(localStorage.getItem("expenseHistory")) || [];
 let incomeHistory =
 JSON.parse(localStorage.getItem("incomeHistory")) || [];
 
-window.onload = function(){
+window.onload = function () {
 
-    let incomeBox =
-    document.getElementById("totalIncome");
-
-    if(incomeBox){
+    let incomeBox = document.getElementById("totalIncome");
+    if (incomeBox) {
         incomeBox.innerText = "₹" + totalIncome;
+    }
+
+    let expenseBox = document.getElementById("totalExpense");
+    if (expenseBox) {
+        expenseBox.innerText = "₹" + totalExpense;
     }
 
 };
