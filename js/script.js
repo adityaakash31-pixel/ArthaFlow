@@ -119,6 +119,11 @@ if(dashboardBalance){
     "₹" + (totalIncome - totalExpense);
 }
 
+if(dashboardSavings){
+    dashboardSavings.innerText =
+    "₹" + (totalIncome - totalExpense);
+}
+
 let monthIncome =
 document.getElementById("monthIncome");
 
@@ -138,14 +143,6 @@ if(monthExpense){
 
 if(monthBalance){
     monthBalance.innerText =
-    "₹" + (totalIncome - totalExpense);
-}
-
-let dashboardSavings =
-document.getElementById("dashboardSavings");
-
-if(dashboardSavings){
-    dashboardSavings.innerText =
     "₹" + (totalIncome - totalExpense);
 }
 
