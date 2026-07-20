@@ -119,6 +119,9 @@ if(dashboardBalance){
     "₹" + (totalIncome - totalExpense);
 }
 
+let dashboardSavings =
+document.getElementById("dashboardSavings");
+
 if(dashboardSavings){
     dashboardSavings.innerText =
     "₹" + (totalIncome - totalExpense);
