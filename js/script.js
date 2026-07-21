@@ -446,27 +446,7 @@ if(reportSavings){
 }
 // Monthly Summary
 
-let monthIncome =
-document.getElementById("monthIncome");
 
-if(monthIncome){
-    monthIncome.innerText = "₹" + totalIncome;
-}
-
-let monthExpense =
-document.getElementById("monthExpense");
-
-if(monthExpense){
-    monthExpense.innerText = "₹" + totalExpense;
-}
-
-let monthBalance =
-document.getElementById("monthBalance");
-
-if(monthBalance){
-    monthBalance.innerText =
-    "₹" + (totalIncome - totalExpense);
-}
 function resetData(){
 
 if(confirm("Are you sure?\nAll Data will be deleted.")){
@@ -479,7 +459,6 @@ location.href="index.html";
 
 }
 
-}
 let financeChart =
 document.getElementById("financeChart");
 
