@@ -458,7 +458,6 @@ alert("All Data Deleted Successfully");
 location.href="index.html";
 
 }
-}
 
 let financeChart =
 document.getElementById("financeChart");
