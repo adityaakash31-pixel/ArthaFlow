@@ -8,84 +8,79 @@
     <title>ArthaFlow</title>
 
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-    <header class="top-header">
+<header class="top-header">
     <h1>💰 ArthaFlow</h1>
     <p>Personal Finance Manager</p>
-    </header>
-    <nav class="navbar">
-        <button onclick="toggleTheme()" id="themeBtn">
-🌙 Dark Mode
-        </button>
+</header>
 
-<a href="index.html">🏠 Dashboard</a>
+<nav class="navbar">
 
-<a href="income.html">💰 Income</a>
+    <button onclick="toggleTheme()" id="themeBtn">
+        🌙 Dark Mode
+    </button>
 
-<a href="expense.html">💸 Expense</a>
+    <a href="index.html">🏠 Dashboard</a>
+    <a href="income.html">💰 Income</a>
+    <a href="expense.html">💸 Expense</a>
+    <a href="reports.html">📊 Reports</a>
+    <a href="settings.html">⚙ Settings</a>
 
-<a href="reports.html">📊 Reports</a>
+</nav>
 
-<a href="settings.html">⚙ Settings</a>
-
-    </nav>
-
-    <h1>ArthaFlow</h1>
-    <p>Track Smart. Grow Wealth.</p>
-    <div class="card">
+<div class="card">
 
     <h2>👋 Welcome</h2>
-        <div class="card">
+
+    <p>Welcome to ArthaFlow</p>
+
+</div>
+
+<div class="card">
 
     <h2>💰 Total Income</h2>
 
     <h1 id="totalIncome">₹0</h1>
 
-    <button onclick="window.location.href='income.html'">
-    ➕ Add Income
+    <button onclick="location.href='income.html'">
+        ➕ Add Income
     </button>
 
-            <button onclick="window.location.href='expense.html'">
-    💸 Add Expense
-            </button>
+    <button onclick="location.href='expense.html'">
+        💸 Add Expense
+    </button>
 
-        </div>
+</div>
 
-    <p>Welcome to ArthaFlow</p>
+<div class="card">
 
-    </div>
-
-    <div class="card">
     <h2>📊 Dashboard Summary</h2>
 
-        <div class="card">
-
-<h2>📊 Finance Overview</h2>
-
-<canvas id="financeChart" width="300" height="300"></canvas>
-
-        </div>
+    <canvas id="financeChart" width="300" height="300"></canvas>
 
         <div class="card dashboard-card">
 
-<h2>⚡ Quick Actions</h2>
+        <h2>⚡ Quick Actions</h2>
 
-<button onclick="location.href='income.html'">
-💰 Add Income
-</button>
+        <button onclick="location.href='income.html'">
+            💰 Add Income
+        </button>
 
-<button onclick="location.href='expense.html'">
-💸 Add Expense
-</button>
+        <button onclick="location.href='expense.html'">
+            💸 Add Expense
+        </button>
 
-<button onclick="location.href='reports.html'">
-📊 Reports
-</button>
+        <button onclick="location.href='reports.html'">
+            📊 Reports
+        </button>
 
-        </div>
+    </div>
+
+    <hr>
 
     <p><strong>💰 Total Income</strong></p>
     <h2 id="dashboardIncome" class="income-card">₹0</h2>
@@ -101,35 +96,39 @@
 
     <p><strong>📋 Total Transactions</strong></p>
     <h2 id="totalEntries">0</h2>
-    </div>
-
-    <div class="card" onclick="location.href='reports.html'">
-
-<h2>📊 Reports</h2>
-
-<p>View Financial Reports</p>
 
 </div>
 
 <div class="card">
+
     <h2>📅 Monthly Summary</h2>
 
-    <p>💰 Income :
+    <p>
+        💰 Income :
         <span id="monthIncome">₹0</span>
     </p>
 
-    <p>💸 Expense :
+    <p>
+        💸 Expense :
         <span id="monthExpense">₹0</span>
     </p>
 
-    <p>🏦 Balance :
+    <p>
+        🏦 Balance :
         <span id="monthBalance">₹0</span>
     </p>
+
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="card" onclick="location.href='reports.html'">
+
+    <h2>📊 Reports</h2>
+
+    <p>View Financial Reports</p>
+
+</div>
+
 <script src="js/script.js"></script>
-   
 
 </body>
 </html>
