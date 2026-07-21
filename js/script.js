@@ -538,3 +538,4 @@ function toggleTheme(){
         localStorage.setItem("theme","light");
         document.getElementById("themeBtn").innerHTML="🌙 Dark Mode";
     }
+}
