@@ -458,6 +458,7 @@ alert("All Data Deleted Successfully");
 location.href="index.html";
 
 }
+}
 
 let financeChart =
 document.getElementById("financeChart");
@@ -537,6 +538,3 @@ function toggleTheme(){
         localStorage.setItem("theme","light");
         document.getElementById("themeBtn").innerHTML="🌙 Dark Mode";
     }
-
-}
-}
