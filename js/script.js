@@ -540,6 +540,32 @@ function toggleTheme(){
     }
 }
 
+function searchExpense(){
+
+    let input =
+    document.getElementById("searchExpense").value.toLowerCase();
+
+    let list =
+    document.getElementById("expenseList");
+
+    let items =
+    list.getElementsByTagName("li");
+
+    for(let i = 0; i < items.length; i++){
+
+        let text =
+        items[i].innerText.toLowerCase();
+
+        if(text.indexOf(input) > -1){
+            items[i].style.display = "";
+        }else{
+            items[i].style.display = "none";
+        }
+
+    }
+
+}
+
 function exportCSV() {
 
     let csv = "Type,Category,Amount,Date,Note\n";
