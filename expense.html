@@ -58,6 +58,11 @@ id="searchExpense"
 placeholder="🔍 Search Expense..."
 onkeyup="searchExpense()">
 
+  <select id="expenseFilter" onchange="filterExpense()">
+    <option value="all">📋 All Expenses</option>
+    <option value="today">📅 Today</option>
+    <option value="month">🗓 This Month</option>
+  </select>
 <br><br>
 
 <select id="expenseFilter" onchange="filterExpense()">
@@ -75,8 +80,7 @@ onkeyup="searchExpense()">
 </select>
 
 <h2>Expense History</h2>
-
-  <input
+<input
 type="text"
 id="searchExpense"
 placeholder="🔍 Search Expense..."
