@@ -916,19 +916,32 @@ alert("Select both dates");
 return;
 }
 
-let income =
-incomeHistory.filter(function(item){
-return item.date>=from && item.date<=to;
+let incomeTotal = 0;
+let expenseTotal = 0;
+
+incomeHistory.forEach(function(item){
+
+if(item.date>=from && item.date<=to){
+incomeTotal += item.amount;
+}
+
 });
 
-let expense =
-expenseHistory.filter(function(item){
-return item.date>=from && item.date<=to;
+expenseHistory.forEach(function(item){
+
+if(item.date>=from && item.date<=to){
+expenseTotal += item.amount;
+}
+
 });
 
-alert(
-"Income Transactions : " + income.length +
-"\nExpense Transactions : " + expense.length
-);
+document.getElementById("filterIncome").innerText =
+"₹"+incomeTotal;
+
+document.getElementById("filterExpense").innerText =
+"₹"+expenseTotal;
+
+document.getElementById("filterBalance").innerText =
+"₹"+(incomeTotal-expenseTotal);
 
 }
