@@ -241,3 +241,43 @@ border-radius:8px;
 cursor:pointer;
 
 }
+
+.splash-body{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+height:100vh;
+
+background:#0f172a;
+
+color:white;
+
+text-align:center;
+
+}
+
+.splash-box{
+
+animation:zoom 1.5s ease-in-out infinite alternate;
+
+}
+
+@keyframes zoom{
+
+from{
+
+transform:scale(1);
+
+}
+
+to{
+
+transform:scale(1.08);
+
+}
+
+}
