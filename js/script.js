@@ -539,3 +539,33 @@ function toggleTheme(){
         document.getElementById("themeBtn").innerHTML="🌙 Dark Mode";
     }
 }
+
+function exportCSV() {
+
+    let csv = "Type,Category,Amount,Date,Note\n";
+
+    incomeHistory.forEach(function(item){
+        csv += "Income," +
+        item.category + "," +
+        item.amount + "," +
+        item.date + "," +
+        item.note + "\n";
+    });
+
+    expenseHistory.forEach(function(item){
+        csv += "Expense," +
+        item.category + "," +
+        item.amount + "," +
+        item.date + "," +
+        item.note + "\n";
+    });
+
+    let blob = new Blob([csv], {type:"text/csv"});
+
+    let link = document.createElement("a");
+
+    link.href = URL.createObjectURL(blob);
+    link.download = "ArthaFlow_Report.csv";
+
+    link.click();
+}
