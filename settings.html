@@ -40,6 +40,15 @@
 💾 Backup Data
         </button>
 
+        <input type="file"
+id="restoreFile"
+accept=".json"
+onchange="restoreData(event)">
+
+        <button onclick="document.getElementById('restoreFile').click()">
+📂 Restore Backup
+        </button>
+
         <button onclick="toggleTheme()">
             🌙 Toggle Dark Mode
         </button>
