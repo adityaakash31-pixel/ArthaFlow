@@ -642,3 +642,51 @@ function restoreData(event){
     reader.readAsText(file);
 
 }
+
+function filterIncome(){
+
+    let filter =
+    document.getElementById("incomeFilter").value;
+
+    let items =
+    document.getElementById("incomeList")
+    .getElementsByTagName("li");
+
+    for(let i=0;i<items.length;i++){
+
+        let text =
+        items[i].innerText;
+
+        if(filter=="all" || text.includes(filter)){
+            items[i].style.display="";
+        }else{
+            items[i].style.display="none";
+        }
+
+    }
+
+}
+
+function filterExpense(){
+
+    let filter =
+    document.getElementById("expenseFilter").value;
+
+    let items =
+    document.getElementById("expenseList")
+    .getElementsByTagName("li");
+
+    for(let i=0;i<items.length;i++){
+
+        let text =
+        items[i].innerText;
+
+        if(filter=="all" || text.includes(filter)){
+            items[i].style.display="";
+        }else{
+            items[i].style.display="none";
+        }
+
+    }
+
+}
