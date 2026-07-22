@@ -57,6 +57,20 @@ type="text"
 id="searchIncome"
 placeholder="🔍 Search Category..."
 onkeyup="searchIncome()">
+
+    <select id="incomeFilter" onchange="filterIncome()">
+
+<option value="all">All Categories</option>
+
+<option value="Salary">Salary</option>
+
+<option value="Business">Business</option>
+
+<option value="Teaching">Teaching</option>
+
+<option value="Other">Other</option>
+
+    </select>
     
     <h2>Income History</h2>
 
