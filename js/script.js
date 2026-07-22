@@ -902,3 +902,33 @@ for(let i=0;i<items.length;i++){
 }
 
 }
+
+function filterByDate(){
+
+let from =
+document.getElementById("fromDate").value;
+
+let to =
+document.getElementById("toDate").value;
+
+if(from=="" || to==""){
+alert("Select both dates");
+return;
+}
+
+let income =
+incomeHistory.filter(function(item){
+return item.date>=from && item.date<=to;
+});
+
+let expense =
+expenseHistory.filter(function(item){
+return item.date>=from && item.date<=to;
+});
+
+alert(
+"Income Transactions : " + income.length +
+"\nExpense Transactions : " + expense.length
+);
+
+}
