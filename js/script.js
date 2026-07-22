@@ -598,3 +598,47 @@ function backupData(){
     link.click();
 
 }
+
+function restoreData(event){
+
+    let file = event.target.files[0];
+
+    if(!file){
+        return;
+    }
+
+    let reader = new FileReader();
+
+    reader.onload = function(e){
+
+        let data = JSON.parse(e.target.result);
+
+        localStorage.setItem(
+            "totalIncome",
+            data.totalIncome || 0
+        );
+
+        localStorage.setItem(
+            "totalExpense",
+            data.totalExpense || 0
+        );
+
+        localStorage.setItem(
+            "incomeHistory",
+            JSON.stringify(data.incomeHistory || [])
+        );
+
+        localStorage.setItem(
+            "expenseHistory",
+            JSON.stringify(data.expenseHistory || [])
+        );
+
+        alert("✅ Backup Restored Successfully");
+
+        location.reload();
+
+    };
+
+    reader.readAsText(file);
+
+}
