@@ -878,3 +878,27 @@ function filterExpense(){
     });
 
 }
+
+function filterIncome(){
+
+let value =
+document.getElementById("incomeFilter").value;
+
+let items =
+document.getElementById("incomeList").getElementsByTagName("li");
+
+for(let i=0;i<items.length;i++){
+
+    if(value=="all"){
+        items[i].style.display="";
+    }
+    else if(items[i].innerText.indexOf(value)>-1){
+        items[i].style.display="";
+    }
+    else{
+        items[i].style.display="none";
+    }
+
+}
+
+}
