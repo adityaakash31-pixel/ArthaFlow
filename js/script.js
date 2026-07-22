@@ -1061,3 +1061,70 @@ function searchExpense(){
     }
 
 }
+
+function globalSearch(){
+
+let input =
+document.getElementById("globalSearch");
+
+let result =
+document.getElementById("searchResult");
+
+if(!input || !result){
+return;
+}
+
+let keyword =
+input.value.toLowerCase();
+
+result.innerHTML="";
+
+if(keyword==""){
+return;
+}
+
+let allData=[];
+
+incomeHistory.forEach(function(item){
+
+allData.push({
+type:"💰 Income",
+category:item.category,
+amount:item.amount
+});
+
+});
+
+expenseHistory.forEach(function(item){
+
+allData.push({
+type:"💸 Expense",
+category:item.category,
+amount:item.amount
+});
+
+});
+
+allData.forEach(function(item){
+
+let text=
+(item.category+" "+item.amount).toLowerCase();
+
+if(text.includes(keyword)){
+
+let li=document.createElement("li");
+
+li.innerHTML=
+item.type+
+" - "+
+item.category+
+" - ₹"+
+item.amount;
+
+result.appendChild(li);
+
+}
+
+});
+
+}
