@@ -3,45 +3,50 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - ArthaFlow</title>
 
-<title>Settings - ArthaFlow</title>
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
 
 <body>
 
-<nav class="navbar">
+    <nav class="navbar">
 
-<a href="index.html">🏠 Dashboard</a>
+        <a href="index.html">🏠 Dashboard</a>
+        <a href="income.html">💰 Income</a>
+        <a href="expense.html">💸 Expense</a>
+        <a href="reports.html">📊 Reports</a>
+        <a href="settings.html">⚙ Settings</a>
 
-<a href="income.html">💰 Income</a>
+    </nav>
 
-<a href="expense.html">💸 Expense</a>
+    <h1>⚙ Settings</h1>
 
-<a href="reports.html">📊 Reports</a>
+    <div class="card">
 
-<a href="settings.html">⚙ Settings</a>
+        <h2>Application Settings</h2>
 
-</nav>
+        <p>Manage your ArthaFlow data and preferences.</p>
 
-<h1>⚙ Settings</h1>
+        <button onclick="exportCSV()">
+            📥 Export CSV
+        </button>
 
-<div class="card">
+        <button onclick="toggleTheme()">
+            🌙 Toggle Dark Mode
+        </button>
 
-<button onclick="resetData()">
+        <button onclick="resetData()">
+            🗑 Reset All Data
+        </button>
 
-🗑 Reset All Data
+    </div>
 
-</button>
-
-</div>
-
-<link rel="stylesheet" href="css/style.css">
-
-<script src="js/script.js"></script>
+    <script src="js/script.js"></script>
 
 </body>
 
