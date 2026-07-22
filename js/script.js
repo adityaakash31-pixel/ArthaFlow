@@ -690,3 +690,34 @@ function filterExpense(){
     }
 
 }
+
+let recentList =
+document.getElementById("recentTransactions");
+
+if(recentList){
+
+    recentList.innerHTML = "";
+
+    let allTransactions = [];
+
+    incomeHistory.forEach(function(item){
+        allTransactions.push("💰 " + item.category + " - ₹" + item.amount);
+    });
+
+    expenseHistory.forEach(function(item){
+        allTransactions.push("💸 " + item.category + " - ₹" + item.amount);
+    });
+
+    allTransactions.reverse();
+
+    allTransactions.slice(0,5).forEach(function(item){
+
+        let li = document.createElement("li");
+
+        li.innerText = item;
+
+        recentList.appendChild(li);
+
+    });
+
+}
