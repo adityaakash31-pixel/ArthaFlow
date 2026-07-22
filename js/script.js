@@ -527,6 +527,50 @@ text:"ArthaFlow Finance Overview"
 
     }
 
+let barChart =
+document.getElementById("barChart");
+
+if(barChart){
+
+new Chart(barChart,{
+
+type:"bar",
+
+data:{
+
+labels:["Income","Expense"],
+
+datasets:[{
+
+label:"Amount",
+
+data:[
+totalIncome,
+totalExpense
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+display:false
+}
+
+}
+
+}
+
+});
+
+}
+
 function toggleTheme(){
 
     document.body.classList.toggle("dark-mode");
