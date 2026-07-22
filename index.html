@@ -13,6 +13,12 @@
     
 <body>
 
+    <script>
+if(!localStorage.getItem("userName")){
+location.href="login.html";
+}
+    </script>
+
 <header class="top-header">
     <h1>💰 ArthaFlow</h1>
     <p>Personal Finance Manager</p>
@@ -48,7 +54,9 @@
 
     <h2>👋 Welcome</h2>
 
-    <p>Welcome to ArthaFlow</p>
+<h3 id="welcomeUser"></h3>
+
+<p>Welcome to ArthaFlow</p>
 
 </div>
 
