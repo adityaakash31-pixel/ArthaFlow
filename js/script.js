@@ -573,6 +573,48 @@ text:"ArthaFlow Finance Overview"
 
     }
 
+let trendChart =
+document.getElementById("trendChart");
+
+if(trendChart){
+
+new Chart(trendChart,{
+
+type:"line",
+
+data:{
+
+labels:["Income","Expense"],
+
+datasets:[{
+
+label:"Finance Trend",
+
+data:[
+totalIncome,
+totalExpense
+],
+
+borderColor:"#2196F3",
+
+backgroundColor:"rgba(33,150,243,0.2)",
+
+fill:true,
+
+tension:0.4
+
+}]
+
+},
+
+options:{
+responsive:true
+}
+
+});
+
+}
+
 let barChart =
 document.getElementById("barChart");
 
