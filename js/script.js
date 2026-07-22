@@ -752,3 +752,42 @@ if(welcome){
     }
 
 }
+
+function saveBudget(){
+
+    let budget =
+    Number(document.getElementById("monthlyBudget").value);
+
+    if(budget<=0){
+        alert("Enter Valid Budget");
+        return;
+    }
+
+    localStorage.setItem(
+        "monthlyBudget",
+        budget
+    );
+
+    alert("✅ Budget Saved");
+
+    location.reload();
+
+}
+
+let budget =
+Number(localStorage.getItem("monthlyBudget")) || 0;
+
+let budgetAmount =
+document.getElementById("budgetAmount");
+
+let remainingBudget =
+document.getElementById("remainingBudget");
+
+if(budgetAmount){
+    budgetAmount.innerText = "₹" + budget;
+}
+
+if(remainingBudget){
+    remainingBudget.innerText =
+    "₹" + (budget - totalExpense);
+        }
