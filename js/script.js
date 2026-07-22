@@ -721,3 +721,34 @@ if(recentList){
     });
 
 }
+
+function saveProfile(){
+
+    let name =
+    document.getElementById("userName").value;
+
+    if(name==""){
+        alert("Enter Your Name");
+        return;
+    }
+
+    localStorage.setItem("userName",name);
+
+    alert("✅ Profile Saved");
+
+}
+
+let welcome =
+document.getElementById("welcomeUser");
+
+if(welcome){
+
+    let name =
+    localStorage.getItem("userName");
+
+    if(name){
+        welcome.innerHTML =
+        "👋 Welcome, " + name;
+    }
+
+}
