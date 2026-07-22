@@ -71,7 +71,17 @@ onkeyup="searchIncome()">
 <option value="Other">Other</option>
 
     </select>
-    
+
+    <select id="incomeFilter" onchange="filterIncome()">
+
+<option value="all">All Categories</option>
+<option value="Salary">Salary</option>
+<option value="Business">Business</option>
+<option value="Freelancing">Freelancing</option>
+<option value="Investment">Investment</option>
+<option value="Other">Other</option>
+
+    </select>
     <h2>Income History</h2>
 
 <ul id="incomeList"></ul>
