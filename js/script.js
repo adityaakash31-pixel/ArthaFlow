@@ -130,6 +130,52 @@ if(dashboardSavings){
     "₹" + (totalIncome - totalExpense);
 }
 
+let incomeEntries =
+document.getElementById("incomeEntries");
+
+if(incomeEntries){
+    incomeEntries.innerText =
+    incomeHistory.length;
+}
+
+let expenseEntries =
+document.getElementById("expenseEntries");
+
+if(expenseEntries){
+    expenseEntries.innerText =
+    expenseHistory.length;
+}
+
+let avgIncome =
+document.getElementById("avgIncome");
+
+if(avgIncome){
+
+    let average =
+    incomeHistory.length == 0
+    ? 0
+    : totalIncome / incomeHistory.length;
+
+    avgIncome.innerText =
+    "₹" + average.toFixed(2);
+
+}
+
+let avgExpense =
+document.getElementById("avgExpense");
+
+if(avgExpense){
+
+    let average =
+    expenseHistory.length == 0
+    ? 0
+    : totalExpense / expenseHistory.length;
+
+    avgExpense.innerText =
+    "₹" + average.toFixed(2);
+
+}
+
 let monthIncome =
 document.getElementById("monthIncome");
 
