@@ -569,3 +569,32 @@ function exportCSV() {
 
     link.click();
 }
+
+function backupData(){
+
+    let data = {
+
+        totalIncome: totalIncome,
+
+        totalExpense: totalExpense,
+
+        incomeHistory: incomeHistory,
+
+        expenseHistory: expenseHistory
+
+    };
+
+    let blob = new Blob(
+        [JSON.stringify(data,null,2)],
+        {type:"application/json"}
+    );
+
+    let link = document.createElement("a");
+
+    link.href = URL.createObjectURL(blob);
+
+    link.download = "ArthaFlow_Backup.json";
+
+    link.click();
+
+}
