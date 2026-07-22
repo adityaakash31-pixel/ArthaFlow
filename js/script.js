@@ -817,3 +817,64 @@ if(remainingBudget){
     remainingBudget.innerText =
     "₹" + (budget - totalExpense);
         }
+
+function filterExpense(){
+
+    let filter =
+    document.getElementById("expenseFilter").value;
+
+    let today =
+    new Date().toISOString().split("T")[0];
+
+    let currentMonth =
+    today.substring(0,7);
+
+    let items =
+    expenseHistory;
+
+    let expenseList =
+    document.getElementById("expenseList");
+
+    if(!expenseList){
+        return;
+    }
+
+    expenseList.innerHTML = "";
+
+    items.forEach(function(item,index){
+
+        let show = false;
+
+        if(filter == "all"){
+            show = true;
+        }
+
+        if(filter == "today" &&
+           item.date == today){
+            show = true;
+        }
+
+        if(filter == "month" &&
+           item.date.startsWith(currentMonth)){
+            show = true;
+        }
+
+        if(show){
+
+            let li =
+            document.createElement("li");
+
+            li.innerHTML =
+            item.category +
+            " - ₹" + item.amount +
+            " | 📅 " + item.date +
+            " | 📝 " + item.note +
+            ' <button onclick="editExpense(' + index + ')">✏️</button>' +
+            ' <button onclick="deleteExpense(' + index + ')">🗑️</button>';
+
+            expenseList.appendChild(li);
+        }
+
+    });
+
+}
