@@ -1170,3 +1170,33 @@ result.appendChild(li);
 });
 
 }
+
+function saveUser(){
+
+let name =
+document.getElementById("userName").value;
+
+if(name==""){
+
+alert("Enter Your Name");
+
+return;
+
+}
+
+localStorage.setItem("userName",name);
+
+location.href="index.html";
+
+}
+
+let welcome =
+document.getElementById("welcomeUser");
+
+if(welcome){
+
+welcome.innerHTML =
+"👋 Welcome, " +
+localStorage.getItem("userName");
+
+}
