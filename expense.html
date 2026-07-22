@@ -52,6 +52,28 @@
 
 </div>
 
+  <input
+type="text"
+id="searchExpense"
+placeholder="🔍 Search Expense..."
+onkeyup="searchExpense()">
+
+<br><br>
+
+<select id="expenseFilter" onchange="filterExpense()">
+
+<option value="all">All Categories</option>
+
+<option value="Food">Food</option>
+
+<option value="Travel">Travel</option>
+
+<option value="Shopping">Shopping</option>
+
+<option value="Other">Other</option>
+
+</select>
+
 <h2>Expense History</h2>
 
 <ul id="expenseList"></ul>
