@@ -1291,4 +1291,17 @@ percent=100;
 goalProgress.innerText=
 percent.toFixed(1)+"%";
 
+    let goalBar =
+document.getElementById("goalBar");
+
+if(goalBar){
+
+goalBar.style.width =
+percent + "%";
+
+goalBar.innerText =
+percent.toFixed(1) + "%";
+
+}
+
 }
