@@ -1406,28 +1406,16 @@ document.getElementById("monthlyHistory");
 
 if(monthlyHistory){
 
-monthlyHistory.innerHTML="";
-
-let data =
-JSON.parse(localStorage.getItem("monthlyData")) || {};
-
-for(let month in data){
+let balance =
+totalIncome-totalExpense;
 
 monthlyHistory.innerHTML +=
-
 "<tr>" +
-
-"<td>"+month+"</td>"+
-
-"<td>₹"+data[month].income+"</td>"+
-
-"<td>₹"+data[month].expense+"</td>"+
-
-"<td>₹"+data[month].balance+"</td>"+
-
+"<td>" + new Date().toLocaleString('default',{month:'long'}) + "</td>" +
+"<td>₹"+totalIncome+"</td>" +
+"<td>₹"+totalExpense+"</td>" +
+"<td>₹"+balance+"</td>" +
 "</tr>";
-
-}
 
 }
 
