@@ -1236,3 +1236,59 @@ Math.floor(Math.random()*quotes.length);
 quoteBox.innerHTML = quotes[random];
 
 }
+
+function saveGoal(){
+
+let goal =
+Number(document.getElementById("goalAmount").value);
+
+if(goal<=0){
+
+alert("Enter Valid Goal");
+
+return;
+
+}
+
+localStorage.setItem("savingGoal",goal);
+
+location.reload();
+
+}
+
+let savingGoal =
+Number(localStorage.getItem("savingGoal")) || 0;
+
+let goalDisplay =
+document.getElementById("goalDisplay");
+
+let goalProgress =
+document.getElementById("goalProgress");
+
+if(goalDisplay){
+
+goalDisplay.innerText="₹"+savingGoal;
+
+}
+
+if(goalProgress){
+
+let balance =
+totalIncome-totalExpense;
+
+let percent = 0;
+
+if(savingGoal>0){
+
+percent=(balance/savingGoal)*100;
+
+if(percent>100){
+percent=100;
+}
+
+}
+
+goalProgress.innerText=
+percent.toFixed(1)+"%";
+
+}
