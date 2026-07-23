@@ -1209,3 +1209,30 @@ box.style.display = "none";
 },2000);
 
 }
+
+let quotes = [
+
+"💰 Save Money, Build Future.",
+
+"📈 Small Savings Create Big Wealth.",
+
+"🚀 Every Rupee Matters.",
+
+"🎯 Track Every Expense.",
+
+"🏦 Financial Freedom Starts Today.",
+
+"💎 Invest In Your Future."
+
+];
+
+let quoteBox = document.getElementById("dailyQuote");
+
+if(quoteBox){
+
+let random =
+Math.floor(Math.random()*quotes.length);
+
+quoteBox.innerHTML = quotes[random];
+
+}
