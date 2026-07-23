@@ -1184,3 +1184,24 @@ function saveUser() {
 
     window.location.href = "index.html";
 }
+
+function showNotification(message){
+
+let box =
+document.getElementById("notification");
+
+if(!box){
+return;
+}
+
+box.innerHTML = message;
+
+box.style.display = "block";
+
+setTimeout(function(){
+
+box.style.display = "none";
+
+},2000);
+
+}
