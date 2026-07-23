@@ -1170,3 +1170,17 @@ result.appendChild(li);
 });
 
 }
+
+function saveUser() {
+
+    let name = document.getElementById("userName").value.trim();
+
+    if (name === "") {
+        alert("Please enter your name");
+        return;
+    }
+
+    localStorage.setItem("userName", name);
+
+    window.location.href = "index.html";
+}
