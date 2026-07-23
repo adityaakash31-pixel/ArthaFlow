@@ -3,31 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - ArthaFlow</title>
+<title>ArthaFlow Login</title>
 
-<link rel="stylesheet" href="css/style.css">
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#0f172a;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.box{
+background:white;
+padding:30px;
+width:320px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 0 20px rgba(0,0,0,.3);
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:8px;
+border:1px solid #ccc;
+box-sizing:border-box;
+}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+background:#2563eb;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+h2{
+margin-bottom:20px;
+}
+</style>
+
 </head>
 
 <body>
 
-<div class="login-box">
+<div class="box">
 
-<h1>💰 ArthaFlow</h1>
+<h2>ArthaFlow Login</h2>
 
-<p>Personal Finance Manager</p>
+<input type="text" id="username" placeholder="Username">
 
-<input
-type="text"
-id="userName"
-placeholder="Enter Your Name">
+<input type="password" id="password" placeholder="Password">
 
-<button onclick="saveUser()">
-🚀 Enter ArthaFlow
-</button>
+<button onclick="login()">Login</button>
 
 </div>
 
-<script src="js/script.js"></script>
+<script>
+
+function login(){
+
+let user=document.getElementById("username").value;
+
+let pass=document.getElementById("password").value;
+
+if(user=="admin" && pass=="1234"){
+
+localStorage.setItem("loggedIn","true");
+
+window.location.href="splash.html";
+
+}else{
+
+alert("Wrong Username or Password");
+
+}
+
+}
+
+</script>
 
 </body>
 </html>
