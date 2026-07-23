@@ -245,6 +245,8 @@ localStorage.setItem(
 
     alert("Income Saved Successfully");
 
+    showNotification("✅ Income Saved Successfully");
+
 document.getElementById("category").value = "";
 document.getElementById("amount").value = "";
 document.getElementById("incomeDate").value = "";
@@ -385,6 +387,8 @@ document.getElementById("expenseNote").value;
 
         document.getElementById("expenseDate").value = "";
 document.getElementById("expenseNote").value = "";
+
+    showNotification("💸 Expense Saved Successfully");
 
     location.reload();
 
