@@ -1392,3 +1392,21 @@ savingRateBar.innerText =
 rate.toFixed(1) + "%";
 
 }
+
+let monthlyHistory =
+document.getElementById("monthlyHistory");
+
+if(monthlyHistory){
+
+let balance =
+totalIncome-totalExpense;
+
+monthlyHistory.innerHTML +=
+"<tr>" +
+"<td>" + new Date().toLocaleString('default',{month:'long'}) + "</td>" +
+"<td>₹"+totalIncome+"</td>" +
+"<td>₹"+totalExpense+"</td>" +
+"<td>₹"+balance+"</td>" +
+"</tr>";
+
+}
