@@ -1379,3 +1379,16 @@ financialHealth.innerText = "🔴 Needs Improvement";
 }
 
 }
+
+let savingRateBar =
+document.getElementById("savingRateBar");
+
+if(savingRateBar){
+
+savingRateBar.style.width =
+rate + "%";
+
+savingRateBar.innerText =
+rate.toFixed(1) + "%";
+
+}
