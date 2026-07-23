@@ -1,3 +1,13 @@
+// Login Check
+if (
+    !window.location.pathname.includes("login.html") &&
+    !window.location.pathname.includes("splash.html")
+) {
+    if (localStorage.getItem("loggedIn") !== "true") {
+        window.location.href = "login.html";
+    }
+}
+
 // ===============================
 // ArthaFlow V1.0
 // Step 9
