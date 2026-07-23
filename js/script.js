@@ -1401,12 +1401,58 @@ if(monthlyHistory){
 let balance =
 totalIncome-totalExpense;
 
+let monthlyHistory =
+document.getElementById("monthlyHistory");
+
+if(monthlyHistory){
+
+monthlyHistory.innerHTML="";
+
+let data =
+JSON.parse(localStorage.getItem("monthlyData")) || {};
+
+for(let month in data){
+
 monthlyHistory.innerHTML +=
+
 "<tr>" +
-"<td>" + new Date().toLocaleString('default',{month:'long'}) + "</td>" +
-"<td>₹"+totalIncome+"</td>" +
-"<td>₹"+totalExpense+"</td>" +
-"<td>₹"+balance+"</td>" +
+
+"<td>"+month+"</td>"+
+
+"<td>₹"+data[month].income+"</td>"+
+
+"<td>₹"+data[month].expense+"</td>"+
+
+"<td>₹"+data[month].balance+"</td>"+
+
 "</tr>";
 
 }
+
+}
+
+// ===============================
+// Monthly Record Save
+// ===============================
+
+let currentMonth =
+new Date().getFullYear() + "-" +
+(new Date().getMonth()+1);
+
+let monthlyData =
+JSON.parse(localStorage.getItem("monthlyData")) || {};
+
+monthlyData[currentMonth] = {
+
+income: totalIncome,
+
+expense: totalExpense,
+
+balance: totalIncome-totalExpense
+
+};
+
+localStorage.setItem(
+"monthlyData",
+JSON.stringify(monthlyData)
+);
