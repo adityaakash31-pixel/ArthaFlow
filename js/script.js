@@ -1305,3 +1305,60 @@ percent.toFixed(1) + "%";
 }
 
 }
+
+// ===============================
+// Income vs Expense Analytics
+// ===============================
+
+let biggestIncome =
+document.getElementById("biggestIncome");
+
+if(biggestIncome){
+
+let maxIncome = 0;
+
+incomeHistory.forEach(function(item){
+
+if(item.amount > maxIncome){
+maxIncome = item.amount;
+}
+
+});
+
+biggestIncome.innerText = "₹" + maxIncome;
+
+}
+
+let biggestExpense =
+document.getElementById("biggestExpense");
+
+if(biggestExpense){
+
+let maxExpense = 0;
+
+expenseHistory.forEach(function(item){
+
+if(item.amount > maxExpense){
+maxExpense = item.amount;
+}
+
+});
+
+biggestExpense.innerText = "₹" + maxExpense;
+
+}
+
+let savingRate =
+document.getElementById("savingRate");
+
+if(savingRate){
+
+let rate = 0;
+
+if(totalIncome > 0){
+rate = ((totalIncome - totalExpense) / totalIncome) * 100;
+}
+
+savingRate.innerText = rate.toFixed(1) + "%";
+
+}
