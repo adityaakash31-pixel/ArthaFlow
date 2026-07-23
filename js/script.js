@@ -1418,29 +1418,3 @@ monthlyHistory.innerHTML +=
 "</tr>";
 
 }
-
-// ===============================
-// Monthly Record Save
-// ===============================
-
-let currentMonth =
-new Date().getFullYear() + "-" +
-(new Date().getMonth()+1);
-
-let monthlyData =
-JSON.parse(localStorage.getItem("monthlyData")) || {};
-
-monthlyData[currentMonth] = {
-
-income: totalIncome,
-
-expense: totalExpense,
-
-balance: totalIncome-totalExpense
-
-};
-
-localStorage.setItem(
-"monthlyData",
-JSON.stringify(monthlyData)
-);
