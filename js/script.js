@@ -1361,4 +1361,21 @@ rate = ((totalIncome - totalExpense) / totalIncome) * 100;
 
 savingRate.innerText = rate.toFixed(1) + "%";
 
+    let financialHealth =
+document.getElementById("financialHealth");
+
+if(financialHealth){
+
+if(rate >= 50){
+financialHealth.innerText = "🟢 Excellent";
+}
+else if(rate >= 25){
+financialHealth.innerText = "🟡 Good";
+}
+else{
+financialHealth.innerText = "🔴 Needs Improvement";
+}
+
+}
+
 }
