@@ -2000,7 +2000,7 @@ localStorage.setItem("appPin",pin);
 
 alert("PIN Saved Successfully");
 
-window.location.href="dashboard.html";
+window.location.href="index.html";
 
 }
 
@@ -2016,7 +2016,7 @@ let savedPin=localStorage.getItem("appPin");
 
 if(pin===savedPin){
 
-window.location.href="dashboard.html";
+window.location.href="index.html";
 
 }else{
 
