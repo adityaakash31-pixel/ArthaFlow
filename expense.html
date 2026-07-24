@@ -58,6 +58,13 @@ id="searchExpense"
 placeholder="🔍 Search Expense..."
 onkeyup="searchExpense()">
 
+  <select id="expenseSort" onchange="sortExpense()">
+<option value="latest">Latest First</option>
+<option value="oldest">Oldest First</option>
+<option value="high">Highest Amount</option>
+<option value="low">Lowest Amount</option>
+  </select>
+
   <select id="expenseFilter" onchange="filterExpense()">
     <option value="all">📋 All Expenses</option>
     <option value="today">📅 Today</option>
