@@ -1478,3 +1478,73 @@ localStorage.setItem(
 }
 
 }
+
+// =========================
+// Recurring Transactions
+// =========================
+
+let recurring =
+JSON.parse(localStorage.getItem("recurring")) || [];
+
+function saveRecurring(){
+
+let category =
+document.getElementById("recurringCategory").value;
+
+let amount =
+Number(document.getElementById("recurringAmount").value);
+
+let type =
+document.getElementById("recurringType").value;
+
+let frequency =
+document.getElementById("recurringFrequency").value;
+
+if(category=="" || amount<=0){
+alert("Enter Valid Details");
+return;
+}
+
+recurring.push({
+category,
+amount,
+type,
+frequency
+});
+
+localStorage.setItem(
+"recurring",
+JSON.stringify(recurring)
+);
+
+alert("Recurring Transaction Saved");
+
+location.reload();
+
+}
+
+let recurringList =
+document.getElementById("recurringList");
+
+if(recurringList){
+
+recurringList.innerHTML="";
+
+recurring.forEach(function(item){
+
+let li=document.createElement("li");
+
+li.innerHTML=
+item.type+
+" | "+
+item.category+
+" | ₹"+
+item.amount+
+" | "+
+item.frequency;
+
+recurringList.appendChild(li);
+
+});
+
+}
