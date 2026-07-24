@@ -1998,10 +1998,12 @@ return;
 
 localStorage.setItem("appPin",pin);
 
+localStorage.setItem("pinVerified","true");
+
 alert("PIN Saved Successfully");
 
 window.location.href="index.html";
-
+    
 }
 
 // ===============================
@@ -2015,6 +2017,8 @@ let pin=document.getElementById("enterPin").value;
 let savedPin=localStorage.getItem("appPin");
 
 if(pin===savedPin){
+
+localStorage.setItem("pinVerified","true");
 
 window.location.href="index.html";
 
