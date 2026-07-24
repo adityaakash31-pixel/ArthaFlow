@@ -1548,3 +1548,65 @@ recurringList.appendChild(li);
 });
 
 }
+
+// ===============================
+// Bill Reminder
+// ===============================
+
+let reminderHistory =
+JSON.parse(localStorage.getItem("reminderHistory")) || [];
+
+function saveReminder(){
+
+let billName =
+document.getElementById("billName").value;
+
+let billAmount =
+Number(document.getElementById("billAmount").value);
+
+let billDate =
+document.getElementById("billDate").value;
+
+if(billName=="" || billAmount<=0 || billDate==""){
+alert("Please Fill All Details");
+return;
+}
+
+reminderHistory.push({
+billName,
+billAmount,
+billDate
+});
+
+localStorage.setItem(
+"reminderHistory",
+JSON.stringify(reminderHistory)
+);
+
+alert("✅ Reminder Saved");
+
+location.reload();
+
+}
+
+let billList =
+document.getElementById("billList");
+
+if(billList){
+
+billList.innerHTML="";
+
+reminderHistory.forEach(function(item,index){
+
+let li=document.createElement("li");
+
+li.innerHTML=
+"📌 "+item.billName+
+" | ₹"+item.billAmount+
+" | 📅 "+item.billDate;
+
+billList.appendChild(li);
+
+});
+
+}
