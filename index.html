@@ -8,11 +8,9 @@ else if(localStorage.getItem("appPin")==null){
     window.location.href="pin-setup.html";
 }
 
-else if(localStorage.getItem("pinVerified")!="true"){
+else if(sessionStorage.getItem("pinVerified")!="true"){
     window.location.href="pin-lock.html";
 }
-
-    alert(sessionStorage.getItem("pinVerified"));
 
 </script>
 
