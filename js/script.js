@@ -2012,18 +2012,15 @@ function verifyPin(){
 let pin = document.getElementById("enterPin").value;
 let savedPin = localStorage.getItem("appPin");
 
-alert("Entered PIN = " + pin);
-alert("Saved PIN = " + savedPin);
+if(pin === savedPin){
 
-if(pin===savedPin){
+    sessionStorage.setItem("pinVerified","true");
 
-sessionStorage.setItem("pinVerified","true");
-
-window.location.href="index.html";
+    location.replace("index.html");
 
 }else{
 
-alert("Wrong PIN");
+    alert("Wrong PIN");
 
 }
 
