@@ -2056,3 +2056,17 @@ document.addEventListener("click", resetAutoLock);
 document.addEventListener("touchstart", resetAutoLock);
 
 resetAutoLock();
+
+// ===============================
+// Step 73C - Auto Lock on Background
+// ===============================
+
+document.addEventListener("visibilitychange", function(){
+
+    if(document.hidden){
+
+        sessionStorage.removeItem("pinVerified");
+
+    }
+
+});
