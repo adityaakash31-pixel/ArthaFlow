@@ -2042,9 +2042,11 @@ clearTimeout(autoLockTimer);
 
 autoLockTimer = setTimeout(function(){
 
-sessionStorage.removeItem("pinVerified");
+sessionStorage.setItem("pinVerified","true");
 
-window.location.href = "pin-lock.html";
+alert(sessionStorage.getItem("pinVerified"));
+
+window.location.href="index.html";
 
 }, autoLockTime);
 
