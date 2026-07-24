@@ -1997,7 +1997,7 @@ localStorage.setItem("appPin", pin);
 
 alert("PIN Saved = " + localStorage.getItem("appPin"));
 
-localStorage.setItem("pinVerified","true");
+sessionStorage.setItem("pinVerified","true");
 
 window.location.href="index.html";
 
@@ -2015,9 +2015,10 @@ let savedPin = localStorage.getItem("appPin");
 alert("Entered PIN = " + pin);
 alert("Saved PIN = " + savedPin);
 
-if(pin === savedPin){
+if(pin===savedPin){
 
-localStorage.setItem("pinVerified","true");
+sessionStorage.setItem("pinVerified","true");
+
 window.location.href="index.html";
 
 }else{
