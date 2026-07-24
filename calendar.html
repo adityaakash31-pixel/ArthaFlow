@@ -1,1 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Calendar View</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<a href="index.html">🏠 Dashboard</a>
+
+<a href="income.html">💰 Income</a>
+
+<a href="expense.html">💸 Expense</a>
+
+<a href="reports.html">📊 Reports</a>
+
+</nav>
+
+<h1>📅 Calendar View</h1>
+
+<div class="card">
+
+<input type="date" id="calendarDate">
+
+<button onclick="showTransactionsByDate()">
+
+🔍 Show Transactions
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>Transactions</h2>
+
+<ul id="calendarTransactions">
+
+<li>Select a Date</li>
+
+</ul>
+
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
