@@ -58,6 +58,13 @@ id="searchIncome"
 placeholder="🔍 Search Category..."
 onkeyup="searchIncome()">
 
+    <select id="incomeSort" onchange="sortIncome()">
+<option value="latest">Latest First</option>
+<option value="oldest">Oldest First</option>
+<option value="high">Highest Amount</option>
+<option value="low">Lowest Amount</option>
+    </select>
+
     <select id="incomeFilter" onchange="filterIncome()">
 
 <option value="all">All Categories</option>
