@@ -388,3 +388,35 @@ margin-top:10px;
 font-size:16px;
 margin:8px 0;
 }
+
+.premium-banner{
+
+background:linear-gradient(135deg,#2196F3,#673AB7);
+
+color:white;
+
+padding:20px;
+
+border-radius:15px;
+
+text-align:center;
+
+margin:15px;
+
+box-shadow:0 5px 20px rgba(0,0,0,.25);
+
+}
+
+.card{
+
+transition:.3s;
+
+}
+
+.card:hover{
+
+transform:translateY(-6px);
+
+box-shadow:0 10px 25px rgba(0,0,0,.25);
+
+}
