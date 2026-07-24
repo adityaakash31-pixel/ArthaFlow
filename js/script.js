@@ -1979,3 +1979,27 @@ card.style.transform="scale(1)";
 });
 
 });
+
+// ===============================
+// App PIN Setup
+// ===============================
+
+function savePin(){
+
+let pin=document.getElementById("newPin").value;
+
+if(pin.length!=4 && pin.length!=6){
+
+alert("Please Enter 4 or 6 Digit PIN");
+
+return;
+
+}
+
+localStorage.setItem("appPin",pin);
+
+alert("PIN Saved Successfully");
+
+window.location.href="dashboard.html";
+
+}
