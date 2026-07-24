@@ -1,8 +1,14 @@
 <script>
-alert("Index Security Running");
-
 if(localStorage.getItem("loggedIn")!="true"){
     window.location.href="login.html";
+}
+
+if(localStorage.getItem("appPin")==null){
+    window.location.href="pin-setup.html";
+}
+
+if(localStorage.getItem("pinVerified")!="true"){
+    window.location.href="pin-lock.html";
 }
 </script>
 
