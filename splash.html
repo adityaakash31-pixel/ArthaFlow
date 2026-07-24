@@ -59,7 +59,15 @@ transform:rotate(360deg);
 
 setTimeout(function(){
 
-window.location.href="dashboard.html";
+if(localStorage.getItem("appPin")){
+
+window.location.href="pin-lock.html";
+
+}else{
+
+window.location.href="pin-setup.html";
+
+}
 
 },3000);
 
