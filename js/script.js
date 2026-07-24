@@ -2012,14 +2012,15 @@ window.location.href="index.html";
 
 function verifyPin(){
 
-let pin=document.getElementById("enterPin").value;
+let pin = document.getElementById("enterPin").value;
+let savedPin = localStorage.getItem("appPin");
 
-let savedPin=localStorage.getItem("appPin");
+alert("Entered PIN = " + pin);
+alert("Saved PIN = " + savedPin);
 
-if(pin===savedPin){
+if(pin === savedPin){
 
 localStorage.setItem("pinVerified","true");
-
 window.location.href="index.html";
 
 }else{
