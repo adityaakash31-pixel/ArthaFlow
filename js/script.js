@@ -1862,3 +1862,71 @@ categorySummary.appendChild(li);
 }
 
 }
+
+// ===============================
+// Income Sorting
+// ===============================
+
+function sortIncome(){
+
+let type =
+document.getElementById("incomeSort").value;
+
+if(type=="high"){
+incomeHistory.sort((a,b)=>b.amount-a.amount);
+}
+
+else if(type=="low"){
+incomeHistory.sort((a,b)=>a.amount-b.amount);
+}
+
+else if(type=="latest"){
+incomeHistory.sort((a,b)=>b.date.localeCompare(a.date));
+}
+
+else if(type=="oldest"){
+incomeHistory.sort((a,b)=>a.date.localeCompare(b.date));
+}
+
+localStorage.setItem(
+"incomeHistory",
+JSON.stringify(incomeHistory)
+);
+
+location.reload();
+
+}
+
+// ===============================
+// Expense Sorting
+// ===============================
+
+function sortExpense(){
+
+let type =
+document.getElementById("expenseSort").value;
+
+if(type=="high"){
+expenseHistory.sort((a,b)=>b.amount-a.amount);
+}
+
+else if(type=="low"){
+expenseHistory.sort((a,b)=>a.amount-b.amount);
+}
+
+else if(type=="latest"){
+expenseHistory.sort((a,b)=>b.date.localeCompare(a.date));
+}
+
+else if(type=="oldest"){
+expenseHistory.sort((a,b)=>a.date.localeCompare(b.date));
+}
+
+localStorage.setItem(
+"expenseHistory",
+JSON.stringify(expenseHistory)
+);
+
+location.reload();
+
+}
