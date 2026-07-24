@@ -2027,3 +2027,31 @@ alert("Wrong PIN");
 }
 
 }
+
+// ===============================
+// Step 73A - Auto Lock Timer
+// ===============================
+
+let autoLockTime = 5 * 60 * 1000; // 5 Minutes
+let autoLockTimer;
+
+function resetAutoLock(){
+
+clearTimeout(autoLockTimer);
+
+autoLockTimer = setTimeout(function(){
+
+sessionStorage.removeItem("pinVerified");
+
+window.location.href = "pin-lock.html";
+
+}, autoLockTime);
+
+}
+
+document.addEventListener("mousemove", resetAutoLock);
+document.addEventListener("keydown", resetAutoLock);
+document.addEventListener("click", resetAutoLock);
+document.addEventListener("touchstart", resetAutoLock);
+
+resetAutoLock();
