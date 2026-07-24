@@ -1675,3 +1675,57 @@ message =
 notificationBox.innerHTML=message;
 
 }
+
+// ===============================
+// Monthly Financial Insights
+// ===============================
+
+let saving =
+totalIncome - totalExpense;
+
+let savingInsight =
+document.getElementById("savingInsight");
+
+if(savingInsight){
+savingInsight.innerText="₹"+saving;
+}
+
+let expenseRatio =
+document.getElementById("expenseRatio");
+
+let ratio=0;
+
+if(totalIncome>0){
+ratio=((totalExpense/totalIncome)*100).toFixed(1);
+}
+
+if(expenseRatio){
+expenseRatio.innerText=ratio+"%";
+}
+
+let financialStatus =
+document.getElementById("financialStatus");
+
+let financeTip =
+document.getElementById("financeTip");
+
+if(financialStatus && financeTip){
+
+if(ratio<=50){
+
+financialStatus.innerText="Excellent ✅";
+financeTip.innerText="Your savings are very good.";
+
+}else if(ratio<=80){
+
+financialStatus.innerText="Good 👍";
+financeTip.innerText="Try to reduce unnecessary expenses.";
+
+}else{
+
+financialStatus.innerText="Warning ⚠️";
+financeTip.innerText="Your expenses are very high.";
+
+}
+
+}
