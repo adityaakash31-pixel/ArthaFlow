@@ -1,1 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recurring Transactions</title>
 
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+<a href="index.html">🏠 Dashboard</a>
+<a href="income.html">💰 Income</a>
+<a href="expense.html">💸 Expense</a>
+<a href="reports.html">📊 Reports</a>
+</nav>
+
+<h1>🔁 Recurring Transactions</h1>
+
+<div class="card">
+
+<input type="text" id="recurringCategory" placeholder="Category">
+
+<input type="number" id="recurringAmount" placeholder="Amount">
+
+<select id="recurringType">
+<option value="Income">Income</option>
+<option value="Expense">Expense</option>
+</select>
+
+<select id="recurringFrequency">
+<option value="Monthly">Monthly</option>
+<option value="Weekly">Weekly</option>
+<option value="Yearly">Yearly</option>
+</select>
+
+<button onclick="saveRecurring()">
+💾 Save
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>Saved Recurring Transactions</h2>
+
+<ul id="recurringList"></ul>
+
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
