@@ -365,3 +365,21 @@ font-weight:bold;
 transition:0.5s;
 
 }
+
+#notificationBox{
+
+background:#fff3cd;
+
+padding:15px;
+
+border-radius:10px;
+
+font-weight:bold;
+
+font-size:18px;
+
+border-left:6px solid orange;
+
+margin-top:10px;
+
+}
