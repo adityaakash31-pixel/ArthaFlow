@@ -2016,11 +2016,7 @@ function verifyPin(){
 
         sessionStorage.setItem("pinVerified","true");
 
-        alert("Saved Session = " + sessionStorage.getItem("pinVerified"));
-
-        setTimeout(function(){
-            window.location.href = "index.html";
-        },500);
+        window.location.href = "index.html";
 
     }else{
 
@@ -2030,34 +2026,36 @@ function verifyPin(){
 
 }
 
-// ===============================
+// ================================
 // Step 73A - Auto Lock Timer
-// ===============================
+// ================================
 
 let autoLockTime = 5 * 60 * 1000; // 5 Minutes
 let autoLockTimer;
 
 function resetAutoLock(){
 
-clearTimeout(autoLockTimer);
+    clearTimeout(autoLockTimer);
 
-autoLockTimer = setTimeout(function(){
+    autoLockTimer = setTimeout(function(){
 
-sessionStorage.setItem("pinVerified","true");
+        // Session खत्म
+        sessionStorage.removeItem("pinVerified");
 
-alert(sessionStorage.getItem("pinVerified"));
+        // PIN Lock पर वापस भेजो
+        window.location.href = "pin-lock.html";
 
-window.location.href="index.html";
-
-}, autoLockTime);
+    }, autoLockTime);
 
 }
 
+// User Activity पर Timer Reset
 document.addEventListener("mousemove", resetAutoLock);
 document.addEventListener("keydown", resetAutoLock);
 document.addEventListener("click", resetAutoLock);
 document.addEventListener("touchstart", resetAutoLock);
 
+// Start Timer
 resetAutoLock();
 
 // ===============================
