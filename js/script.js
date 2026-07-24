@@ -1797,3 +1797,68 @@ list.innerHTML="<li>No Transactions Found</li>";
 }
 
 }
+
+// ===============================
+// Category Analytics
+// ===============================
+
+let categoryChart =
+document.getElementById("categoryChart");
+
+let categorySummary =
+document.getElementById("categorySummary");
+
+if(categoryChart){
+
+let categoryData={};
+
+expenseHistory.forEach(function(item){
+
+if(categoryData[item.category]){
+categoryData[item.category]+=item.amount;
+}else{
+categoryData[item.category]=item.amount;
+}
+
+});
+
+let labels=Object.keys(categoryData);
+
+let values=Object.values(categoryData);
+
+new Chart(categoryChart,{
+
+type:"pie",
+
+data:{
+
+labels:labels,
+
+datasets:[{
+
+data:values
+
+}]
+
+}
+
+});
+
+if(categorySummary){
+
+categorySummary.innerHTML="";
+
+labels.forEach(function(cat,index){
+
+let li=document.createElement("li");
+
+li.innerHTML=
+cat+" : ₹"+values[index];
+
+categorySummary.appendChild(li);
+
+});
+
+}
+
+}
