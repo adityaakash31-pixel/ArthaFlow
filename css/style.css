@@ -383,3 +383,8 @@ border-left:6px solid orange;
 margin-top:10px;
 
 }
+
+.card p{
+font-size:16px;
+margin:8px 0;
+}
