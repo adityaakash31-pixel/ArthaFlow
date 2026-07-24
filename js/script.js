@@ -2003,3 +2003,25 @@ alert("PIN Saved Successfully");
 window.location.href="dashboard.html";
 
 }
+
+// ===============================
+// PIN Verification
+// ===============================
+
+function verifyPin(){
+
+let pin=document.getElementById("enterPin").value;
+
+let savedPin=localStorage.getItem("appPin");
+
+if(pin===savedPin){
+
+window.location.href="dashboard.html";
+
+}else{
+
+alert("Wrong PIN");
+
+}
+
+}
