@@ -1610,3 +1610,37 @@ billList.appendChild(li);
 });
 
 }
+
+// ===============================
+// Dashboard Upcoming Bills
+// ===============================
+
+let dashboardBills =
+document.getElementById("dashboardBills");
+
+if(dashboardBills){
+
+dashboardBills.innerHTML="";
+
+if(reminderHistory.length==0){
+
+dashboardBills.innerHTML="<li>No Upcoming Bills</li>";
+
+}else{
+
+reminderHistory.forEach(function(item){
+
+let li=document.createElement("li");
+
+li.innerHTML=
+"📌 "+item.billName+
+" - ₹"+item.billAmount+
+" (📅 "+item.billDate+")";
+
+dashboardBills.appendChild(li);
+
+});
+
+}
+
+}
