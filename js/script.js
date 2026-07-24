@@ -1644,3 +1644,34 @@ dashboardBills.appendChild(li);
 }
 
 }
+
+// ===============================
+// Smart Notification System
+// ===============================
+
+let notificationBox =
+document.getElementById("notificationBox");
+
+if(notificationBox){
+
+let today =
+new Date().toISOString().split("T")[0];
+
+let message =
+"✅ No Pending Bills";
+
+reminderHistory.forEach(function(item){
+
+if(item.billDate==today){
+
+message =
+"🔴 Today : "+item.billName+
+" ₹"+item.billAmount;
+
+}
+
+});
+
+notificationBox.innerHTML=message;
+
+}
