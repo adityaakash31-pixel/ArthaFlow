@@ -1,1 +1,66 @@
+<!DOCTYPE html>
+<html>
 
+<head>
+
+<meta charset="UTF-8">
+
+<title>Bill Reminder</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<a href="index.html">🏠 Dashboard</a>
+
+<a href="income.html">💰 Income</a>
+
+<a href="expense.html">💸 Expense</a>
+
+<a href="reports.html">📊 Reports</a>
+
+</nav>
+
+<h1>🔔 Bill Reminder</h1>
+
+<div class="card">
+
+<input
+type="text"
+id="billName"
+placeholder="Bill Name">
+
+<input
+type="number"
+id="billAmount"
+placeholder="Amount">
+
+<input
+type="date"
+id="billDate">
+
+<button onclick="saveReminder()">
+
+💾 Save Reminder
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>Upcoming Bills</h2>
+
+<ul id="billList"></ul>
+
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+
+</html>
