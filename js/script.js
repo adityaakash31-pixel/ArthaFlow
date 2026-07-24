@@ -1729,3 +1729,71 @@ financeTip.innerText="Your expenses are very high.";
 }
 
 }
+
+// ===============================
+// Calendar View
+// ===============================
+
+function showTransactionsByDate(){
+
+let date =
+document.getElementById("calendarDate").value;
+
+let list =
+document.getElementById("calendarTransactions");
+
+if(!list){
+return;
+}
+
+list.innerHTML="";
+
+let found=false;
+
+incomeHistory.forEach(function(item){
+
+if(item.date==date){
+
+let li=document.createElement("li");
+
+li.innerHTML=
+"💰 Income : "+
+item.category+
+" - ₹"+
+item.amount;
+
+list.appendChild(li);
+
+found=true;
+
+}
+
+});
+
+expenseHistory.forEach(function(item){
+
+if(item.date==date){
+
+let li=document.createElement("li");
+
+li.innerHTML=
+"💸 Expense : "+
+item.category+
+" - ₹"+
+item.amount;
+
+list.appendChild(li);
+
+found=true;
+
+}
+
+});
+
+if(!found){
+
+list.innerHTML="<li>No Transactions Found</li>";
+
+}
+
+}
