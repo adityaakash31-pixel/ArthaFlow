@@ -71,11 +71,23 @@ margin-bottom:20px;
 function login(){
 
 let user=document.getElementById("username").value;
-
 let pass=document.getElementById("password").value;
 
 if(user=="admin" && pass=="1234"){
 
+localStorage.clear();   // 
+
+localStorage.setItem("loggedIn","true");
+
+window.location.href="splash.html";
+
+}else{
+
+alert("Wrong Username or Password");
+
+}
+
+}
 localStorage.setItem("loggedIn","true");
 
   localStorage.removeItem("pinVerified");
