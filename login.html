@@ -75,9 +75,9 @@ let pass=document.getElementById("password").value;
 
 if(user=="admin" && pass=="1234"){
 
-localStorage.clear();   
-
 localStorage.setItem("loggedIn","true");
+  
+  localStorage.removeItem("pinVerified");
 
 window.location.href="splash.html";
 
