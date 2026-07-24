@@ -1986,24 +1986,21 @@ card.style.transform="scale(1)";
 
 function savePin(){
 
-let pin=document.getElementById("newPin").value;
+let pin = document.getElementById("newPin").value;
 
 if(pin.length!=4 && pin.length!=6){
-
-alert("Please Enter 4 or 6 Digit PIN");
-
-return;
-
+    alert("Please Enter 4 or 6 Digit PIN");
+    return;
 }
 
-localStorage.setItem("appPin",pin);
+localStorage.setItem("appPin", pin);
+
+alert("PIN Saved = " + localStorage.getItem("appPin"));
 
 localStorage.setItem("pinVerified","true");
 
-alert("PIN Saved Successfully");
-
 window.location.href="index.html";
-    
+
 }
 
 // ===============================
