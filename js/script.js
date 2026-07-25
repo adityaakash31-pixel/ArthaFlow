@@ -2358,33 +2358,35 @@ Status : ${status}<br>
 
 let status = "🟢 Pending";
 
-if(item.type=="Paid"){
-
-status = "✅ Paid";
-
+if(item.type == "Paid"){
+    status = "✅ Paid";
 }
 
 if(item.dueDate){
+    let today = new Date();
+    let due = new Date(item.dueDate);
 
-let today = new Date();
-
-let due = new Date(item.dueDate);
-
-if(due < today && item.type!="Paid"){
-
-status = "🔴 Overdue";
-
+    if(due < today && item.type != "Paid"){
+        status = "🔴 Overdue";
+    }
 }
 
-}
+list.innerHTML += `
+<li>
+<b>${item.person}</b><br>
+₹${item.amount}<br>
+${item.type}<br>
+📅 ${item.date}<br>
+⏰ Due : ${item.dueDate || "-"}<br>
+Status : ${status}<br>
 
 <button onclick="sendReminder(${index})">
-
 📱 WhatsApp Reminder
-
 </button>
 
-loadLoanHistory();
+</li>
+<hr>
+`;
 
 // ===============================
 // Overdue Loan Checker
