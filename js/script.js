@@ -2342,6 +2342,8 @@ ${item.type}<br>
 
 ⏰ Due : ${item.dueDate}
 
+Status : ${status}<br>
+
 </li>
 
 <hr>
@@ -2353,6 +2355,34 @@ ${item.type}<br>
 });
 
 }
+
+let status = "🟢 Pending";
+
+if(item.type=="Paid"){
+
+status = "✅ Paid";
+
+}
+
+if(item.dueDate){
+
+let today = new Date();
+
+let due = new Date(item.dueDate);
+
+if(due < today && item.type!="Paid"){
+
+status = "🔴 Overdue";
+
+}
+
+}
+
+<button onclick="sendReminder(${index})">
+
+📱 WhatsApp Reminder
+
+</button>
 
 loadLoanHistory();
 
@@ -2492,5 +2522,28 @@ let si=(p*r*t)/100;
 
 document.getElementById("interestResult").innerHTML=
 "Interest : ₹"+si;
+
+}
+
+function sendReminder(index){
+
+let item = loanHistory[index];
+
+let message =
+"Reminder\n\n" +
+
+"Name : " + item.person +
+
+"\nAmount : ₹" + item.amount +
+
+"\nDue Date : " + item.dueDate;
+
+window.open(
+
+"https://wa.me/?text=" +
+
+encodeURIComponent(message)
+
+);
 
 }
