@@ -2463,3 +2463,19 @@ data:[borrowed,lent]
 });
 
 }
+
+function exportLoan(){
+
+let data=JSON.stringify(loanHistory,null,2);
+
+let blob=new Blob([data],{type:"application/json"});
+
+let link=document.createElement("a");
+
+link.href=URL.createObjectURL(blob);
+
+link.download="LoanHistory.json";
+
+link.click();
+
+}
