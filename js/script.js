@@ -2352,3 +2352,34 @@ ${item.type}<br>
 }
 
 loadLoanHistory();
+
+// ===============================
+// Overdue Loan Checker
+// ===============================
+
+function checkOverdueLoans(){
+
+let today = new Date();
+
+loanHistory.forEach(function(item){
+
+if(item.dueDate && item.type!="Paid"){
+
+let due = new Date(item.dueDate);
+
+if(due < today){
+
+alert(
+"⚠ Overdue Loan : " +
+item.person +
+" ₹" +
+item.amount
+);
+
+}
+
+}
+
+});
+
+}
