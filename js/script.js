@@ -2342,21 +2342,6 @@ list.innerHTML="";
 
 loanHistory.forEach(function(item,index){
 
-let status="🟢 Pending";
-
-if(item.type=="Paid"){
-status="✅ Paid";
-}
-
-if(item.dueDate){
-let today=new Date();
-let due=new Date(item.dueDate);
-
-if(due<today && item.type!="Paid"){
-status="🔴 Overdue";
-}
-}
-
 if(item.person.toLowerCase().includes(keyword)){
 
 list.innerHTML += `
@@ -2372,8 +2357,6 @@ list.innerHTML += `
 📅 ${item.date}<br>
 
 ⏰ Due : ${item.dueDate}<br>
-
-Status : ${status}<br>
 
 </li>
 
@@ -2523,30 +2506,5 @@ let si=(p*r*t)/100;
 
 document.getElementById("interestResult").innerHTML=
 "Interest : ₹"+si;
-
-}
-
-function sendReminder(index){
-
-let item = loanHistory[index];
-
-let message =
-"Reminder\n\n" +
-
-"Name : " + item.person +
-
-"\nAmount : ₹" + item.amount +
-
-"\nDue Date : " + item.dueDate;
-
-window.open(
-
-"https://wa.me/?text=" +
-
-encodeURIComponent(message)
-
-);
-
-}
 
 }
