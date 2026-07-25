@@ -31,6 +31,9 @@ JSON.parse(localStorage.getItem("incomeHistory")) || [];
 
 window.onload = function () {
 
+    totalIncome = Number(localStorage.getItem("totalIncome")) || 0;
+totalExpense = Number(localStorage.getItem("totalExpense")) || 0;
+
     let incomeBox = document.getElementById("totalIncome");
     if (incomeBox) {
         incomeBox.innerText = "₹" + totalIncome;
