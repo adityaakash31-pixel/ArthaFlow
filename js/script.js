@@ -2304,6 +2304,9 @@ document.getElementById("activeLoans").innerHTML=active;
 
 }
 
+updateLoanAnalytics();
+checkOverdueLoans();
+
 // ===============================
 // Search Loan
 // ===============================
@@ -2381,5 +2384,33 @@ item.amount
 }
 
 });
+
+}
+
+function updateLoanAnalytics(){
+
+let total = 0;
+
+loanHistory.forEach(function(item){
+
+total += Number(item.amount);
+
+});
+
+let avg = 0;
+
+if(loanHistory.length>0){
+
+avg = total / loanHistory.length;
+
+}
+
+if(document.getElementById("totalLoans"))
+document.getElementById("totalLoans").innerHTML =
+loanHistory.length;
+
+if(document.getElementById("avgLoan"))
+document.getElementById("avgLoan").innerHTML =
+"₹" + avg.toFixed(2);
 
 }
