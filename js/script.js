@@ -2506,3 +2506,5 @@ document.getElementById("interestResult").innerHTML=
 "Interest : ₹"+si;
 
 }
+    
+}
