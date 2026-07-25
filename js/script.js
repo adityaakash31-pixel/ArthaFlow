@@ -2479,3 +2479,18 @@ link.download="LoanHistory.json";
 link.click();
 
 }
+
+function calculateInterest(){
+
+let p=Number(document.getElementById("principal").value);
+
+let r=Number(document.getElementById("rate").value);
+
+let t=Number(document.getElementById("years").value);
+
+let si=(p*r*t)/100;
+
+document.getElementById("interestResult").innerHTML=
+"Interest : ₹"+si;
+
+}
