@@ -2552,5 +2552,3 @@ encodeURIComponent(message)
 );
 
 }
-
-    }
