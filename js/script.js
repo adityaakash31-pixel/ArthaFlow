@@ -2168,12 +2168,12 @@ loadLoanHistory();
 
 }
 
-console.log("Loan History:", loanHistory);
-
 function loadLoanHistory(){
 
 loanHistory =
 JSON.parse(localStorage.getItem("loanHistory")) || [];
+
+    console.log("Loan History:", loanHistory);
 
 let list = document.getElementById("loanHistory");
 
