@@ -2009,20 +2009,22 @@ window.location.href="index.html";
 
 function verifyPin(){
 
-    let pin = document.getElementById("enterPin").value;
-    let savedPin = localStorage.getItem("appPin");
+let pin = document.getElementById("enterPin").value;
+let savedPin = localStorage.getItem("appPin");
 
-    if(pin === savedPin){
+if(pin === savedPin){
 
-        sessionStorage.setItem("pinVerified","true");
+    sessionStorage.setItem("pinVerified","true");
 
-        window.location.href = "index.html";
+    alert("Saved = " + sessionStorage.getItem("pinVerified"));
 
-    }else{
+    location.replace("index.html");
 
-        alert("Wrong PIN");
+}else{
 
-    }
+    alert("Wrong PIN");
+
+}
 
 }
 
