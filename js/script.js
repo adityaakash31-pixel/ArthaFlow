@@ -2130,9 +2130,13 @@ document.getElementById("loanDueDate").value="";
 
 function loadLoanHistory(){
 
-    updateLoanSummary();
+loanHistory =
+JSON.parse(localStorage.getItem("loanHistory")) || [];
 
-let list = document.getElementById("loanHistory");
+updateLoanSummary();
+
+let list =
+document.getElementById("loanHistory");
 
 if(!list) return;
 
