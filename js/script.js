@@ -2124,8 +2124,7 @@ document.getElementById("loanNote").value="";
 
 function loadLoanHistory(){
 
-let list =
-document.getElementById("loanHistory");
+let list = document.getElementById("loanHistory");
 
 if(!list) return;
 
@@ -2139,15 +2138,35 @@ list.innerHTML += `
 
 <b>${item.person}</b><br>
 
-₹${item.amount}<br>
+💰 ₹${item.amount}<br>
 
-${item.type}<br>
+📌 ${item.type}<br>
 
-${item.date}<br>
+📅 ${item.date}<br>
 
-${item.note}
+📝 ${item.note}<br><br>
 
-</li><hr>
+<button onclick="markLoanPaid(${index})">
+
+✅ Paid
+
+</button>
+
+<button onclick="editLoan(${index})">
+
+✏ Edit
+
+</button>
+
+<button onclick="deleteLoan(${index})">
+
+🗑 Delete
+
+</button>
+
+</li>
+
+<hr>
 
 `;
 
@@ -2155,4 +2174,72 @@ ${item.note}
 
 }
 
+// ===============================
+// Delete Loan
+// ===============================
+
+function deleteLoan(index){
+
+if(confirm("Delete this Loan?")){
+
+loanHistory.splice(index,1);
+
+localStorage.setItem(
+"loanHistory",
+JSON.stringify(loanHistory)
+);
+
 loadLoanHistory();
+
+}
+
+}
+
+// ===============================
+// Loan Paid
+// ===============================
+
+function markLoanPaid(index){
+
+loanHistory[index].type="Paid";
+
+localStorage.setItem(
+"loanHistory",
+JSON.stringify(loanHistory)
+);
+
+loadLoanHistory();
+
+}
+
+// ===============================
+// Edit Loan
+// ===============================
+
+function editLoan(index){
+
+document.getElementById("loanPerson").value =
+loanHistory[index].person;
+
+document.getElementById("loanAmount").value =
+loanHistory[index].amount;
+
+document.getElementById("loanDate").value =
+loanHistory[index].date;
+
+document.getElementById("loanType").value =
+loanHistory[index].type;
+
+document.getElementById("loanNote").value =
+loanHistory[index].note;
+
+loanHistory.splice(index,1);
+
+localStorage.setItem(
+"loanHistory",
+JSON.stringify(loanHistory)
+);
+
+loadLoanHistory();
+
+}
