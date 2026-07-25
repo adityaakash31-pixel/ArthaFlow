@@ -2230,8 +2230,6 @@ Status : ${status}<br>
 
 <button onclick="deleteLoan(${index})">🗑 Delete</button>
 
-<button onclick="sendReminder(${index})">📱 WhatsApp Reminder</button>
-
 </li>
 
 <hr>
