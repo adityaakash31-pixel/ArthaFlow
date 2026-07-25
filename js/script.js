@@ -2414,3 +2414,52 @@ document.getElementById("avgLoan").innerHTML =
 "₹" + avg.toFixed(2);
 
 }
+
+// ===============================
+// Step 74G - Loan Pie Chart
+// ===============================
+
+function drawLoanChart(){
+
+let borrowed=0;
+let lent=0;
+
+loanHistory.forEach(function(item){
+
+if(item.type=="Borrowed"){
+
+borrowed += Number(item.amount);
+
+}
+
+else if(item.type=="Lent"){
+
+lent += Number(item.amount);
+
+}
+
+});
+
+let chart=document.getElementById("loanChart");
+
+if(!chart) return;
+
+new Chart(chart,{
+
+type:"pie",
+
+data:{
+
+labels:["Borrowed","Lent"],
+
+datasets:[{
+
+data:[borrowed,lent]
+
+}]
+
+}
+
+});
+
+}
