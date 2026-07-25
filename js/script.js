@@ -2177,8 +2177,6 @@ let list = document.getElementById("loanHistory");
 
 if(!list) return;
 
-updateLoanSummary();
-
 list.innerHTML="";
 
 if(loanHistory.length==0){
@@ -2237,6 +2235,13 @@ Status : ${status}<br>
 `;
 
 });
+
+    updateLoanSummary();
+updateLoanAnalytics();
+drawLoanChart();
+checkOverdueLoans();
+
+}
 
 // ===============================
 // Edit Loan
