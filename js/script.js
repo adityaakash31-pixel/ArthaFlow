@@ -2059,3 +2059,100 @@ document.addEventListener("touchstart", resetAutoLock);
 
 // Start Timer
 resetAutoLock();
+
+// ===============================
+// Step 74B - Loan Manager
+// ===============================
+
+let loanHistory =
+JSON.parse(localStorage.getItem("loanHistory")) || [];
+
+function saveLoan(){
+
+let person =
+document.getElementById("loanPerson").value;
+
+let amount =
+document.getElementById("loanAmount").value;
+
+let date =
+document.getElementById("loanDate").value;
+
+let type =
+document.getElementById("loanType").value;
+
+let note =
+document.getElementById("loanNote").value;
+
+if(person=="" || amount=="" || date==""){
+
+alert("Please Fill All Required Fields");
+
+return;
+
+}
+
+loanHistory.push({
+
+person:person,
+
+amount:amount,
+
+date:date,
+
+type:type,
+
+note:note
+
+});
+
+localStorage.setItem(
+"loanHistory",
+JSON.stringify(loanHistory)
+);
+
+alert("Loan Saved Successfully");
+
+loadLoanHistory();
+
+document.getElementById("loanPerson").value="";
+document.getElementById("loanAmount").value="";
+document.getElementById("loanDate").value="";
+document.getElementById("loanNote").value="";
+
+}
+
+function loadLoanHistory(){
+
+let list =
+document.getElementById("loanHistory");
+
+if(!list) return;
+
+list.innerHTML="";
+
+loanHistory.forEach(function(item,index){
+
+list.innerHTML += `
+
+<li>
+
+<b>${item.person}</b><br>
+
+₹${item.amount}<br>
+
+${item.type}<br>
+
+${item.date}<br>
+
+${item.note}
+
+</li><hr>
+
+`;
+
+});
+
+}
+
+loadLoanHistory();
