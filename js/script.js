@@ -2084,6 +2084,9 @@ document.getElementById("loanType").value;
 let note =
 document.getElementById("loanNote").value;
 
+let dueDate =
+document.getElementById("loanDueDate").value;
+
 if(person=="" || amount=="" || date==""){
 
 alert("Please Fill All Required Fields");
@@ -2102,10 +2105,12 @@ date:date,
 
 type:type,
 
-note:note
+note:note,
+
+dueDate:dueDate
 
 });
-
+    
 localStorage.setItem(
 "loanHistory",
 JSON.stringify(loanHistory)
@@ -2119,10 +2124,13 @@ document.getElementById("loanPerson").value="";
 document.getElementById("loanAmount").value="";
 document.getElementById("loanDate").value="";
 document.getElementById("loanNote").value="";
+document.getElementById("loanDueDate").value="";
 
 }
 
 function loadLoanHistory(){
+
+    updateLoanSummary();
 
 let list = document.getElementById("loanHistory");
 
@@ -2145,6 +2153,8 @@ list.innerHTML += `
 📅 ${item.date}<br>
 
 📝 ${item.note}<br><br>
+
+⏰ Due : ${item.dueDate}<br>
 
 <button onclick="markLoanPaid(${index})">
 
@@ -2241,8 +2251,6 @@ JSON.stringify(loanHistory)
 );
 
 loadLoanHistory();
-    
-    updateLoanSummary();
 
 }
 
@@ -2292,5 +2300,52 @@ document.getElementById("totalPaid").innerHTML="₹"+paid;
 
 if(document.getElementById("activeLoans"))
 document.getElementById("activeLoans").innerHTML=active;
+
+}
+
+// ===============================
+// Search Loan
+// ===============================
+
+function searchLoan(){
+
+let keyword =
+document.getElementById("loanSearch")
+.value.toLowerCase();
+
+let list =
+document.getElementById("loanHistory");
+
+if(!list) return;
+
+list.innerHTML="";
+
+loanHistory.forEach(function(item,index){
+
+if(item.person.toLowerCase().includes(keyword)){
+
+list.innerHTML += `
+
+<li>
+
+<b>${item.person}</b><br>
+
+₹${item.amount}<br>
+
+${item.type}<br>
+
+📅 ${item.date}<br>
+
+⏰ Due : ${item.dueDate}
+
+</li>
+
+<hr>
+
+`;
+
+}
+
+});
 
 }
