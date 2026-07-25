@@ -2128,65 +2128,7 @@ document.getElementById("loanDueDate").value="";
 
 }
 
-function loadLoanHistory(){
 
-loanHistory =
-JSON.parse(localStorage.getItem("loanHistory")) || [];
-
-updateLoanSummary();
-
-let list =
-document.getElementById("loanHistory");
-
-if(!list) return;
-
-list.innerHTML="";
-
-loanHistory.forEach(function(item,index){
-
-list.innerHTML += `
-
-<li>
-
-<b>${item.person}</b><br>
-
-💰 ₹${item.amount}<br>
-
-📌 ${item.type}<br>
-
-📅 ${item.date}<br>
-
-📝 ${item.note}<br><br>
-
-⏰ Due : ${item.dueDate}<br>
-
-<button onclick="markLoanPaid(${index})">
-
-✅ Paid
-
-</button>
-
-<button onclick="editLoan(${index})">
-
-✏ Edit
-
-</button>
-
-<button onclick="deleteLoan(${index})">
-
-🗑 Delete
-
-</button>
-
-</li>
-
-<hr>
-
-`;
-
-});
-
-}
 
 // ===============================
 // Delete Loan
@@ -2223,6 +2165,61 @@ JSON.stringify(loanHistory)
 );
 
 loadLoanHistory();
+
+}
+
+function loadLoanHistory(){
+
+loanHistory =
+JSON.parse(localStorage.getItem("loanHistory")) || [];
+
+let list = document.getElementById("loanHistory");
+
+if(!list) return;
+
+updateLoanSummary();
+
+list.innerHTML="";
+
+if(loanHistory.length==0){
+
+list.innerHTML="<li>No Loan Records</li>";
+
+return;
+
+}
+
+loanHistory.forEach(function(item,index){
+
+list.innerHTML += `
+
+<li>
+
+<b>${item.person}</b><br>
+
+💰 ₹${item.amount}<br>
+
+📌 ${item.type}<br>
+
+📅 ${item.date}<br>
+
+⏰ Due : ${item.dueDate}<br>
+
+📝 ${item.note}<br><br>
+
+<button onclick="markLoanPaid(${index})">✅ Paid</button>
+
+<button onclick="editLoan(${index})">✏ Edit</button>
+
+<button onclick="deleteLoan(${index})">🗑 Delete</button>
+
+</li>
+
+<hr>
+
+`;
+
+});
 
 }
 
@@ -2353,3 +2350,5 @@ ${item.type}<br>
 });
 
 }
+
+loadLoanHistory();
