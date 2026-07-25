@@ -2241,5 +2241,56 @@ JSON.stringify(loanHistory)
 );
 
 loadLoanHistory();
+    
+    updateLoanSummary();
+
+}
+
+// ===============================
+// Loan Summary
+// ===============================
+
+function updateLoanSummary(){
+
+let borrowed = 0;
+let lent = 0;
+let paid = 0;
+let active = 0;
+
+loanHistory.forEach(function(item){
+
+if(item.type=="Borrowed"){
+
+borrowed += Number(item.amount);
+active++;
+
+}
+
+else if(item.type=="Lent"){
+
+lent += Number(item.amount);
+active++;
+
+}
+
+else if(item.type=="Paid"){
+
+paid += Number(item.amount);
+
+}
+
+});
+
+if(document.getElementById("totalBorrowed"))
+document.getElementById("totalBorrowed").innerHTML="₹"+borrowed;
+
+if(document.getElementById("totalLent"))
+document.getElementById("totalLent").innerHTML="₹"+lent;
+
+if(document.getElementById("totalPaid"))
+document.getElementById("totalPaid").innerHTML="₹"+paid;
+
+if(document.getElementById("activeLoans"))
+document.getElementById("activeLoans").innerHTML=active;
 
 }
