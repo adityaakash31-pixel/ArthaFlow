@@ -2331,8 +2331,7 @@ checkOverdueLoans();
 function searchLoan(){
 
 let keyword =
-document.getElementById("loanSearch")
-.value.toLowerCase();
+document.getElementById("loanSearch").value.toLowerCase();
 
 let list =
 document.getElementById("loanHistory");
@@ -2343,6 +2342,21 @@ list.innerHTML="";
 
 loanHistory.forEach(function(item,index){
 
+let status="🟢 Pending";
+
+if(item.type=="Paid"){
+status="✅ Paid";
+}
+
+if(item.dueDate){
+let today=new Date();
+let due=new Date(item.dueDate);
+
+if(due<today && item.type!="Paid"){
+status="🔴 Overdue";
+}
+}
+
 if(item.person.toLowerCase().includes(keyword)){
 
 list.innerHTML += `
@@ -2351,13 +2365,13 @@ list.innerHTML += `
 
 <b>${item.person}</b><br>
 
-₹${item.amount}<br>
+💰 ₹${item.amount}<br>
 
-${item.type}<br>
+📌 ${item.type}<br>
 
 📅 ${item.date}<br>
 
-⏰ Due : ${item.dueDate}
+⏰ Due : ${item.dueDate}<br>
 
 Status : ${status}<br>
 
