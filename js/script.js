@@ -2511,3 +2511,7 @@ document.getElementById("interestResult").innerHTML=
 "Interest : ₹"+si;
 
 }
+
+window.onload = function () {
+    loadLoanHistory();
+};
