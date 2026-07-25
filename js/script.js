@@ -2361,6 +2361,7 @@ let status = "🟢 Pending";
 if(item.type == "Paid"){
     status = "✅ Paid";
 }
+}
 
 if(item.dueDate){
     let today = new Date();
