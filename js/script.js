@@ -2168,6 +2168,8 @@ loadLoanHistory();
 
 }
 
+console.log("Loan History:", loanHistory);
+
 function loadLoanHistory(){
 
 loanHistory =
