@@ -2068,8 +2068,6 @@ let loanHistory =
 JSON.parse(localStorage.getItem("loanHistory")) || [];
 
 function saveLoan(){
-
-    alert("SaveLoan Function Running");
     
 let person =
 document.getElementById("loanPerson").value;
@@ -2117,8 +2115,6 @@ localStorage.setItem(
 "loanHistory",
 JSON.stringify(loanHistory)
 );
-
-    alert(localStorage.getItem("loanHistory"));
 
 alert("Loan Saved Successfully");
 
@@ -2550,5 +2546,7 @@ window.open(
 encodeURIComponent(message)
 
 );
+
+}
 
 }
