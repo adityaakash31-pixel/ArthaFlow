@@ -1,15 +1,11 @@
 <script>
 
-alert("Session = " + sessionStorage.getItem("pinVerified"));
-
 if(localStorage.getItem("loggedIn")!="true"){
     location.replace("login.html");
 }
-
 else if(localStorage.getItem("appPin")==null){
     location.replace("pin-setup.html");
 }
-
 else if(sessionStorage.getItem("pinVerified")!="true"){
     location.replace("pin-lock.html");
 }
