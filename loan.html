@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Loan Manager</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>🏦 Loan Manager</h2>
+
+<p>Manage Borrowed & Lent Money</p>
+
+<input
+type="text"
+id="loanPerson"
+placeholder="Person / Bank Name">
+
+<input
+type="number"
+id="loanAmount"
+placeholder="Loan Amount">
+
+<input
+type="date"
+id="loanDate">
+
+<select id="loanType">
+
+<option value="Borrowed">
+Borrowed
+</option>
+
+<option value="Lent">
+Lent
+</option>
+
+</select>
+
+<textarea
+id="loanNote"
+placeholder="Description (Optional)"
+rows="3">
+</textarea>
+
+<button onclick="saveLoan()">
+
+💾 Save Loan
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>📋 Loan History</h2>
+
+<ul id="loanHistory">
+
+<li>No Loan Records</li>
+
+</ul>
+
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+
+</html>
