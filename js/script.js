@@ -3686,8 +3686,38 @@ return;
 
 }
 
+let saving = income - expense;
+
+document.getElementById("cashIncomeResult").innerHTML =
+"₹" + income.toFixed(2);
+
+document.getElementById("cashExpenseResult").innerHTML =
+"₹" + expense.toFixed(2);
+
+document.getElementById("cashSavingResult").innerHTML =
+"₹" + saving.toFixed(2);
+
+document.getElementById("cashFlowResult").innerHTML =
+saving>=0 ? "Positive ✅" : "Negative ❌";
+
+// Save
+
+localStorage.setItem("cashIncome",income);
+localStorage.setItem("cashExpense",expense);
+localStorage.setItem("cashSaving",saving);
+
+}
+
+function loadCashFlow(){
+
+let income =
+Number(localStorage.getItem("cashIncome")) || 0;
+
+let expense =
+Number(localStorage.getItem("cashExpense")) || 0;
+
 let saving =
-income - expense;
+Number(localStorage.getItem("cashSaving")) || 0;
 
 document.getElementById("cashIncomeResult").innerHTML =
 "₹" + income.toFixed(2);
@@ -3702,3 +3732,13 @@ document.getElementById("cashFlowResult").innerHTML =
 saving>=0 ? "Positive ✅" : "Negative ❌";
 
 }
+
+window.addEventListener("load",function(){
+
+if(document.getElementById("cashIncomeResult")){
+
+loadCashFlow();
+
+}
+
+});
