@@ -3666,6 +3666,9 @@ data:[assets,liabilities]
 
 }
 
+let cashFlowHistory =
+JSON.parse(localStorage.getItem("cashFlowHistory")) || [];
+
 // ===============================
 // Step 79A - Cash Flow Analysis
 // ===============================
@@ -3706,6 +3709,26 @@ localStorage.setItem("cashIncome",income);
 localStorage.setItem("cashExpense",expense);
 localStorage.setItem("cashSaving",saving);
 
+    cashFlowHistory.push({
+
+income: income,
+
+expense: expense,
+
+saving: saving
+
+});
+
+localStorage.setItem(
+
+"cashFlowHistory",
+
+JSON.stringify(cashFlowHistory)
+
+);
+
+loadCashFlowHistory();
+
 }
 
 function loadCashFlow(){
@@ -3739,6 +3762,50 @@ if(document.getElementById("cashIncomeResult")){
 
 loadCashFlow();
 
+loadCashFlowHistory();
+
 }
 
 });
+
+function loadCashFlowHistory(){
+
+cashFlowHistory =
+JSON.parse(localStorage.getItem("cashFlowHistory")) || [];
+
+let list =
+document.getElementById("cashFlowHistory");
+
+if(!list) return;
+
+list.innerHTML="";
+
+if(cashFlowHistory.length==0){
+
+list.innerHTML="<li>No History</li>";
+
+return;
+
+}
+
+cashFlowHistory.forEach(function(item,index){
+
+list.innerHTML += `
+
+<li>
+
+💰 Income : ₹${item.income}<br>
+
+💸 Expense : ₹${item.expense}<br>
+
+💵 Saving : ₹${item.saving}
+
+</li>
+
+<hr>
+
+`;
+
+});
+
+}
