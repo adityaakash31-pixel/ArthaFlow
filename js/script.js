@@ -3408,6 +3408,8 @@ data:[invested,gain]
 
 function calculateNetWorth(){
 
+    alert("Button Working");
+
 let assets =
 Number(document.getElementById("totalAssets").value);
 
