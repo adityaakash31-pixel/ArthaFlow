@@ -3078,4 +3078,16 @@ loadInvestment();
 
 }
 
+// ===============================
+// Auto Load Investment
+// ===============================
+
+window.addEventListener("load", function(){
+
+if(document.getElementById("investmentHistory")){
+
+loadInvestment();
+
 }
+
+});
