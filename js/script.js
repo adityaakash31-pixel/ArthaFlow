@@ -2570,3 +2570,10 @@ window.onload = function(){
 loadLoanHistory();
 
 };
+
+// ===============================
+// Step 75 - EMI Tracker
+// ===============================
+
+let emiHistory =
+JSON.parse(localStorage.getItem("emiHistory")) || [];
