@@ -3462,20 +3462,6 @@ Number(localStorage.getItem("netLiabilities")) || 0;
 let netWorth =
 Number(localStorage.getItem("netWorth")) || 0;
 
-if(document.getElementById("totalAssets")){
-
-document.getElementById("totalAssets").value =
-assets;
-
-}
-
-if(document.getElementById("totalLiabilities")){
-
-document.getElementById("totalLiabilities").value =
-liabilities;
-
-}
-
 if(document.getElementById("assetResult")){
 
 document.getElementById("assetResult").innerHTML =
