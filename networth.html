@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Net Worth Dashboard</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>💰 Net Worth Dashboard</h2>
+
+<input
+type="number"
+id="totalAssets"
+placeholder="Total Assets">
+
+<input
+type="number"
+id="totalLiabilities"
+placeholder="Total Liabilities">
+
+<button onclick="calculateNetWorth()">
+
+📊 Calculate
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>📈 Net Worth Result</h2>
+
+<p>
+
+🏦 Assets :
+<span id="assetResult">₹0</span>
+
+</p>
+
+<p>
+
+💳 Liabilities :
+<span id="liabilityResult">₹0</span>
+
+</p>
+
+<p>
+
+💰 Net Worth :
+<span id="netWorthResult">₹0</span>
+
+</p>
+
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+
+</html>
