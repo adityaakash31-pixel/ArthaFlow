@@ -3414,6 +3414,14 @@ Number(document.getElementById("totalAssets").value);
 let liabilities =
 Number(document.getElementById("totalLiabilities").value);
 
+if(assets < 0 || liabilities < 0){
+
+alert("Please Enter Valid Values");
+
+return;
+
+}
+
 let netWorth = assets - liabilities;
 
 document.getElementById("assetResult").innerHTML =
@@ -3426,9 +3434,20 @@ document.getElementById("netWorthResult").innerHTML =
 "₹" + netWorth.toFixed(2);
 
 // Save Data
-localStorage.setItem("netAssets", assets);
-localStorage.setItem("netLiabilities", liabilities);
-localStorage.setItem("netWorth", netWorth);
+localStorage.setItem(
+"netAssets",
+assets
+);
+
+localStorage.setItem(
+"netLiabilities",
+liabilities
+);
+
+localStorage.setItem(
+"netWorth",
+netWorth
+);
 
 }
 
@@ -3443,24 +3462,46 @@ Number(localStorage.getItem("netLiabilities")) || 0;
 let netWorth =
 Number(localStorage.getItem("netWorth")) || 0;
 
-if(document.getElementById("totalAssets"))
-document.getElementById("totalAssets").value = assets;
+if(document.getElementById("totalAssets")){
 
-if(document.getElementById("totalLiabilities"))
-document.getElementById("totalLiabilities").value = liabilities;
-
-if(document.getElementById("assetResult"))
-document.getElementById("assetResult").innerHTML = "₹" + assets.toFixed(2);
-
-if(document.getElementById("liabilityResult"))
-document.getElementById("liabilityResult").innerHTML = "₹" + liabilities.toFixed(2);
-
-if(document.getElementById("netWorthResult"))
-document.getElementById("netWorthResult").innerHTML = "₹" + netWorth.toFixed(2);
+document.getElementById("totalAssets").value =
+assets;
 
 }
 
-window.addEventListener("load", function(){
+if(document.getElementById("totalLiabilities")){
+
+document.getElementById("totalLiabilities").value =
+liabilities;
+
+}
+
+if(document.getElementById("assetResult")){
+
+document.getElementById("assetResult").innerHTML =
+"₹" + assets.toFixed(2);
+
+}
+
+if(document.getElementById("liabilityResult")){
+
+document.getElementById("liabilityResult").innerHTML =
+"₹" + liabilities.toFixed(2);
+
+}
+
+if(document.getElementById("netWorthResult")){
+
+document.getElementById("netWorthResult").innerHTML =
+"₹" + netWorth.toFixed(2);
+
+}
+
+}
+
+// Auto Load Net Worth
+
+window.addEventListener("load",function(){
 
 if(document.getElementById("totalAssets")){
 
