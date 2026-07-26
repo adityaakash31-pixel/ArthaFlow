@@ -2701,10 +2701,10 @@ Status : ${status}<br><br>
 `;
 
 });
-
-}
-
+    
 updateEMIProgress();
+    
+}
 
 function updateEMIProgress(){
 
