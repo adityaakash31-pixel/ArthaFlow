@@ -2921,8 +2921,109 @@ loadEMI();
 });
 
 // ===============================
-// Step 76A - Investment Tracker
+// Step 76B - Investment Tracker
 // ===============================
 
 let investmentHistory =
 JSON.parse(localStorage.getItem("investmentHistory")) || [];
+
+function saveInvestment(){
+
+let name =
+document.getElementById("investmentName").value;
+
+let type =
+document.getElementById("investmentType").value;
+
+let amount =
+document.getElementById("investmentAmount").value;
+
+let date =
+document.getElementById("investmentDate").value;
+
+if(name=="" || amount=="" || date==""){
+
+alert("Please Fill All Fields");
+
+return;
+
+}
+
+investmentHistory.push({
+
+name:name,
+
+type:type,
+
+amount:Number(amount),
+
+date:date
+
+});
+
+localStorage.setItem(
+"investmentHistory",
+JSON.stringify(investmentHistory)
+);
+
+loadInvestment();
+
+document.getElementById("investmentName").value="";
+document.getElementById("investmentAmount").value="";
+document.getElementById("investmentDate").value="";
+
+}
+
+function loadInvestment(){
+
+investmentHistory =
+JSON.parse(localStorage.getItem("investmentHistory")) || [];
+
+let list =
+document.getElementById("investmentHistory");
+
+if(!list) return;
+
+list.innerHTML="";
+
+if(investmentHistory.length==0){
+
+list.innerHTML="<li>No Investment</li>";
+
+return;
+
+}
+
+investmentHistory.forEach(function(item){
+
+list.innerHTML += `
+
+<li>
+
+💰 ${item.name}<br>
+
+📂 ${item.type}<br>
+
+💵 ₹${item.amount}<br>
+
+📅 ${item.date}
+
+</li>
+
+<hr>
+
+`;
+
+});
+
+}
+
+window.addEventListener("load",function(){
+
+if(document.getElementById("investmentHistory")){
+
+loadInvestment();
+
+}
+
+});
