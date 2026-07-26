@@ -3401,3 +3401,28 @@ data:[invested,gain]
 });
 
 }
+
+// ===============================
+// Step 78A - Net Worth Dashboard
+// ===============================
+
+function calculateNetWorth(){
+
+let assets =
+Number(document.getElementById("totalAssets").value);
+
+let liabilities =
+Number(document.getElementById("totalLiabilities").value);
+
+let netWorth = assets - liabilities;
+
+document.getElementById("assetResult").innerHTML =
+"₹" + assets.toFixed(2);
+
+document.getElementById("liabilityResult").innerHTML =
+"₹" + liabilities.toFixed(2);
+
+document.getElementById("netWorthResult").innerHTML =
+"₹" + netWorth.toFixed(2);
+
+    }
