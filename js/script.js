@@ -3305,9 +3305,6 @@ list.innerHTML += `
 
 });
 
-updateSIPAnalytics();
-drawSIPChart();
-
 }
 
 // ===============================
@@ -3323,6 +3320,11 @@ loadSIPHistory();
 }
 
 });
+
+updateSIPAnalytics();
+drawSIPChart();
+
+}
 
 // ===============================
 // Step 77C - SIP Analytics
