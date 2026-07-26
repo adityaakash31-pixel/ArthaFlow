@@ -2578,6 +2578,10 @@ loadLoanHistory();
 let emiHistory =
 JSON.parse(localStorage.getItem("emiHistory")) || [];
 
+// ===============================
+// Save EMI
+// ===============================
+
 function saveEMI(){
 
 let bank =
@@ -2593,22 +2597,12 @@ let due =
 document.getElementById("emiDueDate").value;
 
 if(bank=="" || loan=="" || emi=="" || due==""){
+
 alert("Please Fill All Fields");
+
 return;
+
 }
-
-    function markEMIPaid(index){
-
-emiHistory[index].paid = true;
-
-localStorage.setItem(
-"emiHistory",
-JSON.stringify(emiHistory)
-);
-
-loadEMI();
-
-    }
 
 emiHistory.push({
 
@@ -2629,11 +2623,30 @@ localStorage.setItem(
 JSON.stringify(emiHistory)
 );
 
-console.log(localStorage.getItem("emiHistory"));
+loadEMI();
+
+}
+
+// ===============================
+// Mark EMI Paid
+// ===============================
+
+function markEMIPaid(index){
+
+emiHistory[index].paid = true;
+
+localStorage.setItem(
+"emiHistory",
+JSON.stringify(emiHistory)
+);
 
 loadEMI();
 
 }
+
+// ===============================
+// Load EMI
+// ===============================
 
 function loadEMI(){
 
@@ -2655,12 +2668,12 @@ return;
 
 }
 
-emiHistory.forEach(function(item, index){
+emiHistory.forEach(function(item,index){
 
-let status = "🟢 Pending";
+let status="🟢 Pending";
 
 if(item.paid){
-status = "✅ Paid";
+status="✅ Paid";
 }
 
 list.innerHTML += `
@@ -2678,9 +2691,7 @@ list.innerHTML += `
 Status : ${status}<br><br>
 
 <button onclick="markEMIPaid(${index})">
-
 ✅ Paid
-
 </button>
 
 </li>
@@ -2694,10 +2705,10 @@ Status : ${status}<br><br>
 }
 
 // ===============================
-// EMI Page Auto Load
+// EMI Auto Load
 // ===============================
 
-window.addEventListener("load", function(){
+window.addEventListener("load",function(){
 
 if(document.getElementById("emiHistory")){
 
