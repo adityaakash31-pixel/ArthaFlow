@@ -3305,6 +3305,9 @@ list.innerHTML += `
 
 });
 
+updateSIPAnalytics();
+drawSIPChart();
+
 }
 
 // ===============================
@@ -3320,3 +3323,81 @@ loadSIPHistory();
 }
 
 });
+
+// ===============================
+// Step 77C - SIP Analytics
+// ===============================
+
+function updateSIPAnalytics(){
+
+let invested = 0;
+let maturity = 0;
+let gain = 0;
+
+sipHistory.forEach(function(item){
+
+invested += Number(item.invested);
+
+maturity += Number(item.maturity);
+
+gain += Number(item.gain);
+
+});
+
+if(document.getElementById("sipTotalInvested"))
+document.getElementById("sipTotalInvested").innerHTML =
+"₹" + invested.toFixed(2);
+
+if(document.getElementById("sipTotalMaturity"))
+document.getElementById("sipTotalMaturity").innerHTML =
+"₹" + maturity.toFixed(2);
+
+if(document.getElementById("sipTotalGain"))
+document.getElementById("sipTotalGain").innerHTML =
+"₹" + gain.toFixed(2);
+
+}
+
+function drawSIPChart(){
+
+let invested = 0;
+let gain = 0;
+
+sipHistory.forEach(function(item){
+
+invested += Number(item.invested);
+
+gain += Number(item.gain);
+
+});
+
+let chart =
+document.getElementById("sipChart");
+
+if(!chart) return;
+
+if(window.sipChartInstance){
+
+window.sipChartInstance.destroy();
+
+}
+
+window.sipChartInstance = new Chart(chart,{
+
+type:"pie",
+
+data:{
+
+labels:["Invested","Gain"],
+
+datasets:[{
+
+data:[invested,gain]
+
+}]
+
+}
+
+});
+
+}
