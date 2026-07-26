@@ -1,1 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EMI Tracker</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>🏦 EMI Tracker</h2>
+
+<input type="text"
+id="bankName"
+placeholder="Bank Name">
+
+<input type="number"
+id="loanAmount"
+placeholder="Loan Amount">
+
+<input type="number"
+id="monthlyEMI"
+placeholder="Monthly EMI">
+
+<input type="date"
+id="emiDueDate">
+
+<button onclick="saveEMI()">
+💾 Save EMI
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>📋 EMI History</h2>
+
+<ul id="emiHistory">
+
+<li>No EMI Records</li>
+
+</ul>
+
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+
+</html>
