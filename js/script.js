@@ -3944,7 +3944,7 @@ let yearlyIncome = income * 12;
 
 let yearlyExpense = expense * 12;
 
-let yearlySaving = monthlySaving * 12;
+let yearlySaving = yearlyIncome - yearlyExpense;
 
 // Result
 
@@ -3974,13 +3974,13 @@ localStorage.setItem("cmpYearlySaving",yearlySaving);
 
 comparisonHistory.push({
 
-monthlySaving: monthlySaving,
+monthlySaving:monthlySaving,
 
-yearlyIncome: yearlyIncome,
+yearlyIncome:yearlyIncome,
 
-yearlyExpense: yearlyExpense,
+yearlyExpense:yearlyExpense,
 
-yearlySaving: yearlySaving
+yearlySaving:yearlySaving
 
 });
 
@@ -3999,16 +3999,16 @@ loadComparisonHistory();
 function loadComparison(){
 
 let monthlySaving =
-Number(localStorage.getItem("cmpMonthlySaving")) || 0;
+Number(localStorage.getItem("cmpMonthlySaving") || 0);
 
 let yearlyIncome =
-Number(localStorage.getItem("cmpYearlyIncome")) || 0;
+Number(localStorage.getItem("cmpYearlyIncome") || 0);
 
 let yearlyExpense =
-Number(localStorage.getItem("cmpYearlyExpense")) || 0;
+Number(localStorage.getItem("cmpYearlyExpense") || 0);
 
 let yearlySaving =
-Number(localStorage.getItem("cmpYearlySaving")) || 0;
+Number(localStorage.getItem("cmpYearlySaving") || 0);
 
 if(document.getElementById("monthlySaving"))
 document.getElementById("monthlySaving").innerHTML =
@@ -4040,7 +4040,7 @@ if(!list) return;
 
 list.innerHTML="";
 
-if(comparisonHistory.length==0){
+if(comparisonHistory.length===0){
 
 list.innerHTML="<li>No History</li>";
 
@@ -4072,16 +4072,12 @@ list.innerHTML += `
 
 }
 
-window.addEventListener("load",function(){
+// Auto Load
 
-if(document.getElementById("monthlySaving")){
+window.addEventListener("load",function(){
 
 loadComparison();
 
 loadComparisonHistory();
 
-}
-
 });
-
-}
