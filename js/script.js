@@ -2612,3 +2612,36 @@ JSON.stringify(emiHistory)
 loadEMI();
 
 }
+
+function loadEMI(){
+
+let list =
+document.getElementById("emiHistory");
+
+if(!list) return;
+
+list.innerHTML="";
+
+emiHistory.forEach(function(item){
+
+list.innerHTML += `
+
+<li>
+
+🏦 ${item.bank}<br>
+
+💰 Loan : ₹${item.loan}<br>
+
+💸 EMI : ₹${item.emi}<br>
+
+📅 Due : ${item.due}
+
+</li>
+
+<hr>
+
+`;
+
+});
+
+}
