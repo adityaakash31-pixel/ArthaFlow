@@ -3408,8 +3408,6 @@ data:[invested,gain]
 
 function calculateNetWorth(){
 
-    alert("Button Working");
-
 let assets =
 Number(document.getElementById("totalAssets").value);
 
@@ -3427,4 +3425,47 @@ document.getElementById("liabilityResult").innerHTML =
 document.getElementById("netWorthResult").innerHTML =
 "₹" + netWorth.toFixed(2);
 
-    }
+// Save Data
+localStorage.setItem("netAssets", assets);
+localStorage.setItem("netLiabilities", liabilities);
+localStorage.setItem("netWorth", netWorth);
+
+}
+
+function loadNetWorth(){
+
+let assets =
+Number(localStorage.getItem("netAssets")) || 0;
+
+let liabilities =
+Number(localStorage.getItem("netLiabilities")) || 0;
+
+let netWorth =
+Number(localStorage.getItem("netWorth")) || 0;
+
+if(document.getElementById("totalAssets"))
+document.getElementById("totalAssets").value = assets;
+
+if(document.getElementById("totalLiabilities"))
+document.getElementById("totalLiabilities").value = liabilities;
+
+if(document.getElementById("assetResult"))
+document.getElementById("assetResult").innerHTML = "₹" + assets.toFixed(2);
+
+if(document.getElementById("liabilityResult"))
+document.getElementById("liabilityResult").innerHTML = "₹" + liabilities.toFixed(2);
+
+if(document.getElementById("netWorthResult"))
+document.getElementById("netWorthResult").innerHTML = "₹" + netWorth.toFixed(2);
+
+}
+
+window.addEventListener("load", function(){
+
+if(document.getElementById("totalAssets")){
+
+loadNetWorth();
+
+}
+
+});
