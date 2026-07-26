@@ -2799,6 +2799,53 @@ document.getElementById("emiAlert").innerHTML = alertMsg;
 }
 
 // ===============================
+// EMI Analytics Chart
+// ===============================
+
+function drawEMIChart(){
+
+let paid = 0;
+let pending = 0;
+
+emiHistory.forEach(function(item){
+
+if(item.paid){
+
+paid += Number(item.emi);
+
+}else{
+
+pending += Number(item.emi);
+
+}
+
+});
+
+let chart = document.getElementById("emiChart");
+
+if(!chart) return;
+
+new Chart(chart,{
+
+type:"pie",
+
+data:{
+
+labels:["Paid EMI","Pending EMI"],
+
+datasets:[{
+
+data:[paid,pending]
+
+}]
+
+}
+
+});
+
+}
+
+// ===============================
 // EMI Auto Load
 // ===============================
 
