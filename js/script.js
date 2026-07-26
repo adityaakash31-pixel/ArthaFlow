@@ -3319,10 +3319,10 @@ loadSIPHistory();
 
 }
 
-});
-
 updateSIPAnalytics();
 drawSIPChart();
+
+});
 
 // ===============================
 // Step 77C - SIP Analytics
