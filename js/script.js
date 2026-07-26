@@ -2704,6 +2704,8 @@ Status : ${status}<br><br>
     
 updateEMIProgress();
 checkEMIReminder();
+drawEMIChart();
+loadBankSummary();
     
 }
 
@@ -2840,6 +2842,46 @@ data:[paid,pending]
 }]
 
 }
+
+});
+
+}
+
+// ===============================
+// Bank Summary
+// ===============================
+
+function loadBankSummary(){
+
+let list = document.getElementById("bankSummary");
+
+if(!list) return;
+
+list.innerHTML = "";
+
+if(emiHistory.length==0){
+
+list.innerHTML = "<li>No EMI Data</li>";
+
+return;
+
+}
+
+emiHistory.forEach(function(item){
+
+list.innerHTML += `
+
+<li>
+
+🏦 ${item.bank}<br>
+
+💸 EMI : ₹${item.emi}<br>
+
+</li>
+
+<hr>
+
+`;
 
 });
 
