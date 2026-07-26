@@ -3148,3 +3148,40 @@ loadInvestment();
 }
 
 });
+
+// ===============================
+// Step 76E - ROI Calculator
+// ===============================
+
+function calculateROI(){
+
+let current =
+Number(document.getElementById("currentValue").value);
+
+let invested = 0;
+
+investmentHistory.forEach(function(item){
+
+invested += Number(item.amount);
+
+});
+
+if(invested <= 0){
+
+alert("No Investment Found");
+
+return;
+
+}
+
+let profit = current - invested;
+
+let roi = (profit / invested) * 100;
+
+document.getElementById("profitLoss").innerHTML =
+"₹" + profit.toFixed(2);
+
+document.getElementById("roiPercent").innerHTML =
+roi.toFixed(2) + "%";
+
+}
