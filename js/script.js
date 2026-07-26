@@ -3402,6 +3402,9 @@ data:[invested,gain]
 
 }
 
+let netWorthHistory =
+JSON.parse(localStorage.getItem("netWorthHistory")) || [];
+
 // ===============================
 // Step 78A - Net Worth Dashboard
 // ===============================
@@ -3449,6 +3452,27 @@ localStorage.setItem(
 netWorth
 );
 
+
+    netWorthHistory.push({
+
+assets: assets,
+
+liabilities: liabilities,
+
+netWorth: netWorth
+
+});
+
+localStorage.setItem(
+
+"netWorthHistory",
+
+JSON.stringify(netWorthHistory)
+
+);
+
+loadNetWorthHistory();
+
 }
 
 function loadNetWorth(){
@@ -3485,6 +3509,48 @@ document.getElementById("netWorthResult").innerHTML =
 
 }
 
+function loadNetWorthHistory(){
+
+netWorthHistory =
+JSON.parse(localStorage.getItem("netWorthHistory")) || [];
+
+let list =
+document.getElementById("netWorthHistory");
+
+if(!list) return;
+
+list.innerHTML="";
+
+if(netWorthHistory.length==0){
+
+list.innerHTML="<li>No History</li>";
+
+return;
+
+}
+
+netWorthHistory.forEach(function(item,index){
+
+list.innerHTML += `
+
+<li>
+
+🏦 Assets : ₹${item.assets}<br>
+
+💳 Liabilities : ₹${item.liabilities}<br>
+
+💰 Net Worth : ₹${item.netWorth}
+
+</li>
+
+<hr>
+
+`;
+
+});
+
+}
+
 // Auto Load Net Worth
 
 window.addEventListener("load",function(){
@@ -3492,6 +3558,8 @@ window.addEventListener("load",function(){
 if(document.getElementById("totalAssets")){
 
 loadNetWorth();
+
+loadNetWorthHistory();
 
 }
 
