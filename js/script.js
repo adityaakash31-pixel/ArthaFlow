@@ -2645,3 +2645,17 @@ list.innerHTML += `
 });
 
 }
+
+// ===============================
+// EMI Page Auto Load
+// ===============================
+
+window.addEventListener("load", function(){
+
+if(document.getElementById("emiHistory")){
+
+loadEMI();
+
+}
+
+});
