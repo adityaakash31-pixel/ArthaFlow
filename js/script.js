@@ -3665,3 +3665,40 @@ data:[assets,liabilities]
 });
 
 }
+
+// ===============================
+// Step 79A - Cash Flow Analysis
+// ===============================
+
+function calculateCashFlow(){
+
+let income =
+Number(document.getElementById("cashIncome").value);
+
+let expense =
+Number(document.getElementById("cashExpense").value);
+
+if(income<=0){
+
+alert("Enter Valid Income");
+
+return;
+
+}
+
+let saving =
+income - expense;
+
+document.getElementById("cashIncomeResult").innerHTML =
+"₹" + income.toFixed(2);
+
+document.getElementById("cashExpenseResult").innerHTML =
+"₹" + expense.toFixed(2);
+
+document.getElementById("cashSavingResult").innerHTML =
+"₹" + saving.toFixed(2);
+
+document.getElementById("cashFlowResult").innerHTML =
+saving>=0 ? "Positive ✅" : "Negative ❌";
+
+}
