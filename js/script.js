@@ -3034,6 +3034,8 @@ if(document.getElementById("totalInvestmentCount"))
 document.getElementById("totalInvestmentCount").innerHTML =
 investmentHistory.length;
 
+    drawInvestmentChart();
+
 }
 
 function deleteInvestment(index){
