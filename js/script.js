@@ -3539,7 +3539,19 @@ list.innerHTML += `
 
 💳 Liabilities : ₹${item.liabilities}<br>
 
-💰 Net Worth : ₹${item.netWorth}
+💰 Net Worth : ₹${item.netWorth}<br><br>
+
+<button onclick="editNetWorth(${index})">
+
+✏ Edit
+
+</button>
+
+<button onclick="deleteNetWorth(${index})">
+
+🗑 Delete
+
+</button>
 
 </li>
 
@@ -3548,6 +3560,8 @@ list.innerHTML += `
 `;
 
 });
+
+drawNetWorthChart();
 
 }
 
@@ -3564,3 +3578,90 @@ loadNetWorthHistory();
 }
 
 });
+
+function deleteNetWorth(index){
+
+if(confirm("Delete Record?")){
+
+netWorthHistory.splice(index,1);
+
+localStorage.setItem(
+
+"netWorthHistory",
+
+JSON.stringify(netWorthHistory)
+
+);
+
+loadNetWorthHistory();
+
+}
+
+}
+
+function editNetWorth(index){
+
+document.getElementById("totalAssets").value =
+netWorthHistory[index].assets;
+
+document.getElementById("totalLiabilities").value =
+netWorthHistory[index].liabilities;
+
+netWorthHistory.splice(index,1);
+
+localStorage.setItem(
+
+"netWorthHistory",
+
+JSON.stringify(netWorthHistory)
+
+);
+
+loadNetWorthHistory();
+
+}
+
+function drawNetWorthChart(){
+
+let assets = 0;
+
+let liabilities = 0;
+
+netWorthHistory.forEach(function(item){
+
+assets += Number(item.assets);
+
+liabilities += Number(item.liabilities);
+
+});
+
+let chart =
+document.getElementById("netWorthChart");
+
+if(!chart) return;
+
+if(window.netWorthChartInstance){
+
+window.netWorthChartInstance.destroy();
+
+}
+
+window.netWorthChartInstance = new Chart(chart,{
+
+type:"pie",
+
+data:{
+
+labels:["Assets","Liabilities"],
+
+datasets:[{
+
+data:[assets,liabilities]
+
+}]
+
+}
+
+});
+
+}
