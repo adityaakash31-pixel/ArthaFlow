@@ -2704,6 +2704,60 @@ Status : ${status}<br><br>
 
 }
 
+updateEMIProgress();
+
+function updateEMIProgress(){
+
+let total = 0;
+let paid = 0;
+
+emiHistory.forEach(function(item){
+
+total += Number(item.emi);
+
+if(item.paid){
+
+paid += Number(item.emi);
+
+}
+
+});
+
+let remaining = total - paid;
+
+let percent = 0;
+
+if(total > 0){
+
+percent = (paid / total) * 100;
+
+}
+
+if(document.getElementById("totalEMI"))
+document.getElementById("totalEMI").innerHTML =
+"₹" + total;
+
+if(document.getElementById("paidEMI"))
+document.getElementById("paidEMI").innerHTML =
+"₹" + paid;
+
+if(document.getElementById("remainingEMI"))
+document.getElementById("remainingEMI").innerHTML =
+"₹" + remaining;
+
+let bar =
+document.getElementById("emiProgressBar");
+
+if(bar){
+
+bar.style.width = percent + "%";
+
+bar.innerHTML = percent.toFixed(0) + "%";
+
+}
+
+}
+
 // ===============================
 // EMI Auto Load
 // ===============================
