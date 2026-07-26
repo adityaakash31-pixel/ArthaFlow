@@ -3911,6 +3911,9 @@ data:[income,expense]
 
 }
 
+let comparisonHistory =
+JSON.parse(localStorage.getItem("comparisonHistory")) || [];
+
 // ===============================
 // Step 80A - Monthly vs Yearly Comparison
 // ===============================
@@ -4000,7 +4003,74 @@ window.addEventListener("load",function(){
 if(document.getElementById("monthlySaving")){
 
 loadComparison();
+loadComparisonHistory();
 
 }
 
 });
+
+comparisonHistory.push({
+
+monthlySaving: monthlySaving,
+
+yearlyIncome: yearlyIncome,
+
+yearlyExpense: yearlyExpense,
+
+yearlySaving: yearlySaving
+
+});
+
+localStorage.setItem(
+
+"comparisonHistory",
+
+JSON.stringify(comparisonHistory)
+
+);
+
+loadComparisonHistory();
+
+function loadComparisonHistory(){
+
+comparisonHistory =
+JSON.parse(localStorage.getItem("comparisonHistory")) || [];
+
+let list =
+document.getElementById("comparisonHistory");
+
+if(!list) return;
+
+list.innerHTML="";
+
+if(comparisonHistory.length==0){
+
+list.innerHTML="<li>No History</li>";
+
+return;
+
+}
+
+comparisonHistory.forEach(function(item){
+
+list.innerHTML += `
+
+<li>
+
+💰 Monthly Saving : ₹${item.monthlySaving}<br>
+
+🏦 Yearly Income : ₹${item.yearlyIncome}<br>
+
+💸 Yearly Expense : ₹${item.yearlyExpense}<br>
+
+💵 Yearly Saving : ₹${item.yearlySaving}
+
+</li>
+
+<hr>
+
+`;
+
+});
+
+}
