@@ -3185,3 +3185,142 @@ document.getElementById("roiPercent").innerHTML =
 roi.toFixed(2) + "%";
 
 }
+
+// ===============================
+// Step 77B - SIP History
+// ===============================
+
+let sipHistory =
+JSON.parse(localStorage.getItem("sipHistory")) || [];
+
+// ===============================
+// Step 77A - SIP Calculator
+// ===============================
+
+function calculateSIP(){
+
+let monthly =
+Number(document.getElementById("sipAmount").value);
+
+let annualRate =
+Number(document.getElementById("sipRate").value);
+
+let years =
+Number(document.getElementById("sipYears").value);
+
+if(monthly<=0 || annualRate<=0 || years<=0){
+
+alert("Please Fill All Fields");
+
+return;
+
+}
+
+let invested = monthly * 12 * years;
+
+let r = annualRate / 12 / 100;
+
+let n = years * 12;
+
+let maturity =
+monthly * (((Math.pow(1+r,n)-1)/r)*(1+r));
+
+let gain = maturity - invested;
+
+document.getElementById("investedAmount").innerHTML =
+"₹" + invested.toFixed(2);
+
+document.getElementById("maturityAmount").innerHTML =
+"₹" + maturity.toFixed(2);
+
+document.getElementById("wealthGain").innerHTML =
+"₹" + gain.toFixed(2);
+
+    function loadSIPHistory(){
+
+sipHistory =
+JSON.parse(localStorage.getItem("sipHistory")) || [];
+
+let list =
+document.getElementById("sipHistory");
+
+if(!list) return;
+
+list.innerHTML="";
+
+if(sipHistory.length==0){
+
+list.innerHTML="<li>No SIP Records</li>";
+
+return;
+
+}
+
+sipHistory.forEach(function(item,index){
+
+list.innerHTML += `
+
+<li>
+
+💰 Monthly SIP : ₹${item.sip}<br>
+
+📈 Return : ${item.rate}%<br>
+
+📅 Years : ${item.years}<br>
+
+💵 Invested : ₹${item.invested.toFixed(2)}<br>
+
+🏆 Maturity : ₹${item.maturity.toFixed(2)}<br>
+
+📊 Gain : ₹${item.gain.toFixed(2)}
+
+</li>
+
+<hr>
+
+`;
+
+});
+
+    }
+
+// Save History
+
+sipHistory.push({
+
+sip: monthly,
+
+rate: annualRate,
+
+years: years,
+
+invested: invested,
+
+maturity: maturity,
+
+gain: gain
+
+});
+
+localStorage.setItem(
+"sipHistory",
+JSON.stringify(sipHistory)
+);
+
+loadSIPHistory();
+
+}
+
+// ===============================
+// Auto Load SIP History
+// ===============================
+
+window.addEventListener("load", function(){
+
+if(document.getElementById("sipHistory")){
+
+loadSIPHistory();
+
+}
+
+});
