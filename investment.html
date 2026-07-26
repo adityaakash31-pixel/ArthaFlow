@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Investment Tracker</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>💰 Investment Tracker</h2>
+
+<input
+type="text"
+id="investmentName"
+placeholder="Investment Name">
+
+<select id="investmentType">
+
+<option>SIP</option>
+<option>Mutual Fund</option>
+<option>Stock</option>
+<option>Gold</option>
+<option>FD</option>
+<option>RD</option>
+<option>PPF</option>
+<option>Crypto</option>
+
+</select>
+
+<input
+type="number"
+id="investmentAmount"
+placeholder="Investment Amount">
+
+<input
+type="date"
+id="investmentDate">
+
+<button onclick="saveInvestment()">
+
+💾 Save Investment
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>📋 Investment History</h2>
+
+<ul id="investmentHistory">
+
+<li>No Investment</li>
+
+</ul>
+
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+
+</html>
