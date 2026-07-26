@@ -2986,15 +2986,17 @@ if(!list) return;
 
 list.innerHTML="";
 
+let total = 0;
+
 if(investmentHistory.length==0){
 
 list.innerHTML="<li>No Investment</li>";
 
-return;
-
 }
 
-investmentHistory.forEach(function(item){
+investmentHistory.forEach(function(item,index){
+
+total += Number(item.amount);
 
 list.innerHTML += `
 
@@ -3006,7 +3008,15 @@ list.innerHTML += `
 
 💵 ₹${item.amount}<br>
 
-📅 ${item.date}
+📅 ${item.date}<br><br>
+
+<button onclick="editInvestment(${index})">
+✏ Edit
+</button>
+
+<button onclick="deleteInvestment(${index})">
+🗑 Delete
+</button>
 
 </li>
 
@@ -3016,14 +3026,54 @@ list.innerHTML += `
 
 });
 
+if(document.getElementById("totalInvestment"))
+document.getElementById("totalInvestment").innerHTML =
+"₹" + total;
+
+if(document.getElementById("totalInvestmentCount"))
+document.getElementById("totalInvestmentCount").innerHTML =
+investmentHistory.length;
+
 }
 
-window.addEventListener("load",function(){
+function deleteInvestment(index){
 
-if(document.getElementById("investmentHistory")){
+if(confirm("Delete Investment?")){
+
+investmentHistory.splice(index,1);
+
+localStorage.setItem(
+"investmentHistory",
+JSON.stringify(investmentHistory)
+);
 
 loadInvestment();
 
 }
 
-});
+}
+
+function editInvestment(index){
+
+document.getElementById("investmentName").value =
+investmentHistory[index].name;
+
+document.getElementById("investmentType").value =
+investmentHistory[index].type;
+
+document.getElementById("investmentAmount").value =
+investmentHistory[index].amount;
+
+document.getElementById("investmentDate").value =
+investmentHistory[index].date;
+
+investmentHistory.splice(index,1);
+
+localStorage.setItem(
+"investmentHistory",
+JSON.stringify(investmentHistory)
+);
+
+loadInvestment();
+
+}
