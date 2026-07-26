@@ -2592,13 +2592,18 @@ document.getElementById("monthlyEMI").value;
 let due =
 document.getElementById("emiDueDate").value;
 
+if(bank=="" || loan=="" || emi=="" || due==""){
+alert("Please Fill All Fields");
+return;
+}
+
 emiHistory.push({
 
 bank: bank,
 
-loan: loan,
+loan: Number(loan),
 
-emi: emi,
+emi: Number(emi),
 
 due: due
 
@@ -2609,11 +2614,16 @@ localStorage.setItem(
 JSON.stringify(emiHistory)
 );
 
+console.log(localStorage.getItem("emiHistory"));
+
 loadEMI();
 
 }
 
 function loadEMI(){
+
+emiHistory =
+JSON.parse(localStorage.getItem("emiHistory")) || [];
 
 let list =
 document.getElementById("emiHistory");
@@ -2621,6 +2631,14 @@ document.getElementById("emiHistory");
 if(!list) return;
 
 list.innerHTML="";
+
+if(emiHistory.length==0){
+
+list.innerHTML="<li>No EMI Records</li>";
+
+return;
+
+}
 
 emiHistory.forEach(function(item){
 
@@ -2634,7 +2652,7 @@ list.innerHTML += `
 
 💸 EMI : ₹${item.emi}<br>
 
-📅 Due : ${item.due}
+📅 Due : ${item.due}<br>
 
 </li>
 
