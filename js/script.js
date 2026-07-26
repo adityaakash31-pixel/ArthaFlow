@@ -3910,3 +3910,45 @@ data:[income,expense]
 });
 
 }
+
+// ===============================
+// Step 80A - Monthly vs Yearly Comparison
+// ===============================
+
+function calculateComparison(){
+
+let income =
+Number(document.getElementById("monthlyIncome").value);
+
+let expense =
+Number(document.getElementById("monthlyExpense").value);
+
+if(income<=0){
+
+alert("Enter Valid Income");
+
+return;
+
+}
+
+let monthlySaving = income - expense;
+
+let yearlyIncome = income * 12;
+
+let yearlyExpense = expense * 12;
+
+let yearlySaving = monthlySaving * 12;
+
+document.getElementById("monthlySaving").innerHTML =
+"₹" + monthlySaving.toFixed(2);
+
+document.getElementById("yearlyIncome").innerHTML =
+"₹" + yearlyIncome.toFixed(2);
+
+document.getElementById("yearlyExpense").innerHTML =
+"₹" + yearlyExpense.toFixed(2);
+
+document.getElementById("yearlySaving").innerHTML =
+"₹" + yearlySaving.toFixed(2);
+
+}
