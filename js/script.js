@@ -2640,7 +2640,13 @@ return;
 
 }
 
-emiHistory.forEach(function(item){
+emiHistory.forEach(function(item, index){
+
+let status = "🟢 Pending";
+
+if(item.paid){
+status = "✅ Paid";
+}
 
 list.innerHTML += `
 
@@ -2653,6 +2659,14 @@ list.innerHTML += `
 💸 EMI : ₹${item.emi}<br>
 
 📅 Due : ${item.due}<br>
+
+Status : ${status}<br><br>
+
+<button onclick="markEMIPaid(${index})">
+
+✅ Paid
+
+</button>
 
 </li>
 
