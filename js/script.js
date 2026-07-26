@@ -3187,15 +3187,11 @@ roi.toFixed(2) + "%";
 }
 
 // ===============================
-// Step 77B - SIP History
+// Step 77A + 77B - SIP Calculator
 // ===============================
 
 let sipHistory =
 JSON.parse(localStorage.getItem("sipHistory")) || [];
-
-// ===============================
-// Step 77A - SIP Calculator
-// ===============================
 
 function calculateSIP(){
 
@@ -3236,7 +3232,34 @@ document.getElementById("maturityAmount").innerHTML =
 document.getElementById("wealthGain").innerHTML =
 "₹" + gain.toFixed(2);
 
-    function loadSIPHistory(){
+// Save History
+
+sipHistory.push({
+
+sip: monthly,
+
+rate: annualRate,
+
+years: years,
+
+invested: invested,
+
+maturity: maturity,
+
+gain: gain
+
+});
+
+localStorage.setItem(
+"sipHistory",
+JSON.stringify(sipHistory)
+);
+
+loadSIPHistory();
+
+}
+
+function loadSIPHistory(){
 
 sipHistory =
 JSON.parse(localStorage.getItem("sipHistory")) || [];
@@ -3282,40 +3305,13 @@ list.innerHTML += `
 
 });
 
-    }
-
-// Save History
-
-sipHistory.push({
-
-sip: monthly,
-
-rate: annualRate,
-
-years: years,
-
-invested: invested,
-
-maturity: maturity,
-
-gain: gain
-
-});
-
-localStorage.setItem(
-"sipHistory",
-JSON.stringify(sipHistory)
-);
-
-loadSIPHistory();
-
 }
 
 // ===============================
 // Auto Load SIP History
 // ===============================
 
-window.addEventListener("load", function(){
+window.addEventListener("load",function(){
 
 if(document.getElementById("sipHistory")){
 
