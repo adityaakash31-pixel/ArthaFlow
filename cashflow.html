@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cash Flow Analysis</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>💰 Cash Flow Analysis</h2>
+
+<input
+type="number"
+id="cashIncome"
+placeholder="Monthly Income">
+
+<input
+type="number"
+id="cashExpense"
+placeholder="Monthly Expense">
+
+<button onclick="calculateCashFlow()">
+
+📊 Calculate
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>📈 Result</h2>
+
+<p>
+💰 Income :
+<span id="cashIncomeResult">₹0</span>
+</p>
+
+<p>
+💸 Expense :
+<span id="cashExpenseResult">₹0</span>
+</p>
+
+<p>
+💵 Savings :
+<span id="cashSavingResult">₹0</span>
+</p>
+
+<p>
+📊 Cash Flow :
+<span id="cashFlowResult">₹0</span>
+</p>
+
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+
+</html>
