@@ -3305,6 +3305,9 @@ list.innerHTML += `
 
 });
 
+updateSIPAnalytics();
+drawSIPChart();
+
 }
 
 // ===============================
@@ -3318,9 +3321,6 @@ if(document.getElementById("sipHistory")){
 loadSIPHistory();
 
 }
-
-updateSIPAnalytics();
-drawSIPChart();
 
 });
 
