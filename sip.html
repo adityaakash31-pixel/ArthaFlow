@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SIP Calculator</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>📈 SIP Calculator</h2>
+
+<input
+type="number"
+id="sipAmount"
+placeholder="Monthly SIP">
+
+<input
+type="number"
+id="sipRate"
+placeholder="Expected Return (%)">
+
+<input
+type="number"
+id="sipYears"
+placeholder="Investment Years">
+
+<button onclick="calculateSIP()">
+
+🧮 Calculate SIP
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>📊 SIP Result</h2>
+
+<p>
+
+💰 Invested Amount :
+<span id="investedAmount">₹0</span>
+
+</p>
+
+<p>
+
+🏆 Maturity Amount :
+<span id="maturityAmount">₹0</span>
+
+</p>
+
+<p>
+
+📈 Wealth Gain :
+<span id="wealthGain">₹0</span>
+
+</p>
+
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+
+</html>
