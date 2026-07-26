@@ -2597,6 +2597,19 @@ alert("Please Fill All Fields");
 return;
 }
 
+    function markEMIPaid(index){
+
+emiHistory[index].paid = true;
+
+localStorage.setItem(
+"emiHistory",
+JSON.stringify(emiHistory)
+);
+
+loadEMI();
+
+    }
+
 emiHistory.push({
 
 bank: bank,
