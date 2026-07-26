@@ -2071,7 +2071,7 @@ let loanHistory =
 JSON.parse(localStorage.getItem("loanHistory")) || [];
 
 function saveLoan(){
-    
+
 let person =
 document.getElementById("loanPerson").value;
 
@@ -2100,26 +2100,21 @@ return;
 
 loanHistory.push({
 
-person:person,
-
-amount:amount,
-
-date:date,
-
-type:type,
-
-note:note,
-
-dueDate:dueDate
+person: person,
+amount: Number(amount),
+date: date,
+type: type,
+note: note,
+dueDate: dueDate
 
 });
-    
+
 localStorage.setItem(
 "loanHistory",
 JSON.stringify(loanHistory)
 );
 
-alert("Loan Saved Successfully");
+alert("✅ Loan Saved Successfully");
 
 loadLoanHistory();
 
@@ -2128,9 +2123,9 @@ document.getElementById("loanAmount").value="";
 document.getElementById("loanDate").value="";
 document.getElementById("loanNote").value="";
 document.getElementById("loanDueDate").value="";
+document.getElementById("loanType").selectedIndex=0;
 
 }
-
 
 
 // ===============================
@@ -2160,7 +2155,7 @@ loadLoanHistory();
 
 function markLoanPaid(index){
 
-loanHistory[index].type="Paid";
+loanHistory[index].type = "Paid";
 
 localStorage.setItem(
 "loanHistory",
@@ -2171,22 +2166,30 @@ loadLoanHistory();
 
 }
 
+// ===============================
+// Load Loan History
+// ===============================
+
 function loadLoanHistory(){
 
 loanHistory =
 JSON.parse(localStorage.getItem("loanHistory")) || [];
 
-    console.log("Loan History:", loanHistory);
+console.log("Loan History:", loanHistory);
 
 let list = document.getElementById("loanHistory");
 
 if(!list) return;
 
-list.innerHTML="";
+list.innerHTML = "";
 
-if(loanHistory.length==0){
+if(loanHistory.length == 0){
 
-list.innerHTML="<li>No Loan Records</li>";
+list.innerHTML = "<li>No Loan Records</li>";
+
+updateLoanSummary();
+updateLoanAnalytics();
+drawLoanChart();
 
 return;
 
@@ -2197,16 +2200,18 @@ loanHistory.forEach(function(item,index){
 let status = "🟢 Pending";
 
 if(item.type=="Paid"){
-status="✅ Paid";
+status = "✅ Paid";
 }
 
 if(item.dueDate){
+
 let today = new Date();
 let due = new Date(item.dueDate);
 
 if(due < today && item.type!="Paid"){
-status="🔴 Overdue";
+status = "🔴 Overdue";
 }
+
 }
 
 list.innerHTML += `
@@ -2221,11 +2226,11 @@ list.innerHTML += `
 
 📅 ${item.date}<br>
 
-⏰ Due : ${item.dueDate}<br>
+⏰ Due : ${item.dueDate || "-"}<br>
 
 Status : ${status}<br>
 
-📝 ${item.note}<br><br>
+📝 ${item.note || "-"}<br><br>
 
 <button onclick="markLoanPaid(${index})">✅ Paid</button>
 
@@ -2241,7 +2246,7 @@ Status : ${status}<br>
 
 });
 
-    updateLoanSummary();
+updateLoanSummary();
 updateLoanAnalytics();
 drawLoanChart();
 checkOverdueLoans();
@@ -2269,6 +2274,10 @@ loanHistory[index].type;
 document.getElementById("loanNote").value =
 loanHistory[index].note;
 
+document.getElementById("loanDueDate").value =
+loanHistory[index].dueDate;
+
+// Old Loan Remove
 loanHistory.splice(index,1);
 
 localStorage.setItem(
@@ -2316,21 +2325,18 @@ paid += Number(item.amount);
 });
 
 if(document.getElementById("totalBorrowed"))
-document.getElementById("totalBorrowed").innerHTML="₹"+borrowed;
+document.getElementById("totalBorrowed").innerHTML = "₹" + borrowed;
 
 if(document.getElementById("totalLent"))
-document.getElementById("totalLent").innerHTML="₹"+lent;
+document.getElementById("totalLent").innerHTML = "₹" + lent;
 
 if(document.getElementById("totalPaid"))
-document.getElementById("totalPaid").innerHTML="₹"+paid;
+document.getElementById("totalPaid").innerHTML = "₹" + paid;
 
 if(document.getElementById("activeLoans"))
-document.getElementById("activeLoans").innerHTML=active;
+document.getElementById("activeLoans").innerHTML = active;
 
 }
-
-updateLoanAnalytics();
-checkOverdueLoans();
 
 // ===============================
 // Search Loan
@@ -2352,6 +2358,23 @@ loanHistory.forEach(function(item,index){
 
 if(item.person.toLowerCase().includes(keyword)){
 
+let status = "🟢 Pending";
+
+if(item.type=="Paid"){
+status="✅ Paid";
+}
+
+if(item.dueDate){
+
+let today = new Date();
+let due = new Date(item.dueDate);
+
+if(due < today && item.type!="Paid"){
+status="🔴 Overdue";
+}
+
+}
+
 list.innerHTML += `
 
 <li>
@@ -2364,7 +2387,9 @@ list.innerHTML += `
 
 📅 ${item.date}<br>
 
-⏰ Due : ${item.dueDate}<br>
+⏰ Due : ${item.dueDate || "-"}<br>
+
+Status : ${status}<br>
 
 </li>
 
@@ -2409,6 +2434,10 @@ item.amount
 
 }
 
+// ===============================
+// Loan Analytics
+// ===============================
+
 function updateLoanAnalytics(){
 
 let total = 0;
@@ -2421,7 +2450,7 @@ total += Number(item.amount);
 
 let avg = 0;
 
-if(loanHistory.length>0){
+if(loanHistory.length > 0){
 
 avg = total / loanHistory.length;
 
@@ -2443,8 +2472,8 @@ document.getElementById("avgLoan").innerHTML =
 
 function drawLoanChart(){
 
-let borrowed=0;
-let lent=0;
+let borrowed = 0;
+let lent = 0;
 
 loanHistory.forEach(function(item){
 
@@ -2462,11 +2491,16 @@ lent += Number(item.amount);
 
 });
 
-let chart=document.getElementById("loanChart");
+let chart = document.getElementById("loanChart");
 
 if(!chart) return;
 
-new Chart(chart,{
+// Purana Chart Destroy
+if(window.loanChartInstance){
+window.loanChartInstance.destroy();
+}
+
+window.loanChartInstance = new Chart(chart,{
 
 type:"pie",
 
@@ -2486,37 +2520,53 @@ data:[borrowed,lent]
 
 }
 
+// ===============================
+// Export Loan
+// ===============================
+
 function exportLoan(){
 
-let data=JSON.stringify(loanHistory,null,2);
+let data = JSON.stringify(loanHistory,null,2);
 
-let blob=new Blob([data],{type:"application/json"});
+let blob = new Blob([data],{
+type:"application/json"
+});
 
-let link=document.createElement("a");
+let link = document.createElement("a");
 
-link.href=URL.createObjectURL(blob);
+link.href = URL.createObjectURL(blob);
 
-link.download="LoanHistory.json";
+link.download = "LoanHistory.json";
 
 link.click();
 
 }
 
+// ===============================
+// Interest Calculator
+// ===============================
+
 function calculateInterest(){
 
-let p=Number(document.getElementById("principal").value);
+let p = Number(document.getElementById("principal").value);
 
-let r=Number(document.getElementById("rate").value);
+let r = Number(document.getElementById("rate").value);
 
-let t=Number(document.getElementById("years").value);
+let t = Number(document.getElementById("years").value);
 
-let si=(p*r*t)/100;
+let si = (p*r*t)/100;
 
-document.getElementById("interestResult").innerHTML=
-"Interest : ₹"+si;
+document.getElementById("interestResult").innerHTML =
+"Interest : ₹" + si;
 
 }
 
-window.onload = function () {
-    loadLoanHistory();
+// ===============================
+// Page Load
+// ===============================
+
+window.onload = function(){
+
+loadLoanHistory();
+
 };
