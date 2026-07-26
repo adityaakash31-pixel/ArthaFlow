@@ -2703,6 +2703,7 @@ Status : ${status}<br><br>
 });
     
 updateEMIProgress();
+checkEMIReminder();
     
 }
 
@@ -2755,6 +2756,45 @@ bar.style.width = percent + "%";
 bar.innerHTML = percent.toFixed(0) + "%";
 
 }
+
+}
+
+// ===============================
+// EMI Reminder
+// ===============================
+
+function checkEMIReminder(){
+
+let today = new Date();
+
+let next = "No EMI";
+let alertMsg = "✅ No Pending EMI";
+
+emiHistory.forEach(function(item){
+
+if(!item.paid){
+
+let due = new Date(item.due);
+
+if(due < today){
+
+alertMsg = "🔴 Overdue EMI";
+
+}else{
+
+next = item.bank + " - " + item.due;
+
+}
+
+}
+
+});
+
+if(document.getElementById("nextEMI"))
+document.getElementById("nextEMI").innerHTML = next;
+
+if(document.getElementById("emiAlert"))
+document.getElementById("emiAlert").innerHTML = alertMsg;
 
 }
 
