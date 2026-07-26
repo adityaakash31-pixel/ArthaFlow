@@ -3077,3 +3077,5 @@ JSON.stringify(investmentHistory)
 loadInvestment();
 
 }
+
+}
