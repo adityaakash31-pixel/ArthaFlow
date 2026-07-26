@@ -3951,4 +3951,56 @@ document.getElementById("yearlyExpense").innerHTML =
 document.getElementById("yearlySaving").innerHTML =
 "₹" + yearlySaving.toFixed(2);
 
+// Save Result
+
+localStorage.setItem("cmpMonthlySaving",monthlySaving);
+
+localStorage.setItem("cmpYearlyIncome",yearlyIncome);
+
+localStorage.setItem("cmpYearlyExpense",yearlyExpense);
+
+localStorage.setItem("cmpYearlySaving",yearlySaving);
+
 }
+
+function loadComparison(){
+
+let monthlySaving =
+Number(localStorage.getItem("cmpMonthlySaving")) || 0;
+
+let yearlyIncome =
+Number(localStorage.getItem("cmpYearlyIncome")) || 0;
+
+let yearlyExpense =
+Number(localStorage.getItem("cmpYearlyExpense")) || 0;
+
+let yearlySaving =
+Number(localStorage.getItem("cmpYearlySaving")) || 0;
+
+if(document.getElementById("monthlySaving"))
+document.getElementById("monthlySaving").innerHTML =
+"₹" + monthlySaving.toFixed(2);
+
+if(document.getElementById("yearlyIncome"))
+document.getElementById("yearlyIncome").innerHTML =
+"₹" + yearlyIncome.toFixed(2);
+
+if(document.getElementById("yearlyExpense"))
+document.getElementById("yearlyExpense").innerHTML =
+"₹" + yearlyExpense.toFixed(2);
+
+if(document.getElementById("yearlySaving"))
+document.getElementById("yearlySaving").innerHTML =
+"₹" + yearlySaving.toFixed(2);
+
+}
+
+window.addEventListener("load",function(){
+
+if(document.getElementById("monthlySaving")){
+
+loadComparison();
+
+}
+
+});
