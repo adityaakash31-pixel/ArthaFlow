@@ -2919,3 +2919,10 @@ loadEMI();
 }
 
 });
+
+// ===============================
+// Step 76A - Investment Tracker
+// ===============================
+
+let investmentHistory =
+JSON.parse(localStorage.getItem("investmentHistory")) || [];
