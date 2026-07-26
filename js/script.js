@@ -2605,7 +2605,9 @@ loan: Number(loan),
 
 emi: Number(emi),
 
-due: due
+due: due,
+
+paid: false
 
 });
 
