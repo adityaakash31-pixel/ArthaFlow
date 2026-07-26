@@ -2806,6 +2806,9 @@ document.getElementById("emiAlert").innerHTML = alertMsg;
 
 function drawEMIChart(){
 
+emiHistory =
+JSON.parse(localStorage.getItem("emiHistory")) || [];
+
 let paid = 0;
 let pending = 0;
 
@@ -2827,7 +2830,14 @@ let chart = document.getElementById("emiChart");
 
 if(!chart) return;
 
-new Chart(chart,{
+// Remove old chart if exists
+if(window.emiChartInstance){
+
+window.emiChartInstance.destroy();
+
+}
+
+window.emiChartInstance = new Chart(chart,{
 
 type:"pie",
 
@@ -2853,6 +2863,9 @@ data:[paid,pending]
 
 function loadBankSummary(){
 
+emiHistory =
+JSON.parse(localStorage.getItem("emiHistory")) || [];
+
 let list = document.getElementById("bankSummary");
 
 if(!list) return;
@@ -2869,6 +2882,8 @@ return;
 
 emiHistory.forEach(function(item){
 
+let status = item.paid ? "✅ Paid" : "🟢 Pending";
+
 list.innerHTML += `
 
 <li>
@@ -2876,6 +2891,10 @@ list.innerHTML += `
 🏦 ${item.bank}<br>
 
 💸 EMI : ₹${item.emi}<br>
+
+📅 Due : ${item.due}<br>
+
+Status : ${status}
 
 </li>
 
