@@ -3798,13 +3798,114 @@ list.innerHTML += `
 
 💸 Expense : ₹${item.expense}<br>
 
-💵 Saving : ₹${item.saving}
+💵 Saving : ₹${item.saving}<br><br>
+
+<button onclick="editCashFlow(${index})">
+
+✏ Edit
+
+</button>
+
+<button onclick="deleteCashFlow(${index})">
+
+🗑 Delete
+
+</button>
 
 </li>
 
 <hr>
 
 `;
+
+});
+
+drawCashFlowChart();
+
+}
+
+function deleteCashFlow(index){
+
+if(confirm("Delete Record?")){
+
+cashFlowHistory.splice(index,1);
+
+localStorage.setItem(
+
+"cashFlowHistory",
+
+JSON.stringify(cashFlowHistory)
+
+);
+
+loadCashFlowHistory();
+
+}
+
+}
+
+function editCashFlow(index){
+
+document.getElementById("cashIncome").value =
+cashFlowHistory[index].income;
+
+document.getElementById("cashExpense").value =
+cashFlowHistory[index].expense;
+
+cashFlowHistory.splice(index,1);
+
+localStorage.setItem(
+
+"cashFlowHistory",
+
+JSON.stringify(cashFlowHistory)
+
+);
+
+loadCashFlowHistory();
+
+}
+
+function drawCashFlowChart(){
+
+let income = 0;
+
+let expense = 0;
+
+cashFlowHistory.forEach(function(item){
+
+income += Number(item.income);
+
+expense += Number(item.expense);
+
+});
+
+let chart =
+document.getElementById("cashFlowChart");
+
+if(!chart) return;
+
+if(window.cashChartInstance){
+
+window.cashChartInstance.destroy();
+
+}
+
+window.cashChartInstance = new Chart(chart,{
+
+type:"pie",
+
+data:{
+
+labels:["Income","Expense"],
+
+datasets:[{
+
+data:[income,expense]
+
+}]
+
+}
 
 });
 
