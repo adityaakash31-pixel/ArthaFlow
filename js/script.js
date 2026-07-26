@@ -2577,3 +2577,38 @@ loadLoanHistory();
 
 let emiHistory =
 JSON.parse(localStorage.getItem("emiHistory")) || [];
+
+function saveEMI(){
+
+let bank =
+document.getElementById("bankName").value;
+
+let loan =
+document.getElementById("loanAmount").value;
+
+let emi =
+document.getElementById("monthlyEMI").value;
+
+let due =
+document.getElementById("emiDueDate").value;
+
+emiHistory.push({
+
+bank: bank,
+
+loan: loan,
+
+emi: emi,
+
+due: due
+
+});
+
+localStorage.setItem(
+"emiHistory",
+JSON.stringify(emiHistory)
+);
+
+loadEMI();
+
+}
