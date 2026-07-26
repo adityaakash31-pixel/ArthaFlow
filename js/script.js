@@ -3079,6 +3079,61 @@ loadInvestment();
 }
 
 // ===============================
+// Investment Analytics
+// ===============================
+
+function drawInvestmentChart(){
+
+let data = {};
+
+investmentHistory.forEach(function(item){
+
+if(data[item.type]){
+
+data[item.type] += Number(item.amount);
+
+}else{
+
+data[item.type] = Number(item.amount);
+
+}
+
+});
+
+let chart = document.getElementById("investmentChart");
+
+if(!chart) return;
+
+let labels = Object.keys(data);
+let values = Object.values(data);
+
+if(window.investmentChartInstance){
+
+window.investmentChartInstance.destroy();
+
+}
+
+window.investmentChartInstance = new Chart(chart,{
+
+type:"pie",
+
+data:{
+
+labels:labels,
+
+datasets:[{
+
+data:values
+
+}]
+
+}
+
+});
+
+}
+
+// ===============================
 // Auto Load Investment
 // ===============================
 
