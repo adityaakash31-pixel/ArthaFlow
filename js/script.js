@@ -4083,3 +4083,5 @@ loadComparisonHistory();
 }
 
 });
+
+}
