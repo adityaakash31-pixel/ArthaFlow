@@ -4894,7 +4894,8 @@ data:values
 }
 
 // ===============================
-// Step 83A - AI Spending Suggestions
+// Step 83A + 83B + 83C
+// AI Spending Suggestions
 // ===============================
 
 function analyzeSpending(){
@@ -4905,8 +4906,6 @@ Number(document.getElementById("incomeAI").value);
 let expense =
 Number(document.getElementById("expenseAI").value);
 
-let suggestion = "";
-
 if(income<=0){
 
 alert("Enter Valid Income");
@@ -4915,101 +4914,143 @@ return;
 
 }
 
-if(expense > income){
+let suggestion="";
 
-suggestion =
-"🚨 Your expenses are higher than your income. Reduce unnecessary spending.";
+if(expense>income){
 
-}
-
-else if(expense > income*0.8){
-
-suggestion =
-"⚠️ Your expenses are very high. Try to save more every month.";
+suggestion="🚨 Your expenses are higher than your income. Reduce unnecessary spending.";
 
 }
 
-else if(expense > income*0.6){
+else if(expense>income*0.8){
 
-suggestion =
-"🙂 Good, but you can still improve your savings.";
+suggestion="⚠️ Your expenses are very high. Try to save more every month.";
+
+}
+
+else if(expense>income*0.6){
+
+suggestion="🙂 Good, but you can still improve your savings.";
 
 }
 
 else{
 
-suggestion =
-"🎉 Excellent! Your spending is under control. Keep investing and saving.";
+suggestion="🎉 Excellent! Your spending is under control. Keep investing and saving.";
 
 }
 
 document.getElementById("aiSuggestion").innerHTML =
 suggestion;
 
-    let saving =
-income - expense;
+localStorage.setItem(
+"aiSuggestion",
+suggestion
+);
 
-let tips = [];
+// ===============================
+// Smart Saving Tips
+// ===============================
 
-if(saving < income*0.10){
+let saving =
+income-expense;
+
+let tips=[];
+
+if(saving<income*0.10){
 
 tips.push("💰 Try to save at least 10% of your income.");
 
 }
 
-if(expense > income*0.70){
+if(expense>income*0.70){
 
 tips.push("🛒 Reduce unnecessary shopping expenses.");
 
 }
 
-if(expense > income*0.50){
+if(expense>income*0.50){
 
 tips.push("🍔 Cut down food & entertainment expenses.");
 
 }
 
-if(saving >= income*0.30){
+if(saving>=income*0.30){
 
 tips.push("🎉 Excellent! Keep investing regularly.");
 
 }
 
 localStorage.setItem(
-
 "aiSavingTips",
-
 JSON.stringify(tips)
-
 );
 
 loadSavingTips();
 
-localStorage.setItem("aiSuggestion",suggestion);
+// ===============================
+// Financial Score
+// ===============================
+
+let score =
+100-((expense/income)*100);
+
+if(score<0){
+
+score=0;
 
 }
 
-window.addEventListener("load",function(){
+let status="";
 
-if(document.getElementById("aiSuggestion")){
+if(score>=90){
 
-document.getElementById("aiSuggestion").innerHTML =
-localStorage.getItem("aiSuggestion") ||
-"No Suggestion Yet";
-
-    loadSavingTips();
-    loadFinancialScore();
+status="🟢 Excellent";
 
 }
 
-});
+else if(score>=70){
+
+status="🔵 Good";
+
+}
+
+else if(score>=50){
+
+status="🟡 Average";
+
+}
+
+else{
+
+status="🔴 Poor";
+
+}
+
+document.getElementById("financialScore").innerHTML =
+score.toFixed(0)+"%";
+
+document.getElementById("financialStatus").innerHTML =
+status;
+
+localStorage.setItem(
+"financialScore",
+score
+);
+
+localStorage.setItem(
+"financialStatus",
+status
+);
+
+}
 
 function loadSavingTips(){
 
-let tips =
+let tips=
 JSON.parse(localStorage.getItem("aiSavingTips")) || [];
 
-let list =
+let list=
 document.getElementById("savingTips");
 
 if(!list) return;
@@ -5032,68 +5073,43 @@ list.innerHTML += "<li>"+item+"</li>";
 
 }
 
-// Financial Score
-
-let score = 100 - ((expense/income)*100);
-
-if(score < 0){
-
-score = 0;
-
-}
-
-document.getElementById("financialScore").innerHTML =
-score.toFixed(0) + "%";
-
-let status = "";
-
-if(score >= 90){
-
-status = "🟢 Excellent";
-
-}
-
-else if(score >= 70){
-
-status = "🔵 Good";
-
-}
-
-else if(score >= 50){
-
-status = "🟡 Average";
-
-}
-
-else{
-
-status = "🔴 Poor";
-
-}
-
-document.getElementById("financialStatus").innerHTML =
-status;
-
-localStorage.setItem("financialScore",score);
-
-localStorage.setItem("financialStatus",status);
-
 function loadFinancialScore(){
 
-let score =
+let score=
 Number(localStorage.getItem("financialScore")) || 0;
 
-let status =
-localStorage.getItem("financialStatus") || "Not Calculated";
+let status=
+localStorage.getItem("financialStatus") ||
+"Not Calculated";
 
-if(document.getElementById("financialScore"))
+if(document.getElementById("financialScore")){
 
 document.getElementById("financialScore").innerHTML =
-score.toFixed(0) + "%";
+score.toFixed(0)+"%";
 
-if(document.getElementById("financialStatus"))
+}
+
+if(document.getElementById("financialStatus")){
 
 document.getElementById("financialStatus").innerHTML =
 status;
 
 }
+
+}
+
+window.addEventListener("load",function(){
+
+if(document.getElementById("aiSuggestion")){
+
+document.getElementById("aiSuggestion").innerHTML =
+localStorage.getItem("aiSuggestion") ||
+"No Suggestion Yet";
+
+loadSavingTips();
+
+loadFinancialScore();
+
+}
+
+});
