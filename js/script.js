@@ -4518,11 +4518,13 @@ if(incomeGrowthHistory.length==0){
 
 list.innerHTML="<li>No Records</li>";
 
+drawIncomeGrowthChart();
+
 return;
 
 }
 
-incomeGrowthHistory.forEach(function(item){
+incomeGrowthHistory.forEach(function(item,index){
 
 list.innerHTML += `
 
@@ -4532,13 +4534,116 @@ list.innerHTML += `
 
 💰 Current Income : ₹${item.newIncome}<br>
 
-📈 Growth : ${item.growth.toFixed(2)}%
+📈 Growth : ${item.growth.toFixed(2)}%<br><br>
+
+<button onclick="editIncomeGrowth(${index})">
+
+✏ Edit
+
+</button>
+
+<button onclick="deleteIncomeGrowth(${index})">
+
+🗑 Delete
+
+</button>
 
 </li>
 
 <hr>
 
 `;
+
+});
+
+drawIncomeGrowthChart();
+
+}
+
+function deleteIncomeGrowth(index){
+
+if(confirm("Delete Record?")){
+
+incomeGrowthHistory.splice(index,1);
+
+localStorage.setItem(
+
+"incomeGrowthHistory",
+
+JSON.stringify(incomeGrowthHistory)
+
+);
+
+loadIncomeGrowthHistory();
+
+}
+
+}
+
+function editIncomeGrowth(index){
+
+let item = incomeGrowthHistory[index];
+
+document.getElementById("oldIncome").value =
+item.oldIncome;
+
+document.getElementById("newIncome").value =
+item.newIncome;
+
+incomeGrowthHistory.splice(index,1);
+
+localStorage.setItem(
+
+"incomeGrowthHistory",
+
+JSON.stringify(incomeGrowthHistory)
+
+);
+
+loadIncomeGrowthHistory();
+
+}
+
+function drawIncomeGrowthChart(){
+
+let chart =
+document.getElementById("incomeGrowthChart");
+
+if(!chart) return;
+
+if(window.incomeGrowthChartInstance){
+
+window.incomeGrowthChartInstance.destroy();
+
+}
+
+let labels = [];
+
+let values = [];
+
+incomeGrowthHistory.forEach(function(item){
+
+labels.push("Record " + (labels.length+1));
+
+values.push(item.growth);
+
+});
+
+window.incomeGrowthChartInstance = new Chart(chart,{
+
+type:"pie",
+
+data:{
+
+labels:labels,
+
+datasets:[{
+
+data:values
+
+}]
+
+}
 
 });
 
