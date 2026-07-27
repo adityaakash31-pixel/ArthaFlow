@@ -4892,3 +4892,72 @@ data:values
 });
 
 }
+
+// ===============================
+// Step 83A - AI Spending Suggestions
+// ===============================
+
+function analyzeSpending(){
+
+let income =
+Number(document.getElementById("incomeAI").value);
+
+let expense =
+Number(document.getElementById("expenseAI").value);
+
+let suggestion = "";
+
+if(income<=0){
+
+alert("Enter Valid Income");
+
+return;
+
+}
+
+if(expense > income){
+
+suggestion =
+"🚨 Your expenses are higher than your income. Reduce unnecessary spending.";
+
+}
+
+else if(expense > income*0.8){
+
+suggestion =
+"⚠️ Your expenses are very high. Try to save more every month.";
+
+}
+
+else if(expense > income*0.6){
+
+suggestion =
+"🙂 Good, but you can still improve your savings.";
+
+}
+
+else{
+
+suggestion =
+"🎉 Excellent! Your spending is under control. Keep investing and saving.";
+
+}
+
+document.getElementById("aiSuggestion").innerHTML =
+suggestion;
+
+localStorage.setItem("aiSuggestion",suggestion);
+
+}
+
+window.addEventListener("load",function(){
+
+if(document.getElementById("aiSuggestion")){
+
+document.getElementById("aiSuggestion").innerHTML =
+localStorage.getItem("aiSuggestion") ||
+"No Suggestion Yet";
+
+}
+
+});
