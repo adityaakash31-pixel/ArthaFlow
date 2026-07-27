@@ -20,13 +20,17 @@
 
 <h2>📉 Expense Growth Analysis</h2>
 
-<input type="number" id="oldExpense" placeholder="Previous Expense">
+<input
+type="number"
+id="oldExpense"
+placeholder="Previous Expense">
 
-<input type="number" id="newExpense" placeholder="Current Expense">
+<input
+type="number"
+id="newExpense"
+placeholder="Current Expense">
 
-<button onclick="calculateExpenseGrowth()">
-
-  <select id="expensePeriod">
+<select id="expensePeriod">
 
 <option value="Daily">📅 Daily</option>
 
@@ -36,7 +40,9 @@
 
 <option value="Yearly">📈 Yearly</option>
 
-  </select>
+</select>
+
+<button onclick="calculateExpenseGrowth()">
 
 📊 Calculate
 
@@ -48,11 +54,26 @@
 
 <h2>📋 Result</h2>
 
-<p>Previous Expense : <span id="oldExpenseResult">₹0</span></p>
+<p>
 
-<p>Current Expense : <span id="newExpenseResult">₹0</span></p>
+💸 Previous Expense :
+<span id="oldExpenseResult">₹0</span>
 
-<p>Growth : <span id="expenseGrowthResult">0%</span></p>
+</p>
+
+<p>
+
+💰 Current Expense :
+<span id="newExpenseResult">₹0</span>
+
+</p>
+
+<p>
+
+📈 Growth :
+<span id="expenseGrowthResult">0%</span>
+
+</p>
 
 </div>
 
