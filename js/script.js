@@ -4400,6 +4400,9 @@ data:amounts
 
 }
 
+let incomeGrowthHistory =
+JSON.parse(localStorage.getItem("incomeGrowthHistory")) || [];
+
 // ===============================
 // Step 82A - Income Growth Analysis
 // ===============================
@@ -4440,6 +4443,26 @@ localStorage.setItem("newIncome",newIncome);
 
 localStorage.setItem("incomeGrowth",growth);
 
+    incomeGrowthHistory.push({
+
+oldIncome: oldIncome,
+
+newIncome: newIncome,
+
+growth: growth
+
+});
+
+localStorage.setItem(
+
+"incomeGrowthHistory",
+
+JSON.stringify(incomeGrowthHistory)
+
+);
+
+loadIncomeGrowthHistory();
+
 }
 
 function loadIncomeGrowth(){
@@ -4473,6 +4496,50 @@ if(document.getElementById("oldIncomeResult")){
 
 loadIncomeGrowth();
 
+loadIncomeGrowthHistory();
+
 }
 
 });
+
+function loadIncomeGrowthHistory(){
+
+incomeGrowthHistory =
+JSON.parse(localStorage.getItem("incomeGrowthHistory")) || [];
+
+let list =
+document.getElementById("incomeGrowthHistory");
+
+if(!list) return;
+
+list.innerHTML="";
+
+if(incomeGrowthHistory.length==0){
+
+list.innerHTML="<li>No Records</li>";
+
+return;
+
+}
+
+incomeGrowthHistory.forEach(function(item){
+
+list.innerHTML += `
+
+<li>
+
+💵 Previous Income : ₹${item.oldIncome}<br>
+
+💰 Current Income : ₹${item.newIncome}<br>
+
+📈 Growth : ${item.growth.toFixed(2)}%
+
+</li>
+
+<hr>
+
+`;
+
+});
+
+}
