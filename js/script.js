@@ -4648,3 +4648,80 @@ data:values
 });
 
 }
+
+// ===============================
+// Step 82D - Expense Growth Analysis
+// ===============================
+
+function calculateExpenseGrowth(){
+
+let oldExpense =
+Number(document.getElementById("oldExpense").value);
+
+let newExpense =
+Number(document.getElementById("newExpense").value);
+
+if(oldExpense<=0){
+
+alert("Enter Previous Expense");
+
+return;
+
+}
+
+let growth =
+((newExpense-oldExpense)/oldExpense)*100;
+
+document.getElementById("oldExpenseResult").innerHTML =
+"₹"+oldExpense.toFixed(2);
+
+document.getElementById("newExpenseResult").innerHTML =
+"₹"+newExpense.toFixed(2);
+
+document.getElementById("expenseGrowthResult").innerHTML =
+growth.toFixed(2)+"%";
+
+// Save Result
+
+localStorage.setItem("oldExpense",oldExpense);
+
+localStorage.setItem("newExpense",newExpense);
+
+localStorage.setItem("expenseGrowth",growth);
+
+}
+
+function loadExpenseGrowth(){
+
+let oldExpense =
+Number(localStorage.getItem("oldExpense")) || 0;
+
+let newExpense =
+Number(localStorage.getItem("newExpense")) || 0;
+
+let growth =
+Number(localStorage.getItem("expenseGrowth")) || 0;
+
+if(document.getElementById("oldExpenseResult"))
+document.getElementById("oldExpenseResult").innerHTML =
+"₹"+oldExpense.toFixed(2);
+
+if(document.getElementById("newExpenseResult"))
+document.getElementById("newExpenseResult").innerHTML =
+"₹"+newExpense.toFixed(2);
+
+if(document.getElementById("expenseGrowthResult"))
+document.getElementById("expenseGrowthResult").innerHTML =
+growth.toFixed(2)+"%";
+
+}
+
+window.addEventListener("load",function(){
+
+if(document.getElementById("oldExpenseResult")){
+
+loadExpenseGrowth();
+
+}
+
+});
