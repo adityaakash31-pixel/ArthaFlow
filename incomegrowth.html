@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Income Growth Analysis</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>📈 Income Growth Analysis</h2>
+
+<input
+type="number"
+id="oldIncome"
+placeholder="Previous Income">
+
+<input
+type="number"
+id="newIncome"
+placeholder="Current Income">
+
+<button onclick="calculateIncomeGrowth()">
+
+📊 Calculate
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>📋 Result</h2>
+
+<p>
+
+Old Income :
+<span id="oldIncomeResult">₹0</span>
+
+</p>
+
+<p>
+
+Current Income :
+<span id="newIncomeResult">₹0</span>
+
+</p>
+
+<p>
+
+Growth :
+<span id="incomeGrowthResult">0%</span>
+
+</p>
+
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+
+</html>
