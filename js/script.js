@@ -4649,6 +4649,9 @@ data:values
 
 }
 
+let expenseGrowthHistory =
+JSON.parse(localStorage.getItem("expenseGrowthHistory")) || [];
+
 // ===============================
 // Step 82D - Expense Growth Analysis
 // ===============================
@@ -4689,6 +4692,31 @@ localStorage.setItem("newExpense",newExpense);
 
 localStorage.setItem("expenseGrowth",growth);
 
+    let period =
+document.getElementById("expensePeriod").value;
+
+expenseGrowthHistory.push({
+
+period:period,
+
+oldExpense:oldExpense,
+
+newExpense:newExpense,
+
+growth:growth
+
+});
+
+localStorage.setItem(
+
+"expenseGrowthHistory",
+
+JSON.stringify(expenseGrowthHistory)
+
+);
+
+loadExpenseGrowthHistory();
+
 }
 
 function loadExpenseGrowth(){
@@ -4725,3 +4753,140 @@ loadExpenseGrowth();
 }
 
 });
+
+function loadExpenseGrowthHistory(){
+
+expenseGrowthHistory =
+JSON.parse(localStorage.getItem("expenseGrowthHistory")) || [];
+
+let list =
+document.getElementById("expenseGrowthHistory");
+
+if(!list) return;
+
+list.innerHTML="";
+
+if(expenseGrowthHistory.length==0){
+
+list.innerHTML="<li>No Records</li>";
+
+drawExpenseGrowthChart();
+
+return;
+
+}
+
+expenseGrowthHistory.forEach(function(item,index){
+
+list.innerHTML += `
+
+<li>
+
+📅 ${item.period}<br>
+
+💸 Previous : ₹${item.oldExpense}<br>
+
+💰 Current : ₹${item.newExpense}<br>
+
+📈 Growth : ${item.growth.toFixed(2)}%<br><br>
+
+<button onclick="editExpenseGrowth(${index})">✏ Edit</button>
+
+<button onclick="deleteExpenseGrowth(${index})">🗑 Delete</button>
+
+</li>
+
+<hr>
+
+`;
+
+});
+
+drawExpenseGrowthChart();
+
+}
+
+function deleteExpenseGrowth(index){
+
+expenseGrowthHistory.splice(index,1);
+
+localStorage.setItem(
+
+"expenseGrowthHistory",
+
+JSON.stringify(expenseGrowthHistory)
+
+);
+
+loadExpenseGrowthHistory();
+
+}
+
+function editExpenseGrowth(index){
+
+let item = expenseGrowthHistory[index];
+
+document.getElementById("expensePeriod").value=item.period;
+
+document.getElementById("oldExpense").value=item.oldExpense;
+
+document.getElementById("newExpense").value=item.newExpense;
+
+expenseGrowthHistory.splice(index,1);
+
+localStorage.setItem(
+
+"expenseGrowthHistory",
+
+JSON.stringify(expenseGrowthHistory)
+
+);
+
+loadExpenseGrowthHistory();
+
+}
+
+function drawExpenseGrowthChart(){
+
+let chart =
+document.getElementById("expenseGrowthChart");
+
+if(!chart) return;
+
+if(window.expenseChartInstance){
+
+window.expenseChartInstance.destroy();
+
+}
+
+let labels=[];
+
+let values=[];
+
+expenseGrowthHistory.forEach(function(item){
+
+labels.push(item.period);
+
+values.push(item.growth);
+
+});
+
+window.expenseChartInstance = new Chart(chart,{
+
+type:"pie",
+
+data:{
+
+labels:labels,
+
+datasets:[{
+
+data:values
+
+}]
+
+}
+
+});
+
+}
