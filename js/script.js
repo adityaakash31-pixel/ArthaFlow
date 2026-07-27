@@ -3918,7 +3918,6 @@ JSON.parse(localStorage.getItem("comparisonHistory")) || [];
 // Step 80A + 80B
 // Monthly vs Yearly Comparison
 // ===============================
-
 let comparisonHistory =
 JSON.parse(localStorage.getItem("comparisonHistory")) || [];
 
