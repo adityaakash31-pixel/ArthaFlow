@@ -5043,6 +5043,44 @@ localStorage.setItem(
 status
 );
 
+    // ===============================
+// AI Risk Alerts
+// ===============================
+
+let risk = "";
+
+if(expense > income){
+
+risk = "🚨 Critical Alert : Your expenses are higher than your income.";
+
+}
+
+else if(saving < income*0.10){
+
+risk = "⚠️ Warning : Your savings are below 10%.";
+
+}
+
+else if(expense > income*0.80){
+
+risk = "🟡 Alert : Your spending is too high.";
+
+}
+
+else{
+
+risk = "🟢 No Financial Risk Detected.";
+
+}
+
+document.getElementById("riskAlert").innerHTML =
+risk;
+
+localStorage.setItem(
+"riskAlert",
+risk
+);
+
 }
 
 function loadSavingTips(){
@@ -5110,6 +5148,23 @@ loadSavingTips();
 
 loadFinancialScore();
 
+    loadRiskAlert();
+
 }
 
 });
+
+function loadRiskAlert(){
+
+let risk =
+localStorage.getItem("riskAlert") ||
+"No Risk Detected";
+
+if(document.getElementById("riskAlert")){
+
+document.getElementById("riskAlert").innerHTML =
+risk;
+
+}
+
+}
