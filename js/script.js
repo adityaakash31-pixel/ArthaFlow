@@ -4399,3 +4399,37 @@ data:amounts
 });
 
 }
+
+// ===============================
+// Step 82A - Income Growth Analysis
+// ===============================
+
+function calculateIncomeGrowth(){
+
+let oldIncome =
+Number(document.getElementById("oldIncome").value);
+
+let newIncome =
+Number(document.getElementById("newIncome").value);
+
+if(oldIncome<=0){
+
+alert("Enter Previous Income");
+
+return;
+
+}
+
+let growth =
+((newIncome-oldIncome)/oldIncome)*100;
+
+document.getElementById("oldIncomeResult").innerHTML =
+"₹"+oldIncome.toFixed(2);
+
+document.getElementById("newIncomeResult").innerHTML =
+"₹"+newIncome.toFixed(2);
+
+document.getElementById("incomeGrowthResult").innerHTML =
+growth.toFixed(2)+"%";
+
+}
