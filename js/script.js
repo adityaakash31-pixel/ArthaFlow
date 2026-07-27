@@ -4750,6 +4750,8 @@ if(document.getElementById("oldExpenseResult")){
 
 loadExpenseGrowth();
 
+loadExpenseGrowthHistory();
+
 }
 
 });
