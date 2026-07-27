@@ -4998,6 +4998,7 @@ localStorage.getItem("aiSuggestion") ||
 "No Suggestion Yet";
 
     loadSavingTips();
+    loadFinancialScore();
 
 }
 
@@ -5028,5 +5029,71 @@ tips.forEach(function(item){
 list.innerHTML += "<li>"+item+"</li>";
 
 });
+
+}
+
+// Financial Score
+
+let score = 100 - ((expense/income)*100);
+
+if(score < 0){
+
+score = 0;
+
+}
+
+document.getElementById("financialScore").innerHTML =
+score.toFixed(0) + "%";
+
+let status = "";
+
+if(score >= 90){
+
+status = "🟢 Excellent";
+
+}
+
+else if(score >= 70){
+
+status = "🔵 Good";
+
+}
+
+else if(score >= 50){
+
+status = "🟡 Average";
+
+}
+
+else{
+
+status = "🔴 Poor";
+
+}
+
+document.getElementById("financialStatus").innerHTML =
+status;
+
+localStorage.setItem("financialScore",score);
+
+localStorage.setItem("financialStatus",status);
+
+function loadFinancialScore(){
+
+let score =
+Number(localStorage.getItem("financialScore")) || 0;
+
+let status =
+localStorage.getItem("financialStatus") || "Not Calculated";
+
+if(document.getElementById("financialScore"))
+
+document.getElementById("financialScore").innerHTML =
+score.toFixed(0) + "%";
+
+if(document.getElementById("financialStatus"))
+
+document.getElementById("financialStatus").innerHTML =
+status;
 
 }
