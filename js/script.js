@@ -5201,6 +5201,134 @@ loadRiskAlert();
 
 loadFinancialAdvice();
 
+    loadMonthlySummary();
+
 }
 
 });
+
+// ===============================
+// Step 83F - AI Monthly Summary
+// ===============================
+
+function generateMonthlySummary(){
+
+let income =
+Number(document.getElementById("incomeAI").value);
+
+let expense =
+Number(document.getElementById("expenseAI").value);
+
+if(income<=0){
+
+alert("Enter Income");
+
+return;
+
+}
+
+let saving =
+income-expense;
+
+let score =
+100-((expense/income)*100);
+
+if(score<0){
+
+score=0;
+
+}
+
+let rating="";
+
+if(score>=90){
+
+rating="🟢 Excellent";
+
+}
+
+else if(score>=70){
+
+rating="🔵 Good";
+
+}
+
+else if(score>=50){
+
+rating="🟡 Average";
+
+}
+
+else{
+
+rating="🔴 Poor";
+
+}
+
+let today =
+new Date();
+
+let month =
+today.toLocaleString("default",{
+month:"long",
+year:"numeric"
+});
+
+document.getElementById("summaryMonth").innerHTML =
+month;
+
+document.getElementById("summaryIncome").innerHTML =
+"₹"+income.toFixed(2);
+
+document.getElementById("summaryExpense").innerHTML =
+"₹"+expense.toFixed(2);
+
+document.getElementById("summarySaving").innerHTML =
+"₹"+saving.toFixed(2);
+
+document.getElementById("summaryScore").innerHTML =
+score.toFixed(0)+"%";
+
+document.getElementById("summaryRating").innerHTML =
+rating;
+
+localStorage.setItem("summaryMonth",month);
+
+localStorage.setItem("summaryIncome",income);
+
+localStorage.setItem("summaryExpense",expense);
+
+localStorage.setItem("summarySaving",saving);
+
+localStorage.setItem("summaryScore",score);
+
+localStorage.setItem("summaryRating",rating);
+
+}
+
+function loadMonthlySummary(){
+
+if(document.getElementById("summaryMonth")){
+
+document.getElementById("summaryMonth").innerHTML =
+localStorage.getItem("summaryMonth") || "-";
+
+document.getElementById("summaryIncome").innerHTML =
+"₹"+(Number(localStorage.getItem("summaryIncome"))||0).toFixed(2);
+
+document.getElementById("summaryExpense").innerHTML =
+"₹"+(Number(localStorage.getItem("summaryExpense"))||0).toFixed(2);
+
+document.getElementById("summarySaving").innerHTML =
+"₹"+(Number(localStorage.getItem("summarySaving"))||0).toFixed(2);
+
+document.getElementById("summaryScore").innerHTML =
+(Number(localStorage.getItem("summaryScore"))||0).toFixed(0)+"%";
+
+document.getElementById("summaryRating").innerHTML =
+localStorage.getItem("summaryRating") ||
+"Not Generated";
+
+}
+
+    }
