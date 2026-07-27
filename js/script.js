@@ -4247,11 +4247,23 @@ if(spendingHistory.length==0){
 
 list.innerHTML="<li>No Records</li>";
 
+document.getElementById("topCategory").innerHTML="-";
+
+document.getElementById("topAmount").innerHTML="₹0";
+
 return;
 
 }
 
-spendingHistory.forEach(function(item){
+let highest = spendingHistory[0];
+
+spendingHistory.forEach(function(item,index){
+
+if(item.amount > highest.amount){
+
+highest = item;
+
+}
 
 list.innerHTML += `
 
@@ -4259,7 +4271,19 @@ list.innerHTML += `
 
 📂 ${item.category}<br>
 
-💸 ₹${item.amount}
+💸 ₹${item.amount}<br><br>
+
+<button onclick="editSpending(${index})">
+
+✏ Edit
+
+</button>
+
+<button onclick="deleteSpending(${index})">
+
+🗑 Delete
+
+</button>
 
 </li>
 
@@ -4268,6 +4292,12 @@ list.innerHTML += `
 `;
 
 });
+
+document.getElementById("topCategory").innerHTML =
+highest.category;
+
+document.getElementById("topAmount").innerHTML =
+"₹"+highest.amount;
 
 }
 
@@ -4280,3 +4310,45 @@ loadSpending();
 }
 
 });
+
+function deleteSpending(index){
+
+if(confirm("Delete Record?")){
+
+spendingHistory.splice(index,1);
+
+localStorage.setItem(
+
+"spendingHistory",
+
+JSON.stringify(spendingHistory)
+
+);
+
+loadSpending();
+
+}
+
+}
+
+function editSpending(index){
+
+document.getElementById("spendingCategory").value =
+spendingHistory[index].category;
+
+document.getElementById("spendingAmount").value =
+spendingHistory[index].amount;
+
+spendingHistory.splice(index,1);
+
+localStorage.setItem(
+
+"spendingHistory",
+
+JSON.stringify(spendingHistory)
+
+);
+
+loadSpending();
+
+}
