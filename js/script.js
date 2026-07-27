@@ -4299,6 +4299,8 @@ highest.category;
 document.getElementById("topAmount").innerHTML =
 "₹"+highest.amount;
 
+    drawSpendingChart();
+
 }
 
 window.addEventListener("load",function(){
@@ -4350,5 +4352,50 @@ JSON.stringify(spendingHistory)
 );
 
 loadSpending();
+
+}
+
+function drawSpendingChart(){
+
+let chart =
+document.getElementById("spendingChart");
+
+if(!chart) return;
+
+if(window.spendingChartInstance){
+
+window.spendingChartInstance.destroy();
+
+}
+
+let labels = [];
+
+let amounts = [];
+
+spendingHistory.forEach(function(item){
+
+labels.push(item.category);
+
+amounts.push(item.amount);
+
+});
+
+window.spendingChartInstance = new Chart(chart,{
+
+type:"pie",
+
+data:{
+
+labels:labels,
+
+datasets:[{
+
+data:amounts
+
+}]
+
+}
+
+});
 
 }
