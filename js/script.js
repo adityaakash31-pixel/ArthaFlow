@@ -4432,4 +4432,47 @@ document.getElementById("newIncomeResult").innerHTML =
 document.getElementById("incomeGrowthResult").innerHTML =
 growth.toFixed(2)+"%";
 
+// Save Result
+
+localStorage.setItem("oldIncome",oldIncome);
+
+localStorage.setItem("newIncome",newIncome);
+
+localStorage.setItem("incomeGrowth",growth);
+
 }
+
+function loadIncomeGrowth(){
+
+let oldIncome =
+Number(localStorage.getItem("oldIncome")) || 0;
+
+let newIncome =
+Number(localStorage.getItem("newIncome")) || 0;
+
+let growth =
+Number(localStorage.getItem("incomeGrowth")) || 0;
+
+if(document.getElementById("oldIncomeResult"))
+document.getElementById("oldIncomeResult").innerHTML =
+"₹"+oldIncome.toFixed(2);
+
+if(document.getElementById("newIncomeResult"))
+document.getElementById("newIncomeResult").innerHTML =
+"₹"+newIncome.toFixed(2);
+
+if(document.getElementById("incomeGrowthResult"))
+document.getElementById("incomeGrowthResult").innerHTML =
+growth.toFixed(2)+"%";
+
+}
+
+window.addEventListener("load",function(){
+
+if(document.getElementById("oldIncomeResult")){
+
+loadIncomeGrowth();
+
+}
+
+});
