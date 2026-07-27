@@ -5081,6 +5081,48 @@ localStorage.setItem(
 risk
 );
 
+    // ===============================
+// Personalized Financial Advice
+// ===============================
+
+let advice = "";
+
+if(expense > income){
+
+advice =
+"❌ Spend less than your income and avoid unnecessary purchases.";
+
+}
+
+else if(saving < income*0.20){
+
+advice =
+"💰 Increase your monthly savings and build an emergency fund.";
+
+}
+
+else if(saving >= income*0.30){
+
+advice =
+"📈 Great! You can invest more in SIPs, Mutual Funds, or other long-term investments.";
+
+}
+
+else{
+
+advice =
+"✅ Maintain your current budget and continue tracking your expenses.";
+
+}
+
+document.getElementById("financialAdvice").innerHTML =
+advice;
+
+localStorage.setItem(
+"financialAdvice",
+advice
+);
+
 }
 
 function loadSavingTips(){
@@ -5150,6 +5192,8 @@ loadFinancialScore();
 
     loadRiskAlert();
 
+    loadFinancialAdvice();
+
 }
 
 });
@@ -5164,6 +5208,21 @@ if(document.getElementById("riskAlert")){
 
 document.getElementById("riskAlert").innerHTML =
 risk;
+
+}
+
+}
+
+function loadFinancialAdvice(){
+
+let advice =
+localStorage.getItem("financialAdvice") ||
+"No Advice Yet";
+
+if(document.getElementById("financialAdvice")){
+
+document.getElementById("financialAdvice").innerHTML =
+advice;
 
 }
 
