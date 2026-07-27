@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Expense Growth Analysis</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>📉 Expense Growth Analysis</h2>
+
+<input type="number" id="oldExpense" placeholder="Previous Expense">
+
+<input type="number" id="newExpense" placeholder="Current Expense">
+
+<button onclick="calculateExpenseGrowth()">
+
+📊 Calculate
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>📋 Result</h2>
+
+<p>Previous Expense : <span id="oldExpenseResult">₹0</span></p>
+
+<p>Current Expense : <span id="newExpenseResult">₹0</span></p>
+
+<p>Growth : <span id="expenseGrowthResult">0%</span></p>
+
+</div>
+
+<div class="card">
+
+<h2>📊 Expense Analytics</h2>
+
+<canvas id="expenseGrowthChart"></canvas>
+
+</div>
+
+<div class="card">
+
+<h2>📋 Expense History</h2>
+
+<ul id="expenseGrowthHistory">
+
+<li>No Records</li>
+
+</ul>
+
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+
+</html>
