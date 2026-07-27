@@ -4182,3 +4182,101 @@ data:[income,expense]
 });
 
   }  
+
+
+// ===============================
+// Step 81A - Top Spending Categories
+// ===============================
+
+let spendingHistory =
+JSON.parse(localStorage.getItem("spendingHistory")) || [];
+
+function saveSpending(){
+
+let category =
+document.getElementById("spendingCategory").value;
+
+let amount =
+Number(document.getElementById("spendingAmount").value);
+
+if(category=="" || amount<=0){
+
+alert("Fill All Fields");
+
+return;
+
+}
+
+spendingHistory.push({
+
+category:category,
+
+amount:amount
+
+});
+
+localStorage.setItem(
+
+"spendingHistory",
+
+JSON.stringify(spendingHistory)
+
+);
+
+loadSpending();
+
+document.getElementById("spendingCategory").value="";
+
+document.getElementById("spendingAmount").value="";
+
+}
+
+function loadSpending(){
+
+spendingHistory =
+JSON.parse(localStorage.getItem("spendingHistory")) || [];
+
+let list =
+document.getElementById("spendingHistory");
+
+if(!list) return;
+
+list.innerHTML="";
+
+if(spendingHistory.length==0){
+
+list.innerHTML="<li>No Records</li>";
+
+return;
+
+}
+
+spendingHistory.forEach(function(item){
+
+list.innerHTML += `
+
+<li>
+
+📂 ${item.category}<br>
+
+💸 ₹${item.amount}
+
+</li>
+
+<hr>
+
+`;
+
+});
+
+}
+
+window.addEventListener("load",function(){
+
+if(document.getElementById("spendingHistory")){
+
+loadSpending();
+
+}
+
+});
