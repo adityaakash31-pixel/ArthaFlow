@@ -4036,15 +4036,17 @@ if(!list) return;
 
 list.innerHTML="";
 
-if(comparisonHistory.length===0){
+if(comparisonHistory.length==0){
 
 list.innerHTML="<li>No History</li>";
+
+drawComparisonChart();
 
 return;
 
 }
 
-comparisonHistory.forEach(function(item){
+comparisonHistory.forEach(function(item,index){
 
 list.innerHTML += `
 
@@ -4056,7 +4058,19 @@ list.innerHTML += `
 
 💸 Yearly Expense : ₹${item.yearlyExpense}<br>
 
-💵 Yearly Saving : ₹${item.yearlySaving}
+💵 Yearly Saving : ₹${item.yearlySaving}<br><br>
+
+<button onclick="editComparison(${index})">
+
+✏ Edit
+
+</button>
+
+<button onclick="deleteComparison(${index})">
+
+🗑 Delete
+
+</button>
 
 </li>
 
@@ -4065,6 +4079,8 @@ list.innerHTML += `
 `;
 
 });
+
+drawComparisonChart();
 
 }
 
@@ -4077,3 +4093,92 @@ loadComparison();
 loadComparisonHistory();
 
 });
+
+function deleteComparison(index){
+
+if(confirm("Delete Record?")){
+
+comparisonHistory.splice(index,1);
+
+localStorage.setItem(
+
+"comparisonHistory",
+
+JSON.stringify(comparisonHistory)
+
+);
+
+loadComparisonHistory();
+
+}
+
+}
+
+function editComparison(index){
+
+let item = comparisonHistory[index];
+
+document.getElementById("monthlyIncome").value =
+(item.yearlyIncome/12).toFixed(0);
+
+document.getElementById("monthlyExpense").value =
+(item.yearlyExpense/12).toFixed(0);
+
+comparisonHistory.splice(index,1);
+
+localStorage.setItem(
+
+"comparisonHistory",
+
+JSON.stringify(comparisonHistory)
+
+);
+
+loadComparisonHistory();
+
+}
+
+  function drawComparisonChart(){
+
+let income = 0;
+
+let expense = 0;
+
+comparisonHistory.forEach(function(item){
+
+income += Number(item.yearlyIncome);
+
+expense += Number(item.yearlyExpense);
+
+});
+
+let chart =
+document.getElementById("comparisonChart");
+
+if(!chart) return;
+
+if(window.comparisonChartInstance){
+
+window.comparisonChartInstance.destroy();
+
+}
+
+window.comparisonChartInstance = new Chart(chart,{
+
+type:"pie",
+
+data:{
+
+labels:["Yearly Income","Yearly Expense"],
+
+datasets:[{
+
+data:[income,expense]
+
+}]
+
+}
+
+});
+
+  }  
