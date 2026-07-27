@@ -4894,7 +4894,7 @@ data:values
 }
 
 // ===============================
-// Step 83A + 83B + 83C
+// Step 83A + 83B + 83C + 83D + 83E
 // AI Spending Suggestions
 // ===============================
 
@@ -4943,10 +4943,7 @@ suggestion="🎉 Excellent! Your spending is under control. Keep investing and s
 document.getElementById("aiSuggestion").innerHTML =
 suggestion;
 
-localStorage.setItem(
-"aiSuggestion",
-suggestion
-);
+localStorage.setItem("aiSuggestion",suggestion);
 
 // ===============================
 // Smart Saving Tips
@@ -5033,95 +5030,79 @@ score.toFixed(0)+"%";
 document.getElementById("financialStatus").innerHTML =
 status;
 
-localStorage.setItem(
-"financialScore",
-score
-);
+localStorage.setItem("financialScore",score);
 
-localStorage.setItem(
-"financialStatus",
-status
-);
+localStorage.setItem("financialStatus",status);
 
-    // ===============================
-// AI Risk Alerts
+// ===============================
+// AI Risk Alert
 // ===============================
 
-let risk = "";
+let risk="";
 
-if(expense > income){
+if(expense>income){
 
-risk = "🚨 Critical Alert : Your expenses are higher than your income.";
-
-}
-
-else if(saving < income*0.10){
-
-risk = "⚠️ Warning : Your savings are below 10%.";
+risk="🚨 Critical Alert : Your expenses are higher than your income.";
 
 }
 
-else if(expense > income*0.80){
+else if(saving<income*0.10){
 
-risk = "🟡 Alert : Your spending is too high.";
+risk="⚠️ Warning : Your savings are below 10%.";
+
+}
+
+else if(expense>income*0.80){
+
+risk="🟡 Alert : Your spending is too high.";
 
 }
 
 else{
 
-risk = "🟢 No Financial Risk Detected.";
+risk="🟢 No Financial Risk Detected.";
 
 }
 
 document.getElementById("riskAlert").innerHTML =
 risk;
 
-localStorage.setItem(
-"riskAlert",
-risk
-);
+localStorage.setItem("riskAlert",risk);
 
-    // ===============================
+// ===============================
 // Personalized Financial Advice
 // ===============================
 
-let advice = "";
+let advice="";
 
-if(expense > income){
+if(expense>income){
 
-advice =
-"❌ Spend less than your income and avoid unnecessary purchases.";
-
-}
-
-else if(saving < income*0.20){
-
-advice =
-"💰 Increase your monthly savings and build an emergency fund.";
+advice="❌ Spend less than your income and avoid unnecessary purchases.";
 
 }
 
-else if(saving >= income*0.30){
+else if(saving<income*0.20){
 
-advice =
-"📈 Great! You can invest more in SIPs, Mutual Funds, or other long-term investments.";
+advice="💰 Increase your monthly savings and build an emergency fund.";
+
+}
+
+else if(saving>=income*0.30){
+
+advice="📈 Great! You can invest more in SIPs, Mutual Funds or other long-term investments.";
 
 }
 
 else{
 
-advice =
-"✅ Maintain your current budget and continue tracking your expenses.";
+advice="✅ Maintain your current budget and continue tracking your expenses.";
 
 }
 
 document.getElementById("financialAdvice").innerHTML =
 advice;
 
-localStorage.setItem(
-"financialAdvice",
-advice
-);
+localStorage.setItem("financialAdvice",advice);
 
 }
 
@@ -5159,20 +5140,47 @@ let score=
 Number(localStorage.getItem("financialScore")) || 0;
 
 let status=
-localStorage.getItem("financialStatus") ||
-"Not Calculated";
+localStorage.getItem("financialStatus") || "Not Calculated";
 
 if(document.getElementById("financialScore")){
 
-document.getElementById("financialScore").innerHTML =
+document.getElementById("financialScore").innerHTML=
 score.toFixed(0)+"%";
 
 }
 
 if(document.getElementById("financialStatus")){
 
-document.getElementById("financialStatus").innerHTML =
+document.getElementById("financialStatus").innerHTML=
 status;
+
+}
+
+}
+
+function loadRiskAlert(){
+
+let risk=
+localStorage.getItem("riskAlert") || "No Risk Detected";
+
+if(document.getElementById("riskAlert")){
+
+document.getElementById("riskAlert").innerHTML=
+risk;
+
+}
+
+}
+
+function loadFinancialAdvice(){
+
+let advice=
+localStorage.getItem("financialAdvice") || "No Advice Yet";
+
+if(document.getElementById("financialAdvice")){
+
+document.getElementById("financialAdvice").innerHTML=
+advice;
 
 }
 
@@ -5182,48 +5190,17 @@ window.addEventListener("load",function(){
 
 if(document.getElementById("aiSuggestion")){
 
-document.getElementById("aiSuggestion").innerHTML =
-localStorage.getItem("aiSuggestion") ||
-"No Suggestion Yet";
+document.getElementById("aiSuggestion").innerHTML=
+localStorage.getItem("aiSuggestion") || "No Suggestion Yet";
 
 loadSavingTips();
 
 loadFinancialScore();
 
-    loadRiskAlert();
+loadRiskAlert();
 
-    loadFinancialAdvice();
+loadFinancialAdvice();
 
 }
 
 });
-
-function loadRiskAlert(){
-
-let risk =
-localStorage.getItem("riskAlert") ||
-"No Risk Detected";
-
-if(document.getElementById("riskAlert")){
-
-document.getElementById("riskAlert").innerHTML =
-risk;
-
-}
-
-}
-
-function loadFinancialAdvice(){
-
-let advice =
-localStorage.getItem("financialAdvice") ||
-"No Advice Yet";
-
-if(document.getElementById("financialAdvice")){
-
-document.getElementById("financialAdvice").innerHTML =
-advice;
-
-}
-
-}
