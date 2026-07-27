@@ -4946,6 +4946,45 @@ suggestion =
 document.getElementById("aiSuggestion").innerHTML =
 suggestion;
 
+    let saving =
+income - expense;
+
+let tips = [];
+
+if(saving < income*0.10){
+
+tips.push("💰 Try to save at least 10% of your income.");
+
+}
+
+if(expense > income*0.70){
+
+tips.push("🛒 Reduce unnecessary shopping expenses.");
+
+}
+
+if(expense > income*0.50){
+
+tips.push("🍔 Cut down food & entertainment expenses.");
+
+}
+
+if(saving >= income*0.30){
+
+tips.push("🎉 Excellent! Keep investing regularly.");
+
+}
+
+localStorage.setItem(
+
+"aiSavingTips",
+
+JSON.stringify(tips)
+
+);
+
+loadSavingTips();
+
 localStorage.setItem("aiSuggestion",suggestion);
 
 }
@@ -4958,6 +4997,36 @@ document.getElementById("aiSuggestion").innerHTML =
 localStorage.getItem("aiSuggestion") ||
 "No Suggestion Yet";
 
+    loadSavingTips();
+
 }
 
 });
+
+function loadSavingTips(){
+
+let tips =
+JSON.parse(localStorage.getItem("aiSavingTips")) || [];
+
+let list =
+document.getElementById("savingTips");
+
+if(!list) return;
+
+list.innerHTML="";
+
+if(tips.length==0){
+
+list.innerHTML="<li>No Tips Yet</li>";
+
+return;
+
+}
+
+tips.forEach(function(item){
+
+list.innerHTML += "<li>"+item+"</li>";
+
+});
+
+}
