@@ -5201,7 +5201,9 @@ loadRiskAlert();
 
 loadFinancialAdvice();
 
-    loadMonthlySummary();
+loadMonthlySummary();
+
+loadHealthScore();
 
 }
 
@@ -5332,3 +5334,171 @@ localStorage.getItem("summaryRating") ||
 }
 
     }
+
+// ===============================
+// Step 84A - Advanced Financial Health Score
+// ===============================
+
+function calculateHealthScore(){
+
+let income =
+Number(document.getElementById("incomeAI").value);
+
+let expense =
+Number(document.getElementById("expenseAI").value);
+
+if(income<=0){
+
+alert("Enter Income");
+
+return;
+
+}
+
+let saving =
+income-expense;
+
+let savingRate =
+(saving/income)*100;
+
+let score = 0;
+
+// Saving Rate
+
+if(savingRate>=40){
+
+score += 40;
+
+}
+
+else if(savingRate>=30){
+
+score += 35;
+
+}
+
+else if(savingRate>=20){
+
+score += 25;
+
+}
+
+else if(savingRate>=10){
+
+score += 15;
+
+}
+
+else{
+
+score += 5;
+
+}
+
+// Expense Ratio
+
+let expenseRate =
+(expense/income)*100;
+
+if(expenseRate<=50){
+
+score += 30;
+
+}
+
+else if(expenseRate<=70){
+
+score += 20;
+
+}
+
+else{
+
+score += 10;
+
+}
+
+// Bonus
+
+if(income>expense){
+
+score += 30;
+
+}
+
+if(score>100){
+
+score=100;
+
+}
+
+let grade="";
+let status="";
+
+if(score>=90){
+
+grade="A+";
+status="🟢 Excellent";
+
+}
+
+else if(score>=80){
+
+grade="A";
+status="🔵 Very Good";
+
+}
+
+else if(score>=70){
+
+grade="B";
+status="🟡 Good";
+
+}
+
+else if(score>=60){
+
+grade="C";
+status="🟠 Average";
+
+}
+
+else{
+
+grade="D";
+status="🔴 Poor";
+
+}
+
+document.getElementById("overallHealthScore").innerHTML =
+score;
+
+document.getElementById("healthGrade").innerHTML =
+grade;
+
+document.getElementById("healthStatus").innerHTML =
+status;
+
+localStorage.setItem("overallHealthScore",score);
+
+localStorage.setItem("healthGrade",grade);
+
+localStorage.setItem("healthStatus",status);
+
+}
+function loadHealthScore(){
+
+if(document.getElementById("overallHealthScore")){
+
+document.getElementById("overallHealthScore").innerHTML =
+localStorage.getItem("overallHealthScore") || "0";
+
+document.getElementById("healthGrade").innerHTML =
+localStorage.getItem("healthGrade") || "-";
+
+document.getElementById("healthStatus").innerHTML =
+localStorage.getItem("healthStatus") || "Not Calculated";
+
+}
+
+}
