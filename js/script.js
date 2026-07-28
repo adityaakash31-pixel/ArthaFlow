@@ -5213,6 +5213,8 @@ loadBudgetOptimizer();
 
 loadWealthGrowth();
 
+loadRetirement();
+
 }
 
 });
@@ -5808,6 +5810,107 @@ document.getElementById("wealth10Year").innerHTML =
 
 document.getElementById("wealthAdvice").innerHTML =
 localStorage.getItem("wealthAdvice") || "Not Generated";
+
+}
+
+}
+
+// ===============================
+// Step 84F - AI Retirement Planner
+// ===============================
+
+function calculateRetirement(){
+
+let currentAge =
+Number(document.getElementById("currentAge").value);
+
+let retirementAge =
+Number(document.getElementById("retirementAge").value);
+
+let monthlyInvestment =
+Number(document.getElementById("monthlyInvestment").value);
+
+if(currentAge<=0 || retirementAge<=currentAge){
+
+alert("Enter Valid Ages");
+
+return;
+
+}
+
+if(monthlyInvestment<=0){
+
+alert("Enter Monthly Investment");
+
+return;
+
+}
+
+let years =
+retirementAge-currentAge;
+
+let corpus =
+monthlyInvestment*12*years;
+
+let score =
+(years*2);
+
+if(score>100){
+
+score=100;
+
+}
+
+let advice="";
+
+if(score>=80){
+
+advice="🟢 Excellent! You are on track for retirement.";
+
+}
+
+else if(score>=60){
+
+advice="🔵 Good! Increase investments gradually.";
+
+}
+
+else{
+
+advice="🟡 Start investing more for a comfortable retirement.";
+
+}
+
+document.getElementById("retirementCorpus").innerHTML =
+"₹"+corpus.toFixed(2);
+
+document.getElementById("retirementScore").innerHTML =
+score+"%";
+
+document.getElementById("retirementAdvice").innerHTML =
+advice;
+
+localStorage.setItem("retirementCorpus",corpus);
+
+localStorage.setItem("retirementScore",score);
+
+localStorage.setItem("retirementAdvice",advice);
+
+}
+
+function loadRetirement(){
+
+if(document.getElementById("retirementCorpus")){
+
+document.getElementById("retirementCorpus").innerHTML =
+"₹"+(Number(localStorage.getItem("retirementCorpus"))||0).toFixed(2);
+
+document.getElementById("retirementScore").innerHTML =
+(Number(localStorage.getItem("retirementScore"))||0)+"%";
+
+document.getElementById("retirementAdvice").innerHTML =
+localStorage.getItem("retirementAdvice") ||
+"Not Generated";
 
 }
 
