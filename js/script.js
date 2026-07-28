@@ -5341,30 +5341,30 @@ localStorage.getItem("summaryRating") ||
 
 function calculateHealthScore(){
 
+// Income & Expense from AI Summary
 let income =
-Number(document.getElementById("incomeAI").value);
+Number(localStorage.getItem("summaryIncome")) || 0;
 
 let expense =
-Number(document.getElementById("expenseAI").value);
+Number(localStorage.getItem("summaryExpense")) || 0;
 
 if(income<=0){
 
-alert("Enter Income");
+alert("Please Generate Monthly Summary First");
 
 return;
 
 }
 
-let saving =
-income-expense;
+let saving = income - expense;
 
-let savingRate =
-(saving/income)*100;
+let savingRate = (saving/income)*100;
+
+let expenseRate = (expense/income)*100;
 
 let score = 0;
 
-// Saving Rate
-
+// Saving Score
 if(savingRate>=40){
 
 score += 40;
@@ -5395,11 +5395,7 @@ score += 5;
 
 }
 
-// Expense Ratio
-
-let expenseRate =
-(expense/income)*100;
-
+// Expense Score
 if(expenseRate<=50){
 
 score += 30;
@@ -5419,7 +5415,6 @@ score += 10;
 }
 
 // Bonus
-
 if(income>expense){
 
 score += 30;
@@ -5486,6 +5481,7 @@ localStorage.setItem("healthGrade",grade);
 localStorage.setItem("healthStatus",status);
 
 }
+
 function loadHealthScore(){
 
 if(document.getElementById("overallHealthScore")){
