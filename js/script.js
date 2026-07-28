@@ -5219,6 +5219,8 @@ loadBudgetRecommendation();
 
 loadReductionPlan();
 
+loadSpendingHabit();
+
 }
 
 });
@@ -6073,6 +6075,87 @@ document.getElementById("expenseReductionPlan").innerHTML =
 localStorage.getItem("expenseReductionPlan") ||
 
 "Not Generated";
+
+}
+
+}
+
+// ===============================
+// Step 85C - AI Spending Habit Analyzer
+// ===============================
+
+function analyzeSpendingHabit(){
+
+let income =
+Number(localStorage.getItem("summaryIncome")) || 0;
+
+let expense =
+Number(localStorage.getItem("summaryExpense")) || 0;
+
+if(income<=0){
+
+alert("Generate Monthly Summary First");
+
+return;
+
+}
+
+let ratio = (expense/income)*100;
+
+let habit="";
+let suggestion="";
+
+if(ratio>=90){
+
+habit="🔴 Overspender";
+
+suggestion="Reduce unnecessary expenses immediately.";
+
+}
+
+else if(ratio>=70){
+
+habit="🟡 Average Spender";
+
+suggestion="Control shopping and entertainment expenses.";
+
+}
+
+else if(ratio>=50){
+
+habit="🟢 Smart Spender";
+
+suggestion="Good! Continue maintaining your budget.";
+
+}
+
+else{
+
+habit="🏆 Excellent Saver";
+
+suggestion="Fantastic! Increase investments for long-term wealth.";
+
+}
+
+document.getElementById("spendingHabit").innerHTML = habit;
+
+document.getElementById("habitSuggestion").innerHTML = suggestion;
+
+localStorage.setItem("spendingHabit",habit);
+
+localStorage.setItem("habitSuggestion",suggestion);
+
+}
+
+function loadSpendingHabit(){
+
+if(document.getElementById("spendingHabit")){
+
+document.getElementById("spendingHabit").innerHTML =
+localStorage.getItem("spendingHabit") || "Not Analyzed";
+
+document.getElementById("habitSuggestion").innerHTML =
+localStorage.getItem("habitSuggestion") || "No Suggestion";
 
 }
 
