@@ -146,6 +146,33 @@ No Advice Yet
 
   <div class="card">
 
+<h2>❤️ Advanced Financial Health Score</h2>
+
+<p>
+🏆 Overall Score :
+<span id="overallHealthScore">0</span>/100
+</p>
+
+<p>
+🎖 Grade :
+<span id="healthGrade">-</span>
+</p>
+
+<p>
+📊 Status :
+<span id="healthStatus">Not Calculated</span>
+</p>
+
+<button onclick="calculateHealthScore()">
+
+❤️ Calculate Health Score
+
+</button>
+
+  </div>
+
+  <div class="card">
+
 <h2>💡 Health Improvement Tips</h2>
 
 <ul id="healthTips">
@@ -153,6 +180,38 @@ No Advice Yet
 <li>No Tips Yet</li>
 
 </ul>
+
+  </div>
+
+  <div class="card">
+
+<h2>🔮 AI Financial Forecast</h2>
+
+<p>
+📅 Next Month Income :
+<span id="forecastIncome">₹0</span>
+</p>
+
+<p>
+💸 Next Month Expense :
+<span id="forecastExpense">₹0</span>
+</p>
+
+<p>
+💰 Expected Saving :
+<span id="forecastSaving">₹0</span>
+</p>
+
+<p>
+🤖 AI Prediction :
+<span id="forecastStatus">
+Not Generated
+</span>
+</p>
+
+<button onclick="generateForecast()">
+🔮 Generate Forecast
+</button>
 
   </div>
 
