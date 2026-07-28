@@ -5680,36 +5680,32 @@ localStorage.getItem("forecastStatus") ||
 function optimizeBudget(){
 
 let income =
-Number(localStorage.getItem("summaryIncome")) || 0;
+Number(localStorage.getItem("summaryIncome"));
 
 let expense =
-Number(localStorage.getItem("summaryExpense")) || 0;
+Number(localStorage.getItem("summaryExpense"));
 
-if(income<=0){
+if(isNaN(income) || income<=0){
 
-alert("Generate Monthly Summary First");
+alert("⚠️ First go to AI Spending Suggestions and click 'Generate Monthly Summary'.");
 
 return;
 
 }
 
-let recommendedBudget =
-income*0.70;
+let recommendedBudget = income*0.70;
 
-let saving =
-income-recommendedBudget;
+let recommendedSaving = income-recommendedBudget;
 
 let advice="";
 
 if(expense>recommendedBudget){
 
-advice="⚠️ Reduce your monthly expenses to stay within the recommended budget.";
+advice="⚠️ Reduce expenses by ₹"+(expense-recommendedBudget).toFixed(2);
 
-}
+}else{
 
-else{
-
-advice="🎉 Great! You are spending within the recommended budget.";
+advice="🎉 Great! Your spending is already within the recommended budget.";
 
 }
 
@@ -5717,33 +5713,15 @@ document.getElementById("recommendedBudget").innerHTML =
 "₹"+recommendedBudget.toFixed(2);
 
 document.getElementById("recommendedSaving").innerHTML =
-"₹"+saving.toFixed(2);
+"₹"+recommendedSaving.toFixed(2);
 
 document.getElementById("budgetAdvice").innerHTML =
 advice;
 
 localStorage.setItem("recommendedBudget",recommendedBudget);
 
-localStorage.setItem("recommendedSaving",saving);
+localStorage.setItem("recommendedSaving",recommendedSaving);
 
 localStorage.setItem("budgetAdvice",advice);
-
-}
-
-function loadBudgetOptimizer(){
-
-if(document.getElementById("recommendedBudget")){
-
-document.getElementById("recommendedBudget").innerHTML =
-"₹"+(Number(localStorage.getItem("recommendedBudget"))||0).toFixed(2);
-
-document.getElementById("recommendedSaving").innerHTML =
-"₹"+(Number(localStorage.getItem("recommendedSaving"))||0).toFixed(2);
-
-document.getElementById("budgetAdvice").innerHTML =
-localStorage.getItem("budgetAdvice") ||
-"Not Generated";
-
-}
 
 }
