@@ -5217,6 +5217,8 @@ loadRetirement();
 
 loadBudgetRecommendation();
 
+loadReductionPlan();
+
 }
 
 });
@@ -6001,6 +6003,75 @@ document.getElementById("savingTarget").innerHTML =
 
 document.getElementById("budgetRecommendation").innerHTML =
 localStorage.getItem("budgetRecommendation") ||
+"Not Generated";
+
+}
+
+}
+
+// ===============================
+// Step 85B - Smart Expense Reduction Plan
+// ===============================
+
+function generateReductionPlan(){
+
+let income =
+Number(localStorage.getItem("summaryIncome")) || 0;
+
+let expense =
+Number(localStorage.getItem("summaryExpense")) || 0;
+
+if(income<=0){
+
+alert("Generate Monthly Summary First");
+
+return;
+
+}
+
+let plan="";
+
+let ratio=(expense/income)*100;
+
+if(ratio>=90){
+
+plan="🚨 Your expenses are extremely high. Reduce food, shopping, travel and entertainment expenses immediately.";
+
+}
+
+else if(ratio>=75){
+
+plan="⚠️ Reduce entertainment and shopping expenses. Try to save at least 20% of your income.";
+
+}
+
+else if(ratio>=60){
+
+plan="🙂 Your spending is under control, but reducing unnecessary expenses can increase savings.";
+
+}
+
+else{
+
+plan="🎉 Excellent! Your spending is healthy. Continue following your budget.";
+
+}
+
+document.getElementById("expenseReductionPlan").innerHTML =
+plan;
+
+localStorage.setItem("expenseReductionPlan",plan);
+
+}
+
+function loadReductionPlan(){
+
+if(document.getElementById("expenseReductionPlan")){
+
+document.getElementById("expenseReductionPlan").innerHTML =
+
+localStorage.getItem("expenseReductionPlan") ||
+
 "Not Generated";
 
 }
