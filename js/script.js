@@ -5215,6 +5215,8 @@ loadWealthGrowth();
 
 loadRetirement();
 
+loadBudgetRecommendation();
+
 }
 
 });
@@ -5910,6 +5912,95 @@ document.getElementById("retirementScore").innerHTML =
 
 document.getElementById("retirementAdvice").innerHTML =
 localStorage.getItem("retirementAdvice") ||
+"Not Generated";
+
+}
+
+}
+
+// ===============================
+// Step 85A - Smart Budget Recommendations
+// ===============================
+
+function generateBudgetRecommendation(){
+
+let income =
+Number(localStorage.getItem("summaryIncome")) || 0;
+
+if(income<=0){
+
+alert("Generate Monthly Summary First");
+
+return;
+
+}
+
+let budget = income * 0.80;
+
+let food = budget * 0.30;
+
+let transport = budget * 0.15;
+
+let entertainment = budget * 0.10;
+
+let saving = income * 0.20;
+
+let advice =
+"✅ Spend within your recommended budget and save at least 20% every month.";
+
+document.getElementById("recommendedBudgetAmount").innerHTML =
+"₹"+budget.toFixed(2);
+
+document.getElementById("foodBudget").innerHTML =
+"₹"+food.toFixed(2);
+
+document.getElementById("transportBudget").innerHTML =
+"₹"+transport.toFixed(2);
+
+document.getElementById("entertainmentBudget").innerHTML =
+"₹"+entertainment.toFixed(2);
+
+document.getElementById("savingTarget").innerHTML =
+"₹"+saving.toFixed(2);
+
+document.getElementById("budgetRecommendation").innerHTML =
+advice;
+
+localStorage.setItem("recommendedBudgetAmount",budget);
+
+localStorage.setItem("foodBudget",food);
+
+localStorage.setItem("transportBudget",transport);
+
+localStorage.setItem("entertainmentBudget",entertainment);
+
+localStorage.setItem("savingTarget",saving);
+
+localStorage.setItem("budgetRecommendation",advice);
+
+}
+
+function loadBudgetRecommendation(){
+
+if(document.getElementById("recommendedBudgetAmount")){
+
+document.getElementById("recommendedBudgetAmount").innerHTML =
+"₹"+(Number(localStorage.getItem("recommendedBudgetAmount"))||0).toFixed(2);
+
+document.getElementById("foodBudget").innerHTML =
+"₹"+(Number(localStorage.getItem("foodBudget"))||0).toFixed(2);
+
+document.getElementById("transportBudget").innerHTML =
+"₹"+(Number(localStorage.getItem("transportBudget"))||0).toFixed(2);
+
+document.getElementById("entertainmentBudget").innerHTML =
+"₹"+(Number(localStorage.getItem("entertainmentBudget"))||0).toFixed(2);
+
+document.getElementById("savingTarget").innerHTML =
+"₹"+(Number(localStorage.getItem("savingTarget"))||0).toFixed(2);
+
+document.getElementById("budgetRecommendation").innerHTML =
+localStorage.getItem("budgetRecommendation") ||
 "Not Generated";
 
 }
