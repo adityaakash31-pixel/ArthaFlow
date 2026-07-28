@@ -5211,6 +5211,8 @@ loadForecast();
 
 loadBudgetOptimizer();
 
+loadWealthGrowth();
+
 }
 
 });
@@ -5723,5 +5725,90 @@ localStorage.setItem("recommendedBudget",recommendedBudget);
 localStorage.setItem("recommendedSaving",recommendedSaving);
 
 localStorage.setItem("budgetAdvice",advice);
+
+}
+
+// ===============================
+// Step 84E - AI Wealth Growth Planner
+// ===============================
+
+function calculateWealthGrowth(){
+
+let saving =
+Number(localStorage.getItem("summarySaving")) || 0;
+
+if(saving<=0){
+
+alert("Generate Monthly Summary First");
+
+return;
+
+}
+
+let wealth1 = saving * 12;
+
+let wealth5 = saving * 12 * 5;
+
+let wealth10 = saving * 12 * 10;
+
+let advice="";
+
+if(saving>=20000){
+
+advice="🟢 Excellent! Continue investing regularly for long-term wealth.";
+
+}
+
+else if(saving>=10000){
+
+advice="🔵 Good! Increase your monthly savings gradually.";
+
+}
+
+else{
+
+advice="🟡 Try to save more every month to build wealth faster.";
+
+}
+
+document.getElementById("wealth1Year").innerHTML =
+"₹"+wealth1.toFixed(2);
+
+document.getElementById("wealth5Year").innerHTML =
+"₹"+wealth5.toFixed(2);
+
+document.getElementById("wealth10Year").innerHTML =
+"₹"+wealth10.toFixed(2);
+
+document.getElementById("wealthAdvice").innerHTML =
+advice;
+
+localStorage.setItem("wealth1Year",wealth1);
+
+localStorage.setItem("wealth5Year",wealth5);
+
+localStorage.setItem("wealth10Year",wealth10);
+
+localStorage.setItem("wealthAdvice",advice);
+
+}
+
+function loadWealthGrowth(){
+
+if(document.getElementById("wealth1Year")){
+
+document.getElementById("wealth1Year").innerHTML =
+"₹"+(Number(localStorage.getItem("wealth1Year"))||0).toFixed(2);
+
+document.getElementById("wealth5Year").innerHTML =
+"₹"+(Number(localStorage.getItem("wealth5Year"))||0).toFixed(2);
+
+document.getElementById("wealth10Year").innerHTML =
+"₹"+(Number(localStorage.getItem("wealth10Year"))||0).toFixed(2);
+
+document.getElementById("wealthAdvice").innerHTML =
+localStorage.getItem("wealthAdvice") || "Not Generated";
+
+}
 
 }
