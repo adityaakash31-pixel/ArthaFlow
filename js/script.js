@@ -5205,6 +5205,8 @@ loadMonthlySummary();
 
 loadHealthScore();
 
+loadHealthTips();
+
 }
 
 });
@@ -5480,6 +5482,53 @@ localStorage.setItem("healthGrade",grade);
 
 localStorage.setItem("healthStatus",status);
 
+    // ===============================
+// Step 84B - Health Tips
+// ===============================
+
+let healthTips=[];
+
+if(score<50){
+
+healthTips.push("🚨 Reduce unnecessary expenses.");
+
+healthTips.push("💰 Increase your monthly savings.");
+
+healthTips.push("📒 Create a monthly budget.");
+
+}
+
+else if(score<70){
+
+healthTips.push("🙂 Try to save at least 20% of your income.");
+
+healthTips.push("🛒 Control shopping expenses.");
+
+}
+
+else if(score<90){
+
+healthTips.push("📈 Start investing regularly.");
+
+healthTips.push("🏦 Build an emergency fund.");
+
+}
+
+else{
+
+healthTips.push("🎉 Excellent! Keep maintaining your financial discipline.");
+
+healthTips.push("🚀 Continue investing for long-term wealth.");
+
+}
+
+localStorage.setItem(
+"healthTips",
+JSON.stringify(healthTips)
+);
+
+loadHealthTips();
+
 }
 
 function loadHealthScore(){
@@ -5496,5 +5545,33 @@ document.getElementById("healthStatus").innerHTML =
 localStorage.getItem("healthStatus") || "Not Calculated";
 
 }
+
+}
+
+function loadHealthTips(){
+
+let tips=
+JSON.parse(localStorage.getItem("healthTips")) || [];
+
+let list=
+document.getElementById("healthTips");
+
+if(!list) return;
+
+list.innerHTML="";
+
+if(tips.length==0){
+
+list.innerHTML="<li>No Tips Yet</li>";
+
+return;
+
+}
+
+tips.forEach(function(item){
+
+list.innerHTML += "<li>"+item+"</li>";
+
+});
 
 }
