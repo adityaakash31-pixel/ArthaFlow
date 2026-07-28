@@ -5207,6 +5207,8 @@ loadHealthScore();
 
 loadHealthTips();
 
+loadForecast();
+
 }
 
 });
@@ -5573,5 +5575,98 @@ tips.forEach(function(item){
 list.innerHTML += "<li>"+item+"</li>";
 
 });
+
+}
+
+// ===============================
+// Step 84C - AI Financial Forecast
+// ===============================
+
+function generateForecast(){
+
+let income =
+Number(localStorage.getItem("summaryIncome")) || 0;
+
+let expense =
+Number(localStorage.getItem("summaryExpense")) || 0;
+
+if(income<=0){
+
+alert("Generate Monthly Summary First");
+
+return;
+
+}
+
+// AI Prediction
+let nextIncome =
+income*1.05;
+
+let nextExpense =
+expense*1.03;
+
+let saving =
+nextIncome-nextExpense;
+
+let prediction="";
+
+if(saving>income*0.30){
+
+prediction="🟢 Excellent Growth Expected";
+
+}
+
+else if(saving>income*0.20){
+
+prediction="🔵 Stable Financial Growth";
+
+}
+
+else{
+
+prediction="🟡 Spending May Increase";
+
+}
+
+document.getElementById("forecastIncome").innerHTML =
+"₹"+nextIncome.toFixed(2);
+
+document.getElementById("forecastExpense").innerHTML =
+"₹"+nextExpense.toFixed(2);
+
+document.getElementById("forecastSaving").innerHTML =
+"₹"+saving.toFixed(2);
+
+document.getElementById("forecastStatus").innerHTML =
+prediction;
+
+localStorage.setItem("forecastIncome",nextIncome);
+
+localStorage.setItem("forecastExpense",nextExpense);
+
+localStorage.setItem("forecastSaving",saving);
+
+localStorage.setItem("forecastStatus",prediction);
+
+}
+
+function loadForecast(){
+
+if(document.getElementById("forecastIncome")){
+
+document.getElementById("forecastIncome").innerHTML =
+"₹"+(Number(localStorage.getItem("forecastIncome"))||0).toFixed(2);
+
+document.getElementById("forecastExpense").innerHTML =
+"₹"+(Number(localStorage.getItem("forecastExpense"))||0).toFixed(2);
+
+document.getElementById("forecastSaving").innerHTML =
+"₹"+(Number(localStorage.getItem("forecastSaving"))||0).toFixed(2);
+
+document.getElementById("forecastStatus").innerHTML =
+localStorage.getItem("forecastStatus") ||
+"Not Generated";
+
+}
 
 }
