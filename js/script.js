@@ -5202,7 +5202,7 @@ window.addEventListener("load", function(){
 
     loadForecast();
 
-    loadBudgetOptimizer();
+    
 
     loadWealthGrowth();
 
