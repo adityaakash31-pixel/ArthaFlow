@@ -7285,22 +7285,14 @@ return;
 
 }
 
-let perPerson =
-amount/members;
+let perPerson = amount/members;
 
-    let splitHTML="";
+let splitHTML="";
 
 for(let i=1;i<=members;i++){
 
-splitHTML +=
-`
-<p>
-
-👤 Member ${i}
-
-➡️ ₹${perPerson.toFixed(2)}
-
-</p>
+splitHTML += `
+<p>👤 Member ${i} ➡️ ₹${perPerson.toFixed(2)}</p>
 `;
 
 }
@@ -7314,29 +7306,26 @@ members;
 document.getElementById("perPersonExpense").innerHTML =
 "₹"+perPerson.toFixed(2);
 
-    document.getElementById("memberSplitList").innerHTML =
+document.getElementById("memberSplitList").innerHTML =
 splitHTML;
 
-localStorage.setItem(
-"memberSplitList",
-splitHTML
-);
+// Save Result
+localStorage.setItem("sharedTitle",title);
+localStorage.setItem("sharedTotal",amount);
+localStorage.setItem("sharedMembers",members);
+localStorage.setItem("perPersonExpense",perPerson);
+localStorage.setItem("memberSplitList",splitHTML);
 
-    let history =
+// Save History
+let history =
 JSON.parse(localStorage.getItem("sharedExpenseHistory")) || [];
 
 history.unshift({
-
 title:title,
-
 amount:amount,
-
 members:members,
-
 perPerson:perPerson,
-
 date:new Date().toLocaleDateString()
-
 });
 
 localStorage.setItem(
@@ -7344,40 +7333,11 @@ localStorage.setItem(
 JSON.stringify(history)
 );
 
+// Reload Screen
+loadSharedExpense();
 loadSharedHistory();
 
-localStorage.setItem("sharedTitle",title);
-
-localStorage.setItem("sharedTotal",amount);
-
-localStorage.setItem("sharedMembers",members);
-
-localStorage.setItem("perPersonExpense",perPerson);
-
-}
-
-function loadSharedExpense(){
-
-if(document.getElementById("sharedTotal")){
-
-document.getElementById("sharedTotal").innerHTML =
-"₹"+(Number(localStorage.getItem("sharedTotal"))||0).toFixed(2);
-
-document.getElementById("sharedMemberCount").innerHTML =
-localStorage.getItem("sharedMembers") || "0";
-
-document.getElementById("perPersonExpense").innerHTML =
-"₹"+(Number(localStorage.getItem("perPersonExpense"))||0).toFixed(2);
-
-    if(document.getElementById("memberSplitList")){
-
-document.getElementById("memberSplitList").innerHTML =
-localStorage.getItem("memberSplitList") ||
-"No Split Generated";
-
-    }
-
-}
+alert("Shared Expense Saved Successfully");
 
 }
 
