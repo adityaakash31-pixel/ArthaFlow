@@ -7395,11 +7395,11 @@ document.getElementById("sharedHistory");
 
 if(!box) return;
 
-box.innerHTML="";
+box.innerHTML = "";
 
-if(history.length==0){
+if(history.length===0){
 
-box.innerHTML="No History Available";
+box.innerHTML = "<p>No History Available</p>";
 
 return;
 
@@ -7407,17 +7407,16 @@ return;
 
 history.forEach(function(item){
 
-box.innerHTML +=
-`
+box.innerHTML += `
 <div class="card">
 
 <h3>📌 ${item.title}</h3>
 
-<p>💰 Total : ₹${item.amount.toFixed(2)}</p>
+<p>💰 Total : ₹${Number(item.amount).toFixed(2)}</p>
 
 <p>👥 Members : ${item.members}</p>
 
-<p>💵 Per Person : ₹${item.perPerson.toFixed(2)}</p>
+<p>💵 Per Person : ₹${Number(item.perPerson).toFixed(2)}</p>
 
 <p>📅 ${item.date}</p>
 
