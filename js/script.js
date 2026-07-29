@@ -5232,6 +5232,10 @@ window.addEventListener("load", function(){
 
     loadFamilyMembers();
 
+    loadFamilyFinanceReport();
+
+    loadFamilyFinanceReport();
+
 });
 
 // ===============================
@@ -7080,5 +7084,52 @@ JSON.stringify(finance)
 );
 
 alert("Saved Successfully");
+
+}
+
+// ===============================
+// Step 87E - Family Financial Report
+// ===============================
+
+function loadFamilyFinanceReport(){
+
+let finance =
+JSON.parse(localStorage.getItem("familyFinance")) || {};
+
+let report =
+document.getElementById("familyFinanceReport");
+
+if(!report) return;
+
+report.innerHTML="";
+
+let members = Object.keys(finance);
+
+if(members.length==0){
+
+report.innerHTML="No Data Available";
+
+return;
+
+}
+
+members.forEach(function(member){
+
+report.innerHTML +=
+`
+<div class="card">
+
+<h3>👤 ${member}</h3>
+
+<p>💰 Income : ₹${finance[member].income.toFixed(2)}</p>
+
+<p>💸 Expense : ₹${finance[member].expense.toFixed(2)}</p>
+
+<p>💵 Balance : ₹${finance[member].balance.toFixed(2)}</p>
+
+</div>
+`;
+
+});
 
 }
