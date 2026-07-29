@@ -5230,6 +5230,8 @@ window.addEventListener("load", function(){
 
     loadFinancialGoals();
 
+    loadFamilyMembers();
+
 });
 
 // ===============================
@@ -6923,5 +6925,99 @@ JSON.stringify(goals)
 loadFinancialGoals();
 
 }
+
+}
+
+// ===============================
+// Step 87C - Family Members
+// ===============================
+
+function addFamilyMember(){
+
+let name =
+document.getElementById("memberName").value.trim();
+
+if(name==""){
+
+alert("Enter Member Name");
+
+return;
+
+}
+
+let members =
+JSON.parse(localStorage.getItem("familyMembers")) || [];
+
+members.push({
+
+name:name
+
+});
+
+localStorage.setItem(
+"familyMembers",
+JSON.stringify(members)
+);
+
+document.getElementById("memberName").value="";
+
+loadFamilyMembers();
+
+}
+
+function loadFamilyMembers(){
+
+let members =
+JSON.parse(localStorage.getItem("familyMembers")) || [];
+
+let list =
+document.getElementById("familyList");
+
+if(!list) return;
+
+list.innerHTML="";
+
+if(members.length==0){
+
+list.innerHTML="<li>No Members Added</li>";
+
+return;
+
+}
+
+members.forEach(function(member,index){
+
+list.innerHTML +=
+`
+<li>
+
+👤 ${member.name}
+
+<button onclick="deleteFamilyMember(${index})">
+
+🗑️
+
+</button>
+
+</li>
+`;
+
+});
+
+}
+
+function deleteFamilyMember(index){
+
+let members =
+JSON.parse(localStorage.getItem("familyMembers")) || [];
+
+members.splice(index,1);
+
+localStorage.setItem(
+"familyMembers",
+JSON.stringify(members)
+);
+
+loadFamilyMembers();
 
 }
