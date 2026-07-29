@@ -5202,8 +5202,6 @@ window.addEventListener("load", function(){
 
     loadForecast();
 
-    
-
     loadWealthGrowth();
 
     loadRetirement();
@@ -7341,6 +7339,27 @@ loadSharedAnalytics();
 alert("Shared Expense Saved Successfully");
 
 }
+
+// Load Shared Expense after Refresh
+
+function loadSharedExpense(){
+
+if(!document.getElementById("sharedTotal")) return;
+
+document.getElementById("sharedTotal").innerHTML =
+"₹"+(Number(localStorage.getItem("sharedTotal"))||0).toFixed(2);
+
+document.getElementById("sharedMemberCount").innerHTML =
+localStorage.getItem("sharedMembers") || "0";
+
+document.getElementById("perPersonExpense").innerHTML =
+"₹"+(Number(localStorage.getItem("perPersonExpense"))||0).toFixed(2);
+
+document.getElementById("memberSplitList").innerHTML =
+localStorage.getItem("memberSplitList") ||
+"No Split Generated";
+
+    }
 
 // ===============================
 // Step 88E - Shared Expense History
