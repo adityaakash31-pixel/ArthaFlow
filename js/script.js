@@ -7083,6 +7083,8 @@ localStorage.setItem(
 JSON.stringify(finance)
 );
 
+    console.log(localStorage.getItem("familyFinance"));
+
 alert("Saved Successfully");
 
 loadFamilyFinanceReport();
