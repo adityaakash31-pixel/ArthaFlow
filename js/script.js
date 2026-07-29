@@ -5218,6 +5218,8 @@ window.addEventListener("load", function(){
 
     loadBudgetPerformance();
 
+    loadBudgetScore();
+
 });
 
 // ===============================
@@ -6243,6 +6245,128 @@ document.getElementById("budgetRemaining").innerHTML =
 
 document.getElementById("budgetPerformance").innerHTML =
 localStorage.getItem("budgetPerformance") ||
+"Not Calculated";
+
+}
+
+}
+
+// ===============================
+// Step 85E - Smart Budget Score
+// ===============================
+
+function calculateBudgetScore(){
+
+let budget =
+Number(localStorage.getItem("recommendedBudgetAmount")) || 0;
+
+let expense =
+Number(localStorage.getItem("summaryExpense")) || 0;
+
+if(budget<=0){
+
+alert("Generate Budget Recommendation First");
+
+return;
+
+}
+
+let score = 100;
+
+if(expense>budget){
+
+score -= 40;
+
+}
+
+else{
+
+let remain =
+budget-expense;
+
+score = (remain/budget)*100;
+
+}
+
+if(score<0){
+
+score=0;
+
+}
+
+if(score>100){
+
+score=100;
+
+}
+
+let grade="";
+let status="";
+
+if(score>=90){
+
+grade="A+";
+status="🟢 Excellent";
+
+}
+
+else if(score>=80){
+
+grade="A";
+status="🔵 Very Good";
+
+}
+
+else if(score>=70){
+
+grade="B";
+status="🟡 Good";
+
+}
+
+else if(score>=60){
+
+grade="C";
+status="🟠 Average";
+
+}
+
+else{
+
+grade="D";
+status="🔴 Poor";
+
+}
+
+document.getElementById("budgetScore").innerHTML =
+score.toFixed(0);
+
+document.getElementById("budgetGrade").innerHTML =
+grade;
+
+document.getElementById("budgetScoreStatus").innerHTML =
+status;
+
+localStorage.setItem("budgetScore",score);
+
+localStorage.setItem("budgetGrade",grade);
+
+localStorage.setItem("budgetScoreStatus",status);
+
+}
+
+function loadBudgetScore(){
+
+if(document.getElementById("budgetScore")){
+
+document.getElementById("budgetScore").innerHTML =
+Number(localStorage.getItem("budgetScore")) || 0;
+
+document.getElementById("budgetGrade").innerHTML =
+localStorage.getItem("budgetGrade") || "-";
+
+document.getElementById("budgetScoreStatus").innerHTML =
+localStorage.getItem("budgetScoreStatus") ||
 "Not Calculated";
 
 }
