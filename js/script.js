@@ -6975,6 +6975,15 @@ document.getElementById("familyList");
 
 if(!list) return;
 
+    let select =
+document.getElementById("memberSelect");
+
+if(select){
+
+select.innerHTML="<option>Select Member</option>";
+
+}
+
 list.innerHTML="";
 
 if(members.length==0){
@@ -7002,6 +7011,13 @@ list.innerHTML +=
 </li>
 `;
 
+    if(select){
+
+select.innerHTML +=
+`<option>${member.name}</option>`;
+
+    }
+
 });
 
 }
@@ -7019,5 +7035,50 @@ JSON.stringify(members)
 );
 
 loadFamilyMembers();
+
+}
+
+// ===============================
+// Step 87D - Member Finance
+// ===============================
+
+function saveMemberFinance(){
+
+let member =
+document.getElementById("memberSelect").value;
+
+let income =
+Number(document.getElementById("memberIncome").value);
+
+let expense =
+Number(document.getElementById("memberExpense").value);
+
+if(member=="Select Member"){
+
+alert("Select Member");
+
+return;
+
+}
+
+let finance =
+JSON.parse(localStorage.getItem("familyFinance")) || {};
+
+finance[member]={
+
+income:income,
+
+expense:expense,
+
+balance:income-expense
+
+};
+
+localStorage.setItem(
+"familyFinance",
+JSON.stringify(finance)
+);
+
+alert("Saved Successfully");
 
 }
