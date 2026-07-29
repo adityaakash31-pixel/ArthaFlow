@@ -6465,6 +6465,12 @@ function loadGoalProgress(){
 
 if(document.getElementById("goalAmountDisplay")){
 
+document.getElementById("goalTarget").value =
+Number(localStorage.getItem("goalTarget")) || "";
+
+document.getElementById("currentSaving").value =
+Number(localStorage.getItem("currentSaving")) || "";
+
 document.getElementById("goalAmountDisplay").innerHTML =
 "₹"+(Number(localStorage.getItem("goalTarget"))||0).toFixed(2);
 
