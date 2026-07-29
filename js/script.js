@@ -7336,6 +7336,7 @@ JSON.stringify(history)
 // Reload Screen
 loadSharedExpense();
 loadSharedHistory();
+loadSharedAnalytics();
 
 alert("Shared Expense Saved Successfully");
 
@@ -7384,5 +7385,53 @@ box.innerHTML += `
 `;
 
 });
+
+}
+
+// ===============================
+// Step 88F - Shared Expense Analytics
+// ===============================
+
+function loadSharedAnalytics(){
+
+let history =
+JSON.parse(localStorage.getItem("sharedExpenseHistory")) || [];
+
+if(!document.getElementById("analyticsTotalExpense")) return;
+
+let total = 0;
+let highest = 0;
+
+history.forEach(function(item){
+
+total += Number(item.amount);
+
+if(Number(item.amount) > highest){
+
+highest = Number(item.amount);
+
+}
+
+});
+
+let average = 0;
+
+if(history.length>0){
+
+average = total/history.length;
+
+}
+
+document.getElementById("analyticsTotalExpense").innerHTML =
+"₹"+total.toFixed(2);
+
+document.getElementById("analyticsTotalRecords").innerHTML =
+history.length;
+
+document.getElementById("analyticsAverageExpense").innerHTML =
+"₹"+average.toFixed(2);
+
+document.getElementById("analyticsHighestExpense").innerHTML =
+"₹"+highest.toFixed(2);
 
 }
