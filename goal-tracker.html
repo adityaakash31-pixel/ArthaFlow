@@ -18,6 +18,52 @@
 
 <div id="goalContainer">
 
+<div class="card">
+
+<h2>🎯 Savings Goal Progress</h2>
+
+<input
+type="number"
+id="goalTarget"
+placeholder="Enter Goal Amount">
+
+<input
+type="number"
+id="currentSaving"
+placeholder="Current Savings">
+
+<button onclick="calculateGoalProgress()">
+
+📈 Calculate Progress
+
+</button>
+
+<hr>
+
+<p>
+🎯 Goal :
+<span id="goalAmountDisplay">₹0</span>
+</p>
+
+<p>
+💰 Current Saving :
+<span id="currentSavingDisplay">₹0</span>
+</p>
+
+<p>
+📊 Progress :
+<span id="goalProgressPercent">0%</span>
+</p>
+
+<p>
+🏆 Status :
+<span id="goalStatus">
+Not Calculated
+</span>
+</p>
+
+</div>
+
 </div>
 
 <script src="js/script.js"></script>
