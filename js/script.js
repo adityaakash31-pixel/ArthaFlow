@@ -7324,11 +7324,11 @@ JSON.parse(localStorage.getItem("familyMembers")) || [];
 
 let splitHTML="";
 
-if(familyMembers.length>0){
+if(familyMembers.length > 0){
 
-familyMembers.forEach(function(member){
+    familyMembers.forEach(function(member){
 
-splitHTML += `
+        splitHTML += `
 <p>
 
 👤 ${member.name}
@@ -7338,15 +7338,13 @@ splitHTML += `
 </p>
 `;
 
-});
-
-});
+    });
 
 }else{
 
-for(let i=1;i<=members;i++){
+    for(let i=1;i<=members;i++){
 
-splitHTML += `
+        splitHTML += `
 <p>
 
 👤 Member ${i}
@@ -7356,7 +7354,7 @@ splitHTML += `
 </p>
 `;
 
-}
+    }
 
 }
 
@@ -7625,26 +7623,26 @@ let pending=0;
 
 familyMembers.forEach(function(member){
 
-let status = payment[member] || "Unpaid";
+let memberName = member.name;
+
+let status = payment[memberName] || "Unpaid";
 
 if(status=="Paid"){
 
-result.innerHTML +=
-`
+result.innerHTML += `
 <p>
 
-🟢 <b>${member}</b> → Already Paid
+🟢 <b>${memberName}</b> → Already Paid
 
 </p>
 `;
 
 }else{
 
-result.innerHTML +=
-`
+result.innerHTML += `
 <p>
 
-🔴 <b>${member}</b> → Pay ₹${amount.toFixed(2)}
+🔴 <b>${memberName}</b> → Pay ₹${amount.toFixed(2)}
 
 </p>
 `;
@@ -7654,16 +7652,3 @@ pending += amount;
 }
 
 });
-
-result.innerHTML +=
-`
-<hr>
-
-<h3>
-
-💰 Total Pending : ₹${pending.toFixed(2)}
-
-</h3>
-`;
-
-}
