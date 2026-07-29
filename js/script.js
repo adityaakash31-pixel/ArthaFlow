@@ -5236,6 +5236,8 @@ window.addEventListener("load", function(){
 
     loadFamilySummary();
 
+    loadFamilyAnalytics();
+
 });
 
 // ===============================
@@ -7089,6 +7091,7 @@ alert("Saved Successfully");
 
 loadFamilyFinanceReport();
 loadFamilySummary();
+loadFamilyAnalytics();
 
 }
 
@@ -7180,5 +7183,77 @@ document.getElementById("familyMemberCount").innerHTML =
 members.length;
 
 }
+
+}
+
+// ===============================
+// Step 87G - Family Analytics
+// ===============================
+
+function loadFamilyAnalytics(){
+
+let finance =
+JSON.parse(localStorage.getItem("familyFinance")) || {};
+
+let names=[];
+let balances=[];
+
+Object.keys(finance).forEach(function(member){
+
+names.push(member);
+
+balances.push(finance[member].balance);
+
+});
+
+let canvas =
+document.getElementById("familyChart");
+
+if(!canvas) return;
+
+new Chart(canvas,{
+
+type:"bar",
+
+data:{
+
+labels:names,
+
+datasets:[{
+
+label:"Balance",
+
+data:balances,
+
+backgroundColor:[
+"#4CAF50",
+"#2196F3",
+"#FFC107",
+"#FF5722",
+"#9C27B0",
+"#009688"
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+
+display:false
+
+}
+
+}
+
+}
+
+});
 
 }
