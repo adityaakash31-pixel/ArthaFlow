@@ -6372,3 +6372,81 @@ localStorage.getItem("budgetScoreStatus") ||
 }
 
 }
+
+// ===============================
+// Step 86A - Savings Goal Progress
+// ===============================
+
+function calculateGoalProgress(){
+
+let goal =
+Number(document.getElementById("goalTarget").value);
+
+let saving =
+Number(document.getElementById("currentSaving").value);
+
+if(goal<=0){
+
+alert("Enter Goal Amount");
+
+return;
+
+}
+
+let progress = (saving/goal)*100;
+
+if(progress>100){
+
+progress=100;
+
+}
+
+let status="";
+
+if(progress>=100){
+
+status="🏆 Goal Achieved";
+
+}
+else if(progress>=75){
+
+status="🟢 Almost There";
+
+}
+else if(progress>=50){
+
+status="🔵 Halfway Completed";
+
+}
+else if(progress>=25){
+
+status="🟡 Good Start";
+
+}
+else{
+
+status="🔴 Keep Saving";
+
+}
+
+document.getElementById("goalAmountDisplay").innerHTML =
+"₹"+goal.toFixed(2);
+
+document.getElementById("currentSavingDisplay").innerHTML =
+"₹"+saving.toFixed(2);
+
+document.getElementById("goalProgressPercent").innerHTML =
+progress.toFixed(0)+"%";
+
+document.getElementById("goalStatus").innerHTML =
+status;
+
+localStorage.setItem("goalTarget",goal);
+
+localStorage.setItem("currentSaving",saving);
+
+localStorage.setItem("goalProgressPercent",progress);
+
+localStorage.setItem("goalStatus",status);
+
+}
