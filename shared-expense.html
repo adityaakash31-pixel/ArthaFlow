@@ -88,6 +88,32 @@ No History Available
 
 </div>
 
+  <div class="card">
+
+<h2>📊 Shared Expense Analytics</h2>
+
+<p>
+💰 Total Shared Expense :
+<span id="analyticsTotalExpense">₹0.00</span>
+</p>
+
+<p>
+🧾 Total Records :
+<span id="analyticsTotalRecords">0</span>
+</p>
+
+<p>
+📈 Average Expense :
+<span id="analyticsAverageExpense">₹0.00</span>
+</p>
+
+<p>
+🏆 Highest Expense :
+<span id="analyticsHighestExpense">₹0.00</span>
+</p>
+
+  </div>
+
 <script src="js/script.js"></script>
 
 <script>
@@ -97,6 +123,8 @@ window.addEventListener("load",function(){
 loadSharedExpense();
 
 loadSharedHistory();
+
+loadSharedAnalytics();
 
 });
 
