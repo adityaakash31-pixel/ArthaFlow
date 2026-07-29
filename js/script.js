@@ -5240,6 +5240,8 @@ window.addEventListener("load", function(){
 
     loadSharedHistory();
 
+    loadSharedAnalytics();
+
     loadPaymentMembers();   
 
     loadPaymentStatus();
@@ -7170,10 +7172,9 @@ select.innerHTML =
 members.forEach(function(member){
 
 select.innerHTML +=
-`<option>${member}</option>`;
+`<option>${member.name}</option>`;
 
 });
-
 }
 
 // ===============================
