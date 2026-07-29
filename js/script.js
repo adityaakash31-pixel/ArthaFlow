@@ -5222,6 +5222,8 @@ window.addEventListener("load", function(){
 
     loadGoalProgress();
 
+    loadGoalPrediction();
+
 });
 
 // ===============================
@@ -6468,6 +6470,103 @@ document.getElementById("goalProgressPercent").innerHTML =
 
 document.getElementById("goalStatus").innerHTML =
 localStorage.getItem("goalStatus") || "Not Calculated";
+
+}
+
+}
+
+// ===============================
+// Step 86B - Goal Time Predictor
+// ===============================
+
+function predictGoalTime(){
+
+let goal =
+Number(localStorage.getItem("goalTarget")) || 0;
+
+let current =
+Number(localStorage.getItem("currentSaving")) || 0;
+
+let monthly =
+Number(document.getElementById("monthlySaving").value);
+
+if(goal<=0){
+
+alert("Calculate Goal Progress First");
+
+return;
+
+}
+
+if(monthly<=0){
+
+alert("Enter Monthly Saving");
+
+return;
+
+}
+
+let remaining = goal-current;
+
+if(remaining<0){
+
+remaining=0;
+
+}
+
+let months =
+Math.ceil(remaining/monthly);
+
+let advice="";
+
+if(months<=6){
+
+advice="🟢 Excellent! You will achieve your goal very soon.";
+
+}
+
+else if(months<=12){
+
+advice="🔵 Good Progress. Stay consistent.";
+
+}
+
+else{
+
+advice="🟡 Increase your monthly savings to reach your goal faster.";
+
+}
+
+document.getElementById("remainingGoalAmount").innerHTML =
+"₹"+remaining.toFixed(2);
+
+document.getElementById("goalCompletionTime").innerHTML =
+months+" Months";
+
+document.getElementById("goalPredictionAdvice").innerHTML =
+advice;
+
+localStorage.setItem("remainingGoalAmount",remaining);
+
+localStorage.setItem("goalCompletionTime",months);
+
+localStorage.setItem("goalPredictionAdvice",advice);
+
+}
+
+function loadGoalPrediction(){
+
+if(document.getElementById("remainingGoalAmount")){
+
+document.getElementById("remainingGoalAmount").innerHTML =
+"₹"+(Number(localStorage.getItem("remainingGoalAmount"))||0).toFixed(2);
+
+document.getElementById("goalCompletionTime").innerHTML =
+(localStorage.getItem("goalCompletionTime")||0)+" Months";
+
+document.getElementById("goalPredictionAdvice").innerHTML =
+localStorage.getItem("goalPredictionAdvice") ||
+"Not Calculated";
 
 }
 
