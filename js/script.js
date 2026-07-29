@@ -5240,6 +5240,8 @@ window.addEventListener("load", function(){
 
     loadSharedExpense();
 
+    loadSharedHistory();
+
 });
 
 // ===============================
@@ -7320,6 +7322,30 @@ localStorage.setItem(
 splitHTML
 );
 
+    let history =
+JSON.parse(localStorage.getItem("sharedExpenseHistory")) || [];
+
+history.unshift({
+
+title:title,
+
+amount:amount,
+
+members:members,
+
+perPerson:perPerson,
+
+date:new Date().toLocaleDateString()
+
+});
+
+localStorage.setItem(
+"sharedExpenseHistory",
+JSON.stringify(history)
+);
+
+loadSharedHistory();
+
 localStorage.setItem("sharedTitle",title);
 
 localStorage.setItem("sharedTotal",amount);
@@ -7352,5 +7378,52 @@ localStorage.getItem("memberSplitList") ||
     }
 
 }
+
+}
+
+// ===============================
+// Step 88E - Shared Expense History
+// ===============================
+
+function loadSharedHistory(){
+
+let history =
+JSON.parse(localStorage.getItem("sharedExpenseHistory")) || [];
+
+let box =
+document.getElementById("sharedHistory");
+
+if(!box) return;
+
+box.innerHTML="";
+
+if(history.length==0){
+
+box.innerHTML="No History Available";
+
+return;
+
+}
+
+history.forEach(function(item){
+
+box.innerHTML +=
+`
+<div class="card">
+
+<h3>📌 ${item.title}</h3>
+
+<p>💰 Total : ₹${item.amount.toFixed(2)}</p>
+
+<p>👥 Members : ${item.members}</p>
+
+<p>💵 Per Person : ₹${item.perPerson.toFixed(2)}</p>
+
+<p>📅 ${item.date}</p>
+
+</div>
+`;
+
+});
 
 }
