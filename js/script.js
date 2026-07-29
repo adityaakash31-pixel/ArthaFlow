@@ -7331,12 +7331,14 @@ familyMembers.forEach(function(member){
 splitHTML += `
 <p>
 
-👤 ${member}
+👤 ${member.name}
 
 ➡️ ₹${perPerson.toFixed(2)}
 
 </p>
 `;
+
+});
 
 });
 
