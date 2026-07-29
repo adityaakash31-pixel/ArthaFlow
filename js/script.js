@@ -5240,6 +5240,8 @@ window.addEventListener("load", function(){
 
     loadSharedHistory();
 
+    loadPaymentStatus();
+
 });
 
 // ===============================
@@ -7452,5 +7454,76 @@ document.getElementById("analyticsAverageExpense").innerHTML =
 
 document.getElementById("analyticsHighestExpense").innerHTML =
 "₹"+highest.toFixed(2);
+
+}
+
+// ===============================
+// Step 88G - Paid / Unpaid Status
+// ===============================
+
+function savePaymentStatus(){
+
+let member =
+document.getElementById("paymentMember").value;
+
+let status =
+document.getElementById("paymentStatus").value;
+
+if(member=="Select Member"){
+
+alert("Select Member");
+
+return;
+
+}
+
+let payment =
+JSON.parse(localStorage.getItem("paymentStatus")) || {};
+
+payment[member]=status;
+
+localStorage.setItem(
+"paymentStatus",
+JSON.stringify(payment)
+);
+
+loadPaymentStatus();
+
+alert("Payment Status Saved");
+
+}
+
+function loadPaymentStatus(){
+
+let payment =
+JSON.parse(localStorage.getItem("paymentStatus")) || {};
+
+let box =
+document.getElementById("paymentStatusList");
+
+if(!box) return;
+
+box.innerHTML="";
+
+Object.keys(payment).forEach(function(member){
+
+box.innerHTML +=
+`
+<p>
+
+👤 ${member}
+
+➡️ ${payment[member]=="Paid" ? "🟢 Paid" : "🔴 Unpaid"}
+
+</p>
+`;
+
+});
+
+if(box.innerHTML==""){
+
+box.innerHTML="No Payment Status";
+
+}
 
 }
