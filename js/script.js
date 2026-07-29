@@ -5228,6 +5228,8 @@ window.addEventListener("load", function(){
 
     loadGoalScore();
 
+    loadFinancialGoals();
+
 });
 
 // ===============================
@@ -6774,6 +6776,145 @@ localStorage.getItem("goalGrade") || "-";
 
 document.getElementById("goalScoreStatus").innerHTML =
 localStorage.getItem("goalScoreStatus") || "Not Calculated";
+
+}
+
+}
+
+// ===============================
+// Step 86E - Multiple Financial Goals
+// ===============================
+
+function addFinancialGoal(){
+
+let name =
+document.getElementById("goalName").value.trim();
+
+let amount =
+Number(document.getElementById("goalAmount").value);
+
+if(name=="" || amount<=0){
+
+alert("Enter Goal Name and Amount");
+
+return;
+
+}
+
+let goals =
+JSON.parse(localStorage.getItem("financialGoals")) || [];
+
+goals.push({
+
+name:name,
+
+amount:amount
+
+});
+
+localStorage.setItem(
+"financialGoals",
+JSON.stringify(goals)
+);
+
+document.getElementById("goalName").value="";
+
+document.getElementById("goalAmount").value="";
+
+loadFinancialGoals();
+
+}
+
+function loadFinancialGoals(){
+
+let goals =
+JSON.parse(localStorage.getItem("financialGoals")) || [];
+
+let list =
+document.getElementById("goalList");
+
+if(!list) return;
+
+list.innerHTML="";
+
+if(goals.length==0){
+
+list.innerHTML="<li>No Goals Added</li>";
+
+return;
+
+}
+
+goals.forEach(function(goal,index){
+
+list.innerHTML +=
+`
+<li>
+
+🎯 <b>${goal.name}</b> - ₹${goal.amount.toFixed(2)}
+
+<button onclick="editGoal(${index})">
+✏️
+</button>
+
+<button onclick="deleteGoal(${index})">
+🗑️
+</button>
+
+</li>
+`;
+
+});
+
+}
+
+// ===============================
+// Step 86F - Delete Goal
+// ===============================
+
+function deleteGoal(index){
+
+let goals =
+JSON.parse(localStorage.getItem("financialGoals")) || [];
+
+goals.splice(index,1);
+
+localStorage.setItem(
+"financialGoals",
+JSON.stringify(goals)
+);
+
+loadFinancialGoals();
+
+}
+
+// ===============================
+// Step 86F - Edit Goal
+// ===============================
+
+function editGoal(index){
+
+let goals =
+JSON.parse(localStorage.getItem("financialGoals")) || [];
+
+let newName =
+prompt("Edit Goal Name",goals[index].name);
+
+let newAmount =
+prompt("Edit Goal Amount",goals[index].amount);
+
+if(newName!=null && newAmount!=null){
+
+goals[index].name=newName;
+
+goals[index].amount=Number(newAmount);
+
+localStorage.setItem(
+"financialGoals",
+JSON.stringify(goals)
+);
+
+loadFinancialGoals();
 
 }
 
