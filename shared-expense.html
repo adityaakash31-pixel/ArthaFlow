@@ -45,11 +45,11 @@ placeholder="Number of Members">
 
 <div class="card">
 
-<h2>Split Result</h2>
+<h2>📊 Split Result</h2>
 
 <p>
 💰 Total Expense :
-<span id="sharedTotal">₹0</span>
+<span id="sharedTotal">₹0.00</span>
 </p>
 
 <p>
@@ -59,12 +59,12 @@ placeholder="Number of Members">
 
 <p>
 💵 Per Person :
-<span id="perPersonExpense">₹0</span>
+<span id="perPersonExpense">₹0.00</span>
 </p>
 
 </div>
 
-  <div class="card">
+<div class="card">
 
 <h2>👥 Member-wise Split</h2>
 
@@ -74,9 +74,9 @@ No Split Generated
 
 </div>
 
-  </div>
+</div>
 
-  <div class="card">
+<div class="card">
 
 <h2>📜 Shared Expense History</h2>
 
@@ -86,20 +86,21 @@ No History Available
 
 </div>
 
-  </div>
+</div>
 
 <script src="js/script.js"></script>
 
-  <script>
+<script>
 
-window.addEventListener("load", function(){
+window.addEventListener("load",function(){
 
 loadSharedExpense();
+
 loadSharedHistory();
 
 });
 
-  </script>
+</script>
 
 </body>
 
