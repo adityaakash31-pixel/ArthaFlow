@@ -5240,6 +5240,8 @@ window.addEventListener("load", function(){
 
     loadSharedHistory();
 
+    loadPaymentMembers();   
+
     loadPaymentStatus();
 
     calculateSettlement();
@@ -7596,6 +7598,9 @@ function calculateSettlement(){
 let payment =
 JSON.parse(localStorage.getItem("paymentStatus")) || {};
 
+let familyMembers =
+JSON.parse(localStorage.getItem("familyMembers")) || [];
+
 let amount =
 Number(localStorage.getItem("perPersonExpense")) || 0;
 
@@ -7606,27 +7611,39 @@ if(!result) return;
 
 result.innerHTML="";
 
-let pending=0;
+if(familyMembers.length==0){
 
-Object.keys(payment).forEach(function(member){
+result.innerHTML="No Family Members Found";
 
-if(payment[member]=="Paid"){
-
-result.innerHTML +=
-`
-<p>
-🟢 ${member} → Already Paid
-</p>
-`;
+return;
 
 }
 
-else{
+let pending=0;
+
+familyMembers.forEach(function(member){
+
+let status = payment[member] || "Unpaid";
+
+if(status=="Paid"){
 
 result.innerHTML +=
 `
 <p>
-🔴 ${member} → Pay ₹${amount.toFixed(2)}
+
+🟢 <b>${member}</b> → Already Paid
+
+</p>
+`;
+
+}else{
+
+result.innerHTML +=
+`
+<p>
+
+🔴 <b>${member}</b> → Pay ₹${amount.toFixed(2)}
+
 </p>
 `;
 
