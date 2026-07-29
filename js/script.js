@@ -5186,42 +5186,35 @@ advice;
 
 }
 
-window.addEventListener("load",function(){
+window.addEventListener("load", function(){
 
-if(document.getElementById("aiSuggestion")){
+    loadBudgetRecommendation();
 
-document.getElementById("aiSuggestion").innerHTML=
-localStorage.getItem("aiSuggestion") || "No Suggestion Yet";
+    loadReductionPlan();
 
-loadSavingTips();
+    loadSpendingHabit();
 
-loadFinancialScore();
+    loadMonthlySummary();
 
-loadRiskAlert();
+    loadHealthScore();
 
-loadFinancialAdvice();
+    loadHealthTips();
 
-loadMonthlySummary();
+    loadForecast();
 
-loadHealthScore();
+    loadBudgetOptimizer();
 
-loadHealthTips();
+    loadWealthGrowth();
 
-loadForecast();
+    loadRetirement();
 
-loadBudgetOptimizer();
+    loadRiskAlert();
 
-loadWealthGrowth();
+    loadFinancialAdvice();
 
-loadRetirement();
+    loadFinancialScore();
 
-loadBudgetRecommendation();
-
-loadReductionPlan();
-
-loadSpendingHabit();
-
-}
+    loadSavingTips();
 
 });
 
