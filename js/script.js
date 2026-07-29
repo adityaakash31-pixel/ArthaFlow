@@ -5242,6 +5242,8 @@ window.addEventListener("load", function(){
 
     loadPaymentStatus();
 
+    calculateSettlement();
+
 });
 
 // ===============================
@@ -7525,5 +7527,67 @@ if(box.innerHTML==""){
 box.innerHTML="No Payment Status";
 
 }
+
+}
+
+// ===============================
+// Step 88H - Settlement Calculator
+// ===============================
+
+function calculateSettlement(){
+
+let payment =
+JSON.parse(localStorage.getItem("paymentStatus")) || {};
+
+let amount =
+Number(localStorage.getItem("perPersonExpense")) || 0;
+
+let result =
+document.getElementById("settlementResult");
+
+if(!result) return;
+
+result.innerHTML="";
+
+let pending=0;
+
+Object.keys(payment).forEach(function(member){
+
+if(payment[member]=="Paid"){
+
+result.innerHTML +=
+`
+<p>
+🟢 ${member} → Already Paid
+</p>
+`;
+
+}
+
+else{
+
+result.innerHTML +=
+`
+<p>
+🔴 ${member} → Pay ₹${amount.toFixed(2)}
+</p>
+`;
+
+pending += amount;
+
+}
+
+});
+
+result.innerHTML +=
+`
+<hr>
+
+<h3>
+
+💰 Total Pending : ₹${pending.toFixed(2)}
+
+</h3>
+`;
 
 }
