@@ -5216,6 +5216,8 @@ window.addEventListener("load", function(){
 
     loadSavingTips();
 
+    loadBudgetPerformance();
+
 });
 
 // ===============================
@@ -6149,6 +6151,99 @@ localStorage.getItem("spendingHabit") || "Not Analyzed";
 
 document.getElementById("habitSuggestion").innerHTML =
 localStorage.getItem("habitSuggestion") || "No Suggestion";
+
+}
+
+}
+
+// ===============================
+// Step 85D - Budget Performance
+// ===============================
+
+function calculateBudgetPerformance(){
+
+let budget =
+Number(localStorage.getItem("recommendedBudgetAmount")) || 0;
+
+let expense =
+Number(localStorage.getItem("summaryExpense")) || 0;
+
+if(budget<=0){
+
+alert("Generate Budget Recommendation First");
+
+return;
+
+}
+
+let follow =
+((budget-expense)/budget)*100;
+
+if(follow<0){
+
+follow=0;
+
+}
+
+let remain =
+budget-expense;
+
+let performance="";
+
+if(expense>budget){
+
+performance="🔴 Budget Exceeded";
+
+}
+
+else if(follow>=30){
+
+performance="🟢 Excellent Budget Control";
+
+}
+
+else if(follow>=10){
+
+performance="🔵 Good Budget Control";
+
+}
+
+else{
+
+performance="🟡 Budget Almost Used";
+
+}
+
+document.getElementById("budgetFollowPercent").innerHTML =
+follow.toFixed(0)+"%";
+
+document.getElementById("budgetRemaining").innerHTML =
+"₹"+remain.toFixed(2);
+
+document.getElementById("budgetPerformance").innerHTML =
+performance;
+
+localStorage.setItem("budgetFollowPercent",follow);
+
+localStorage.setItem("budgetRemaining",remain);
+
+localStorage.setItem("budgetPerformance",performance);
+
+}
+
+function loadBudgetPerformance(){
+
+if(document.getElementById("budgetFollowPercent")){
+
+document.getElementById("budgetFollowPercent").innerHTML =
+(Number(localStorage.getItem("budgetFollowPercent"))||0).toFixed(0)+"%";
+
+document.getElementById("budgetRemaining").innerHTML =
+"₹"+(Number(localStorage.getItem("budgetRemaining"))||0).toFixed(2);
+
+document.getElementById("budgetPerformance").innerHTML =
+localStorage.getItem("budgetPerformance") ||
+"Not Calculated";
 
 }
 
