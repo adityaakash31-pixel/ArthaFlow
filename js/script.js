@@ -7149,6 +7149,32 @@ report.innerHTML +=
 }
 
 // ===============================
+// Step 88G - Load Family Members
+// ===============================
+
+function loadPaymentMembers(){
+
+let members =
+JSON.parse(localStorage.getItem("familyMembers")) || [];
+
+let select =
+document.getElementById("paymentMember");
+
+if(!select) return;
+
+select.innerHTML =
+'<option>Select Member</option>';
+
+members.forEach(function(member){
+
+select.innerHTML +=
+`<option>${member}</option>`;
+
+});
+
+}
+
+// ===============================
 // Step 87F - Family Total Dashboard
 // ===============================
 
@@ -7289,13 +7315,44 @@ return;
 
 let perPerson = amount/members;
 
+// Family Members Load
+
+let familyMembers =
+JSON.parse(localStorage.getItem("familyMembers")) || [];
+
 let splitHTML="";
+
+if(familyMembers.length>0){
+
+familyMembers.forEach(function(member){
+
+splitHTML += `
+<p>
+
+👤 ${member}
+
+➡️ ₹${perPerson.toFixed(2)}
+
+</p>
+`;
+
+});
+
+}else{
 
 for(let i=1;i<=members;i++){
 
 splitHTML += `
-<p>👤 Member ${i} ➡️ ₹${perPerson.toFixed(2)}</p>
+<p>
+
+👤 Member ${i}
+
+➡️ ₹${perPerson.toFixed(2)}
+
+</p>
 `;
+
+}
 
 }
 
