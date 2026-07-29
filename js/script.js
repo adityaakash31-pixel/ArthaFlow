@@ -5220,6 +5220,8 @@ window.addEventListener("load", function(){
 
     loadBudgetScore();
 
+    loadGoalProgress();
+
 });
 
 // ===============================
@@ -6448,5 +6450,25 @@ localStorage.setItem("currentSaving",saving);
 localStorage.setItem("goalProgressPercent",progress);
 
 localStorage.setItem("goalStatus",status);
+
+}
+
+function loadGoalProgress(){
+
+if(document.getElementById("goalAmountDisplay")){
+
+document.getElementById("goalAmountDisplay").innerHTML =
+"₹"+(Number(localStorage.getItem("goalTarget"))||0).toFixed(2);
+
+document.getElementById("currentSavingDisplay").innerHTML =
+"₹"+(Number(localStorage.getItem("currentSaving"))||0).toFixed(2);
+
+document.getElementById("goalProgressPercent").innerHTML =
+(Number(localStorage.getItem("goalProgressPercent"))||0).toFixed(0)+"%";
+
+document.getElementById("goalStatus").innerHTML =
+localStorage.getItem("goalStatus") || "Not Calculated";
+
+}
 
 }
