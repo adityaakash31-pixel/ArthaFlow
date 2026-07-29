@@ -5234,7 +5234,7 @@ window.addEventListener("load", function(){
 
     loadFamilyFinanceReport();
 
-    loadFamilyFinanceReport();
+    loadFamilySummary();
 
 });
 
@@ -7085,6 +7085,9 @@ JSON.stringify(finance)
 
 alert("Saved Successfully");
 
+loadFamilyFinanceReport();
+loadFamilySummary();
+
 }
 
 // ===============================
@@ -7131,5 +7134,49 @@ report.innerHTML +=
 `;
 
 });
+
+}
+
+// ===============================
+// Step 87F - Family Total Dashboard
+// ===============================
+
+function loadFamilySummary(){
+
+let finance =
+JSON.parse(localStorage.getItem("familyFinance")) || {};
+
+let totalIncome = 0;
+let totalExpense = 0;
+let totalBalance = 0;
+
+Object.keys(finance).forEach(function(member){
+
+totalIncome += finance[member].income || 0;
+
+totalExpense += finance[member].expense || 0;
+
+totalBalance += finance[member].balance || 0;
+
+});
+
+let members =
+JSON.parse(localStorage.getItem("familyMembers")) || [];
+
+if(document.getElementById("familyTotalIncome")){
+
+document.getElementById("familyTotalIncome").innerHTML =
+"₹"+totalIncome.toFixed(2);
+
+document.getElementById("familyTotalExpense").innerHTML =
+"₹"+totalExpense.toFixed(2);
+
+document.getElementById("familyTotalBalance").innerHTML =
+"₹"+totalBalance.toFixed(2);
+
+document.getElementById("familyMemberCount").innerHTML =
+members.length;
+
+}
 
 }
