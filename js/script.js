@@ -7286,6 +7286,23 @@ return;
 let perPerson =
 amount/members;
 
+    let splitHTML="";
+
+for(let i=1;i<=members;i++){
+
+splitHTML +=
+`
+<p>
+
+👤 Member ${i}
+
+➡️ ₹${perPerson.toFixed(2)}
+
+</p>
+`;
+
+}
+
 document.getElementById("sharedTotal").innerHTML =
 "₹"+amount.toFixed(2);
 
@@ -7294,6 +7311,14 @@ members;
 
 document.getElementById("perPersonExpense").innerHTML =
 "₹"+perPerson.toFixed(2);
+
+    document.getElementById("memberSplitList").innerHTML =
+splitHTML;
+
+localStorage.setItem(
+"memberSplitList",
+splitHTML
+);
 
 localStorage.setItem("sharedTitle",title);
 
@@ -7317,6 +7342,14 @@ localStorage.getItem("sharedMembers") || "0";
 
 document.getElementById("perPersonExpense").innerHTML =
 "₹"+(Number(localStorage.getItem("perPersonExpense"))||0).toFixed(2);
+
+    if(document.getElementById("memberSplitList")){
+
+document.getElementById("memberSplitList").innerHTML =
+localStorage.getItem("memberSplitList") ||
+"No Split Generated";
+
+    }
 
 }
 
