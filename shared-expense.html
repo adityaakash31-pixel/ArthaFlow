@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Shared Expense Split</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<h1>🤝 Shared Expense Split</h1>
+
+<div class="card">
+
+<h2>Add Shared Expense</h2>
+
+<input
+type="text"
+id="sharedTitle"
+placeholder="Expense Name">
+
+<input
+type="number"
+id="sharedAmount"
+placeholder="Total Amount">
+
+<input
+type="number"
+id="sharedMembers"
+placeholder="Number of Members">
+
+<button onclick="calculateSharedExpense()">
+
+🧮 Split Expense
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>Split Result</h2>
+
+<p>
+💰 Total Expense :
+<span id="sharedTotal">₹0</span>
+</p>
+
+<p>
+👥 Members :
+<span id="sharedMemberCount">0</span>
+</p>
+
+<p>
+💵 Per Person :
+<span id="perPersonExpense">₹0</span>
+</p>
+
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+
+</html>
