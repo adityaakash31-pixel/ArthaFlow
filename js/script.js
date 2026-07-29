@@ -5226,6 +5226,8 @@ window.addEventListener("load", function(){
 
     loadGoalRecommendation();
 
+    loadGoalScore();
+
 });
 
 // ===============================
@@ -6672,6 +6674,106 @@ localStorage.getItem("goalDifficulty") || "Not Calculated";
 
 document.getElementById("goalRecommendation").innerHTML =
 localStorage.getItem("goalRecommendation") || "Not Generated";
+
+}
+
+}
+
+// ===============================
+// Step 86D - Goal Achievement Score
+// ===============================
+
+function calculateGoalScore(){
+
+let goal =
+Number(localStorage.getItem("goalTarget")) || 0;
+
+let current =
+Number(localStorage.getItem("currentSaving")) || 0;
+
+if(goal<=0){
+
+alert("Calculate Goal Progress First");
+
+return;
+
+}
+
+let score = (current/goal)*100;
+
+if(score>100){
+
+score=100;
+
+}
+
+let grade="";
+let status="";
+
+if(score>=90){
+
+grade="A+";
+status="🟢 Excellent";
+
+}
+
+else if(score>=75){
+
+grade="A";
+status="🔵 Very Good";
+
+}
+
+else if(score>=50){
+
+grade="B";
+status="🟡 Good";
+
+}
+
+else if(score>=25){
+
+grade="C";
+status="🟠 Average";
+
+}
+
+else{
+
+grade="D";
+status="🔴 Poor";
+
+}
+
+document.getElementById("goalScore").innerHTML =
+score.toFixed(0);
+
+document.getElementById("goalGrade").innerHTML =
+grade;
+
+document.getElementById("goalScoreStatus").innerHTML =
+status;
+
+localStorage.setItem("goalScore",score);
+
+localStorage.setItem("goalGrade",grade);
+
+localStorage.setItem("goalScoreStatus",status);
+
+}
+
+function loadGoalScore(){
+
+if(document.getElementById("goalScore")){
+
+document.getElementById("goalScore").innerHTML =
+Number(localStorage.getItem("goalScore")) || 0;
+
+document.getElementById("goalGrade").innerHTML =
+localStorage.getItem("goalGrade") || "-";
+
+document.getElementById("goalScoreStatus").innerHTML =
+localStorage.getItem("goalScoreStatus") || "Not Calculated";
 
 }
 
