@@ -5238,6 +5238,8 @@ window.addEventListener("load", function(){
 
     loadFamilyAnalytics();
 
+    loadSharedExpense();
+
 });
 
 // ===============================
@@ -7255,5 +7257,67 @@ display:false
 }
 
 });
+
+}
+
+// ===============================
+// Step 88C - Shared Expense Split
+// ===============================
+
+function calculateSharedExpense(){
+
+let title =
+document.getElementById("sharedTitle").value.trim();
+
+let amount =
+Number(document.getElementById("sharedAmount").value);
+
+let members =
+Number(document.getElementById("sharedMembers").value);
+
+if(title=="" || amount<=0 || members<=0){
+
+alert("Enter Valid Details");
+
+return;
+
+}
+
+let perPerson =
+amount/members;
+
+document.getElementById("sharedTotal").innerHTML =
+"₹"+amount.toFixed(2);
+
+document.getElementById("sharedMemberCount").innerHTML =
+members;
+
+document.getElementById("perPersonExpense").innerHTML =
+"₹"+perPerson.toFixed(2);
+
+localStorage.setItem("sharedTitle",title);
+
+localStorage.setItem("sharedTotal",amount);
+
+localStorage.setItem("sharedMembers",members);
+
+localStorage.setItem("perPersonExpense",perPerson);
+
+}
+
+function loadSharedExpense(){
+
+if(document.getElementById("sharedTotal")){
+
+document.getElementById("sharedTotal").innerHTML =
+"₹"+(Number(localStorage.getItem("sharedTotal"))||0).toFixed(2);
+
+document.getElementById("sharedMemberCount").innerHTML =
+localStorage.getItem("sharedMembers") || "0";
+
+document.getElementById("perPersonExpense").innerHTML =
+"₹"+(Number(localStorage.getItem("perPersonExpense"))||0).toFixed(2);
+
+}
 
 }
