@@ -5224,6 +5224,8 @@ window.addEventListener("load", function(){
 
     loadGoalPrediction();
 
+    loadGoalRecommendation();
+
 });
 
 // ===============================
@@ -6567,6 +6569,109 @@ document.getElementById("goalCompletionTime").innerHTML =
 document.getElementById("goalPredictionAdvice").innerHTML =
 localStorage.getItem("goalPredictionAdvice") ||
 "Not Calculated";
+
+}
+
+}
+
+// ===============================
+// Step 86C - AI Goal Recommendation
+// ===============================
+
+function generateGoalRecommendation(){
+
+let goal =
+Number(localStorage.getItem("goalTarget")) || 0;
+
+let current =
+Number(localStorage.getItem("currentSaving")) || 0;
+
+let monthly =
+Number(document.getElementById("monthlySaving").value);
+
+if(goal<=0){
+
+alert("Calculate Goal Progress First");
+
+return;
+
+}
+
+if(monthly<=0){
+
+alert("Enter Monthly Saving");
+
+return;
+
+}
+
+let remaining = goal-current;
+
+if(remaining<0){
+
+remaining=0;
+
+}
+
+let months =
+Math.ceil(remaining/monthly);
+
+let difficulty="";
+let advice="";
+
+if(months<=6){
+
+difficulty="🟢 Easy";
+
+advice="Excellent! Continue your current saving habit.";
+
+}
+
+else if(months<=12){
+
+difficulty="🔵 Moderate";
+
+advice="Increase your monthly saving slightly to reach the goal faster.";
+
+}
+
+else{
+
+difficulty="🔴 Difficult";
+
+advice="Increase monthly savings or reduce unnecessary expenses.";
+
+}
+
+document.getElementById("requiredMonthlySaving").innerHTML =
+"₹"+monthly.toFixed(2);
+
+document.getElementById("goalDifficulty").innerHTML =
+difficulty;
+
+document.getElementById("goalRecommendation").innerHTML =
+advice;
+
+localStorage.setItem("requiredMonthlySaving",monthly);
+
+localStorage.setItem("goalDifficulty",difficulty);
+
+localStorage.setItem("goalRecommendation",advice);
+
+}
+
+function loadGoalRecommendation(){
+
+if(document.getElementById("requiredMonthlySaving")){
+
+document.getElementById("requiredMonthlySaving").innerHTML =
+"₹"+(Number(localStorage.getItem("requiredMonthlySaving"))||0).toFixed(2);
+
+document.getElementById("goalDifficulty").innerHTML =
+localStorage.getItem("goalDifficulty") || "Not Calculated";
+
+document.getElementById("goalRecommendation").innerHTML =
+localStorage.getItem("goalRecommendation") || "Not Generated";
 
 }
 
