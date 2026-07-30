@@ -7965,6 +7965,18 @@ document.getElementById("customerName").value;
 let mobile =
 document.getElementById("customerMobile").value;
 
+let companyName =
+document.getElementById("companyName").value;
+
+let companyGST =
+document.getElementById("companyGST").value;
+
+let companyPhone =
+document.getElementById("companyPhone").value;
+
+let companyAddress =
+document.getElementById("companyAddress").value;
+
 let address =
 document.getElementById("customerAddress").value;
 
@@ -7992,6 +8004,48 @@ let grandTotal = subtotal + gstAmount;
 document.getElementById("invoicePreview").innerHTML =
 
 `
+
+${companyLogoData ?
+`
+<div style="text-align:center;">
+<img
+src="${companyLogoData}"
+style="
+width:90px;
+height:90px;
+border-radius:12px;
+margin-bottom:10px;
+">
+</div>
+`
+:
+""
+}
+
+<h2 style="text-align:center;color:#1565C0;">
+🏢 ${companyName}
+</h2>
+
+<p style="text-align:center;">
+${companyAddress}
+</p>
+
+<p style="text-align:center;">
+📞 ${companyPhone}
+</p>
+
+<p style="text-align:center;">
+GSTIN : ${companyGST}
+</p>
+
+<hr>
+
+<h2 style="text-align:center;">
+🧾 GST TAX INVOICE
+</h2>
+
+<hr>
+
 <h3>🧾 GST TAX INVOICE</h3>
 
 <hr>
@@ -8349,5 +8403,30 @@ JSON.stringify(history)
 loadInvoiceHistory();
 
 }
+
+}
+
+// ===============================
+// Company Logo Preview
+// ===============================
+
+let companyLogoData = "";
+
+function loadCompanyLogo(){
+
+let file =
+document.getElementById("companyLogo").files[0];
+
+if(!file) return;
+
+let reader = new FileReader();
+
+reader.onload = function(e){
+
+companyLogoData = e.target.result;
+
+};
+
+reader.readAsDataURL(file);
 
 }
