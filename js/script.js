@@ -8069,3 +8069,46 @@ html2pdf()
 .save();
 
 }
+
+// ===============================
+// Step 89F - Auto Save Invoice
+// ===============================
+
+let invoiceData = {
+
+invoiceNumber:
+document.getElementById("invoiceNumber").value,
+
+customerName:
+document.getElementById("customerName").value,
+
+customerGST:
+document.getElementById("customerGST").value,
+
+invoiceDate:
+document.getElementById("invoiceDate").value,
+
+invoiceItem:
+document.getElementById("invoiceItem").value,
+
+invoiceQty:
+document.getElementById("invoiceQty").value,
+
+invoicePrice:
+document.getElementById("invoicePrice").value,
+
+gstRate:
+document.getElementById("gstRate").value,
+
+invoicePreview:
+document.getElementById("invoicePreview").innerHTML
+
+};
+
+localStorage.setItem(
+
+"lastInvoice",
+
+JSON.stringify(invoiceData)
+
+);
