@@ -7945,3 +7945,127 @@ document.getElementById("grandTotal").innerHTML =
 "₹"+grandTotal.toFixed(2);
 
 }
+
+// ===============================
+// Step 89D - Invoice Preview
+// ===============================
+
+function previewInvoice(){
+
+let invoice =
+document.getElementById("invoiceNumber").value;
+
+let customer =
+document.getElementById("customerName").value;
+
+let mobile =
+document.getElementById("customerMobile").value;
+
+let address =
+document.getElementById("customerAddress").value;
+
+let gstNo =
+document.getElementById("customerGST").value;
+
+let product =
+document.getElementById("productName").value;
+
+let qty =
+Number(document.getElementById("productQty").value);
+
+let rate =
+Number(document.getElementById("productRate").value);
+
+let gst =
+Number(document.getElementById("gstPercent").value);
+
+let subtotal = qty * rate;
+
+let gstAmount = subtotal * gst / 100;
+
+let grandTotal = subtotal + gstAmount;
+
+document.getElementById("invoicePreview").innerHTML =
+
+`
+<h3>🧾 GST TAX INVOICE</h3>
+
+<hr>
+
+<p><b>Invoice No :</b> ${invoice}</p>
+
+<p><b>Customer :</b> ${customer}</p>
+
+<p><b>Mobile :</b> ${mobile}</p>
+
+<p><b>Address :</b> ${address}</p>
+
+<p><b>GST No :</b> ${gstNo}</p>
+
+<hr>
+
+<p><b>Product :</b> ${product}</p>
+
+<p><b>Qty :</b> ${qty}</p>
+
+<p><b>Rate :</b> ₹${rate.toFixed(2)}</p>
+
+<p><b>Subtotal :</b> ₹${subtotal.toFixed(2)}</p>
+
+<p><b>GST (${gst}%) :</b> ₹${gstAmount.toFixed(2)}</p>
+
+<hr>
+
+<h3>Grand Total : ₹${grandTotal.toFixed(2)}</h3>
+
+`;
+
+}
+
+// ===============================
+// Step 89E - Download PDF Invoice
+// ===============================
+
+function downloadInvoicePDF(){
+
+let invoice =
+document.getElementById("invoicePreview");
+
+if(!invoice){
+
+alert("Invoice Preview Not Found");
+
+return;
+
+}
+
+let options = {
+
+margin:10,
+
+filename:
+"GST_Invoice.pdf",
+
+image:{
+type:"jpeg",
+quality:1
+},
+
+html2canvas:{
+scale:2
+},
+
+jsPDF:{
+unit:"mm",
+format:"a4",
+orientation:"portrait"
+}
+
+};
+
+html2pdf()
+.set(options)
+.from(invoice)
+.save();
+
+}
