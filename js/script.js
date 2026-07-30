@@ -8065,20 +8065,122 @@ GSTIN : ${companyGST}
 
 <hr>
 
-<p><b>Product :</b> ${product}</p>
+<table
+border="1"
+width="100%"
+cellpadding="8"
+style="
+border-collapse:collapse;
+margin-top:15px;
+text-align:center;
+">
 
-<p><b>Qty :</b> ${qty}</p>
+<tr
+style="
+background:#1565C0;
+color:white;
+">
 
-<p><b>Rate :</b> ₹${rate.toFixed(2)}</p>
+<th>Product</th>
+<th>Qty</th>
+<th>Rate</th>
+<th>GST</th>
+<th>Total</th>
 
-<p><b>Subtotal :</b> ₹${subtotal.toFixed(2)}</p>
+</tr>
 
-<p><b>GST (${gst}%) :</b> ₹${gstAmount.toFixed(2)}</p>
+<tr>
+
+<td>${product}</td>
+<td>${qty}</td>
+<td>₹${rate.toFixed(2)}</td>
+<td>${gst}%</td>
+<td>₹${grandTotal.toFixed(2)}</td>
+
+</tr>
+
+</table>
 
 <hr>
 
-<h3>Grand Total : ₹${grandTotal.toFixed(2)}</h3>
+<div
+style="
+text-align:right;
+font-size:18px;
+">
 
+<p>
+Subtotal :
+<b>₹${subtotal.toFixed(2)}</b>
+</p>
+
+<p>
+GST :
+<b>₹${gstAmount.toFixed(2)}</b>
+</p>
+
+<h2
+style="
+color:#1565C0;
+">
+Grand Total :
+₹${grandTotal.toFixed(2)}
+</h2>
+
+</div>
+
+<hr>
+
+<div
+style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:60px;
+">
+
+<div
+style="text-align:left;">
+
+____________________
+
+<br>
+
+Customer Signature
+
+</div>
+
+<div
+style="text-align:right;">
+
+For
+
+<b>${companyName}</b>
+
+<br><br>
+
+____________________
+
+<br>
+
+Authorized Signatory
+
+</div>
+
+</div>
+
+<hr>
+
+<p
+style="
+text-align:center;
+font-size:14px;
+color:gray;
+">
+
+🙏 Thank You For Your Business
+
+</p>
 `;
 
 // ===============================
