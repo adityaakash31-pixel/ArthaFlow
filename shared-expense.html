@@ -33,7 +33,19 @@ placeholder="Total Amount">
 <input
 type="number"
 id="sharedMembers"
-placeholder="Number of Members">
+placeholder="Total Members">
+
+<button onclick="generateMemberFields()">
+
+👥 Generate Members
+
+</button>
+
+</div>
+
+<div id="memberFields"></div>
+
+<div class="card">
 
 <button onclick="calculateSharedExpense()">
 
@@ -88,7 +100,7 @@ No History Available
 
 </div>
 
-  <div class="card">
+<div class="card">
 
 <h2>📊 Shared Expense Analytics</h2>
 
@@ -112,43 +124,21 @@ No History Available
 <span id="analyticsHighestExpense">₹0.00</span>
 </p>
 
-  </div>
+</div>
 
-  <div class="card">
+<div class="card">
 
 <h2>💳 Paid / Unpaid Status</h2>
 
-<select id="paymentMember">
+<div id="paymentSection">
 
-<option>Select Member</option>
-
-</select>
-
-<select id="paymentStatus">
-
-<option>Paid</option>
-
-<option>Unpaid</option>
-
-</select>
-
-<button onclick="savePaymentStatus()">
-
-💾 Save Status
-
-</button>
-
-<hr>
-
-<div id="paymentStatusList">
-
-No Payment Status
+No Members Generated
 
 </div>
 
-  </div>
+</div>
 
-  <div class="card">
+<div class="card">
 
 <h2>💸 Settlement Calculator</h2>
 
@@ -166,7 +156,7 @@ No Settlement Calculated
 
 </div>
 
-  </div>
+</div>
 
 <script src="js/script.js"></script>
 
@@ -179,6 +169,10 @@ loadSharedExpense();
 loadSharedHistory();
 
 loadSharedAnalytics();
+
+loadPaymentStatus();
+
+calculateSettlement();
 
 });
 
