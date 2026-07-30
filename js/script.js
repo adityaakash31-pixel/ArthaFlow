@@ -8240,7 +8240,7 @@ return;
 
 }
 
-history.forEach(function(item){
+history.forEach(function(item,index){
 
 box.innerHTML += `
 
@@ -8255,6 +8255,10 @@ box.innerHTML += `
 <p>💰 ₹${Number(item.grandTotal).toFixed(2)}</p>
 
 <p>📅 ${item.date}</p>
+
+<button onclick="deleteInvoice(${index})">
+🗑 Delete
+</button>
 
 </div>
 
