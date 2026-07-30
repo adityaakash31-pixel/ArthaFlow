@@ -7894,6 +7894,8 @@ today;
 
 loadGSTInvoice();
 
+loadInvoiceHistory();
+
 });
 
 // ===============================
