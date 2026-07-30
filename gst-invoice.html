@@ -36,6 +36,28 @@
 
 <label>Company Logo</label>
 
+    <label>🏢 Company Stamp</label>
+
+<input
+type="file"
+id="companyStamp"
+accept="image/*"
+onchange="loadCompanyStamp()">
+
+<br><br>
+
+<img
+id="stampPreview"
+src=""
+style="
+display:none;
+width:120px;
+height:120px;
+border:2px dashed #1565C0;
+border-radius:12px;
+object-fit:contain;
+">
+
 <!-- Customer Details -->
 
 <div class="card">
