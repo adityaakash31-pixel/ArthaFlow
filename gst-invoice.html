@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GST Invoice Generator</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<h1>🧾 GST Invoice Generator</h1>
+
+<div class="card">
+
+<h2>Invoice Details</h2>
+
+<input
+type="text"
+id="invoiceNumber"
+placeholder="Invoice Number"
+readonly>
+
+<input
+type="date"
+id="invoiceDate">
+
+<input
+type="date"
+id="dueDate">
+
+<input
+type="text"
+id="customerName"
+placeholder="Customer Name">
+
+<input
+type="text"
+id="customerMobile"
+placeholder="Mobile Number">
+
+<textarea
+id="customerAddress"
+placeholder="Customer Address"></textarea>
+
+<input
+type="text"
+id="customerGST"
+placeholder="GST Number (Optional)">
+
+<button onclick="generateInvoiceNumber()">
+
+🆔 Generate Invoice No
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>Product Details</h2>
+
+<input
+type="text"
+id="productName"
+placeholder="Product / Service Name">
+
+<input
+type="number"
+id="productQty"
+placeholder="Quantity">
+
+<input
+type="number"
+id="productRate"
+placeholder="Rate">
+
+<button onclick="calculateInvoiceAmount()">
+
+💰 Calculate Amount
+
+</button>
+
+<p>
+
+Subtotal :
+<span id="invoiceSubtotal">₹0.00</span>
+
+</p>
+
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+
+</html>
