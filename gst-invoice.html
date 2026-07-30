@@ -1,110 +1,128 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>GST Invoice Generator</title>
-
-<link rel="stylesheet" href="css/style.css">
-
-</head>
-
 <body>
+
+<header class="gst-header">
 
 <h1>🧾 GST Invoice Generator</h1>
 
+<p>Create Professional Business Invoice</p>
+
+</header>
+
+<div class="gst-container">
+
+<!-- Invoice Details -->
+
 <div class="card">
 
-<h2>Invoice Details</h2>
+<h2>📄 Invoice Details</h2>
 
-<input
-type="text"
-id="invoiceNumber"
-placeholder="Invoice Number"
-readonly>
+<input type="text" id="invoiceNumber" readonly placeholder="Invoice Number">
 
-<input
-type="date"
-id="invoiceDate">
+<input type="date" id="invoiceDate">
 
-<input
-type="date"
-id="dueDate">
+<input type="date" id="dueDate">
+
+<button onclick="generateInvoiceNumber()">
+
+🆔 Generate Invoice Number
+
+</button>
+
+</div>
+
+<!-- Company Details -->
+
+<div class="card">
+
+<h2>🏢 Company Details</h2>
+
+<!-- Next Part -->
+
+</div>
+
+<!-- Customer Details -->
+
+<div class="card">
+
+<h2>👤 Customer Details</h2>
 
 <input
 type="text"
 id="customerName"
-placeholder="Customer Name">
+placeholder="👤 Customer Name">
 
 <input
 type="text"
 id="customerMobile"
-placeholder="Mobile Number">
+placeholder="📞 Mobile Number">
 
 <textarea
 id="customerAddress"
-placeholder="Customer Address"></textarea>
+placeholder="📍 Customer Address"
+rows="3"></textarea>
 
 <input
 type="text"
 id="customerGST"
-placeholder="GST Number (Optional)">
+placeholder="🧾 Customer GST Number (Optional)">
 
-<button onclick="generateInvoiceNumber()">
+<input
+type="email"
+id="customerEmail"
+placeholder="📧 Customer Email (Optional)">
 
-🆔 Generate Invoice No
+<select id="customerState">
+
+<option value="">🌍 Select State</option>
+
+<option>Bihar</option>
+<option>Uttar Pradesh</option>
+<option>Jharkhand</option>
+<option>West Bengal</option>
+<option>Delhi</option>
+<option>Maharashtra</option>
+<option>Gujarat</option>
+<option>Karnataka</option>
+<option>Tamil Nadu</option>
+<option>Rajasthan</option>
+
+</select>
+
+<button onclick="saveCustomerDetails()">
+
+💾 Save Customer Details
 
 </button>
 
 </div>
 
+  <!-- Product Details -->
+
 <div class="card">
 
-<h2>Product Details</h2>
+<h2>📦 Product Details</h2>
 
 <input
 type="text"
 id="productName"
-placeholder="Product / Service Name">
+placeholder="📦 Product / Service Name">
 
 <input
 type="number"
 id="productQty"
-placeholder="Quantity">
+placeholder="📦 Quantity">
 
 <input
 type="number"
 id="productRate"
-placeholder="Rate">
+placeholder="💰 Rate">
 
-<button onclick="calculateInvoiceAmount()">
-
-💰 Calculate Amount
-
-</button>
-
-<p>
-
-Subtotal :
-<span id="invoiceSubtotal">₹0.00</span>
-
-</p>
-
-</div>
-
-  <select id="gstPercent">
+<select id="gstPercent">
 
 <option value="0">GST 0%</option>
-
 <option value="5">GST 5%</option>
-
 <option value="12">GST 12%</option>
-
-<option value="18">GST 18%</option>
-
+<option value="18" selected>GST 18%</option>
 <option value="28">GST 28%</option>
 
 </select>
@@ -118,82 +136,63 @@ Subtotal :
 <hr>
 
 <p>
+Subtotal :
+<b><span id="invoiceSubtotal">₹0.00</span></b>
+</p>
 
+<p>
 CGST :
-<span id="cgstAmount">₹0.00</span>
-
+<b><span id="cgstAmount">₹0.00</span></b>
 </p>
 
 <p>
-
 SGST :
-<span id="sgstAmount">₹0.00</span>
-
+<b><span id="sgstAmount">₹0.00</span></b>
 </p>
 
 <p>
-
 IGST :
-<span id="igstAmount">₹0.00</span>
-
+<b><span id="igstAmount">₹0.00</span></b>
 </p>
 
-<p>
-
+<h3>
 Grand Total :
 <span id="grandTotal">₹0.00</span>
+</h3>
 
-</p>
+</div>
 
-  <label>🏢 Company Logo</label>
-
-<input
-type="file"
-id="companyLogo"
-accept="image/*"
-onchange="loadCompanyLogo()">
+  <!-- ========================= -->
+<!-- Invoice Preview -->
+<!-- ========================= -->
 
 <div class="card">
 
-<h2>🏢 Company Details</h2>
+<h2>👀 Invoice Preview</h2>
 
-<input
-type="text"
-id="companyName"
-placeholder="Company Name">
+<div
+id="invoicePreview"
+class="invoice-preview">
 
-<input
-type="text"
-id="companyGST"
-placeholder="Company GST Number">
+<div
+style="
+text-align:center;
+padding:40px;
+color:#777;
+">
 
-<input
-type="text"
-id="companyPhone"
-placeholder="Company Phone">
+<h3>🧾 No Invoice Generated</h3>
 
-<textarea
-id="companyAddress"
-placeholder="Company Address"></textarea>
-
-<input
-type="file"
-id="companyLogo"
-accept="image/*">
+<p>
+Click <b>Preview Invoice</b> to generate invoice.
+</p>
 
 </div>
 
-  <div class="card">
-
-<h2>🧾 Invoice Preview</h2>
-
-<div id="invoicePreview">
-
-No Invoice Generated
-
 </div>
 
-<br>
+<div
+class="dashboard-grid">
 
 <button onclick="previewInvoice()">
 
@@ -209,34 +208,102 @@ No Invoice Generated
 
 </div>
 
-  <div class="card">
+</div>
+
+<!-- ========================= -->
+<!-- Invoice History -->
+<!-- ========================= -->
+
+<div class="card">
 
 <h2>📜 Invoice History</h2>
 
 <div id="invoiceHistory">
 
-No Invoice History
+<p
+style="
+text-align:center;
+color:#777;
+">
+
+No Invoice Available
+
+</p>
 
 </div>
 
-  </div>
+</div>
 
-  <div class="card">
+<!-- ========================= -->
+<!-- Search Invoice -->
+<!-- ========================= -->
+
+<div class="card">
 
 <h2>🔍 Search Invoice</h2>
 
 <input
 type="text"
 id="invoiceSearch"
-placeholder="Search Invoice No / Customer Name"
+placeholder="Search Invoice Number / Customer Name"
 onkeyup="searchInvoice()">
 
-  </div>
+</div>
 
-<script src="js/script.js"></script>
+  <!-- Company Details -->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<div class="card">
 
-</body>
+<h2>🏢 Company Details</h2>
 
-</html>
+<label>Company Logo</label>
+
+<input
+type="file"
+id="companyLogo"
+accept="image/*"
+onchange="loadCompanyLogo()">
+
+<br><br>
+
+<img
+id="logoPreview"
+src=""
+style="
+display:none;
+width:90px;
+height:90px;
+border-radius:12px;
+border:2px solid #1565C0;
+object-fit:cover;
+">
+
+<br><br>
+
+<input
+type="text"
+id="companyName"
+placeholder="🏢 Company Name">
+
+<input
+type="text"
+id="companyGST"
+placeholder="🧾 GST Number">
+
+<input
+type="text"
+id="companyPhone"
+placeholder="📞 Phone Number">
+
+<textarea
+id="companyAddress"
+placeholder="📍 Company Address"
+rows="3"></textarea>
+
+<button onclick="saveCompanyDetails()">
+
+💾 Save Company Details
+
+</button>
+
+</div>
