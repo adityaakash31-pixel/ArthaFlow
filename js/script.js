@@ -7827,3 +7827,121 @@ result.innerHTML += `
 `;
 
 }
+
+// ===============================
+// Step 89B - GST Invoice Logic
+// ===============================
+
+// Auto Invoice Number
+
+function generateInvoiceNumber(){
+
+let invoiceNo =
+Number(localStorage.getItem("invoiceCounter")) || 1;
+
+let finalNo =
+"INV" + String(invoiceNo).padStart(4,"0");
+
+document.getElementById("invoiceNumber").value =
+finalNo;
+
+localStorage.setItem(
+"invoiceCounter",
+invoiceNo+1
+);
+
+}
+
+// Calculate Amount
+
+function calculateInvoiceAmount(){
+
+let qty =
+Number(document.getElementById("productQty").value);
+
+let rate =
+Number(document.getElementById("productRate").value);
+
+if(qty<=0 || rate<=0){
+
+alert("Enter Valid Quantity & Rate");
+
+return;
+
+}
+
+let subtotal =
+qty*rate;
+
+document.getElementById("invoiceSubtotal").innerHTML =
+"₹"+subtotal.toFixed(2);
+
+}
+
+// Auto Load Today's Date
+
+window.addEventListener("load",function(){
+
+if(document.getElementById("invoiceDate")){
+
+let today =
+new Date().toISOString().split("T")[0];
+
+document.getElementById("invoiceDate").value =
+today;
+
+}
+
+});
+
+// ===============================
+// Step 89C - GST Calculator
+// ===============================
+
+function calculateGST(){
+
+let qty =
+Number(document.getElementById("productQty").value);
+
+let rate =
+Number(document.getElementById("productRate").value);
+
+let gst =
+Number(document.getElementById("gstPercent").value);
+
+if(qty<=0 || rate<=0){
+
+alert("Enter Valid Product Details");
+
+return;
+
+}
+
+let subtotal = qty * rate;
+
+let gstAmount = subtotal * gst / 100;
+
+let cgst = gstAmount / 2;
+
+let sgst = gstAmount / 2;
+
+let igst = gstAmount;
+
+let grandTotal = subtotal + gstAmount;
+
+document.getElementById("invoiceSubtotal").innerHTML =
+"₹"+subtotal.toFixed(2);
+
+document.getElementById("cgstAmount").innerHTML =
+"₹"+cgst.toFixed(2);
+
+document.getElementById("sgstAmount").innerHTML =
+"₹"+sgst.toFixed(2);
+
+document.getElementById("igstAmount").innerHTML =
+"₹"+igst.toFixed(2);
+
+document.getElementById("grandTotal").innerHTML =
+"₹"+grandTotal.toFixed(2);
+
+}
