@@ -1,622 +1,444 @@
-<script>
-
-if(localStorage.getItem("loggedIn")!="true"){
-    location.replace("login.html");
-}
-else if(localStorage.getItem("appPin")==null){
-    location.replace("pin-setup.html");
-}
-else if(sessionStorage.getItem("pinVerified")!="true"){
-    location.replace("pin-lock.html");
-}
-
-</script>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>ArthaFlow V1.0</title>
-
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-    
 <body>
 
-    <div id="notification" class="notification">
-    Notification
-    </div>
+<div id="notification" class="notification">
+Notification
+</div>
 
 <header class="top-header">
-    <h1>💰 ArthaFlow</h1>
-    <p>Personal Finance Manager</p>
-    <h3>👋 Welcome</h3>
-    <div class="premium-banner">
 
-<h2>💎 ArthaFlow Premium Dashboard</h2>
+<div class="logo-section">
+
+<h1>💰 ArthaFlow</h1>
+
+<p>Premium Personal Finance Manager</p>
+
+</div>
+
+<div class="premium-banner">
+
+<h2>💎 ArthaFlow Premium</h2>
 
 <p>
-Track • Save • Grow
+Track • Save • Invest • Grow
 </p>
 
-    </div>
+</div>
+
+<div class="welcome-box">
+
+<h3 id="welcomeUser">👋 Welcome</h3>
+
+<p id="dailyQuote">
+Every Rupee Matters 🚀
+</p>
+
+</div>
+
 </header>
 
-    <p>Version 1.0.0</p>
+<p class="version">
+Version 2.0.0
+</p>
 
 <nav class="navbar">
 
-    <button onclick="toggleTheme()" id="themeBtn">
-        🌙 Dark Mode
-    </button>
+<button onclick="toggleTheme()" id="themeBtn">
 
-    <a href="index.html">🏠 Dashboard</a>
-    <a href="income.html">💰 Income</a>
-    <a href="expense.html">💸 Expense</a>
-    <a href="reports.html">📊 Reports</a>
-    <a href="settings.html">⚙ Settings</a>
+🌙 Theme
+
+</button>
+
+<a href="index.html">
+
+🏠 Dashboard
+
+</a>
+
+<a href="income.html">
+
+💰 Income
+
+</a>
+
+<a href="expense.html">
+
+💸 Expense
+
+</a>
+
+<a href="reports.html">
+
+📊 Reports
+
+</a>
+
+<a href="settings.html">
+
+⚙ Settings
+
+</a>
 
 </nav>
 
 <div class="card">
 
-    <h2>👋 Welcome</h2>
+<h2>🚀 Welcome to ArthaFlow</h2>
 
-    <h3 id="welcomeUser"></h3>
+<p>
 
-    <p id="dailyQuote"></p>
+Manage Income • Expense • Investment • Family • GST Invoice
 
-<p>Welcome to ArthaFlow</p>
+</p>
 
 </div>
+
+    <!-- ========================= -->
+<!-- Dashboard Summary -->
+<!-- ========================= -->
 
 <div class="card">
 
-    <h2>💰 Total Income</h2>
+<h2>📊 Financial Overview</h2>
 
-    <h1 id="totalIncome">₹0</h1>
+<div class="dashboard-grid">
 
-    <button onclick="location.href='income.html'">
-        ➕ Add Income
-    </button>
+<div class="summary-box">
 
-    <button onclick="location.href='expense.html'">
-        💸 Add Expense
-    </button>
+<h3>💰 Income</h3>
+
+<h2 id="dashboardIncome">₹0</h2>
 
 </div>
+
+<div class="summary-box">
+
+<h3>💸 Expense</h3>
+
+<h2 id="dashboardExpense">₹0</h2>
+
+</div>
+
+<div class="summary-box">
+
+<h3>🏦 Balance</h3>
+
+<h2 id="dashboardBalance">₹0</h2>
+
+</div>
+
+<div class="summary-box">
+
+<h3>💎 Savings</h3>
+
+<h2 id="dashboardSavings">₹0</h2>
+
+</div>
+
+</div>
+
+<hr>
+
+<canvas id="financeChart"></canvas>
+
+</div>
+
+<!-- ========================= -->
+<!-- Quick Actions -->
+<!-- ========================= -->
 
 <div class="card">
 
-    <h2>📊 Dashboard Summary</h2>
+<h2>⚡ Quick Actions</h2>
 
-    <canvas id="financeChart" width="300" height="300"></canvas>
+<div class="dashboard-grid">
 
-        <div class="card dashboard-card">
+<button onclick="location.href='income.html'">
 
-        <h2>⚡ Quick Actions</h2>
-
-        <button onclick="location.href='income.html'">
-            💰 Add Income
-        </button>
-
-        <button onclick="location.href='expense.html'">
-            💸 Add Expense
-        </button>
-
-        <button onclick="location.href='reports.html'">
-            📊 Reports
-        </button>
-
-    </div>
-
-    <div class="card">
-
-    <h2>📊 Income vs Expense</h2>
-
-    <canvas id="barChart"></canvas>
-
-    </div>
-
-    <hr>
-
-    <p><strong>💰 Total Income</strong></p>
-    <h2 id="dashboardIncome" class="income-card">₹0</h2>
-
-    <p><strong>💸 Total Expense</strong></p>
-    <h2 id="dashboardExpense" class="expense-card">₹0</h2>
-
-    <p><strong>💵 Current Balance</strong></p>
-    <h2 id="dashboardBalance" class="balance-card">₹0</h2>
-
-    <p><strong>🏦 Total Savings</strong></p>
-    <h2 id="dashboardSavings" class="saving-card">₹0</h2>
-
-    <p><strong>📋 Total Transactions</strong></p>
-    <h2 id="totalEntries">0</h2>
-
-</div>
-
-<div class="card">
-
-    <h2>📅 Monthly Summary</h2>
-
-    <p>
-        💰 Income :
-        <span id="monthIncome">₹0</span>
-    </p>
-
-    <p>
-        💸 Expense :
-        <span id="monthExpense">₹0</span>
-    </p>
-
-    <p>
-        🏦 Balance :
-        <span id="monthBalance">₹0</span>
-    </p>
-
-</div>
-
-<div class="card">
-
-    <h2>💰 Budget Planner</h2>
-
-    <p>
-        Monthly Budget :
-        <span id="budgetAmount">₹0</span>
-    </p>
-
-    <p>
-        Remaining Budget :
-        <span id="remainingBudget">₹0</span>
-    </p>
-
-</div>
-
-    <div class="card">
-
-<h2>🔔 Notifications</h2>
-
-<div id="notificationBox">
-
-✅ No Pending Bills
-
-</div>
-
-    </div>
-
-    <div class="card">
-
-<h2>📈 Monthly Financial Insights</h2>
-
-<p>💰 Saving :
-<span id="savingInsight">₹0</span></p>
-
-<p>📊 Expense Ratio :
-<span id="expenseRatio">0%</span></p>
-
-<p>⭐ Financial Status :
-<span id="financialStatus">Excellent</span></p>
-
-<p>💡 Tip :
-<span id="financeTip">
-Keep Saving!
-</span></p>
-
-    </div>
-
-    <div class="card">
-
-<h2>🔔 Upcoming Bills</h2>
-
-<ul id="dashboardBills">
-
-<li>No Upcoming Bills</li>
-
-</ul>
-
-    </div>
-
-    <div class="card">
-
-<h2>🎯 Financial Goal</h2>
-
-<input
-type="number"
-id="goalAmount"
-placeholder="Enter Saving Goal">
-
-<button onclick="saveGoal()">
-💾 Save Goal
-</button>
-
-<p>Goal : <span id="goalDisplay">₹0</span></p>
-
-<p>Progress : <span id="goalProgress">0%</span></p>
-
-        <div class="progress">
-
-<div id="goalBar" class="progress-fill">
-
-0%
-
-</div>
-
-        </div>
-
-    </div>
-
-    <div class="card">
-
-<h2>📈 Monthly Trend</h2>
-
-<canvas id="trendChart"></canvas>
-
-    </div>
-
-<div class="card">
-
-    <h2>🕒 Recent Transactions</h2>
-
-    <ul id="recentTransactions"></ul>
-
-</div>
-
-    <div class="card">
-
-<h2>🔁 Recurring Transactions</h2>
-
-<button onclick="location.href='recurring.html'">
-
-Manage Recurring
+💰 Income
 
 </button>
 
-    </div>
+<button onclick="location.href='expense.html'">
 
-    <div class="card">
-
-<h2>🔔 Bill Reminder</h2>
-
-<button onclick="location.href='reminders.html'">
-
-Open Reminder
+💸 Expense
 
 </button>
 
-    </div>
+<button onclick="location.href='reports.html'">
 
-    <div class="card">
-
-<h2>🔍 Search Transactions</h2>
-
-<input
-type="text"
-id="globalSearch"
-placeholder="Search Category / Amount..."
-onkeyup="globalSearch()">
-
-<ul id="searchResult"></ul>
-
-    </div>
-
-    <div class="card">
-
-<h2>📈 Transaction Statistics</h2>
-
-<p>📥 Income Entries :
-<span id="incomeEntries">0</span></p>
-
-<p>📤 Expense Entries :
-<span id="expenseEntries">0</span></p>
-
-<p>💰 Average Income :
-<span id="avgIncome">₹0</span></p>
-
-<p>💸 Average Expense :
-<span id="avgExpense">₹0</span></p>
-
-    </div>
-
-<div class="card" onclick="location.href='reports.html'">
-
-    <h2>📊 Reports</h2>
-
-    <p>View Financial Reports</p>
-
-</div>
-
-    <div class="card">
-
-<h2>📅 Calendar View</h2>
-
-<button onclick="location.href='calendar.html'">
-
-Open Calendar
+📊 Reports
 
 </button>
 
-    </div>
+<button onclick="location.href='gst-invoice.html'">
 
-    <div class="card">
-
-<h2>📊 Category Analytics</h2>
-
-<button onclick="location.href='analytics.html'">
-
-Open Analytics
+🧾 GST Invoice
 
 </button>
-
-    </div>
-
-    <div class="card" onclick="location.href='loan.html'">
-
-<h2>🏦 Loan Manager</h2>
-
-<p>Manage Borrowed & Lent Money</p>
-
-    </div>
-
-    <div class="card" onclick="location.href='emi.html'">
-
-<h2>🏦 EMI Tracker</h2>
-
-<p>Track EMI Payments</p>
-
-    </div>
-
-    <div class="card">
-
-<h2>💰 Investment Tracker</h2>
-
-<p>
-
-Track SIP, Mutual Fund, Stock, Gold, FD, RD & PPF
-
-</p>
-
-<button onclick="location.href='investment.html'">
-
-Open
-
-</button>
-
-    </div>
-
-    <div class="card">
-
-<h2>📈 SIP Calculator</h2>
-
-<p>
-
-Calculate Future SIP Returns
-
-</p>
-
-<button onclick="location.href='sip.html'">
-
-Open
-
-</button>
-
-    </div>
-
-    <div class="card">
-
-<h2>💰 Net Worth</h2>
-
-<p>
-
-Assets vs Liabilities
-
-</p>
-
-<button onclick="location.href='networth.html'">
-
-Open
-
-</button>
-
-    </div>
-
-    <div class="card">
-
-<h2>💰 Cash Flow</h2>
-
-<p>
-
-Income vs Expense
-
-</p>
-
-<button onclick="location.href='cashflow.html'">
-
-Open
-
-</button>
-
-    </div>
-
-
-    <div class="card">
-
-<h2>📅 Comparison</h2>
-
-<p>
-
-Monthly vs Yearly
-
-</p>
-
-<button onclick="location.href='comparison.html'">
-
-Open
-
-</button>
-
-    </div>
-
-    <div class="card">
-
-<h2>🏆 Top Spending Categories</h2>
-
-<p>
-
-Highest Expense Categories
-
-</p>
-
-<button onclick="location.href='topspending.html'">
-
-Open
-
-</button>
-
-    </div>
-
-    <div class="card">
-
-<h2>📈 Income Growth</h2>
-
-<p>
-
-Income Growth Analysis
-
-</p>
-
-<button onclick="location.href='incomegrowth.html'">
-
-Open
-
-</button>
-
-    </div>
-
-    <div class="card">
-
-<h2>📉 Expense Growth</h2>
-
-<p>
-
-Expense Growth Analysis
-
-</p>
-
-<button onclick="location.href='expensegrowth.html'">
-
-Open
-
-</button>
-
-    </div>
-
-    <div class="card">
-
-<h2>🤖 AI Spending Suggestions</h2>
-
-<p>
-
-Smart Expense Analysis
-
-</p>
-
-<button onclick="location.href='ai-spending.html'">
-
-Open
-
-</button>
-
-    </div>
-
-    <div class="card">
-
-<h2>🎯 Smart Budget</h2>
-
-<p>
-AI Budget Planning & Recommendations
-</p>
-
-<button onclick="location.href='smart-budget.html'">
-
-Open
-
-</button>
-
-    </div>
-
-    <div class="card">
-
-<h2>🎯 Goal Tracker</h2>
-
-<p>
-Track Your Financial Goals
-</p>
-
-<button onclick="location.href='goal-tracker.html'">
-
-Open
-
-</button>
-
-    </div>
-
-    <div class="card">
-
-<h2>👨‍👩‍👧‍👦 Family Management</h2>
-
-<p>
-
-Manage Family Members
-
-</p>
-
-<button onclick="location.href='family.html'">
-
-Open
-
-</button>
-
-    </div>
-
-    <div class="card">
-
-<h2>🤝 Shared Expense Split</h2>
-
-<p>Split Bills Between Members</p>
 
 <button onclick="location.href='shared-expense.html'">
 
-Open
+🤝 Shared Expense
 
 </button>
 
-    </div>
+<button onclick="location.href='family.html'">
 
-    <div class="card" onclick="location.href='gst-invoice.html'">
+👨‍👩‍👧 Family
 
-<div class="icon">🧾</div>
+</button>
 
-<h3>GST Invoice</h3>
+</div>
 
-<p>Create Professional GST Invoice</p>
+</div>
 
-    </div>
+<!-- ========================= -->
+<!-- Income vs Expense -->
+<!-- ========================= -->
 
-    <footer class="footer">
+<div class="card">
+
+<h2>📈 Income vs Expense</h2>
+
+<canvas id="barChart"></canvas>
 
 <p>
-© 2026 ArthaFlow • Developed by Aditya Aakash
+
+📋 Total Transactions :
+<b id="totalEntries">0</b>
+
 </p>
 
-    </footer>
+</div>
+
+    <!-- ========================= -->
+<!-- Premium Financial Modules -->
+<!-- ========================= -->
+
+<div class="card">
+
+<h2>🏦 Financial Tools</h2>
+
+<div class="dashboard-grid">
+
+<button onclick="location.href='investment.html'">
+📈 Investment
+</button>
+
+<button onclick="location.href='sip.html'">
+💹 SIP Calculator
+</button>
+
+<button onclick="location.href='loan.html'">
+🏦 Loan Manager
+</button>
+
+<button onclick="location.href='emi.html'">
+💳 EMI Tracker
+</button>
+
+<button onclick="location.href='networth.html'">
+💎 Net Worth
+</button>
+
+<button onclick="location.href='cashflow.html'">
+💵 Cash Flow
+</button>
+
+<button onclick="location.href='comparison.html'">
+📅 Comparison
+</button>
+
+<button onclick="location.href='reports.html'">
+📊 Reports
+</button>
+
+</div>
+
+</div>
+
+<!-- ========================= -->
+<!-- Analytics -->
+<!-- ========================= -->
+
+<div class="card">
+
+<h2>📊 Analytics</h2>
+
+<div class="dashboard-grid">
+
+<button onclick="location.href='analytics.html'">
+📊 Category Analytics
+</button>
+
+<button onclick="location.href='topspending.html'">
+🏆 Top Spending
+</button>
+
+<button onclick="location.href='incomegrowth.html'">
+📈 Income Growth
+</button>
+
+<button onclick="location.href='expensegrowth.html'">
+📉 Expense Growth
+</button>
+
+</div>
+
+</div>
+
+<!-- ========================= -->
+<!-- AI Smart Tools -->
+<!-- ========================= -->
+
+<div class="card">
+
+<h2>🤖 AI Smart Tools</h2>
+
+<div class="dashboard-grid">
+
+<button onclick="location.href='ai-spending.html'">
+🤖 AI Spending
+</button>
+
+<button onclick="location.href='smart-budget.html'">
+🎯 Smart Budget
+</button>
+
+<button onclick="location.href='goal-tracker.html'">
+🎯 Goal Tracker
+</button>
+
+<button onclick="location.href='calendar.html'">
+📅 Calendar
+</button>
+
+</div>
+
+</div>
+
+    <!-- ========================= -->
+<!-- Family & Shared Finance -->
+<!-- ========================= -->
+
+<div class="card">
+
+<h2>👨‍👩‍👧‍👦 Family Finance</h2>
+
+<div class="dashboard-grid">
+
+<button onclick="location.href='family.html'">
+
+👨‍👩‍👧 Family Management
+
+</button>
+
+<button onclick="location.href='shared-expense.html'">
+
+🤝 Shared Expense
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ========================= -->
+<!-- Business Tools -->
+<!-- ========================= -->
+
+<div class="card">
+
+<h2>🏢 Business Tools</h2>
+
+<div class="dashboard-grid">
+
+<button onclick="location.href='gst-invoice.html'">
+
+🧾 GST Invoice Generator
+
+</button>
+
+<button onclick="location.href='reports.html'">
+
+📊 Business Reports
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ========================= -->
+<!-- Premium Shortcuts -->
+<!-- ========================= -->
+
+<div class="card">
+
+<h2>⭐ Premium Shortcuts</h2>
+
+<div class="dashboard-grid">
+
+<button onclick="location.href='settings.html'">
+
+⚙ Settings
+
+</button>
+
+<button onclick="location.href='reminders.html'">
+
+🔔 Reminders
+
+</button>
+
+<button onclick="location.href='recurring.html'">
+
+🔁 Recurring
+
+</button>
+
+<button onclick="location.href='calendar.html'">
+
+📅 Calendar
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ========================= -->
+<!-- Footer -->
+<!-- ========================= -->
+
+<footer class="footer">
+
+<h3>💰 ArthaFlow Premium</h3>
+
+<p>
+
+Your Personal Finance Companion
+
+</p>
+
+<hr>
+
+<p>
+
+© 2026 ArthaFlow
+
+</p>
+
+<p>
+
+Developed by <b>Aditya Aakash</b>
+
+</p>
+
+</footer>
 
 <script src="js/script.js"></script>
 
 </body>
+
 </html>
