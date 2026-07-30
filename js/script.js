@@ -7892,6 +7892,9 @@ today;
 
 }
 
+    companyLogoData =
+localStorage.getItem("companyLogo") || "";
+
 loadGSTInvoice();
 
 loadInvoiceHistory();
@@ -8424,6 +8427,11 @@ let reader = new FileReader();
 reader.onload = function(e){
 
 companyLogoData = e.target.result;
+
+    localStorage.setItem(
+"companyLogo",
+companyLogoData
+);
 
 };
 
