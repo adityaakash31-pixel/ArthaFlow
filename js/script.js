@@ -8194,7 +8194,21 @@ border-radius:12px;
 color:#1565C0;
 font-weight:bold;">
 
-🏢 COMPANY STAMP
+${companyStampData ?
+
+`<img
+src="${companyStampData}"
+style="
+width:120px;
+height:120px;
+object-fit:contain;
+">`
+
+:
+
+`🏢 COMPANY STAMP`
+
+ }
 
 </div>
 
@@ -8597,6 +8611,37 @@ companyLogoData = e.target.result;
 "companyLogo",
 companyLogoData
 );
+
+};
+
+reader.readAsDataURL(file);
+
+}
+
+// ===============================
+// Step 8.1 - Company Stamp Upload
+// ===============================
+
+let companyStampData = "";
+
+function loadCompanyStamp(){
+
+let file =
+document.getElementById("companyStamp").files[0];
+
+if(!file) return;
+
+let reader = new FileReader();
+
+reader.onload = function(e){
+
+companyStampData = e.target.result;
+
+document.getElementById("stampPreview").src =
+companyStampData;
+
+document.getElementById("stampPreview").style.display =
+"block";
 
 };
 
