@@ -8282,7 +8282,7 @@ document.getElementById("invoiceHistory");
 
 box.innerHTML = "";
 
-history.forEach(function(item){
+history.forEach(function(item,index){
 
 if(
 
@@ -8310,10 +8310,40 @@ box.innerHTML += `
 
 </div>
 
+<button onclick="deleteInvoice(${index})">
+
+🗑 Delete
+
+</button>
+
 `;
 
 }
 
 });
+
+}
+
+// ===============================
+// Step 89I - Delete Invoice
+// ===============================
+
+function deleteInvoice(index){
+
+let history =
+JSON.parse(localStorage.getItem("invoiceHistory")) || [];
+
+if(confirm("Delete this Invoice?")){
+
+history.splice(index,1);
+
+localStorage.setItem(
+"invoiceHistory",
+JSON.stringify(history)
+);
+
+loadInvoiceHistory();
+
+}
 
 }
