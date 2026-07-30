@@ -8183,6 +8183,69 @@ color:gray;
 </p>
 `;
 
+    <!-- Company Stamp -->
+
+<div style="text-align:right;margin-top:25px;">
+
+<div style="display:inline-block;
+padding:18px;
+border:2px dashed #1565C0;
+border-radius:12px;
+color:#1565C0;
+font-weight:bold;">
+
+🏢 COMPANY STAMP
+
+</div>
+
+</div>
+
+<br>
+
+<!-- QR Code -->
+
+<div style="text-align:center;">
+
+<h3>📱 Scan QR</h3>
+
+<div style="
+width:120px;
+height:120px;
+margin:auto;
+border:2px solid #000;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:10px;
+font-weight:bold;">
+
+QR CODE
+
+</div>
+
+</div>
+
+<hr>
+
+<p style="
+text-align:center;
+font-size:14px;
+color:gray;">
+
+🙏 Thank You For Your Business
+
+</p>
+
+<p style="
+text-align:center;
+font-size:12px;
+color:#888;">
+
+This is a Computer Generated GST Invoice.<br>
+No Signature Required.
+
+</p>
+
 // ===============================
 // Auto Save GST Invoice
 // ===============================
