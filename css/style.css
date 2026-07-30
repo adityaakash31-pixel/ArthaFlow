@@ -448,3 +448,110 @@ font-size:12px;
 border-radius:20px;
 
 }
+
+/* ========================= */
+/* ArthaFlow Premium UI v2 */
+/* ========================= */
+
+body{
+background:#f4f7fb;
+font-family:Arial,sans-serif;
+margin:0;
+padding:15px;
+}
+
+.dashboard-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:15px;
+}
+
+.card{
+background:#ffffff;
+border-radius:18px;
+padding:18px;
+margin:15px 0;
+box-shadow:0 8px 20px rgba(0,0,0,.10);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 12px 25px rgba(0,0,0,.18);
+}
+
+.card h2{
+margin:0 0 12px;
+color:#1565C0;
+font-size:22px;
+}
+
+.summary-box{
+background:#eef5ff;
+padding:15px;
+border-radius:15px;
+text-align:center;
+}
+
+.summary-box h3{
+margin:0;
+font-size:16px;
+color:#555;
+}
+
+.summary-box h2{
+margin-top:8px;
+font-size:24px;
+color:#0D47A1;
+}
+
+button{
+width:100%;
+padding:12px;
+margin:6px 0;
+border:none;
+border-radius:12px;
+background:#1565C0;
+color:#fff;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+background:#0D47A1;
+}
+
+.top-header{
+background:linear-gradient(135deg,#1565C0,#42A5F5);
+color:white;
+padding:25px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+.navbar{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+justify-content:center;
+margin:20px 0;
+}
+
+.navbar a{
+text-decoration:none;
+background:#1565C0;
+color:white;
+padding:10px 18px;
+border-radius:10px;
+font-weight:bold;
+}
+
+.footer{
+margin-top:30px;
+text-align:center;
+color:#666;
+padding:20px;
+}
