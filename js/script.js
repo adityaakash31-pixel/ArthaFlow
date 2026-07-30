@@ -8263,3 +8263,57 @@ box.innerHTML += `
 });
 
 }
+
+// ===============================
+// Step 89H - Search Invoice
+// ===============================
+
+function searchInvoice(){
+
+let keyword =
+document.getElementById("invoiceSearch")
+.value.toLowerCase();
+
+let history =
+JSON.parse(localStorage.getItem("invoiceHistory")) || [];
+
+let box =
+document.getElementById("invoiceHistory");
+
+box.innerHTML = "";
+
+history.forEach(function(item){
+
+if(
+
+item.invoiceNumber.toLowerCase().includes(keyword)
+
+||
+
+item.customerName.toLowerCase().includes(keyword)
+
+){
+
+box.innerHTML += `
+
+<div class="card">
+
+<h3>🧾 ${item.invoiceNumber}</h3>
+
+<p>👤 ${item.customerName}</p>
+
+<p>📦 ${item.productName}</p>
+
+<p>💰 ₹${Number(item.grandTotal).toFixed(2)}</p>
+
+<p>📅 ${item.date}</p>
+
+</div>
+
+`;
+
+}
+
+});
+
+}
