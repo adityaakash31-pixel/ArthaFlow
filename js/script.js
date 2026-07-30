@@ -8020,6 +8020,63 @@ document.getElementById("invoicePreview").innerHTML =
 
 `;
 
+    // ===============================
+// Auto Save GST Invoice
+// ===============================
+
+let invoiceData = {
+
+invoiceNumber: invoice,
+
+customerName: customer,
+
+customerMobile: mobile,
+
+customerAddress: address,
+
+customerGST: gstNo,
+
+productName: product,
+
+productQty: qty,
+
+productRate: rate,
+
+gstPercent: gst,
+
+invoicePreview:
+document.getElementById("invoicePreview").innerHTML
+
+};
+
+localStorage.setItem(
+"lastGSTInvoice",
+JSON.stringify(invoiceData)
+);
+
+}
+
+function loadGSTInvoice(){
+
+let data = JSON.parse(
+localStorage.getItem("lastGSTInvoice")
+);
+
+if(!data) return;
+
+document.getElementById("invoiceNumber").value = data.invoiceNumber;
+document.getElementById("customerName").value = data.customerName;
+document.getElementById("customerMobile").value = data.customerMobile;
+document.getElementById("customerAddress").value = data.customerAddress;
+document.getElementById("customerGST").value = data.customerGST;
+document.getElementById("productName").value = data.productName;
+document.getElementById("productQty").value = data.productQty;
+document.getElementById("productRate").value = data.productRate;
+document.getElementById("gstPercent").value = data.gstPercent;
+
+document.getElementById("invoicePreview").innerHTML =
+data.invoicePreview;
+
 }
 
 // ===============================
