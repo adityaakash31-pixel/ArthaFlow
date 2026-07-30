@@ -5242,8 +5242,6 @@ window.addEventListener("load", function(){
 
     loadSharedAnalytics();
 
-    loadPaymentMembers();   
-
     loadPaymentStatus();
 
     calculateSettlement();
@@ -7290,5 +7288,542 @@ display:false
 }
 
 });
+
+}
+
+// ===============================
+// Step 88A - Generate Member Fields
+// ===============================
+
+function generateMemberFields(){
+
+let total =
+Number(document.getElementById("sharedMembers").value);
+
+let box =
+document.getElementById("memberFields");
+
+if(total<=0){
+
+alert("Enter Valid Member Count");
+
+return;
+
+}
+
+box.innerHTML="";
+
+for(let i=1;i<=total;i++){
+
+box.innerHTML +=
+`
+<div class="card">
+
+<h3>👤 Member ${i}</h3>
+
+<input
+type="text"
+id="memberName${i}"
+placeholder="Enter Member Name">
+
+</div>
+`;
+
+}
+
+}
+
+// ===============================
+// Step 88B - Get Member Names
+// ===============================
+
+function getMemberNames(){
+
+let total =
+Number(document.getElementById("sharedMembers").value);
+
+let memberNames = [];
+
+for(let i=1;i<=total;i++){
+
+let name =
+document.getElementById("memberName"+i).value.trim();
+
+if(name==""){
+
+alert("Please Enter Name of Member "+i);
+
+return null;
+
+}
+
+memberNames.push(name);
+
+}
+
+return memberNames;
+
+}
+
+// ===============================
+// Step 88C - Shared Expense Split
+// ===============================
+
+function calculateSharedExpense(){
+
+let title =
+document.getElementById("sharedTitle").value.trim();
+
+let amount =
+Number(document.getElementById("sharedAmount").value);
+
+if(title==""){
+
+alert("Enter Expense Name");
+
+return;
+
+}
+
+if(amount<=0){
+
+alert("Enter Valid Amount");
+
+return;
+
+}
+
+// Get Member Names
+
+let memberNames = getMemberNames();
+
+if(memberNames==null){
+
+return;
+
+}
+
+let members = memberNames.length;
+
+let perPerson = amount/members;
+
+// Split Result
+
+let splitHTML="";
+
+memberNames.forEach(function(name){
+
+splitHTML +=
+`
+<p>
+
+👤 ${name}
+
+➡️ ₹${perPerson.toFixed(2)}
+
+</p>
+`;
+
+});
+
+// Show Result
+
+document.getElementById("sharedTotal").innerHTML =
+"₹"+amount.toFixed(2);
+
+document.getElementById("sharedMemberCount").innerHTML =
+members;
+
+document.getElementById("perPersonExpense").innerHTML =
+"₹"+perPerson.toFixed(2);
+
+document.getElementById("memberSplitList").innerHTML =
+splitHTML;
+
+// Save
+
+localStorage.setItem("sharedTitle",title);
+
+localStorage.setItem("sharedTotal",amount);
+
+localStorage.setItem("sharedMembers",members);
+
+localStorage.setItem("perPersonExpense",perPerson);
+
+localStorage.setItem("memberSplitList",splitHTML);
+
+localStorage.setItem(
+"sharedMemberNames",
+JSON.stringify(memberNames)
+);
+
+// Save History
+
+let history =
+JSON.parse(localStorage.getItem("sharedExpenseHistory")) || [];
+
+history.unshift({
+
+title:title,
+
+amount:amount,
+
+members:members,
+
+memberNames:memberNames,
+
+perPerson:perPerson,
+
+date:new Date().toLocaleDateString()
+
+});
+
+localStorage.setItem(
+"sharedExpenseHistory",
+JSON.stringify(history)
+);
+
+// Refresh
+
+loadSharedExpense();
+
+loadSharedHistory();
+
+loadSharedAnalytics();
+
+loadPaymentStatus();
+
+calculateSettlement();
+
+alert("Shared Expense Saved Successfully");
+
+}
+
+// ===============================
+// Load Shared Expense
+// ===============================
+
+function loadSharedExpense(){
+
+if(!document.getElementById("sharedTotal")) return;
+
+document.getElementById("sharedTotal").innerHTML =
+"₹"+(Number(localStorage.getItem("sharedTotal"))||0).toFixed(2);
+
+document.getElementById("sharedMemberCount").innerHTML =
+localStorage.getItem("sharedMembers") || "0";
+
+document.getElementById("perPersonExpense").innerHTML =
+"₹"+(Number(localStorage.getItem("perPersonExpense"))||0).toFixed(2);
+
+document.getElementById("memberSplitList").innerHTML =
+localStorage.getItem("memberSplitList") ||
+"No Split Generated";
+
+}
+
+// ===============================
+// Step 88D - Generate Payment Status
+// ===============================
+
+function loadPaymentStatus(){
+
+let memberNames =
+JSON.parse(localStorage.getItem("sharedMemberNames")) || [];
+
+let payment =
+JSON.parse(localStorage.getItem("paymentStatus")) || {};
+
+let box =
+document.getElementById("paymentSection");
+
+if(!box) return;
+
+box.innerHTML="";
+
+if(memberNames.length==0){
+
+box.innerHTML="No Members Generated";
+
+return;
+
+}
+
+memberNames.forEach(function(name){
+
+let status = payment[name] || "Unpaid";
+
+box.innerHTML +=
+`
+<div class="card">
+
+<b>👤 ${name}</b>
+
+<select
+id="status_${name}">
+
+<option value="Paid"
+${status=="Paid" ? "selected" : ""}>
+
+Paid
+
+</option>
+
+<option value="Unpaid"
+${status=="Unpaid" ? "selected" : ""}>
+
+Unpaid
+
+</option>
+
+</select>
+
+</div>
+`;
+
+});
+
+box.innerHTML +=
+`
+<br>
+
+<button onclick="savePaymentStatus()">
+
+💾 Save Payment Status
+
+</button>
+`;
+
+}
+
+// ===============================
+// Step 88E - Save Payment Status
+// ===============================
+
+function savePaymentStatus(){
+
+let memberNames =
+JSON.parse(localStorage.getItem("sharedMemberNames")) || [];
+
+let payment = {};
+
+memberNames.forEach(function(name){
+
+payment[name] =
+document.getElementById("status_"+name).value;
+
+});
+
+localStorage.setItem(
+"paymentStatus",
+JSON.stringify(payment)
+);
+
+alert("Payment Status Saved Successfully");
+
+loadPaymentStatus();
+
+calculateSettlement();
+
+}
+
+// ===============================
+// Step 88F - Shared Expense History
+// ===============================
+
+function loadSharedHistory(){
+
+let history =
+JSON.parse(localStorage.getItem("sharedExpenseHistory")) || [];
+
+let box =
+document.getElementById("sharedHistory");
+
+if(!box) return;
+
+box.innerHTML = "";
+
+if(history.length===0){
+
+box.innerHTML = "<p>No History Available</p>";
+
+return;
+
+}
+
+history.forEach(function(item){
+
+let memberList = "";
+
+if(item.memberNames && item.memberNames.length>0){
+
+memberList = item.memberNames.join(", ");
+
+}else{
+
+memberList = item.members;
+
+}
+
+box.innerHTML += `
+<div class="card">
+
+<h3>📌 ${item.title}</h3>
+
+<p>💰 Total : ₹${Number(item.amount).toFixed(2)}</p>
+
+<p>👥 Members : ${memberList}</p>
+
+<p>💵 Per Person : ₹${Number(item.perPerson).toFixed(2)}</p>
+
+<p>📅 ${item.date}</p>
+
+</div>
+`;
+
+});
+
+}
+
+// ===============================
+// Step 88G - Shared Expense Analytics
+// ===============================
+
+function loadSharedAnalytics(){
+
+let history =
+JSON.parse(localStorage.getItem("sharedExpenseHistory")) || [];
+
+if(!document.getElementById("analyticsTotalExpense")) return;
+
+let total = 0;
+let highest = 0;
+let average = 0;
+
+history.forEach(function(item){
+
+total += Number(item.amount);
+
+if(Number(item.amount) > highest){
+
+highest = Number(item.amount);
+
+}
+
+});
+
+if(history.length>0){
+
+average = total/history.length;
+
+}
+
+document.getElementById("analyticsTotalExpense").innerHTML =
+"₹"+total.toFixed(2);
+
+document.getElementById("analyticsTotalRecords").innerHTML =
+history.length;
+
+document.getElementById("analyticsAverageExpense").innerHTML =
+"₹"+average.toFixed(2);
+
+document.getElementById("analyticsHighestExpense").innerHTML =
+"₹"+highest.toFixed(2);
+
+// Extra Analytics
+
+let lowest = 0;
+
+if(history.length>0){
+
+lowest = Math.min(...history.map(item => Number(item.amount)));
+
+}
+
+if(document.getElementById("analyticsLowestExpense")){
+
+document.getElementById("analyticsLowestExpense").innerHTML =
+"₹"+lowest.toFixed(2);
+
+}
+
+}
+
+// ===============================
+// Step 88H - Final Settlement Calculator
+// ===============================
+
+function calculateSettlement(){
+
+let memberNames =
+JSON.parse(localStorage.getItem("sharedMemberNames")) || [];
+
+let payment =
+JSON.parse(localStorage.getItem("paymentStatus")) || {};
+
+let amount =
+Number(localStorage.getItem("perPersonExpense")) || 0;
+
+let result =
+document.getElementById("settlementResult");
+
+if(!result) return;
+
+result.innerHTML="";
+
+if(memberNames.length==0){
+
+result.innerHTML="<p>No Members Found</p>";
+
+return;
+
+}
+
+let pending = 0;
+let paid = 0;
+
+memberNames.forEach(function(name){
+
+let status = payment[name] || "Unpaid";
+
+if(status=="Paid"){
+
+result.innerHTML += `
+<p>
+
+🟢 <b>${name}</b> → Already Paid
+
+</p>
+`;
+
+paid += amount;
+
+}else{
+
+result.innerHTML += `
+<p>
+
+🔴 <b>${name}</b> → Pay ₹${amount.toFixed(2)}
+
+</p>
+`;
+
+pending += amount;
+
+}
+
+});
+
+result.innerHTML += `
+
+<hr>
+
+<h3>💰 Total Paid : ₹${paid.toFixed(2)}</h3>
+
+<h3>💸 Total Pending : ₹${pending.toFixed(2)}</h3>
+
+<h3>👥 Grand Total : ₹${(paid+pending).toFixed(2)}</h3>
+
+`;
 
 }
