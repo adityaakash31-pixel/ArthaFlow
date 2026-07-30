@@ -8056,6 +8056,48 @@ localStorage.setItem(
 JSON.stringify(invoiceData)
 );
 
+    // ===============================
+// Step 89G - Save Invoice History
+// ===============================
+
+let history =
+JSON.parse(localStorage.getItem("invoiceHistory")) || [];
+
+history.unshift({
+
+invoiceNumber: invoice,
+
+customerName: customer,
+
+customerMobile: mobile,
+
+customerAddress: address,
+
+customerGST: gstNo,
+
+productName: product,
+
+qty: qty,
+
+rate: rate,
+
+gst: gst,
+
+subtotal: subtotal,
+
+gstAmount: gstAmount,
+
+grandTotal: grandTotal,
+
+date: document.getElementById("invoiceDate").value
+
+});
+
+localStorage.setItem(
+"invoiceHistory",
+JSON.stringify(history)
+);
+
 }
 
 function loadGSTInvoice(){
@@ -8171,3 +8213,51 @@ localStorage.setItem(
 JSON.stringify(invoiceData)
 
 );
+
+// ===============================
+// Step 89G.2 - Load Invoice History
+// ===============================
+
+function loadInvoiceHistory(){
+
+let history =
+JSON.parse(localStorage.getItem("invoiceHistory")) || [];
+
+let box =
+document.getElementById("invoiceHistory");
+
+if(!box) return;
+
+box.innerHTML = "";
+
+if(history.length==0){
+
+box.innerHTML = "<p>No Invoice History</p>";
+
+return;
+
+}
+
+history.forEach(function(item){
+
+box.innerHTML += `
+
+<div class="card">
+
+<h3>🧾 ${item.invoiceNumber}</h3>
+
+<p>👤 ${item.customerName}</p>
+
+<p>📦 ${item.productName}</p>
+
+<p>💰 ₹${Number(item.grandTotal).toFixed(2)}</p>
+
+<p>📅 ${item.date}</p>
+
+</div>
+
+`;
+
+});
+
+}
