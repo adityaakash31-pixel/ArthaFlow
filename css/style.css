@@ -784,3 +784,123 @@ background:#2563EB;
 background:linear-gradient(135deg,#1E3A8A,#312E81);
 
 }
+
+/* ================================= */
+/* ArthaFlow Premium GST Invoice UI  */
+/* ================================= */
+
+.gst-container{
+max-width:1100px;
+margin:auto;
+}
+
+.gst-header{
+background:linear-gradient(135deg,#1565C0,#42A5F5);
+padding:30px;
+border-radius:20px;
+text-align:center;
+color:#fff;
+margin-bottom:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+.gst-header h1{
+font-size:34px;
+margin-bottom:8px;
+}
+
+.gst-header p{
+font-size:16px;
+opacity:.95;
+}
+
+.invoice-preview{
+background:#fff;
+border:2px solid #E5E7EB;
+border-radius:15px;
+padding:25px;
+min-height:250px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+overflow:auto;
+}
+
+.dashboard-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+}
+
+.card{
+background:#fff;
+border-radius:18px;
+padding:22px;
+margin:18px 0;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-4px);
+box-shadow:0 12px 28px rgba(0,0,0,.15);
+}
+
+.card h2{
+margin-bottom:18px;
+color:#1565C0;
+}
+
+input,
+textarea,
+select{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:1px solid #D1D5DB;
+border-radius:10px;
+font-size:15px;
+}
+
+textarea{
+resize:vertical;
+}
+
+button{
+background:#1565C0;
+color:#fff;
+border:none;
+border-radius:10px;
+padding:12px;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+background:#0D47A1;
+}
+
+#logoPreview{
+display:block;
+margin:15px auto;
+}
+
+@media(max-width:768px){
+
+.gst-header h1{
+font-size:26px;
+}
+
+.card{
+padding:16px;
+}
+
+.dashboard-grid{
+grid-template-columns:1fr;
+}
+
+button{
+width:100%;
+}
+
+}
