@@ -95,6 +95,56 @@ Subtotal :
 
 </div>
 
+  <select id="gstPercent">
+
+<option value="0">GST 0%</option>
+
+<option value="5">GST 5%</option>
+
+<option value="12">GST 12%</option>
+
+<option value="18">GST 18%</option>
+
+<option value="28">GST 28%</option>
+
+</select>
+
+<button onclick="calculateGST()">
+
+🧾 Calculate GST
+
+</button>
+
+<hr>
+
+<p>
+
+CGST :
+<span id="cgstAmount">₹0.00</span>
+
+</p>
+
+<p>
+
+SGST :
+<span id="sgstAmount">₹0.00</span>
+
+</p>
+
+<p>
+
+IGST :
+<span id="igstAmount">₹0.00</span>
+
+</p>
+
+<p>
+
+Grand Total :
+<span id="grandTotal">₹0.00</span>
+
+</p>
+
 <script src="js/script.js"></script>
 
 </body>
