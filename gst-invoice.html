@@ -1,28 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>ArthaFlow Premium GST Invoice</title>
+
+<link rel="stylesheet"
+href="css/style.css">
+
+</head>
+
 <body>
+
+<!-- ========================= -->
+<!-- 89A - Header -->
+<!-- ========================= -->
 
 <header class="gst-header">
 
-<h1>🧾 GST Invoice Generator</h1>
+<div class="logo-area">
 
-<p>Create Professional Business Invoice</p>
+<h1>🧾 ArthaFlow Premium</h1>
+
+<p>
+Professional GST Invoice Generator
+</p>
+
+</div>
+
+<div class="premium-banner">
+
+<h2>💎 Premium Business Billing</h2>
+
+<p>
+
+GST • Invoice • Reports • PDF
+
+</p>
+
+</div>
 
 </header>
 
+<!-- ========================= -->
+<!-- 89B - Navigation -->
+<!-- ========================= -->
+
+<nav class="navbar">
+
+<a href="index.html">
+
+🏠 Dashboard
+
+</a>
+
+<a href="reports.html">
+
+📊 Reports
+
+</a>
+
+<a href="settings.html">
+
+⚙ Settings
+
+</a>
+
+<button onclick="history.back()">
+
+⬅ Back
+
+</button>
+
+</nav>
+
+<!-- ========================= -->
+<!-- Main Container -->
+<!-- ========================= -->
+
 <div class="gst-container">
 
-<!-- Invoice Details -->
+<!-- ========================= -->
+<!-- 89C - Invoice Details -->
+<!-- ========================= -->
 
 <div class="card">
 
 <h2>📄 Invoice Details</h2>
 
-<input type="text" id="invoiceNumber" readonly placeholder="Invoice Number">
+<label>Invoice Number</label>
 
-<input type="date" id="invoiceDate">
+<input
+type="text"
+id="invoiceNumber"
+readonly
+placeholder="Invoice Number">
 
-<input type="date" id="dueDate">
+<label>Invoice Date</label>
 
-<button onclick="generateInvoiceNumber()">
+<input
+type="date"
+id="invoiceDate">
+
+<label>Due Date</label>
+
+<input
+type="date"
+id="dueDate">
+
+<button
+onclick="generateInvoiceNumber()">
 
 🆔 Generate Invoice Number
 
@@ -30,243 +122,15 @@
 
 </div>
 
-  <div class="card">
+  <!-- ========================= -->
+<!-- 89D - Company Details -->
+<!-- ========================= -->
+
+<div class="card">
 
 <h2>🏢 Company Details</h2>
 
 <label>Company Logo</label>
-
-    <label>🏢 Company Stamp</label>
-
-<input
-type="file"
-id="companyStamp"
-accept="image/*"
-onchange="loadCompanyStamp()">
-
-<br><br>
-
-<img
-id="stampPreview"
-src=""
-style="
-display:none;
-width:120px;
-height:120px;
-border:2px dashed #1565C0;
-border-radius:12px;
-object-fit:contain;
-">
-
-<!-- Customer Details -->
-
-<div class="card">
-
-<h2>👤 Customer Details</h2>
-
-<input
-type="text"
-id="customerName"
-placeholder="👤 Customer Name">
-
-<input
-type="text"
-id="customerMobile"
-placeholder="📞 Mobile Number">
-
-<textarea
-id="customerAddress"
-placeholder="📍 Customer Address"
-rows="3"></textarea>
-
-<input
-type="text"
-id="customerGST"
-placeholder="🧾 Customer GST Number (Optional)">
-
-<input
-type="email"
-id="customerEmail"
-placeholder="📧 Customer Email (Optional)">
-
-<select id="customerState">
-
-<option value="">🌍 Select State</option>
-
-<option>Bihar</option>
-<option>Uttar Pradesh</option>
-<option>Jharkhand</option>
-<option>West Bengal</option>
-<option>Delhi</option>
-<option>Maharashtra</option>
-<option>Gujarat</option>
-<option>Karnataka</option>
-<option>Tamil Nadu</option>
-<option>Rajasthan</option>
-
-</select>
-
-<button onclick="saveCustomerDetails()">
-
-💾 Save Customer Details
-
-</button>
-
-</div>
-
-  <!-- Product Details -->
-
-<div class="card">
-
-<h2>📦 Product Details</h2>
-
-<input
-type="text"
-id="productName"
-placeholder="📦 Product / Service Name">
-
-<input
-type="number"
-id="productQty"
-placeholder="📦 Quantity">
-
-<input
-type="number"
-id="productRate"
-placeholder="💰 Rate">
-
-<select id="gstPercent">
-
-<option value="0">GST 0%</option>
-<option value="5">GST 5%</option>
-<option value="12">GST 12%</option>
-<option value="18" selected>GST 18%</option>
-<option value="28">GST 28%</option>
-
-</select>
-
-<button onclick="calculateGST()">
-
-🧾 Calculate GST
-
-</button>
-
-<hr>
-
-<p>
-Subtotal :
-<b><span id="invoiceSubtotal">₹0.00</span></b>
-</p>
-
-<p>
-CGST :
-<b><span id="cgstAmount">₹0.00</span></b>
-</p>
-
-<p>
-SGST :
-<b><span id="sgstAmount">₹0.00</span></b>
-</p>
-
-<p>
-IGST :
-<b><span id="igstAmount">₹0.00</span></b>
-</p>
-
-<h3>
-Grand Total :
-<span id="grandTotal">₹0.00</span>
-</h3>
-
-</div>
-
-  <!-- ========================= -->
-<!-- Invoice Preview -->
-<!-- ========================= -->
-
-<div class="card">
-
-<h2>👀 Invoice Preview</h2>
-
-<div
-id="invoicePreview"
-class="invoice-preview">
-
-<div
-style="
-text-align:center;
-padding:40px;
-color:#777;
-">
-
-<h3>🧾 No Invoice Generated</h3>
-
-<p>
-Click <b>Preview Invoice</b> to generate invoice.
-</p>
-
-</div>
-
-</div>
-
-<div
-class="dashboard-grid">
-
-<button onclick="previewInvoice()">
-
-👀 Preview Invoice
-
-</button>
-
-<button onclick="downloadInvoicePDF()">
-
-📄 Download PDF
-
-</button>
-
-</div>
-
-</div>
-
-<!-- ========================= -->
-<!-- Invoice History -->
-<!-- ========================= -->
-
-<div class="card">
-
-<h2>📜 Invoice History</h2>
-
-<div id="invoiceHistory">
-
-<p
-style="
-text-align:center;
-color:#777;
-">
-
-No Invoice Available
-
-</p>
-
-</div>
-
-</div>
-
-<!-- ========================= -->
-<!-- Search Invoice -->
-<!-- ========================= -->
-
-<div class="card">
-
-<h2>🔍 Search Invoice</h2>
-
-<input
-type="text"
-id="invoiceSearch"
-placeholder="Search Invoice Number / Customer Name"
-onkeyup="searchInvoice()">
-
-</div>
 
 <input
 type="file"
@@ -290,6 +154,28 @@ object-fit:cover;
 
 <br><br>
 
+<label>Company Stamp</label>
+
+<input
+type="file"
+id="companyStamp"
+accept="image/*"
+onchange="loadCompanyStamp()">
+
+<br><br>
+
+<img
+id="stampPreview"
+src=""
+style="
+display:none;
+width:120px;
+height:120px;
+border:2px dashed #1565C0;
+border-radius:12px;
+object-fit:contain;
+">
+
 <input
 type="text"
 id="companyName"
@@ -302,18 +188,255 @@ placeholder="🧾 GST Number">
 
 <input
 type="text"
+id="companyPAN"
+placeholder="🪪 PAN Number">
+
+<input
+type="text"
 id="companyPhone"
 placeholder="📞 Phone Number">
 
+<input
+type="email"
+id="companyEmail"
+placeholder="📧 Company Email">
+
+<input
+type="text"
+id="companyWebsite"
+placeholder="🌐 Website">
+
 <textarea
 id="companyAddress"
-placeholder="📍 Company Address"
-rows="3"></textarea>
+rows="3"
+placeholder="📍 Company Address"></textarea>
 
 <button onclick="saveCompanyDetails()">
 
 💾 Save Company Details
 
 </button>
+
+</div>
+
+<!-- ========================= -->
+<!-- 89E - Customer Details -->
+<!-- ========================= -->
+
+<div class="card">
+
+<h2>👤 Customer Details</h2>
+
+<input
+type="text"
+id="customerName"
+placeholder="👤 Customer Name">
+
+<input
+type="text"
+id="customerMobile"
+placeholder="📞 Mobile Number">
+
+<input
+type="email"
+id="customerEmail"
+placeholder="📧 Customer Email">
+
+<input
+type="text"
+id="customerGST"
+placeholder="🧾 Customer GST Number">
+
+<select id="customerState">
+
+<option value="">🌍 Select State</option>
+
+<option>Bihar</option>
+<option>Uttar Pradesh</option>
+<option>Jharkhand</option>
+<option>West Bengal</option>
+<option>Delhi</option>
+<option>Maharashtra</option>
+<option>Gujarat</option>
+<option>Karnataka</option>
+<option>Tamil Nadu</option>
+<option>Rajasthan</option>
+
+</select>
+
+<input
+type="text"
+id="customerPincode"
+placeholder="📮 Pincode">
+
+<textarea
+id="customerAddress"
+rows="3"
+placeholder="📍 Customer Address"></textarea>
+
+<button onclick="saveCustomerDetails()">
+
+💾 Save Customer Details
+
+</button>
+
+</div>
+
+  <!-- ========================= -->
+<!-- 89F - Product Details -->
+<!-- ========================= -->
+
+<div class="card">
+
+<h2>📦 Product Details</h2>
+
+<input
+type="text"
+id="productName"
+placeholder="📦 Product / Service Name">
+
+<input
+type="text"
+id="productHSN"
+placeholder="🏷 HSN / SAC Code">
+
+<input
+type="number"
+id="productQty"
+placeholder="📦 Quantity">
+
+<select id="productUnit">
+
+<option>Pcs</option>
+<option>Kg</option>
+<option>Box</option>
+<option>Nos</option>
+<option>Service</option>
+
+</select>
+
+<input
+type="number"
+id="productRate"
+placeholder="💰 Rate">
+
+<input
+type="number"
+id="productDiscount"
+placeholder="🎁 Discount">
+
+<select id="gstPercent">
+
+<option value="0">GST 0%</option>
+<option value="5">GST 5%</option>
+<option value="12">GST 12%</option>
+<option value="18" selected>GST 18%</option>
+<option value="28">GST 28%</option>
+
+</select>
+
+<div class="dashboard-grid">
+
+<button onclick="addProduct()">
+
+➕ Add Product
+
+</button>
+
+<button onclick="clearProduct()">
+
+🗑 Clear
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ========================= -->
+<!-- 89G - Product Table -->
+<!-- ========================= -->
+
+<div class="card">
+
+<h2>📋 Product List</h2>
+
+<table
+id="productTable"
+border="1"
+width="100%"
+cellpadding="8"
+style="border-collapse:collapse;">
+
+<thead>
+
+<tr>
+
+<th>#</th>
+
+<th>Product</th>
+
+<th>HSN</th>
+
+<th>Qty</th>
+
+<th>Unit</th>
+
+<th>Rate</th>
+
+<th>Discount</th>
+
+<th>GST</th>
+
+<th>Total</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="productTableBody">
+
+<tr>
+
+<td colspan="10"
+style="text-align:center;">
+
+No Product Added
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<hr>
+
+<h3>🧾 GST Summary</h3>
+
+<p>Subtotal :
+<b><span id="invoiceSubtotal">₹0.00</span></b></p>
+
+<p>Discount :
+<b><span id="discountAmount">₹0.00</span></b></p>
+
+<p>CGST :
+<b><span id="cgstAmount">₹0.00</span></b></p>
+
+<p>SGST :
+<b><span id="sgstAmount">₹0.00</span></b></p>
+
+<p>IGST :
+<b><span id="igstAmount">₹0.00</span></b></p>
+
+<h2>
+
+Grand Total :
+<span id="grandTotal">₹0.00</span>
+
+</h2>
 
 </div>
