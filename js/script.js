@@ -8292,43 +8292,33 @@ function addProduct(){
 
     let amount = (qty * rate) - discount;
 
-    invoiceProducts.push({
+invoiceProducts.push({
 
-        productName:productName,
+    productName: productName,
 
-        productHSN:productHSN,
+    productHSN: productHSN,
 
-        qty:qty,
+    qty: qty,
 
-        unit:unit,
+    unit: unit,
 
-        rate:rate,
+    rate: rate,
 
-        discount:discount,
+    discount: discount,
 
-        gst:gst,
+    gst: gst,
 
-        amount:amount
+    amount: amount
 
-    });
+});
 
-    clearProduct();
+// Clear Product Inputs
+clearProduct();
 
-    renderProductList();
+// Refresh Invoice
+renderProductList();
 
-    calculateGST();
-
-}
-
-    // Clear Inputs
-
-    document.getElementById("productName").value="";
-
-    document.getElementById("productQty").value="";
-
-    document.getElementById("productRate").value="";
-
-    renderProductList();
+calculateGST();
 
 }
 
