@@ -8693,7 +8693,14 @@ Thank You For Your Business ❤️
 
 saveInvoiceHistory();
 
+loadInvoiceHistory();
+
+renderInvoiceHistory();
+
+showNotification("✅ Invoice Saved Successfully");
+
 }
+
 
 /* =======================================
    ArthaFlow Premium
