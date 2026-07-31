@@ -8523,6 +8523,10 @@ function previewInvoice(){
     let company =
     JSON.parse(localStorage.getItem("companyDetails")) || {};
 
+    let logo = localStorage.getItem("companyLogo") || "";
+
+    let stamp = localStorage.getItem("companyStamp") || "";
+
     let customer =
     JSON.parse(localStorage.getItem("customerDetails")) || {};
 
@@ -8552,17 +8556,38 @@ function previewInvoice(){
 
     });
 
-    document.getElementById("invoicePreview").innerHTML = `
+document.getElementById("invoicePreview").innerHTML = `
 
 <div class="invoice-box">
+
+${
+logo
+?
+`<img
+src="${logo}"
+style="
+width:90px;
+height:90px;
+object-fit:contain;
+margin-bottom:10px;
+">`
+:
+""
+}
 
 <h1>${company.companyName || "Company Name"}</h1>
 
 <p>${company.companyAddress || ""}</p>
 
-<p>GST : ${company.companyGST || ""}</p>
+<p><b>GST :</b> ${company.companyGST || ""}</p>
 
-<p>Phone : ${company.companyPhone || ""}</p>
+<p><b>PAN :</b> ${company.companyPAN || ""}</p>
+
+<p><b>Phone :</b> ${company.companyPhone || ""}</p>
+
+<p><b>Email :</b> ${company.companyEmail || ""}</p>
+
+<p><b>Website :</b> ${company.companyWebsite || ""}</p>
 
 <hr>
 
@@ -8629,6 +8654,53 @@ ${productRows}
 <h2>Grand Total : ₹${grandTotal.toFixed(2)}</h2>
 
 <hr>
+
+<hr>
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:40px;
+">
+
+<div style="text-align:center;">
+
+____________________
+
+<br>
+
+Customer Signature
+
+</div>
+
+<div style="text-align:center;">
+
+${
+stamp
+?
+`<img
+src="${stamp}"
+style="
+width:100px;
+height:100px;
+object-fit:contain;
+display:block;
+margin:auto;
+">`
+:
+""
+}
+
+____________________
+
+<br>
+
+Authorized Signatory
+
+</div>
+
+</div>
 
 <p style="text-align:center;">
 
