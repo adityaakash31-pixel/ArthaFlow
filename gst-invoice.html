@@ -440,3 +440,380 @@ Grand Total :
 </h2>
 
 </div>
+
+  <!-- ========================= -->
+<!-- 89H - Invoice Preview -->
+<!-- ========================= -->
+
+<div class="card">
+
+<h2>👀 Invoice Preview</h2>
+
+<div
+id="invoicePreview"
+class="invoice-preview">
+
+<div
+style="
+text-align:center;
+padding:50px;
+color:#777;
+">
+
+<h2>🧾 GST TAX INVOICE</h2>
+
+<p>
+
+Invoice Preview Will Appear Here
+
+</p>
+
+</div>
+
+</div>
+
+<br>
+
+<div class="dashboard-grid">
+
+<button onclick="previewInvoice()">
+
+👀 Preview Invoice
+
+</button>
+
+<button onclick="downloadInvoicePDF()">
+
+📄 Download PDF
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ========================= -->
+<!-- 89I - Signature Section -->
+<!-- ========================= -->
+
+<div class="card">
+
+<h2>✍ Signature & Verification</h2>
+
+<div
+style="
+display:flex;
+justify-content:space-between;
+gap:30px;
+flex-wrap:wrap;
+">
+
+<div
+style="text-align:center;">
+
+<br><br><br>
+
+____________________
+
+<br>
+
+Customer Signature
+
+</div>
+
+<div
+style="text-align:center;">
+
+<br><br><br>
+
+____________________
+
+<br>
+
+Authorized Signatory
+
+</div>
+
+</div>
+
+<hr>
+
+<div
+style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:20px;
+">
+
+<div>
+
+<h3>🏢 Company Stamp</h3>
+
+<div
+style="
+width:130px;
+height:130px;
+border:2px dashed #1565C0;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:12px;
+">
+
+<img
+id="invoiceStamp"
+style="
+max-width:100%;
+max-height:100%;
+display:none;
+">
+
+<span id="stampText">
+
+STAMP
+
+</span>
+
+</div>
+
+</div>
+
+<div
+style="text-align:center;">
+
+<h3>📱 QR Code</h3>
+
+<div
+style="
+width:130px;
+height:130px;
+border:2px solid #000;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:12px;
+">
+
+<img
+id="invoiceQR"
+style="
+max-width:100%;
+max-height:100%;
+display:none;
+">
+
+<span id="qrText">
+
+QR CODE
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<hr>
+
+<p
+style="
+text-align:center;
+font-size:15px;
+color:#666;
+">
+
+🙏 Thank You For Your Business
+
+</p>
+
+<p
+style="
+text-align:center;
+font-size:12px;
+color:#999;
+">
+
+This is a Computer Generated GST Invoice.
+
+</p>
+
+</div>
+
+  <!-- ========================= -->
+<!-- 89J - Invoice History -->
+<!-- ========================= -->
+
+<div class="card">
+
+<h2>📜 Invoice History</h2>
+
+<input
+type="text"
+id="invoiceSearch"
+placeholder="🔍 Search Invoice No / Customer"
+onkeyup="searchInvoice()">
+
+<br><br>
+
+<div id="invoiceHistory">
+
+<div
+style="
+text-align:center;
+padding:40px;
+color:#777;
+">
+
+📄 No Invoice History Available
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ========================= -->
+<!-- 89K - Payment Details -->
+<!-- ========================= -->
+
+<div class="card">
+
+<h2>💳 Payment Details</h2>
+
+<select id="paymentMode">
+
+<option>Cash</option>
+
+<option>UPI</option>
+
+<option>Bank Transfer</option>
+
+<option>Credit Card</option>
+
+<option>Debit Card</option>
+
+<option>Cheque</option>
+
+</select>
+
+<select id="paymentStatus">
+
+<option>Paid</option>
+
+<option>Pending</option>
+
+<option>Partial</option>
+
+</select>
+
+<input
+type="text"
+id="bankName"
+placeholder="🏦 Bank Name">
+
+<input
+type="text"
+id="accountNumber"
+placeholder="💳 Account Number">
+
+<input
+type="text"
+id="ifscCode"
+placeholder="🏛 IFSC Code">
+
+<input
+type="text"
+id="upiId"
+placeholder="📱 UPI ID">
+
+<textarea
+id="paymentNotes"
+rows="3"
+placeholder="📝 Payment Notes"></textarea>
+
+</div>
+
+  <!-- ========================= -->
+<!-- 89L - Business Footer -->
+<!-- ========================= -->
+
+<footer class="card">
+
+<h2>📌 Terms & Declaration</h2>
+
+<p>
+
+1. Goods once sold will not be taken back without valid reason.
+
+</p>
+
+<p>
+
+2. Please verify all invoice details before payment.
+
+</p>
+
+<p>
+
+3. GST charged as per Government Rules.
+
+</p>
+
+<p>
+
+4. This invoice is generated through ArthaFlow Premium.
+
+</p>
+
+<hr>
+
+<h3>🙏 Thank You For Choosing Us</h3>
+
+<p>
+
+We appreciate your business.
+
+</p>
+
+<hr>
+
+<p
+style="
+text-align:center;
+font-size:13px;
+color:#888;
+">
+
+© 2026 ArthaFlow Premium
+
+</p>
+
+<p
+style="
+text-align:center;
+font-size:13px;
+color:#888;
+">
+
+Developed by
+
+<b>Aditya Aakash</b>
+
+</p>
+
+</footer>
+
+</div>
+
+<!-- End GST Container -->
+
+<script src="js/script.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+</body>
+
+</html>
