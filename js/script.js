@@ -8798,3 +8798,131 @@ function autoSaveDraft(){
     );
 
 }
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91S
+   Auto Load Draft Invoice
+======================================= */
+
+function loadDraftInvoice(){
+
+    let draft = JSON.parse(
+        localStorage.getItem("draftInvoice")
+    );
+
+    if(!draft) return;
+
+    if(document.getElementById("invoiceNumber"))
+        document.getElementById("invoiceNumber").value =
+        draft.invoiceNumber || "";
+
+    if(document.getElementById("invoiceDate"))
+        document.getElementById("invoiceDate").value =
+        draft.invoiceDate || "";
+
+    if(document.getElementById("dueDate"))
+        document.getElementById("dueDate").value =
+        draft.dueDate || "";
+
+    if(document.getElementById("customerName"))
+        document.getElementById("customerName").value =
+        draft.customerName || "";
+
+    if(document.getElementById("customerMobile"))
+        document.getElementById("customerMobile").value =
+        draft.customerMobile || "";
+
+    if(document.getElementById("customerAddress"))
+        document.getElementById("customerAddress").value =
+        draft.customerAddress || "";
+
+    if(document.getElementById("customerGST"))
+        document.getElementById("customerGST").value =
+        draft.customerGST || "";
+
+    if(document.getElementById("customerEmail"))
+        document.getElementById("customerEmail").value =
+        draft.customerEmail || "";
+
+    if(document.getElementById("customerState"))
+        document.getElementById("customerState").value =
+        draft.customerState || "";
+
+    invoiceProducts = draft.products || [];
+
+    subtotal = draft.subtotal || 0;
+    cgstTotal = draft.cgst || 0;
+    sgstTotal = draft.sgst || 0;
+    igstTotal = draft.igst || 0;
+    grandTotal = draft.grandTotal || 0;
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91T
+   Final Initialization
+======================================= */
+
+function initializeGSTInvoice(){
+
+    // Load Company
+
+    loadCompanyDetails();
+
+    loadSavedCompanyLogo();
+
+    loadSavedCompanyStamp();
+
+    // Load Customer
+
+    loadCustomerDetails();
+
+    // Load Draft
+
+    loadDraftInvoice();
+
+    // Load History
+
+    loadInvoiceHistory();
+
+    // Auto Invoice Number
+
+    if(!document.getElementById("invoiceNumber").value){
+
+        generateInvoiceNumber();
+
+    }
+
+}
+
+// ===============================
+// Auto Save Every 10 Seconds
+// ===============================
+
+setInterval(function(){
+
+    autoSaveDraft();
+
+},10000);
+
+// ===============================
+// Run Initialization
+// ===============================
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+function(){
+
+    initializeGSTInvoice();
+
+}
+
+);
+
+// ===============================
+// End of Phase 91
+// ===============================
