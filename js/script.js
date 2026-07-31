@@ -7885,3 +7885,277 @@ let sgstTotal = 0;
 let igstTotal = 0;
 
 let grandTotal = 0;
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91B
+   Window Load
+======================================= */
+
+window.addEventListener("load", function () {
+
+    // Today's Date
+
+    if(document.getElementById("invoiceDate")){
+
+        let today = new Date().toISOString().split("T")[0];
+
+        document.getElementById("invoiceDate").value = today;
+
+    }
+
+    // Due Date (+7 Days)
+
+    if(document.getElementById("dueDate")){
+
+        let due = new Date();
+
+        due.setDate(due.getDate() + 7);
+
+        document.getElementById("dueDate").value =
+        due.toISOString().split("T")[0];
+
+    }
+
+    // Auto Invoice Number
+
+generateInvoiceNumber();
+
+loadCompanyDetails();
+
+loadSavedCompanyLogo();
+
+loadSavedCompanyStamp();
+
+loadCustomerDetails();
+
+loadInvoiceHistory();
+
+loadDraftInvoice();
+
+});
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91C
+   Generate Invoice Number
+======================================= */
+
+function generateInvoiceNumber(){
+
+    // Current Counter
+
+    let invoiceNo = Number(
+        localStorage.getItem("invoiceCounter")
+    ) || 1;
+
+    // Format
+    // Example : INV0001
+
+    currentInvoiceNumber =
+    "INV" + String(invoiceNo).padStart(4,"0");
+
+    // Set Input
+
+    if(document.getElementById("invoiceNumber")){
+
+        document.getElementById("invoiceNumber").value =
+        currentInvoiceNumber;
+
+    }
+
+    // Increase Counter
+
+    localStorage.setItem(
+        "invoiceCounter",
+        invoiceNo + 1
+    );
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91D
+   Save Company Details
+======================================= */
+
+function saveCompanyDetails(){
+
+    let company = {
+
+        companyName:
+        document.getElementById("companyName").value,
+
+        companyGST:
+        document.getElementById("companyGST").value,
+
+        companyPhone:
+        document.getElementById("companyPhone").value,
+
+        companyAddress:
+        document.getElementById("companyAddress").value
+
+    };
+
+    localStorage.setItem(
+        "companyDetails",
+        JSON.stringify(company)
+    );
+
+    alert("✅ Company Details Saved");
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91E
+   Load Company Details
+======================================= */
+
+function loadCompanyDetails(){
+
+    let company = JSON.parse(
+        localStorage.getItem("companyDetails")
+    );
+
+    if(!company) return;
+
+    document.getElementById("companyName").value =
+    company.companyName || "";
+
+    document.getElementById("companyGST").value =
+    company.companyGST || "";
+
+    document.getElementById("companyPhone").value =
+    company.companyPhone || "";
+
+    document.getElementById("companyAddress").value =
+    company.companyAddress || "";
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91F
+   Company Logo Upload
+======================================= */
+
+function loadCompanyLogo(){
+
+    let file =
+    document.getElementById("companyLogo").files[0];
+
+    if(!file) return;
+
+    let reader = new FileReader();
+
+    reader.onload = function(e){
+
+        let logo = e.target.result;
+
+        // Save Logo
+
+        localStorage.setItem(
+            "companyLogo",
+            logo
+        );
+
+        // Show Preview
+
+        let preview =
+        document.getElementById("logoPreview");
+
+        preview.src = logo;
+
+        preview.style.display = "block";
+
+    };
+
+    reader.readAsDataURL(file);
+
+}
+
+/* Auto Load Logo */
+
+function loadSavedCompanyLogo(){
+
+    let logo =
+    localStorage.getItem("companyLogo");
+
+    if(!logo) return;
+
+    let preview =
+    document.getElementById("logoPreview");
+
+    preview.src = logo;
+
+    preview.style.display = "block";
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91G
+   Company Stamp Upload
+======================================= */
+
+function loadCompanyStamp(){
+
+    let file =
+    document.getElementById("companyStamp").files[0];
+
+    if(!file) return;
+
+    let reader = new FileReader();
+
+    reader.onload = function(e){
+
+        let stamp = e.target.result;
+
+        // Save Stamp
+
+        localStorage.setItem(
+            "companyStamp",
+            stamp
+        );
+
+        // Show Preview
+
+        let preview =
+        document.getElementById("stampPreview");
+
+        if(preview){
+
+            preview.src = stamp;
+
+            preview.style.display = "block";
+
+        }
+
+    };
+
+    reader.readAsDataURL(file);
+
+}
+
+/* Auto Load Stamp */
+
+function loadSavedCompanyStamp(){
+
+    let stamp =
+    localStorage.getItem("companyStamp");
+
+    if(!stamp) return;
+
+    let preview =
+    document.getElementById("stampPreview");
+
+    if(preview){
+
+        preview.src = stamp;
+
+        preview.style.display = "block";
+
+    }
+
+}
