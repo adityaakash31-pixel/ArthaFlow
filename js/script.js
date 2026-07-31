@@ -7933,6 +7933,8 @@ loadInvoiceHistory();
 
 loadDraftInvoice();
 
+saveInvoiceHistory();
+
 });
 
 /* =======================================
@@ -8492,5 +8494,307 @@ Thank You For Your Business ❤️
 </div>
 
 `;
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91L
+   Save Invoice History
+======================================= */
+
+function saveInvoiceHistory(){
+
+    let invoice = {
+
+        invoiceNumber: currentInvoiceNumber,
+
+        invoiceDate:
+        document.getElementById("invoiceDate").value,
+
+        dueDate:
+        document.getElementById("dueDate").value,
+
+        company:
+        JSON.parse(localStorage.getItem("companyDetails")) || {},
+
+        customer:
+        JSON.parse(localStorage.getItem("customerDetails")) || {},
+
+        products: invoiceProducts,
+
+        subtotal: subtotal,
+
+        cgst: cgstTotal,
+
+        sgst: sgstTotal,
+
+        igst: igstTotal,
+
+        grandTotal: grandTotal,
+
+        createdAt:
+        new Date().toLocaleString()
+
+    };
+
+    invoiceHistory.push(invoice);
+
+    localStorage.setItem(
+        "invoiceHistory",
+        JSON.stringify(invoiceHistory)
+    );
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91M
+   Load Invoice History
+======================================= */
+
+function loadInvoiceHistory(){
+
+    invoiceHistory = JSON.parse(
+        localStorage.getItem("invoiceHistory")
+    ) || [];
+
+    console.log(
+        "Invoice History Loaded",
+        invoiceHistory
+    );
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91N
+   Search Invoice
+======================================= */
+
+function searchInvoice(){
+
+    let keyword =
+    document.getElementById("invoiceSearch")
+    .value
+    .toLowerCase()
+    .trim();
+
+    if(keyword===""){
+
+        return invoiceHistory;
+
+    }
+
+    let result = invoiceHistory.filter(function(invoice){
+
+        return (
+
+            invoice.invoiceNumber
+            .toLowerCase()
+            .includes(keyword)
+
+            ||
+
+            (invoice.customer.customerName || "")
+            .toLowerCase()
+            .includes(keyword)
+
+        );
+
+    });
+
+    console.log(
+        "Search Result :",
+        result
+    );
+
+    return result;
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91O
+   Delete Invoice
+======================================= */
+
+function deleteInvoice(index){
+
+    if(index < 0 || index >= invoiceHistory.length){
+
+        alert("❌ Invalid Invoice");
+
+        return;
+
+    }
+
+    let confirmDelete = confirm(
+        "🗑 Do you want to delete this invoice?"
+    );
+
+    if(!confirmDelete){
+
+        return;
+
+    }
+
+    invoiceHistory.splice(index,1);
+
+    localStorage.setItem(
+
+        "invoiceHistory",
+
+        JSON.stringify(invoiceHistory)
+
+    );
+
+    loadInvoiceHistory();
+
+    alert("✅ Invoice Deleted Successfully");
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91P
+   Download Invoice PDF
+======================================= */
+
+function downloadInvoicePDF(){
+
+    let invoice =
+    document.getElementById("invoicePreview");
+
+    if(!invoice){
+
+        alert("❌ Invoice Preview Not Found");
+
+        return;
+
+    }
+
+    let options = {
+
+        margin:10,
+
+        filename:
+        currentInvoiceNumber + ".pdf",
+
+        image:{
+            type:"jpeg",
+            quality:1
+        },
+
+        html2canvas:{
+            scale:2
+        },
+
+        jsPDF:{
+            unit:"mm",
+            format:"a4",
+            orientation:"portrait"
+        }
+
+    };
+
+    html2pdf()
+
+    .set(options)
+
+    .from(invoice)
+
+    .save();
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91Q
+   Load Company Assets
+======================================= */
+
+function getCompanyLogo(){
+
+    return localStorage.getItem("companyLogo") || "";
+
+}
+
+function getCompanyStamp(){
+
+    return localStorage.getItem("companyStamp") || "";
+
+}
+
+function getCompanyAssets(){
+
+    return{
+
+        logo:getCompanyLogo(),
+
+        stamp:getCompanyStamp()
+
+    };
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91R
+   Auto Save Draft Invoice
+======================================= */
+
+function autoSaveDraft(){
+
+    let draft = {
+
+        invoiceNumber:
+        document.getElementById("invoiceNumber")?.value || "",
+
+        invoiceDate:
+        document.getElementById("invoiceDate")?.value || "",
+
+        dueDate:
+        document.getElementById("dueDate")?.value || "",
+
+        customerName:
+        document.getElementById("customerName")?.value || "",
+
+        customerMobile:
+        document.getElementById("customerMobile")?.value || "",
+
+        customerAddress:
+        document.getElementById("customerAddress")?.value || "",
+
+        customerGST:
+        document.getElementById("customerGST")?.value || "",
+
+        customerEmail:
+        document.getElementById("customerEmail")?.value || "",
+
+        customerState:
+        document.getElementById("customerState")?.value || "",
+
+        products: invoiceProducts,
+
+        subtotal: subtotal,
+
+        cgst: cgstTotal,
+
+        sgst: sgstTotal,
+
+        igst: igstTotal,
+
+        grandTotal: grandTotal
+
+    };
+
+    localStorage.setItem(
+
+        "draftInvoice",
+
+        JSON.stringify(draft)
+
+    );
 
 }
