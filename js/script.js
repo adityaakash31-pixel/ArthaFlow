@@ -7920,6 +7920,8 @@ window.addEventListener("load", function () {
 
     loadInvoiceHistory();
 
+    renderInvoiceHistory();
+
     loadDraftInvoice();
 
 });
@@ -9079,7 +9081,6 @@ function loadDraftInvoice(){
 function initializeGSTInvoice(){
 
     // Load Company
-
     loadCompanyDetails();
 
     loadSavedCompanyLogo();
@@ -9087,19 +9088,17 @@ function initializeGSTInvoice(){
     loadSavedCompanyStamp();
 
     // Load Customer
-
     loadCustomerDetails();
 
     // Load Draft
-
     loadDraftInvoice();
 
     // Load History
-
     loadInvoiceHistory();
 
-    // Auto Invoice Number
+    renderInvoiceHistory();
 
+    // Auto Invoice Number
     if(!document.getElementById("invoiceNumber").value){
 
         generateInvoiceNumber();
