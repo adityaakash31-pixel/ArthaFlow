@@ -7895,45 +7895,32 @@ let grandTotal = 0;
 window.addEventListener("load", function () {
 
     // Today's Date
-
     if(document.getElementById("invoiceDate")){
-
         let today = new Date().toISOString().split("T")[0];
-
         document.getElementById("invoiceDate").value = today;
-
     }
 
     // Due Date (+7 Days)
-
     if(document.getElementById("dueDate")){
-
         let due = new Date();
-
         due.setDate(due.getDate() + 7);
-
         document.getElementById("dueDate").value =
         due.toISOString().split("T")[0];
-
     }
 
-    // Auto Invoice Number
+    generateInvoiceNumber();
 
-generateInvoiceNumber();
+    loadCompanyDetails();
 
-loadCompanyDetails();
+    loadSavedCompanyLogo();
 
-loadSavedCompanyLogo();
+    loadSavedCompanyStamp();
 
-loadSavedCompanyStamp();
+    loadCustomerDetails();
 
-loadCustomerDetails();
+    loadInvoiceHistory();
 
-loadInvoiceHistory();
-
-loadDraftInvoice();
-
-saveInvoiceHistory();
+    loadDraftInvoice();
 
 });
 
