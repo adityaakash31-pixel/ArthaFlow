@@ -8573,12 +8573,6 @@ margin-bottom:10px;
 ">`
 :
 ""
-
-
-    /* Save Invoice History */
-
-saveInvoiceHistory();
-    
 }
 
 <h1>${company.companyName || "Company Name"}</h1>
@@ -8717,6 +8711,8 @@ Thank You For Your Business ❤️
 </div>
 
 `;
+
+saveInvoiceHistory();
 
 }
 
