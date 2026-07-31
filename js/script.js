@@ -9418,3 +9418,101 @@ ${item.invoiceDate}</p>
     container.innerHTML = html;
 
 }
+
+/* =======================================
+   Phase 92O
+   View Invoice
+======================================= */
+
+function viewInvoice(index){
+
+    if(index < 0 || index >= invoiceHistory.length){
+
+        alert("❌ Invoice Not Found");
+
+        return;
+
+    }
+
+    let invoice = invoiceHistory[index];
+
+    alert(
+
+`Invoice No : ${invoice.invoiceNumber}
+
+Customer : ${invoice.customer.customerName || "-"}
+
+Date : ${invoice.invoiceDate}
+
+Grand Total : ₹${Number(invoice.grandTotal).toFixed(2)}`
+
+    );
+
+}
+
+/* =======================================
+   Phase 92P
+   Delete Invoice History
+======================================= */
+
+function deleteInvoice(index){
+
+    if(index < 0 || index >= invoiceHistory.length){
+
+        alert("❌ Invoice Not Found");
+
+        return;
+
+    }
+
+    let confirmDelete = confirm(
+        "🗑 Do you want to delete this invoice?"
+    );
+
+    if(!confirmDelete){
+
+        return;
+
+    }
+
+    invoiceHistory.splice(index,1);
+
+    localStorage.setItem(
+
+        "invoiceHistory",
+
+        JSON.stringify(invoiceHistory)
+
+    );
+
+    renderInvoiceHistory();
+
+    alert("✅ Invoice Deleted Successfully");
+
+}
+
+/* =======================================
+   Phase 92Q
+   Notification System
+======================================= */
+
+function showNotification(message,color="#16A34A"){
+
+    let box =
+    document.getElementById("notificationBox");
+
+    if(!box) return;
+
+    box.innerText = message;
+
+    box.style.background = color;
+
+    box.style.display = "block";
+
+    setTimeout(function(){
+
+        box.style.display = "none";
+
+    },3000);
+
+}
