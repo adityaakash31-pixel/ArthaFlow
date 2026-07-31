@@ -8330,7 +8330,7 @@ function addProduct(){
 
     renderProductList();
 
-
+}
 
 /* =======================================
    Phase 91I.1
