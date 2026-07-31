@@ -785,122 +785,1082 @@ background:linear-gradient(135deg,#1E3A8A,#312E81);
 
 }
 
-/* ================================= */
-/* ArthaFlow Premium GST Invoice UI  */
-/* ================================= */
+/* =======================================
+   Phase 90A
+   GST Invoice Premium UI
+======================================= */
 
 .gst-container{
-max-width:1100px;
+
+max-width:1200px;
+
 margin:auto;
+
+padding:15px;
+
 }
 
 .gst-header{
-background:linear-gradient(135deg,#1565C0,#42A5F5);
+
+background:linear-gradient(135deg,#2563EB,#4F46E5);
+
 padding:30px;
-border-radius:20px;
+
+border-radius:24px;
+
 text-align:center;
-color:#fff;
-margin-bottom:20px;
-box-shadow:0 10px 25px rgba(0,0,0,.15);
+
+color:white;
+
+margin-bottom:25px;
+
+box-shadow:0 12px 30px rgba(37,99,235,.25);
+
 }
 
 .gst-header h1{
+
 font-size:34px;
+
+font-weight:700;
+
 margin-bottom:8px;
+
 }
 
 .gst-header p{
+
 font-size:16px;
+
 opacity:.95;
+
 }
 
-.invoice-preview{
-background:#fff;
-border:2px solid #E5E7EB;
-border-radius:15px;
-padding:25px;
-min-height:250px;
-box-shadow:0 5px 15px rgba(0,0,0,.08);
-overflow:auto;
-}
-
-.dashboard-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:15px;
-}
+/* =======================================
+   Phase 90B
+   GST Premium Cards
+======================================= */
 
 .card{
-background:#fff;
-border-radius:18px;
-padding:22px;
-margin:18px 0;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-transition:.3s;
+
+background:#FFFFFF;
+
+border-radius:22px;
+
+padding:24px;
+
+margin-bottom:22px;
+
+border:1px solid rgba(0,0,0,.06);
+
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+transition:.35s;
+
 }
 
 .card:hover{
-transform:translateY(-4px);
-box-shadow:0 12px 28px rgba(0,0,0,.15);
+
+transform:translateY(-6px);
+
+box-shadow:0 18px 35px rgba(0,0,0,.15);
+
 }
 
 .card h2{
+
+font-size:22px;
+
+font-weight:700;
+
+color:#2563EB;
+
 margin-bottom:18px;
-color:#1565C0;
+
+padding-bottom:10px;
+
+border-bottom:2px solid #EEF4FF;
+
+}
+
+.card h3{
+
+font-size:18px;
+
+color:#374151;
+
+margin-bottom:10px;
+
+}
+
+.card p{
+
+font-size:15px;
+
+line-height:1.7;
+
+color:#555;
+
+}
+
+.card hr{
+
+border:none;
+
+height:1px;
+
+background:#E5E7EB;
+
+margin:18px 0;
+
+}
+
+/* =======================================
+   Phase 90C
+   Premium Inputs
+======================================= */
+
+label{
+
+display:block;
+
+font-size:14px;
+
+font-weight:600;
+
+color:#374151;
+
+margin-top:14px;
+
+margin-bottom:6px;
+
 }
 
 input,
-textarea,
-select{
+select,
+textarea{
+
 width:100%;
-padding:12px;
-margin:10px 0;
-border:1px solid #D1D5DB;
-border-radius:10px;
+
+padding:14px;
+
+margin-bottom:14px;
+
 font-size:15px;
+
+background:#FFFFFF;
+
+border:2px solid #E5E7EB;
+
+border-radius:14px;
+
+outline:none;
+
+transition:.30s;
+
+}
+
+input::placeholder,
+textarea::placeholder{
+
+color:#9CA3AF;
+
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+border-color:#2563EB;
+
+box-shadow:0 0 0 4px rgba(37,99,235,.15);
+
 }
 
 textarea{
+
 resize:vertical;
+
+min-height:100px;
+
 }
 
+input[readonly]{
+
+background:#F3F4F6;
+
+font-weight:600;
+
+color:#2563EB;
+
+cursor:not-allowed;
+
+}
+
+/* =======================================
+   Phase 90D
+   Premium Buttons
+======================================= */
+
 button{
-background:#1565C0;
-color:#fff;
+
+width:100%;
+
+padding:14px;
+
+margin-top:10px;
+
 border:none;
-border-radius:10px;
-padding:12px;
+
+border-radius:14px;
+
+background:linear-gradient(135deg,#2563EB,#3B82F6);
+
+color:#FFFFFF;
+
 font-size:15px;
-font-weight:bold;
+
+font-weight:600;
+
 cursor:pointer;
-transition:.3s;
+
+transition:all .30s ease;
+
+box-shadow:0 8px 18px rgba(37,99,235,.25);
+
 }
 
 button:hover{
-background:#0D47A1;
+
+background:linear-gradient(135deg,#1D4ED8,#2563EB);
+
+transform:translateY(-3px);
+
+box-shadow:0 12px 24px rgba(37,99,235,.35);
+
 }
 
-#logoPreview{
-display:block;
-margin:15px auto;
+button:active{
+
+transform:scale(.97);
+
 }
+
+.dashboard-grid button{
+
+margin-top:0;
+
+}
+
+/* Danger Button */
+
+.btn-danger{
+
+background:linear-gradient(135deg,#DC2626,#EF4444);
+
+}
+
+.btn-danger:hover{
+
+background:linear-gradient(135deg,#B91C1C,#DC2626);
+
+}
+
+/* Success Button */
+
+.btn-success{
+
+background:linear-gradient(135deg,#16A34A,#22C55E);
+
+}
+
+.btn-success:hover{
+
+background:linear-gradient(135deg,#15803D,#16A34A);
+
+}
+
+/* =======================================
+   Phase 90E
+   Professional Invoice Preview
+======================================= */
+
+.invoice-preview{
+
+background:#FFFFFF;
+
+border:2px solid #E5E7EB;
+
+border-radius:18px;
+
+padding:30px;
+
+min-height:600px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+overflow:auto;
+
+color:#222;
+
+line-height:1.7;
+
+}
+
+.invoice-preview h1{
+
+font-size:30px;
+
+text-align:center;
+
+color:#2563EB;
+
+margin-bottom:8px;
+
+}
+
+.invoice-preview h2{
+
+font-size:24px;
+
+color:#2563EB;
+
+margin-bottom:12px;
+
+border-bottom:2px solid #E5E7EB;
+
+padding-bottom:8px;
+
+}
+
+.invoice-preview h3{
+
+font-size:18px;
+
+color:#374151;
+
+margin-bottom:10px;
+
+}
+
+.invoice-preview p{
+
+font-size:15px;
+
+margin:6px 0;
+
+color:#444;
+
+}
+
+.invoice-preview table{
+
+width:100%;
+
+border-collapse:collapse;
+
+margin-top:20px;
+
+margin-bottom:20px;
+
+}
+
+.invoice-preview table th{
+
+background:#2563EB;
+
+color:#FFFFFF;
+
+padding:12px;
+
+font-size:14px;
+
+}
+
+.invoice-preview table td{
+
+padding:12px;
+
+border:1px solid #E5E7EB;
+
+font-size:14px;
+
+text-align:center;
+
+}
+
+.invoice-preview hr{
+
+border:none;
+
+height:1px;
+
+background:#D1D5DB;
+
+margin:20px 0;
+
+}
+
+.invoice-preview img{
+
+max-width:120px;
+
+max-height:120px;
+
+object-fit:contain;
+
+}
+
+/* =======================================
+   Phase 90F
+   Mobile + Print + PDF
+======================================= */
+
+/* ---------- Mobile ---------- */
 
 @media(max-width:768px){
 
 .gst-header h1{
+
 font-size:26px;
+
+}
+
+.gst-header p{
+
+font-size:14px;
+
 }
 
 .card{
-padding:16px;
+
+padding:18px;
+
+border-radius:16px;
+
 }
 
 .dashboard-grid{
+
 grid-template-columns:1fr;
+
+gap:12px;
+
+}
+
+.invoice-preview{
+
+padding:18px;
+
+min-height:auto;
+
+}
+
+.invoice-preview table{
+
+display:block;
+
+overflow-x:auto;
+
+white-space:nowrap;
+
 }
 
 button{
-width:100%;
+
+font-size:15px;
+
+padding:13px;
+
 }
+
+input,
+select,
+textarea{
+
+font-size:15px;
+
+}
+
+}
+
+/* ---------- Print ---------- */
+
+@media print{
+
+body{
+
+background:#FFFFFF;
+
+padding:0;
+
+}
+
+.gst-header,
+.navbar,
+button,
+#invoiceSearch,
+#invoiceHistory{
+
+display:none !important;
+
+}
+
+.card{
+
+box-shadow:none;
+
+border:none;
+
+margin:0;
+
+padding:0;
+
+}
+
+.invoice-preview{
+
+border:none;
+
+box-shadow:none;
+
+padding:10mm;
+
+width:100%;
+
+}
+
+}
+
+/* ---------- PDF ---------- */
+
+.invoice-preview{
+
+page-break-inside:avoid;
+
+word-break:break-word;
+
+}
+
+table{
+
+page-break-inside:auto;
+
+}
+
+tr{
+
+page-break-inside:avoid;
+
+page-break-after:auto;
+
+}
+
+/* =======================================
+   Phase 90G
+   Company Logo + Stamp + QR Code
+======================================= */
+
+/* Company Logo */
+
+#logoPreview{
+
+display:block;
+
+margin:15px auto;
+
+width:90px;
+
+height:90px;
+
+border-radius:14px;
+
+border:2px solid #2563EB;
+
+object-fit:cover;
+
+background:#FFFFFF;
+
+padding:5px;
+
+box-shadow:0 6px 15px rgba(0,0,0,.10);
+
+}
+
+/* Company Stamp */
+
+#stampPreview{
+
+display:block;
+
+margin:15px auto;
+
+width:120px;
+
+height:120px;
+
+border:2px dashed #2563EB;
+
+border-radius:14px;
+
+object-fit:contain;
+
+background:#FFFFFF;
+
+padding:8px;
+
+box-shadow:0 6px 15px rgba(0,0,0,.10);
+
+}
+
+/* Invoice Stamp */
+
+#invoiceStamp{
+
+max-width:120px;
+
+max-height:120px;
+
+display:block;
+
+margin:auto;
+
+object-fit:contain;
+
+}
+
+/* QR Code */
+
+#invoiceQR{
+
+max-width:120px;
+
+max-height:120px;
+
+display:block;
+
+margin:auto;
+
+object-fit:contain;
+
+}
+
+/* Stamp & QR Box */
+
+.stamp-box,
+.qr-box{
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+width:140px;
+
+height:140px;
+
+margin:auto;
+
+border:2px dashed #2563EB;
+
+border-radius:14px;
+
+background:#F8FAFC;
+
+   }
+
+/* =======================================
+   Phase 90H
+   Invoice History + Search
+======================================= */
+
+/* Search Box */
+
+#invoiceSearch{
+
+width:100%;
+
+padding:14px;
+
+margin-bottom:18px;
+
+font-size:15px;
+
+border:2px solid #E5E7EB;
+
+border-radius:14px;
+
+outline:none;
+
+transition:.30s;
+
+}
+
+#invoiceSearch:focus{
+
+border-color:#2563EB;
+
+box-shadow:0 0 0 4px rgba(37,99,235,.15);
+
+}
+
+/* History Card */
+
+.history-card{
+
+background:#FFFFFF;
+
+border:1px solid #E5E7EB;
+
+border-radius:18px;
+
+padding:18px;
+
+margin-bottom:18px;
+
+box-shadow:0 6px 15px rgba(0,0,0,.08);
+
+transition:.30s;
+
+}
+
+.history-card:hover{
+
+transform:translateY(-4px);
+
+box-shadow:0 10px 22px rgba(0,0,0,.12);
+
+}
+
+.history-card h3{
+
+color:#2563EB;
+
+margin-bottom:10px;
+
+font-size:18px;
+
+}
+
+.history-card p{
+
+font-size:14px;
+
+margin:5px 0;
+
+color:#555;
+
+}
+
+/* History Buttons */
+
+.history-actions{
+
+display:flex;
+
+gap:10px;
+
+margin-top:15px;
+
+flex-wrap:wrap;
+
+}
+
+.history-actions button{
+
+flex:1;
+
+min-width:120px;
+
+}
+
+/* Empty History */
+
+#invoiceHistory{
+
+min-height:120px;
+
+}
+
+#invoiceHistory p{
+
+text-align:center;
+
+color:#777;
+
+font-size:15px;
+
+}
+
+/* =======================================
+   Phase 90I
+   Payment Section + Footer
+======================================= */
+
+/* Payment Section */
+
+.payment-box{
+
+background:#F8FAFC;
+
+border:2px solid #E5E7EB;
+
+border-radius:18px;
+
+padding:22px;
+
+margin-top:20px;
+
+}
+
+.payment-box h2{
+
+color:#2563EB;
+
+margin-bottom:15px;
+
+}
+
+.payment-box p{
+
+font-size:15px;
+
+margin:8px 0;
+
+color:#444;
+
+}
+
+/* Bank Details */
+
+.bank-details{
+
+background:#FFFFFF;
+
+padding:18px;
+
+border-radius:14px;
+
+border:1px solid #E5E7EB;
+
+margin-top:15px;
+
+box-shadow:0 5px 12px rgba(0,0,0,.06);
+
+}
+
+/* UPI Box */
+
+.upi-box{
+
+text-align:center;
+
+padding:18px;
+
+margin-top:15px;
+
+border:2px dashed #2563EB;
+
+border-radius:16px;
+
+background:#EEF4FF;
+
+}
+
+/* Footer */
+
+.footer{
+
+margin-top:35px;
+
+padding:25px;
+
+text-align:center;
+
+background:linear-gradient(135deg,#2563EB,#4F46E5);
+
+color:#FFFFFF;
+
+border-radius:22px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.15);
+
+}
+
+.footer h3{
+
+margin-bottom:10px;
+
+font-size:20px;
+
+}
+
+.footer p{
+
+margin:6px 0;
+
+font-size:14px;
+
+color:#F3F4F6;
+
+}
+
+.footer a{
+
+color:#FFFFFF;
+
+text-decoration:none;
+
+font-weight:bold;
+
+}
+
+.footer a:hover{
+
+text-decoration:underline;
+
+}
+
+/* =======================================
+   Phase 90J
+   Final Polish + Animations
+======================================= */
+
+/* Smooth Scroll */
+
+html{
+
+scroll-behavior:smooth;
+
+}
+
+/* Fade Animation */
+
+.card{
+
+animation:fadeUp .5s ease;
+
+}
+
+@keyframes fadeUp{
+
+0%{
+
+opacity:0;
+
+transform:translateY(20px);
+
+}
+
+100%{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+/* Better Selection */
+
+::selection{
+
+background:#2563EB;
+
+color:#FFFFFF;
+
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar{
+
+width:8px;
+
+height:8px;
+
+}
+
+::-webkit-scrollbar-track{
+
+background:#E5E7EB;
+
+border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:#2563EB;
+
+border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+background:#1D4ED8;
+
+}
+
+/* Better Images */
+
+img{
+
+max-width:100%;
+
+height:auto;
+
+}
+
+/* Better Tables */
+
+table th{
+
+position:sticky;
+
+top:0;
+
+z-index:1;
+
+}
+
+/* Button Icons */
+
+button i{
+
+margin-right:6px;
+
+}
+
+/* Card Transition */
+
+.card,
+button,
+input,
+select,
+textarea{
+
+transition:all .30s ease;
+
+}
+
+/* Footer Bottom */
+
+.footer{
+
+margin-bottom:20px;
+
+}
+
+/* Print Safety */
+
+@page{
+
+size:A4;
+
+margin:10mm;
 
 }
