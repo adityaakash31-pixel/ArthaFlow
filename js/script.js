@@ -8710,23 +8710,20 @@ showNotification("✅ Invoice Saved Successfully");
 
 function saveInvoiceHistory(){
 
-    console.log("✅ saveInvoiceHistory CALLED");
+    let invoiceHistory =
+    JSON.parse(localStorage.getItem("invoiceHistory")) || [];
 
     let invoice = {
 
         invoiceNumber: currentInvoiceNumber,
 
-        invoiceDate:
-        document.getElementById("invoiceDate").value,
+        invoiceDate: document.getElementById("invoiceDate").value,
 
-        dueDate:
-        document.getElementById("dueDate").value,
+        dueDate: document.getElementById("dueDate").value,
 
-        company:
-        JSON.parse(localStorage.getItem("companyDetails")) || {},
+        company: JSON.parse(localStorage.getItem("companyDetails")) || {},
 
-        customer:
-        JSON.parse(localStorage.getItem("customerDetails")) || {},
+        customer: JSON.parse(localStorage.getItem("customerDetails")) || {},
 
         products: invoiceProducts,
 
@@ -8740,32 +8737,26 @@ function saveInvoiceHistory(){
 
         grandTotal: grandTotal,
 
-        createdAt:
-        new Date().toLocaleString()
+        createdAt: new Date().toLocaleString()
 
     };
 
-    /* Duplicate Check */
+    let alreadyExists = invoiceHistory.find(function(item){
 
-let alreadyExists = invoiceHistory.find(function(item){
+        return item.invoiceNumber === currentInvoiceNumber;
 
-    return item.invoiceNumber === currentInvoiceNumber;
+    });
 
-});
+    if(!alreadyExists){
 
-if(!alreadyExists){
+        invoiceHistory.unshift(invoice);
 
-    invoiceHistory.unshift(invoice);
+        localStorage.setItem(
+            "invoiceHistory",
+            JSON.stringify(invoiceHistory)
+        );
 
-}
-
-localStorage.setItem(
-
-    "invoiceHistory",
-
-    JSON.stringify(invoiceHistory)
-
-);
+    }
 
 }
 
@@ -8863,18 +8854,16 @@ function deleteInvoice(index){
 
     invoiceHistory.splice(index,1);
 
-    localStorage.setItem(
+localStorage.setItem(
+    "invoiceHistory",
+    JSON.stringify(invoiceHistory)
+);
 
-        "invoiceHistory",
+loadInvoiceHistory();
 
-        JSON.stringify(invoiceHistory)
+renderInvoiceHistory();
 
-    );
-
-    loadInvoiceHistory();
-
-    alert("✅ Invoice Deleted Successfully");
-
+alert("✅ Invoice Deleted Successfully");
 }
 
 /* =======================================
