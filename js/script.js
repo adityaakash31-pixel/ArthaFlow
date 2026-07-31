@@ -8710,6 +8710,8 @@ showNotification("✅ Invoice Saved Successfully");
 
 function saveInvoiceHistory(){
 
+    console.log("✅ saveInvoiceHistory CALLED");
+
     let invoice = {
 
         invoiceNumber: currentInvoiceNumber,
