@@ -472,20 +472,22 @@ Invoice Preview Will Appear Here
 
 </div>
 
+  <div id="qrcode" style="display:none;"></div>
+
 <br>
 
 <div class="dashboard-grid">
 
 <button onclick="previewInvoice()">
-
 👀 Preview Invoice
-
 </button>
 
 <button onclick="downloadInvoicePDF()">
-
 📄 Download PDF
+</button>
 
+<button onclick="window.print()">
+🖨 Print Invoice
 </button>
 
 </div>
@@ -809,6 +811,8 @@ Developed by
 </div>
 
 <!-- End GST Container -->
+
+  <div id="notificationBox" class="notification"></div>
 
 <script src="js/script.js"></script>
 
