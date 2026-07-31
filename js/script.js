@@ -8573,6 +8573,11 @@ margin-bottom:10px;
 ">`
 :
 ""
+
+    /* Save Invoice History */
+
+saveInvoiceHistory();
+    
 }
 
 <h1>${company.companyName || "Company Name"}</h1>
@@ -8755,12 +8760,27 @@ function saveInvoiceHistory(){
 
     };
 
-    invoiceHistory.push(invoice);
+    /* Duplicate Check */
 
-    localStorage.setItem(
-        "invoiceHistory",
-        JSON.stringify(invoiceHistory)
-    );
+let alreadyExists = invoiceHistory.find(function(item){
+
+    return item.invoiceNumber === currentInvoiceNumber;
+
+});
+
+if(!alreadyExists){
+
+    invoiceHistory.unshift(invoice);
+
+}
+
+localStorage.setItem(
+
+    "invoiceHistory",
+
+    JSON.stringify(invoiceHistory)
+
+);
 
 }
 
@@ -9330,3 +9350,71 @@ No Product Added
 
 }
 
+/* =======================================
+   Phase 92N
+   Render Invoice History
+======================================= */
+
+function renderInvoiceHistory(){
+
+    let container =
+    document.getElementById("invoiceHistory");
+
+    if(!container) return;
+
+    if(invoiceHistory.length===0){
+
+        container.innerHTML = `
+        <div style="
+        text-align:center;
+        padding:30px;
+        color:#777;
+        ">
+        📄 No Invoice History Available
+        </div>
+        `;
+
+        return;
+
+    }
+
+    let html = "";
+
+    invoiceHistory.forEach(function(item,index){
+
+        html += `
+
+<div class="card" style="margin-bottom:12px;">
+
+<h3>🧾 ${item.invoiceNumber}</h3>
+
+<p><b>Customer :</b>
+${item.customer.customerName || "-"}</p>
+
+<p><b>Date :</b>
+${item.invoiceDate}</p>
+
+<p><b>Total :</b>
+₹${Number(item.grandTotal).toFixed(2)}</p>
+
+<div class="dashboard-grid">
+
+<button onclick="viewInvoice(${index})">
+👀 View
+</button>
+
+<button onclick="deleteInvoice(${index})">
+🗑 Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+    });
+
+    container.innerHTML = html;
+
+}
