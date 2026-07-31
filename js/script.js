@@ -7985,19 +7985,28 @@ function saveCompanyDetails(){
 
     let company = {
 
-        companyName:
-        document.getElementById("companyName").value,
+    companyName:
+    document.getElementById("companyName").value,
 
-        companyGST:
-        document.getElementById("companyGST").value,
+    companyGST:
+    document.getElementById("companyGST").value,
 
-        companyPhone:
-        document.getElementById("companyPhone").value,
+    companyPAN:
+    document.getElementById("companyPAN").value,
 
-        companyAddress:
-        document.getElementById("companyAddress").value
+    companyPhone:
+    document.getElementById("companyPhone").value,
 
-    };
+    companyEmail:
+    document.getElementById("companyEmail").value,
+
+    companyWebsite:
+    document.getElementById("companyWebsite").value,
+
+    companyAddress:
+    document.getElementById("companyAddress").value
+
+};
 
     localStorage.setItem(
         "companyDetails",
@@ -8033,6 +8042,15 @@ function loadCompanyDetails(){
 
     document.getElementById("companyAddress").value =
     company.companyAddress || "";
+
+    document.getElementById("companyPAN").value =
+company.companyPAN || "";
+
+document.getElementById("companyEmail").value =
+company.companyEmail || "";
+
+document.getElementById("companyWebsite").value =
+company.companyWebsite || "";
 
 }
 
@@ -8237,8 +8255,8 @@ function loadCustomerDetails(){
 
 /* =======================================
    ArthaFlow Premium
-   Phase 91I
-   Add Product
+   Phase 92E
+   Upgrade Add Product
 ======================================= */
 
 function addProduct(){
@@ -8246,11 +8264,20 @@ function addProduct(){
     let productName =
     document.getElementById("productName").value.trim();
 
+    let productHSN =
+    document.getElementById("productHSN").value.trim();
+
     let qty =
     Number(document.getElementById("productQty").value);
 
+    let unit =
+    document.getElementById("productUnit").value;
+
     let rate =
     Number(document.getElementById("productRate").value);
+
+    let discount =
+    Number(document.getElementById("productDiscount").value) || 0;
 
     let gst =
     Number(document.getElementById("gstPercent").value);
@@ -8263,21 +8290,35 @@ function addProduct(){
 
     }
 
-    let amount = qty * rate;
+    let amount = (qty * rate) - discount;
 
     invoiceProducts.push({
 
         productName:productName,
 
+        productHSN:productHSN,
+
         qty:qty,
 
+        unit:unit,
+
         rate:rate,
+
+        discount:discount,
 
         gst:gst,
 
         amount:amount
 
     });
+
+    clearProduct();
+
+    renderProductList();
+
+    calculateGST();
+
+}
 
     // Clear Inputs
 
@@ -8313,37 +8354,45 @@ function renderProductList(){
 
 /* =======================================
    ArthaFlow Premium
-   Phase 91J
-   GST Calculation
+   Phase 92F
+   GST Calculation Upgrade
 ======================================= */
 
 function calculateGST(){
 
     subtotal = 0;
+    cgstTotal = 0;
+    sgstTotal = 0;
+    igstTotal = 0;
+    grandTotal = 0;
 
-    invoiceProducts.forEach(item=>{
+    invoiceProducts.forEach(function(item){
 
         subtotal += item.amount;
 
+        let gstAmount =
+        (item.amount * item.gst) / 100;
+
+        cgstTotal += gstAmount / 2;
+
+        sgstTotal += gstAmount / 2;
+
     });
 
-    let gstPercent = Number(
-        document.getElementById("gstPercent").value
-    );
-
-    let gstAmount =
-    subtotal * gstPercent / 100;
-
-    cgstTotal = gstAmount / 2;
-
-    sgstTotal = gstAmount / 2;
-
-    igstTotal = gstAmount;
-
-    grandTotal = subtotal + gstAmount;
+    grandTotal =
+    subtotal +
+    cgstTotal +
+    sgstTotal;
 
     document.getElementById("invoiceSubtotal").innerText =
     "₹" + subtotal.toFixed(2);
+
+    document.getElementById("discountAmount").innerText =
+    "₹" + invoiceProducts.reduce(function(sum,item){
+
+        return sum + (item.discount || 0);
+
+    },0).toFixed(2);
 
     document.getElementById("cgstAmount").innerText =
     "₹" + cgstTotal.toFixed(2);
@@ -8356,6 +8405,102 @@ function calculateGST(){
 
     document.getElementById("grandTotal").innerText =
     "₹" + grandTotal.toFixed(2);
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 92G
+   Save Payment Details
+======================================= */
+
+function savePaymentDetails(){
+
+    let payment = {
+
+        paymentMode:
+        document.getElementById("paymentMode").value,
+
+        paymentStatus:
+        document.getElementById("paymentStatus").value,
+
+        bankName:
+        document.getElementById("bankName").value,
+
+        accountNumber:
+        document.getElementById("accountNumber").value,
+
+        ifscCode:
+        document.getElementById("ifscCode").value,
+
+        upiId:
+        document.getElementById("upiId").value,
+
+        paymentNotes:
+        document.getElementById("paymentNotes").value
+
+    };
+
+    localStorage.setItem(
+
+        "paymentDetails",
+
+        JSON.stringify(payment)
+
+    );
+
+    alert("✅ Payment Details Saved");
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 92H
+   Load Payment Details
+======================================= */
+
+function loadPaymentDetails(){
+
+    let payment = JSON.parse(
+
+        localStorage.getItem("paymentDetails")
+
+    ) || {};
+
+    if(document.getElementById("paymentMode"))
+
+        document.getElementById("paymentMode").value =
+        payment.paymentMode || "Cash";
+
+    if(document.getElementById("paymentStatus"))
+
+        document.getElementById("paymentStatus").value =
+        payment.paymentStatus || "Paid";
+
+    if(document.getElementById("bankName"))
+
+        document.getElementById("bankName").value =
+        payment.bankName || "";
+
+    if(document.getElementById("accountNumber"))
+
+        document.getElementById("accountNumber").value =
+        payment.accountNumber || "";
+
+    if(document.getElementById("ifscCode"))
+
+        document.getElementById("ifscCode").value =
+        payment.ifscCode || "";
+
+    if(document.getElementById("upiId"))
+
+        document.getElementById("upiId").value =
+        payment.upiId || "";
+
+    if(document.getElementById("paymentNotes"))
+
+        document.getElementById("paymentNotes").value =
+        payment.paymentNotes || "";
 
 }
 
@@ -9112,3 +9257,4 @@ No Product Added
     });
 
 }
+
