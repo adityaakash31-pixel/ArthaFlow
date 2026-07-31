@@ -8159,3 +8159,338 @@ function loadSavedCompanyStamp(){
     }
 
 }
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91H
+   Save Customer Details
+======================================= */
+
+function saveCustomerDetails(){
+
+    let customer = {
+
+        customerName:
+        document.getElementById("customerName").value,
+
+        customerMobile:
+        document.getElementById("customerMobile").value,
+
+        customerAddress:
+        document.getElementById("customerAddress").value,
+
+        customerGST:
+        document.getElementById("customerGST").value,
+
+        customerEmail:
+        document.getElementById("customerEmail").value,
+
+        customerState:
+        document.getElementById("customerState").value
+
+    };
+
+    localStorage.setItem(
+        "customerDetails",
+        JSON.stringify(customer)
+    );
+
+    alert("✅ Customer Details Saved");
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91H.1
+   Load Customer Details
+======================================= */
+
+function loadCustomerDetails(){
+
+    let customer = JSON.parse(
+        localStorage.getItem("customerDetails")
+    );
+
+    if(!customer) return;
+
+    document.getElementById("customerName").value =
+    customer.customerName || "";
+
+    document.getElementById("customerMobile").value =
+    customer.customerMobile || "";
+
+    document.getElementById("customerAddress").value =
+    customer.customerAddress || "";
+
+    document.getElementById("customerGST").value =
+    customer.customerGST || "";
+
+    document.getElementById("customerEmail").value =
+    customer.customerEmail || "";
+
+    document.getElementById("customerState").value =
+    customer.customerState || "";
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91I
+   Add Product
+======================================= */
+
+function addProduct(){
+
+    let productName =
+    document.getElementById("productName").value.trim();
+
+    let qty =
+    Number(document.getElementById("productQty").value);
+
+    let rate =
+    Number(document.getElementById("productRate").value);
+
+    let gst =
+    Number(document.getElementById("gstPercent").value);
+
+    if(productName==="" || qty<=0 || rate<=0){
+
+        alert("⚠ Please Fill Product Details");
+
+        return;
+
+    }
+
+    let amount = qty * rate;
+
+    invoiceProducts.push({
+
+        productName:productName,
+
+        qty:qty,
+
+        rate:rate,
+
+        gst:gst,
+
+        amount:amount
+
+    });
+
+    // Clear Inputs
+
+    document.getElementById("productName").value="";
+
+    document.getElementById("productQty").value="";
+
+    document.getElementById("productRate").value="";
+
+    renderProductList();
+
+}
+
+/* =======================================
+   Phase 91I.1
+   Render Product List
+======================================= */
+
+function renderProductList(){
+
+    let subtotal = 0;
+
+    invoiceProducts.forEach(item=>{
+
+        subtotal += item.amount;
+
+    });
+
+    document.getElementById("invoiceSubtotal").innerText =
+    "₹" + subtotal.toFixed(2);
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91J
+   GST Calculation
+======================================= */
+
+function calculateGST(){
+
+    subtotal = 0;
+
+    invoiceProducts.forEach(item=>{
+
+        subtotal += item.amount;
+
+    });
+
+    let gstPercent = Number(
+        document.getElementById("gstPercent").value
+    );
+
+    let gstAmount =
+    subtotal * gstPercent / 100;
+
+    cgstTotal = gstAmount / 2;
+
+    sgstTotal = gstAmount / 2;
+
+    igstTotal = gstAmount;
+
+    grandTotal = subtotal + gstAmount;
+
+    document.getElementById("invoiceSubtotal").innerText =
+    "₹" + subtotal.toFixed(2);
+
+    document.getElementById("cgstAmount").innerText =
+    "₹" + cgstTotal.toFixed(2);
+
+    document.getElementById("sgstAmount").innerText =
+    "₹" + sgstTotal.toFixed(2);
+
+    document.getElementById("igstAmount").innerText =
+    "₹" + igstTotal.toFixed(2);
+
+    document.getElementById("grandTotal").innerText =
+    "₹" + grandTotal.toFixed(2);
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91K
+   Invoice Preview
+======================================= */
+
+function previewInvoice(){
+
+    if(invoiceProducts.length===0){
+
+        alert("⚠ Please Add Product First");
+
+        return;
+
+    }
+
+    let company =
+    JSON.parse(localStorage.getItem("companyDetails")) || {};
+
+    let customer =
+    JSON.parse(localStorage.getItem("customerDetails")) || {};
+
+    let productRows = "";
+
+    invoiceProducts.forEach((item,index)=>{
+
+        productRows += `
+
+<tr>
+
+<td>${index+1}</td>
+
+<td>${item.productName}</td>
+
+<td>${item.qty}</td>
+
+<td>₹${item.rate.toFixed(2)}</td>
+
+<td>${item.gst}%</td>
+
+<td>₹${item.amount.toFixed(2)}</td>
+
+</tr>
+
+`;
+
+    });
+
+    document.getElementById("invoicePreview").innerHTML = `
+
+<div class="invoice-box">
+
+<h1>${company.companyName || "Company Name"}</h1>
+
+<p>${company.companyAddress || ""}</p>
+
+<p>GST : ${company.companyGST || ""}</p>
+
+<p>Phone : ${company.companyPhone || ""}</p>
+
+<hr>
+
+<h2>GST TAX INVOICE</h2>
+
+<p><b>Invoice No :</b> ${currentInvoiceNumber}</p>
+
+<p><b>Date :</b> ${document.getElementById("invoiceDate").value}</p>
+
+<p><b>Due Date :</b> ${document.getElementById("dueDate").value}</p>
+
+<hr>
+
+<h3>Customer Details</h3>
+
+<p><b>Name :</b> ${customer.customerName || ""}</p>
+
+<p><b>Mobile :</b> ${customer.customerMobile || ""}</p>
+
+<p><b>Address :</b> ${customer.customerAddress || ""}</p>
+
+<p><b>GST :</b> ${customer.customerGST || ""}</p>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>#</th>
+
+<th>Product</th>
+
+<th>Qty</th>
+
+<th>Rate</th>
+
+<th>GST</th>
+
+<th>Amount</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+${productRows}
+
+</tbody>
+
+</table>
+
+<hr>
+
+<p><b>Subtotal :</b> ₹${subtotal.toFixed(2)}</p>
+
+<p><b>CGST :</b> ₹${cgstTotal.toFixed(2)}</p>
+
+<p><b>SGST :</b> ₹${sgstTotal.toFixed(2)}</p>
+
+<p><b>IGST :</b> ₹${igstTotal.toFixed(2)}</p>
+
+<h2>Grand Total : ₹${grandTotal.toFixed(2)}</h2>
+
+<hr>
+
+<p style="text-align:center;">
+
+Thank You For Your Business ❤️
+
+</p>
+
+</div>
+
+`;
+
+}
