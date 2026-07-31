@@ -8926,3 +8926,189 @@ function(){
 // ===============================
 // End of Phase 91
 // ===============================
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 92A
+   Clear Product
+======================================= */
+
+function clearProduct(){
+
+    document.getElementById("productName").value = "";
+
+    document.getElementById("productHSN").value = "";
+
+    document.getElementById("productQty").value = "";
+
+    document.getElementById("productUnit").selectedIndex = 0;
+
+    document.getElementById("productRate").value = "";
+
+    document.getElementById("productDiscount").value = "";
+
+    document.getElementById("gstPercent").value = "18";
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 92B
+   Remove Product
+======================================= */
+
+function removeProduct(index){
+
+    if(index < 0 || index >= invoiceProducts.length){
+
+        alert("❌ Invalid Product");
+
+        return;
+
+    }
+
+    let confirmDelete = confirm(
+        "🗑 Remove this product?"
+    );
+
+    if(!confirmDelete){
+
+        return;
+
+    }
+
+    invoiceProducts.splice(index,1);
+
+    renderProductList();
+
+    calculateGST();
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 92C
+   Edit Product
+======================================= */
+
+function editProduct(index){
+
+    if(index < 0 || index >= invoiceProducts.length){
+
+        alert("❌ Invalid Product");
+
+        return;
+
+    }
+
+    let product = invoiceProducts[index];
+
+    document.getElementById("productName").value =
+    product.productName;
+
+    document.getElementById("productHSN").value =
+    product.productHSN || "";
+
+    document.getElementById("productQty").value =
+    product.qty;
+
+    document.getElementById("productUnit").value =
+    product.unit || "Pcs";
+
+    document.getElementById("productRate").value =
+    product.rate;
+
+    document.getElementById("productDiscount").value =
+    product.discount || 0;
+
+    document.getElementById("gstPercent").value =
+    product.gst;
+
+    invoiceProducts.splice(index,1);
+
+    renderProductList();
+
+    calculateGST();
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 92D
+   Render Product Table
+======================================= */
+
+function renderProductList(){
+
+    let tbody =
+    document.getElementById("productTableBody");
+
+    tbody.innerHTML = "";
+
+    if(invoiceProducts.length===0){
+
+        tbody.innerHTML = `
+
+<tr>
+
+<td colspan="10" style="text-align:center;">
+
+No Product Added
+
+</td>
+
+</tr>
+
+`;
+
+        return;
+
+    }
+
+    invoiceProducts.forEach(function(item,index){
+
+        tbody.innerHTML += `
+
+<tr>
+
+<td>${index+1}</td>
+
+<td>${item.productName}</td>
+
+<td>${item.productHSN || ""}</td>
+
+<td>${item.qty}</td>
+
+<td>${item.unit || "Pcs"}</td>
+
+<td>₹${item.rate.toFixed(2)}</td>
+
+<td>₹${(item.discount || 0).toFixed(2)}</td>
+
+<td>${item.gst}%</td>
+
+<td>₹${item.amount.toFixed(2)}</td>
+
+<td>
+
+<button onclick="editProduct(${index})">
+
+✏️
+
+</button>
+
+<button onclick="removeProduct(${index})">
+
+🗑
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+    });
+
+}
