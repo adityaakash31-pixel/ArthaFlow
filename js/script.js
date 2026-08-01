@@ -9809,51 +9809,44 @@ function saveInvoiceHistory(){
 
     };
 
-    /* Smart Save / Update */
-
-if(editingInvoiceIndex >= 0){
-
-    invoiceHistory[editingInvoiceIndex] = invoice;
-
-    editingInvoiceIndex = -1;
-
-}else{
-
-    let alreadyExists = invoiceHistory.find(function(item){
+    let alreadyExists = invoiceHistory.findIndex(function(item){
 
         return item.invoiceNumber === invoice.invoiceNumber;
 
     });
 
-    if(alreadyExists){
+    if(editingInvoiceIndex >= 0){
 
-        warningMessage("⚠ Invoice Already Exists");
+        invoiceHistory[editingInvoiceIndex] = invoice;
 
-        return;
+        editingInvoiceIndex = -1;
+
+    }
+    else if(alreadyExists >= 0){
+
+        invoiceHistory[alreadyExists] = invoice;
+
+    }
+    else{
+
+        invoiceHistory.unshift(invoice);
 
     }
 
-    invoiceHistory.unshift(invoice);
+    validateInvoiceHistory();
 
-}
+    localStorage.setItem(
+        "invoiceHistory",
+        JSON.stringify(invoiceHistory)
+    );
 
-localStorage.setItem(
+    autoBackupInvoiceHistory();
 
-    "invoiceHistory",
+    sortInvoiceHistory();
 
-    JSON.stringify(invoiceHistory)
+    renderInvoiceHistory();
 
-);
-
-autoBackupInvoiceHistory();    
-
-sortInvoiceHistory();
-
-loadInvoiceHistory();
-
-renderInvoiceHistory();
-
-successMessage("✅ Invoice Saved Successfully");
+    successMessage("✅ Invoice Saved Successfully");
 
 }
 
