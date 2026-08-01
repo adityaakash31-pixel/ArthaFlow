@@ -9817,11 +9817,13 @@ function saveInvoiceHistory(){
 
     localStorage.setItem(
 
-        "invoiceHistory",
+    "invoiceHistory",
 
-        JSON.stringify(invoiceHistory)
+    JSON.stringify(invoiceHistory)
 
-    );
+);
+
+sortInvoiceHistory();
 
 }
 
@@ -9911,6 +9913,10 @@ ${item.invoiceDate}</p>
 
 <button onclick="restoreInvoice(${index})">
 📂 Open
+</button>
+
+<button onclick="editInvoice(${index})">
+✏️ Edit
 </button>
 
 <button onclick="deleteInvoice(${index})">
@@ -10741,5 +10747,96 @@ function exportInvoiceCSV(){
     link.click();
 
     successMessage("✅ CSV Exported Successfully");
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91E
+   Auto Sort Invoice History
+======================================= */
+
+function sortInvoiceHistory(){
+
+    invoiceHistory.sort(function(a,b){
+
+        return new Date(b.createdAt) - new Date(a.createdAt);
+
+    });
+
+    localStorage.setItem(
+
+        "invoiceHistory",
+
+        JSON.stringify(invoiceHistory)
+
+    );
+
+    renderInvoiceHistory();
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91F
+   Edit Invoice
+======================================= */
+
+function editInvoice(index){
+
+    if(index < 0 || index >= invoiceHistory.length){
+
+        errorMessage("❌ Invoice Not Found");
+
+        return;
+
+    }
+
+    let invoice = invoiceHistory[index];
+
+    currentInvoiceNumber = invoice.invoiceNumber;
+
+    document.getElementById("invoiceNumber").value =
+    invoice.invoiceNumber;
+
+    document.getElementById("invoiceDate").value =
+    invoice.invoiceDate;
+
+    document.getElementById("dueDate").value =
+    invoice.dueDate;
+
+    localStorage.setItem(
+
+        "customerDetails",
+
+        JSON.stringify(invoice.customer)
+
+    );
+
+    loadCustomerDetails();
+
+    invoiceProducts = JSON.parse(
+
+        JSON.stringify(invoice.products)
+
+    );
+
+    subtotal = invoice.subtotal || 0;
+
+    cgstTotal = invoice.cgst || 0;
+
+    sgstTotal = invoice.sgst || 0;
+
+    igstTotal = invoice.igst || 0;
+
+    grandTotal = invoice.grandTotal || 0;
+
+    renderProductList();
+
+    calculateGST();
+
+    previewInvoice();
+
+    successMessage("✏️ Invoice Loaded For Editing");
 
 }
