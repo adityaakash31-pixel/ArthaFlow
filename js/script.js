@@ -10006,3 +10006,440 @@ function deleteInvoice(index){
     successMessage("✅ Invoice Deleted Successfully");
 
 }
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 90F
+   Invoice Search Engine
+======================================= */
+
+function searchInvoice(){
+
+    let input =
+    document.getElementById("invoiceSearch");
+
+    if(!input){
+
+        renderInvoiceHistory();
+
+        return;
+
+    }
+
+    let keyword =
+    input.value.toLowerCase().trim();
+
+    if(keyword===""){
+
+        renderInvoiceHistory();
+
+        return;
+
+    }
+
+    let result = invoiceHistory.filter(function(invoice){
+
+        let invoiceNo =
+        (invoice.invoiceNumber || "")
+        .toLowerCase();
+
+        let customerName =
+        (invoice.customer.customerName || "")
+        .toLowerCase();
+
+        return (
+
+            invoiceNo.includes(keyword) ||
+
+            customerName.includes(keyword)
+
+        );
+
+    });
+
+    let container =
+    document.getElementById("invoiceHistory");
+
+    if(result.length===0){
+
+        container.innerHTML = `
+        <div style="
+        text-align:center;
+        padding:40px;
+        color:#777;
+        ">
+        🔍 No Invoice Found
+        </div>
+        `;
+
+        return;
+
+    }
+
+    let html = "";
+
+    result.forEach(function(item){
+
+        let originalIndex =
+        invoiceHistory.findIndex(function(inv){
+
+            return inv.invoiceNumber === item.invoiceNumber;
+
+        });
+
+        html += `
+
+<div class="card" style="margin-bottom:12px;">
+
+<h3>🧾 ${item.invoiceNumber}</h3>
+
+<p><b>Customer :</b>
+${item.customer.customerName || "-"}</p>
+
+<p><b>Date :</b>
+${item.invoiceDate}</p>
+
+<p><b>Total :</b>
+₹${Number(item.grandTotal).toFixed(2)}</p>
+
+<div class="dashboard-grid">
+
+<button onclick="viewInvoice(${originalIndex})">
+
+👀 View
+
+</button>
+
+<button onclick="deleteInvoice(${originalIndex})">
+
+🗑 Delete
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+    });
+
+    container.innerHTML = html;
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 90G
+   Notification System
+======================================= */
+
+function showNotification(message,color="#16A34A"){
+
+    let box =
+    document.getElementById("notificationBox");
+
+    if(!box) return;
+
+    box.innerText = message;
+
+    box.style.background = color;
+
+    box.style.display = "block";
+
+    box.style.opacity = "1";
+
+    setTimeout(function(){
+
+        box.style.opacity = "0";
+
+        setTimeout(function(){
+
+            box.style.display = "none";
+
+        },300);
+
+    },3000);
+
+}
+
+/* Success Message */
+
+function successMessage(message){
+
+    showNotification(message,"#16A34A");
+
+}
+
+/* Error Message */
+
+function errorMessage(message){
+
+    showNotification(message,"#DC2626");
+
+}
+
+/* Warning Message */
+
+function warningMessage(message){
+
+    showNotification(message,"#F59E0B");
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 90H
+   Premium PDF Download
+======================================= */
+
+function downloadInvoicePDF(){
+
+    let invoice =
+
+    document.getElementById("invoicePreview");
+
+    if(!invoice){
+
+        errorMessage("❌ Invoice Preview Not Found");
+
+        return;
+
+    }
+
+    let options = {
+
+        margin:10,
+
+        filename:
+        currentInvoiceNumber + ".pdf",
+
+        image:{
+            type:"jpeg",
+            quality:1
+        },
+
+        html2canvas:{
+            scale:2,
+            useCORS:true
+        },
+
+        jsPDF:{
+            unit:"mm",
+            format:"a4",
+            orientation:"portrait"
+        }
+
+    };
+
+    html2pdf()
+
+    .set(options)
+
+    .from(invoice)
+
+    .save()
+
+    .then(function(){
+
+        successMessage("✅ PDF Downloaded Successfully");
+
+    });
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 90I
+   Premium Print System
+======================================= */
+
+function printInvoice(){
+
+    let invoice =
+
+    document.getElementById("invoicePreview");
+
+    if(!invoice){
+
+        errorMessage("❌ Invoice Preview Not Found");
+
+        return;
+
+    }
+
+    let printWindow =
+
+    window.open("","PRINT","height=800,width=1000");
+
+    printWindow.document.write(`
+    <html>
+    <head>
+
+    <title>${currentInvoiceNumber}</title>
+
+    <style>
+
+    body{
+
+        font-family:Arial,sans-serif;
+
+        padding:20px;
+
+        color:#000;
+
+    }
+
+    table{
+
+        width:100%;
+
+        border-collapse:collapse;
+
+    }
+
+    table,th,td{
+
+        border:1px solid #000;
+
+    }
+
+    th,td{
+
+        padding:8px;
+
+        text-align:center;
+
+    }
+
+    img{
+
+        max-width:120px;
+
+    }
+
+    </style>
+
+    </head>
+
+    <body>
+
+    ${invoice.innerHTML}
+
+    </body>
+
+    </html>
+
+    `);
+
+    printWindow.document.close();
+
+    printWindow.focus();
+
+    printWindow.print();
+
+    printWindow.close();
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 90J
+   Auto Draft Save & Restore
+======================================= */
+
+function autoSaveDraft(){
+
+    let draft = {
+
+        invoiceNumber:
+        document.getElementById("invoiceNumber")?.value || "",
+
+        invoiceDate:
+        document.getElementById("invoiceDate")?.value || "",
+
+        dueDate:
+        document.getElementById("dueDate")?.value || "",
+
+        customer:
+        JSON.parse(
+        localStorage.getItem("customerDetails")
+        ) || {},
+
+        products:
+        JSON.parse(JSON.stringify(invoiceProducts)),
+
+        subtotal:
+        subtotal,
+
+        cgst:
+        cgstTotal,
+
+        sgst:
+        sgstTotal,
+
+        igst:
+        igstTotal,
+
+        grandTotal:
+        grandTotal
+
+    };
+
+    localStorage.setItem(
+
+        "draftInvoice",
+
+        JSON.stringify(draft)
+
+    );
+
+}
+
+function loadDraftInvoice(){
+
+    let draft = JSON.parse(
+
+        localStorage.getItem("draftInvoice")
+
+    );
+
+    if(!draft) return;
+
+    if(document.getElementById("invoiceNumber"))
+        document.getElementById("invoiceNumber").value =
+        draft.invoiceNumber || "";
+
+    if(document.getElementById("invoiceDate"))
+        document.getElementById("invoiceDate").value =
+        draft.invoiceDate || "";
+
+    if(document.getElementById("dueDate"))
+        document.getElementById("dueDate").value =
+        draft.dueDate || "";
+
+    invoiceProducts = draft.products || [];
+
+    subtotal = draft.subtotal || 0;
+
+    cgstTotal = draft.cgst || 0;
+
+    sgstTotal = draft.sgst || 0;
+
+    igstTotal = draft.igst || 0;
+
+    grandTotal = draft.grandTotal || 0;
+
+    renderProductList();
+
+    calculateGST();
+
+}
+
+/* Auto Save Every 10 Seconds */
+
+setInterval(function(){
+
+    autoSaveDraft();
+
+},10000);
