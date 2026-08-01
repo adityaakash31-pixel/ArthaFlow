@@ -9713,6 +9713,8 @@ function initializeGSTInvoice(){
 
     renderInvoiceHistory();
 
+    calculateInvoiceStatistics();
+
     // Product List
     renderProductList();
 
@@ -11238,5 +11240,79 @@ function validateInvoiceHistory(){
         JSON.stringify(invoiceHistory)
 
     );
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91M
+   Invoice Statistics Dashboard
+======================================= */
+
+function calculateInvoiceStatistics(){
+
+    let totalInvoices = invoiceHistory.length;
+
+    let totalSales = 0;
+
+    let totalProducts = 0;
+
+    invoiceHistory.forEach(function(item){
+
+        totalSales += Number(item.grandTotal || 0);
+
+        if(Array.isArray(item.products)){
+
+            totalProducts += item.products.length;
+
+        }
+
+    });
+
+    let avgInvoice =
+
+    totalInvoices > 0
+
+    ? totalSales / totalInvoices
+
+    : 0;
+
+    let totalInvoiceBox =
+    document.getElementById("totalInvoices");
+
+    if(totalInvoiceBox){
+
+        totalInvoiceBox.innerText = totalInvoices;
+
+    }
+
+    let totalSalesBox =
+    document.getElementById("totalSales");
+
+    if(totalSalesBox){
+
+        totalSalesBox.innerText =
+        "₹" + totalSales.toFixed(2);
+
+    }
+
+    let totalProductsBox =
+    document.getElementById("totalProducts");
+
+    if(totalProductsBox){
+
+        totalProductsBox.innerText = totalProducts;
+
+    }
+
+    let avgInvoiceBox =
+    document.getElementById("averageInvoice");
+
+    if(avgInvoiceBox){
+
+        avgInvoiceBox.innerText =
+        "₹" + avgInvoice.toFixed(2);
+
+    }
 
 }
