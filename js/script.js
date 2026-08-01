@@ -9798,10 +9798,17 @@ function saveInvoiceHistory(){
 
     };
 
-    // Duplicate Check
+    /* Smart Save / Update */
 
-    let alreadyExists =
-    invoiceHistory.find(function(item){
+if(editingInvoiceIndex >= 0){
+
+    invoiceHistory[editingInvoiceIndex] = invoice;
+
+    editingInvoiceIndex = -1;
+
+}else{
+
+    let alreadyExists = invoiceHistory.find(function(item){
 
         return item.invoiceNumber === invoice.invoiceNumber;
 
@@ -9809,13 +9816,17 @@ function saveInvoiceHistory(){
 
     if(alreadyExists){
 
+        warningMessage("⚠ Invoice Already Exists");
+
         return;
 
     }
 
     invoiceHistory.unshift(invoice);
 
-    localStorage.setItem(
+}
+
+localStorage.setItem(
 
     "invoiceHistory",
 
@@ -9824,6 +9835,12 @@ function saveInvoiceHistory(){
 );
 
 sortInvoiceHistory();
+
+loadInvoiceHistory();
+
+renderInvoiceHistory();
+
+successMessage("✅ Invoice Saved Successfully");
 
 }
 
@@ -10796,6 +10813,8 @@ function editInvoice(index){
 
     currentInvoiceNumber = invoice.invoiceNumber;
 
+editingInvoiceIndex = index;
+
     document.getElementById("invoiceNumber").value =
     invoice.invoiceNumber;
 
@@ -10838,5 +10857,59 @@ function editInvoice(index){
     previewInvoice();
 
     successMessage("✏️ Invoice Loaded For Editing");
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91G
+   Smart Update System
+======================================= */
+
+let editingInvoiceIndex = -1;
+
+function saveOrUpdateInvoice(invoice){
+
+    if(editingInvoiceIndex >= 0){
+
+        invoiceHistory[editingInvoiceIndex] = invoice;
+
+        editingInvoiceIndex = -1;
+
+    }else{
+
+        let exists = invoiceHistory.find(function(item){
+
+            return item.invoiceNumber === invoice.invoiceNumber;
+
+        });
+
+        if(!exists){
+
+            invoiceHistory.unshift(invoice);
+
+        }else{
+
+            warningMessage("⚠ Invoice Already Exists");
+
+            return;
+
+        }
+
+    }
+
+    localStorage.setItem(
+
+        "invoiceHistory",
+
+        JSON.stringify(invoiceHistory)
+
+    );
+
+    loadInvoiceHistory();
+
+    renderInvoiceHistory();
+
+    successMessage("✅ Invoice Saved Successfully");
 
 }
