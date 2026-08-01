@@ -9909,7 +9909,7 @@ function renderInvoiceHistory(){
 
     let html = "";
 
-    invoiceHistory.forEach(function(item,index){
+    getPaginatedInvoices().forEach(function(item,index){
 
         html += `
 
@@ -9957,6 +9957,32 @@ ${item.invoiceDate}</p>
     });
 
     container.innerHTML = html;
+
+    container.innerHTML += `
+
+<div style="margin-top:20px;text-align:center;">
+
+<button onclick="previousInvoicePage()">
+
+⬅ Previous
+
+</button>
+
+<span style="padding:0 15px;">
+
+Page ${invoicePage}
+
+</span>
+
+<button onclick="nextInvoicePage()">
+
+Next ➡
+
+</button>
+
+</div>
+
+`;
 
     }
 
@@ -11047,5 +11073,57 @@ function downloadHistoryInvoicePDF(index){
         downloadInvoicePDF();
 
     },300);
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91J
+   Invoice History Pagination
+======================================= */
+
+let invoicePage = 1;
+
+const invoicePerPage = 10;
+
+function getPaginatedInvoices(){
+
+    let start =
+
+    (invoicePage - 1) * invoicePerPage;
+
+    let end =
+
+    start + invoicePerPage;
+
+    return invoiceHistory.slice(start,end);
+
+}
+
+function nextInvoicePage(){
+
+    if(invoicePage * invoicePerPage >= invoiceHistory.length){
+
+        return;
+
+    }
+
+    invoicePage++;
+
+    renderInvoiceHistory();
+
+}
+
+function previousInvoicePage(){
+
+    if(invoicePage == 1){
+
+        return;
+
+    }
+
+    invoicePage--;
+
+    renderInvoiceHistory();
 
 }
