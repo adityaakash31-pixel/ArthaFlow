@@ -9717,6 +9717,8 @@ function initializeGSTInvoice(){
 
     calculateMonthlySales();
 
+    calculateTopCustomers();
+
     // Product List
     renderProductList();
 
@@ -11372,6 +11374,74 @@ function calculateMonthlySales(){
             <b>📅 ${month}</b>
 
             <h3>₹${monthlySales[month].toFixed(2)}</h3>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91P
+   Top Customers Analytics
+======================================= */
+
+function calculateTopCustomers(){
+
+    let customers = {};
+
+    invoiceHistory.forEach(function(invoice){
+
+        let name =
+        invoice.customer?.customerName || "Unknown";
+
+        if(!customers[name]){
+
+            customers[name] = 0;
+
+        }
+
+        customers[name] +=
+        Number(invoice.grandTotal || 0);
+
+    });
+
+    let container =
+    document.getElementById("topCustomers");
+
+    if(!container) return;
+
+    container.innerHTML = "";
+
+    let list = Object.entries(customers);
+
+    list.sort(function(a,b){
+
+        return b[1] - a[1];
+
+    });
+
+    if(list.length===0){
+
+        container.innerHTML =
+        "<p>No Customer Data Available</p>";
+
+        return;
+
+    }
+
+    list.slice(0,10).forEach(function(item){
+
+        container.innerHTML += `
+
+        <div class="card" style="margin-bottom:10px;">
+
+            <b>👤 ${item[0]}</b>
+
+            <h3>₹${item[1].toFixed(2)}</h3>
 
         </div>
 
