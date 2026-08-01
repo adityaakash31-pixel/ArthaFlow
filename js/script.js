@@ -10443,3 +10443,66 @@ setInterval(function(){
     autoSaveDraft();
 
 },10000);
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 90K
+   Final Initialization
+======================================= */
+
+function initializeGSTModule(){
+
+    // Company
+    loadCompanyDetails();
+    loadSavedCompanyLogo();
+    loadSavedCompanyStamp();
+
+    // Customer
+    loadCustomerDetails();
+
+    // Draft
+    loadDraftInvoice();
+
+    // Invoice History
+    loadInvoiceHistory();
+    renderInvoiceHistory();
+
+    // Product List
+    renderProductList();
+
+    // GST Calculation
+    calculateGST();
+
+    // Invoice Number
+    let invoiceBox =
+    document.getElementById("invoiceNumber");
+
+    if(invoiceBox){
+
+        if(invoiceBox.value.trim()==""){
+
+            generateInvoiceNumber();
+
+        }
+
+    }
+
+    console.log("✅ GST Module Initialized");
+
+}
+
+/* ==========================
+   DOM Ready
+========================== */
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    function(){
+
+        initializeGSTModule();
+
+    }
+
+);
