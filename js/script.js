@@ -9715,6 +9715,8 @@ function initializeGSTInvoice(){
 
     calculateInvoiceStatistics();
 
+    calculateMonthlySales();
+
     // Product List
     renderProductList();
 
@@ -11314,5 +11316,67 @@ function calculateInvoiceStatistics(){
         "₹" + avgInvoice.toFixed(2);
 
     }
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91O
+   Monthly Sales Analytics
+======================================= */
+
+function calculateMonthlySales(){
+
+    let monthlySales = {};
+
+    invoiceHistory.forEach(function(invoice){
+
+        if(!invoice.invoiceDate) return;
+
+        let month = invoice.invoiceDate.substring(0,7);
+
+        if(!monthlySales[month]){
+
+            monthlySales[month] = 0;
+
+        }
+
+        monthlySales[month] += Number(invoice.grandTotal || 0);
+
+    });
+
+    let container = document.getElementById("monthlySales");
+
+    if(!container) return;
+
+    container.innerHTML = "";
+
+    let months = Object.keys(monthlySales).sort().reverse();
+
+    if(months.length===0){
+
+        container.innerHTML =
+
+        "<p>No Monthly Sales Available</p>";
+
+        return;
+
+    }
+
+    months.forEach(function(month){
+
+        container.innerHTML += `
+
+        <div class="card" style="margin-bottom:10px;">
+
+            <b>📅 ${month}</b>
+
+            <h3>₹${monthlySales[month].toFixed(2)}</h3>
+
+        </div>
+
+        `;
+
+    });
 
 }
