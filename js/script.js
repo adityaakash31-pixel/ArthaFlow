@@ -9393,3 +9393,359 @@ function warningMessage(message){
     showNotification(message,"#F59E0B");
 
 }
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89P
+   Company Assets Manager
+======================================= */
+
+// ===============================
+// Get Company Logo
+// ===============================
+
+function getCompanyLogo(){
+
+    return localStorage.getItem("companyLogo") || "";
+
+}
+
+// ===============================
+// Get Company Stamp
+// ===============================
+
+function getCompanyStamp(){
+
+    return localStorage.getItem("companyStamp") || "";
+
+}
+
+// ===============================
+// Get Company Assets
+// ===============================
+
+function getCompanyAssets(){
+
+    return {
+
+        logo: getCompanyLogo(),
+
+        stamp: getCompanyStamp()
+
+    };
+
+}
+
+// ===============================
+// Clear Company Assets
+// ===============================
+
+function clearCompanyAssets(){
+
+    localStorage.removeItem("companyLogo");
+
+    localStorage.removeItem("companyStamp");
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89Q
+   Invoice Preview Engine (Part-1)
+======================================= */
+
+function previewInvoice(){
+
+    let company =
+    JSON.parse(localStorage.getItem("companyDetails")) || {};
+
+    let customer =
+    JSON.parse(localStorage.getItem("customerDetails")) || {};
+
+    let assets =
+    getCompanyAssets();
+
+    let logo = assets.logo;
+
+    let stamp = assets.stamp;
+
+    let productRows = "";
+
+    invoiceProducts.forEach(function(item,index){
+
+        productRows += `
+
+<tr>
+
+<td>${index+1}</td>
+
+<td>${item.productName}</td>
+
+<td>${item.qty}</td>
+
+<td>₹${Number(item.rate).toFixed(2)}</td>
+
+<td>${item.gst}%</td>
+
+<td>₹${Number(item.amount).toFixed(2)}</td>
+
+</tr>
+
+`;
+
+    });
+
+    document.getElementById("invoicePreview").innerHTML = `
+
+<div class="invoice-box">
+
+<div style="text-align:center;">
+
+${logo ?
+
+`<img src="${logo}"
+style="
+width:90px;
+height:90px;
+object-fit:contain;
+margin-bottom:10px;
+">`
+
+: ""}
+
+<h1>${company.companyName || "Company Name"}</h1>
+
+<p>${company.companyAddress || ""}</p>
+
+<p><b>GST :</b> ${company.companyGST || ""}</p>
+
+<p><b>PAN :</b> ${company.companyPAN || ""}</p>
+
+<p><b>Phone :</b> ${company.companyPhone || ""}</p>
+
+<p><b>Email :</b> ${company.companyEmail || ""}</p>
+
+<p><b>Website :</b> ${company.companyWebsite || ""}</p>
+
+<hr>
+
+<h2>GST TAX INVOICE</h2>
+
+<p><b>Invoice No :</b> ${currentInvoiceNumber}</p>
+
+<p><b>Date :</b>
+${document.getElementById("invoiceDate").value}</p>
+
+<p><b>Due Date :</b>
+${document.getElementById("dueDate").value}</p>
+
+</div>
+
+`;
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89R
+   Invoice Preview Engine (Part-2)
+======================================= */
+
+    document.getElementById("invoicePreview").innerHTML += `
+
+<hr>
+
+<h3>Customer Details</h3>
+
+<p><b>Name :</b> ${customer.customerName || ""}</p>
+
+<p><b>Mobile :</b> ${customer.customerMobile || ""}</p>
+
+<p><b>Address :</b> ${customer.customerAddress || ""}</p>
+
+<p><b>GST :</b> ${customer.customerGST || ""}</p>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>#</th>
+
+<th>Product</th>
+
+<th>Qty</th>
+
+<th>Rate</th>
+
+<th>GST</th>
+
+<th>Amount</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+${productRows}
+
+</tbody>
+
+</table>
+
+<hr>
+
+<p><b>Subtotal :</b> ₹${subtotal.toFixed(2)}</p>
+
+<p><b>CGST :</b> ₹${cgstTotal.toFixed(2)}</p>
+
+<p><b>SGST :</b> ₹${sgstTotal.toFixed(2)}</p>
+
+<p><b>IGST :</b> ₹${igstTotal.toFixed(2)}</p>
+
+<h2>Grand Total : ₹${grandTotal.toFixed(2)}</h2>
+
+<hr>
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:40px;
+">
+
+<div style="text-align:center;">
+
+____________________
+
+<br>
+
+Customer Signature
+
+</div>
+
+<div style="text-align:center;">
+
+${
+
+stamp ?
+
+`<img
+src="${stamp}"
+style="
+width:100px;
+height:100px;
+object-fit:contain;
+display:block;
+margin:auto;
+">`
+
+: ""
+
+}
+
+____________________
+
+<br>
+
+Authorized Signatory
+
+</div>
+
+</div>
+
+<p style="text-align:center;">
+
+Thank You For Your Business ❤️
+
+</p>
+
+</div>
+
+`;
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89S
+   Save Invoice & Refresh History
+======================================= */
+
+function finalizeInvoice(){
+
+    saveInvoiceHistory();
+
+    loadInvoiceHistory();
+
+    renderInvoiceHistory();
+
+    autoSaveDraft();
+
+    successMessage("✅ Invoice Saved Successfully");
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89T
+   Final Initialization
+======================================= */
+
+function initializeGSTInvoice(){
+
+    // Company
+    loadCompanyDetails();
+    loadSavedCompanyLogo();
+    loadSavedCompanyStamp();
+
+    // Customer
+    loadCustomerDetails();
+
+    // Draft
+    loadDraftInvoice();
+
+    // History
+    loadInvoiceHistory();
+    renderInvoiceHistory();
+
+    // Product List
+    renderProductList();
+
+    // GST Calculation
+    calculateGST();
+
+    // Auto Invoice Number
+    if(document.getElementById("invoiceNumber")){
+
+        if(document.getElementById("invoiceNumber").value==""){
+
+            generateInvoiceNumber();
+
+        }
+
+    }
+
+}
+
+// ===============================
+// Run After Page Load
+// ===============================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+        initializeGSTInvoice();
+    }
+);
+
+// ===============================
+// Auto Save Draft
+// ===============================
+
+setInterval(function(){
+
+    autoSaveDraft();
+
+},10000);
