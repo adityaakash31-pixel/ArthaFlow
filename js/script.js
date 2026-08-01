@@ -8907,3 +8907,227 @@ ${item.invoiceDate}</p>
     container.innerHTML = html;
 
 }
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89K
+   View + Delete + Search Invoice
+======================================= */
+
+// ===============================
+// View Invoice
+// ===============================
+
+function viewInvoice(index){
+
+    if(index<0 || index>=invoiceHistory.length){
+
+        alert("❌ Invoice Not Found");
+
+        return;
+
+    }
+
+    let invoice = invoiceHistory[index];
+
+    alert(
+
+`Invoice No : ${invoice.invoiceNumber}
+
+Customer : ${invoice.customer.customerName || "-"}
+
+Invoice Date : ${invoice.invoiceDate}
+
+Grand Total : ₹${Number(invoice.grandTotal).toFixed(2)}
+
+Products : ${invoice.products.length}`
+
+    );
+
+}
+
+// ===============================
+// Delete Invoice
+// ===============================
+
+function deleteInvoice(index){
+
+    if(index<0 || index>=invoiceHistory.length){
+
+        alert("❌ Invalid Invoice");
+
+        return;
+
+    }
+
+    if(!confirm("🗑 Delete this invoice ?")){
+
+        return;
+
+    }
+
+    invoiceHistory.splice(index,1);
+
+    localStorage.setItem(
+
+        "invoiceHistory",
+
+        JSON.stringify(invoiceHistory)
+
+    );
+
+    renderInvoiceHistory();
+
+    showNotification("✅ Invoice Deleted");
+
+}
+
+// ===============================
+// Search Invoice
+// ===============================
+
+function searchInvoice(){
+
+    let keyword =
+    document.getElementById("invoiceSearch")
+    .value
+    .toLowerCase()
+    .trim();
+
+    let container =
+    document.getElementById("invoiceHistory");
+
+    if(!container) return;
+
+    if(keyword===""){
+
+        renderInvoiceHistory();
+
+        return;
+
+    }
+
+    let result = invoiceHistory.filter(function(item){
+
+        return (
+
+            item.invoiceNumber
+            .toLowerCase()
+            .includes(keyword)
+
+            ||
+
+            (item.customer.customerName || "")
+            .toLowerCase()
+            .includes(keyword)
+
+        );
+
+    });
+
+    let html="";
+
+    if(result.length===0){
+
+        container.innerHTML=
+        `<div style="text-align:center;padding:25px;color:#777;">
+        ❌ No Invoice Found
+        </div>`;
+
+        return;
+
+    }
+
+    result.forEach(function(item){
+
+        html += `
+
+<div class="card" style="margin-bottom:12px;">
+
+<h3>${item.invoiceNumber}</h3>
+
+<p><b>Customer :</b>
+${item.customer.customerName || "-"}</p>
+
+<p><b>Date :</b>
+${item.invoiceDate}</p>
+
+<p><b>Total :</b>
+₹${Number(item.grandTotal).toFixed(2)}</p>
+
+</div>
+
+`;
+
+    });
+
+    container.innerHTML = html;
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89L
+   PDF & Print Engine
+======================================= */
+
+// ===============================
+// Download Invoice PDF
+// ===============================
+
+function downloadInvoicePDF(){
+
+    let invoice =
+    document.getElementById("invoicePreview");
+
+    if(!invoice){
+
+        alert("❌ Invoice Preview Not Found");
+
+        return;
+
+    }
+
+    let options = {
+
+        margin:10,
+
+        filename:
+        currentInvoiceNumber + ".pdf",
+
+        image:{
+            type:"jpeg",
+            quality:1
+        },
+
+        html2canvas:{
+            scale:2
+        },
+
+        jsPDF:{
+            unit:"mm",
+            format:"a4",
+            orientation:"portrait"
+        }
+
+    };
+
+    html2pdf()
+
+    .set(options)
+
+    .from(invoice)
+
+    .save();
+
+}
+
+// ===============================
+// Print Invoice
+// ===============================
+
+function printInvoice(){
+
+    window.print();
+
+}
