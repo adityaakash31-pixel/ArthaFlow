@@ -9719,6 +9719,8 @@ function initializeGSTInvoice(){
 
     calculateTopCustomers();
 
+    renderSalesChart();
+
     // Product List
     renderProductList();
 
@@ -11446,6 +11448,89 @@ function calculateTopCustomers(){
         </div>
 
         `;
+
+    });
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91Q
+   GST Sales Chart
+======================================= */
+
+function renderSalesChart(){
+
+    let canvas =
+    document.getElementById("salesChart");
+
+    if(!canvas) return;
+
+    let monthlySales = {};
+
+    invoiceHistory.forEach(function(invoice){
+
+        if(!invoice.invoiceDate) return;
+
+        let month =
+        invoice.invoiceDate.substring(0,7);
+
+        if(!monthlySales[month]){
+
+            monthlySales[month] = 0;
+
+        }
+
+        monthlySales[month] +=
+        Number(invoice.grandTotal || 0);
+
+    });
+
+    let labels = Object.keys(monthlySales).sort();
+
+    let values = labels.map(function(month){
+
+        return monthlySales[month];
+
+    });
+
+    if(window.salesChartInstance){
+
+        window.salesChartInstance.destroy();
+
+    }
+
+    window.salesChartInstance = new Chart(canvas,{
+
+        type:"bar",
+
+        data:{
+
+            labels:labels,
+
+            datasets:[{
+
+                label:"Monthly GST Sales",
+
+                data:values
+
+            }]
+
+        },
+
+        options:{
+
+            responsive:true,
+
+            plugins:{
+
+                legend:{
+                    display:true
+                }
+
+            }
+
+        }
 
     });
 
