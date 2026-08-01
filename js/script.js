@@ -8342,9 +8342,11 @@ function addProduct(){
 
     invoiceProducts.push(product);
 
-    renderProductTable();
+renderProductTable();
 
-    clearProduct();
+calculateGST();
+
+clearProduct();
 
 }
 
@@ -8363,6 +8365,8 @@ function deleteProduct(index){
     invoiceProducts.splice(index,1);
 
     renderProductTable();
+
+    calculateGST();
 
 }
 
@@ -8453,5 +8457,453 @@ No Product Added
     });
 
     tbody.innerHTML = html;
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89H
+   GST Calculation Engine
+======================================= */
+
+function calculateGST(){
+
+    subtotal = 0;
+
+    cgstTotal = 0;
+
+    sgstTotal = 0;
+
+    igstTotal = 0;
+
+    grandTotal = 0;
+
+    invoiceProducts.forEach(function(item){
+
+        subtotal += item.amount;
+
+        let gstAmount =
+        (item.amount * item.gst) / 100;
+
+        // Same State = CGST + SGST
+
+        cgstTotal += gstAmount / 2;
+
+        sgstTotal += gstAmount / 2;
+
+    });
+
+    grandTotal =
+    subtotal +
+    cgstTotal +
+    sgstTotal +
+    igstTotal;
+
+    if(document.getElementById("invoiceSubtotal")){
+
+        document.getElementById("invoiceSubtotal").innerText =
+        "₹" + subtotal.toFixed(2);
+
+    }
+
+    if(document.getElementById("discountAmount")){
+
+        let totalDiscount = 0;
+
+        invoiceProducts.forEach(function(item){
+
+            totalDiscount += item.discount;
+
+        });
+
+        document.getElementById("discountAmount").innerText =
+        "₹" + totalDiscount.toFixed(2);
+
+    }
+
+    if(document.getElementById("cgstAmount")){
+
+        document.getElementById("cgstAmount").innerText =
+        "₹" + cgstTotal.toFixed(2);
+
+    }
+
+    if(document.getElementById("sgstAmount")){
+
+        document.getElementById("sgstAmount").innerText =
+        "₹" + sgstTotal.toFixed(2);
+
+    }
+
+    if(document.getElementById("igstAmount")){
+
+        document.getElementById("igstAmount").innerText =
+        "₹" + igstTotal.toFixed(2);
+
+    }
+
+    if(document.getElementById("grandTotal")){
+
+        document.getElementById("grandTotal").innerText =
+        "₹" + grandTotal.toFixed(2);
+
+    }
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89I
+   Invoice Preview Engine
+======================================= */
+
+function previewInvoice(){
+
+    calculateGST();
+
+    let company = companyDetails || {};
+
+    let customer = customerDetails || {};
+
+    let logo = getCompanyLogo();
+
+    let stamp = getCompanyStamp();
+
+    let productRows = "";
+
+    invoiceProducts.forEach(function(item,index){
+
+        productRows += `
+
+<tr>
+
+<td>${index+1}</td>
+
+<td>${item.productName}</td>
+
+<td>${item.qty}</td>
+
+<td>₹${item.rate.toFixed(2)}</td>
+
+<td>${item.gst}%</td>
+
+<td>₹${item.amount.toFixed(2)}</td>
+
+</tr>
+
+`;
+
+    });
+
+    document.getElementById("invoicePreview").innerHTML = `
+
+<div class="invoice-box">
+
+${logo ?
+
+`<img
+src="${logo}"
+style="
+width:90px;
+height:90px;
+object-fit:contain;
+margin-bottom:10px;
+">`
+
+: ""}
+
+<h1>${company.companyName || "Company Name"}</h1>
+
+<p>${company.companyAddress || ""}</p>
+
+<p><b>GST :</b> ${company.companyGST || ""}</p>
+
+<p><b>PAN :</b> ${company.companyPAN || ""}</p>
+
+<p><b>Phone :</b> ${company.companyPhone || ""}</p>
+
+<p><b>Email :</b> ${company.companyEmail || ""}</p>
+
+<p><b>Website :</b> ${company.companyWebsite || ""}</p>
+
+<hr>
+
+<h2>GST TAX INVOICE</h2>
+
+<p><b>Invoice No :</b> ${currentInvoiceNumber}</p>
+
+<p><b>Date :</b> ${document.getElementById("invoiceDate").value}</p>
+
+<p><b>Due Date :</b> ${document.getElementById("dueDate").value}</p>
+
+<hr>
+
+<h3>Customer Details</h3>
+
+<p><b>Name :</b> ${customer.customerName || ""}</p>
+
+<p><b>Mobile :</b> ${customer.customerMobile || ""}</p>
+
+<p><b>Address :</b> ${customer.customerAddress || ""}</p>
+
+<p><b>GST :</b> ${customer.customerGST || ""}</p>
+
+<table border="1" width="100%" cellspacing="0" cellpadding="6">
+
+<thead>
+
+<tr>
+
+<th>#</th>
+
+<th>Product</th>
+
+<th>Qty</th>
+
+<th>Rate</th>
+
+<th>GST</th>
+
+<th>Amount</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+${productRows}
+
+</tbody>
+
+</table>
+
+<hr>
+
+<p><b>Subtotal :</b> ₹${subtotal.toFixed(2)}</p>
+
+<p><b>CGST :</b> ₹${cgstTotal.toFixed(2)}</p>
+
+<p><b>SGST :</b> ₹${sgstTotal.toFixed(2)}</p>
+
+<p><b>IGST :</b> ₹${igstTotal.toFixed(2)}</p>
+
+<h2>Grand Total : ₹${grandTotal.toFixed(2)}</h2>
+
+<hr>
+
+<div style="
+display:flex;
+justify-content:space-between;
+margin-top:40px;
+">
+
+<div>
+
+____________________
+
+<br>
+
+Customer Signature
+
+</div>
+
+<div style="text-align:center;">
+
+${stamp ?
+
+`<img
+src="${stamp}"
+style="
+width:100px;
+height:100px;
+object-fit:contain;
+display:block;
+margin:auto;
+">`
+
+: ""}
+
+____________________
+
+<br>
+
+Authorized Signatory
+
+</div>
+
+</div>
+
+<p style="text-align:center;margin-top:30px;">
+
+Thank You For Your Business ❤️
+
+</p>
+
+</div>
+
+`;
+
+    saveInvoiceHistory();
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89J
+   Invoice History Engine
+======================================= */
+
+// ===============================
+// Save Invoice History
+// ===============================
+
+function saveInvoiceHistory(){
+
+    calculateGST();
+
+    loadInvoiceHistory();
+
+    let invoice = {
+
+        invoiceNumber: currentInvoiceNumber,
+
+        invoiceDate:
+        document.getElementById("invoiceDate").value,
+
+        dueDate:
+        document.getElementById("dueDate").value,
+
+        company:
+        JSON.parse(localStorage.getItem("companyDetails")) || {},
+
+        customer:
+        JSON.parse(localStorage.getItem("customerDetails")) || {},
+
+        products:
+        JSON.parse(JSON.stringify(invoiceProducts)),
+
+        subtotal: subtotal,
+
+        cgst: cgstTotal,
+
+        sgst: sgstTotal,
+
+        igst: igstTotal,
+
+        grandTotal: grandTotal,
+
+        createdAt:
+        new Date().toLocaleString()
+
+    };
+
+    let alreadyExists = invoiceHistory.find(function(item){
+
+        return item.invoiceNumber === currentInvoiceNumber;
+
+    });
+
+    if(alreadyExists){
+
+        showNotification("⚠ Invoice Already Saved","#F59E0B");
+
+        return;
+
+    }
+
+    invoiceHistory.unshift(invoice);
+
+    localStorage.setItem(
+
+        "invoiceHistory",
+
+        JSON.stringify(invoiceHistory)
+
+    );
+
+    renderInvoiceHistory();
+
+    showNotification("✅ Invoice Saved Successfully");
+
+}
+
+// ===============================
+// Load Invoice History
+// ===============================
+
+function loadInvoiceHistory(){
+
+    invoiceHistory =
+    JSON.parse(
+    localStorage.getItem("invoiceHistory")
+    ) || [];
+
+}
+
+// ===============================
+// Render Invoice History
+// ===============================
+
+function renderInvoiceHistory(){
+
+    let container =
+    document.getElementById("invoiceHistory");
+
+    if(!container) return;
+
+    if(invoiceHistory.length===0){
+
+        container.innerHTML=
+        `<div style="text-align:center;padding:25px;color:#777;">
+        📄 No Invoice History Available
+        </div>`;
+
+        return;
+
+    }
+
+    let html="";
+
+    invoiceHistory.forEach(function(item,index){
+
+        html += `
+
+<div class="card" style="margin-bottom:12px;">
+
+<h3>${item.invoiceNumber}</h3>
+
+<p><b>Customer :</b>
+${item.customer.customerName || "-"}</p>
+
+<p><b>Date :</b>
+${item.invoiceDate}</p>
+
+<p><b>Total :</b>
+₹${Number(item.grandTotal).toFixed(2)}</p>
+
+<div class="dashboard-grid">
+
+<button onclick="viewInvoice(${index})">
+
+👀 View
+
+</button>
+
+<button onclick="deleteInvoice(${index})">
+
+🗑 Delete
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+    });
+
+    container.innerHTML = html;
 
 }
