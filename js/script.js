@@ -11535,3 +11535,145 @@ function renderSalesChart(){
     });
 
 }
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91R
+   Invoice History Filter
+======================================= */
+
+function filterInvoiceHistory(type){
+
+    let filtered = [];
+
+    let today = new Date();
+
+    let todayStr = today.toISOString().split("T")[0];
+
+    let currentMonth = todayStr.substring(0,7);
+
+    let currentYear = today.getFullYear().toString();
+
+    if(type === "all"){
+
+        filtered = invoiceHistory;
+
+    }
+
+    else if(type === "today"){
+
+        filtered = invoiceHistory.filter(function(item){
+
+            return item.invoiceDate === todayStr;
+
+        });
+
+    }
+
+    else if(type === "month"){
+
+        filtered = invoiceHistory.filter(function(item){
+
+            return item.invoiceDate.startsWith(currentMonth);
+
+        });
+
+    }
+
+    else if(type === "year"){
+
+        filtered = invoiceHistory.filter(function(item){
+
+            return item.invoiceDate.startsWith(currentYear);
+
+        });
+
+    }
+
+    renderFilteredInvoiceHistory(filtered);
+
+}
+
+function renderFilteredInvoiceHistory(data){
+
+    let container =
+    document.getElementById("invoiceHistory");
+
+    if(!container) return;
+
+    if(data.length===0){
+
+        container.innerHTML =
+
+        "<div class='card'><h3>No Invoice Found</h3></div>";
+
+        return;
+
+    }
+
+    let html = "";
+
+    data.forEach(function(item,index){
+
+        html += `
+
+<div class="card" style="margin-bottom:12px;">
+
+<h3>${item.invoiceNumber}</h3>
+
+<p><b>Customer :</b>
+${item.customer.customerName || "-"}</p>
+
+<p><b>Date :</b>
+${item.invoiceDate}</p>
+
+<p><b>Total :</b>
+₹${Number(item.grandTotal).toFixed(2)}</p>
+
+</div>
+
+`;
+
+    });
+
+    container.innerHTML = html;
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91S
+   Custom Date Range Filter
+======================================= */
+
+function filterInvoiceByDate(){
+
+    let fromDate =
+    document.getElementById("invoiceFromDate").value;
+
+    let toDate =
+    document.getElementById("invoiceToDate").value;
+
+    if(fromDate==="" || toDate===""){
+
+        alert("Please Select Both Dates");
+
+        return;
+
+    }
+
+    let filtered = invoiceHistory.filter(function(item){
+
+        return (
+
+            item.invoiceDate >= fromDate &&
+
+            item.invoiceDate <= toDate
+
+        );
+
+    });
+
+    renderFilteredInvoiceHistory(filtered);
+
+}
