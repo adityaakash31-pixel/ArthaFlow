@@ -10621,3 +10621,125 @@ function exportInvoiceHistory(){
     successMessage("✅ Invoice History Exported");
 
 }
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91C
+   Invoice History Import
+======================================= */
+
+function importInvoiceHistory(event){
+
+    let file = event.target.files[0];
+
+    if(!file){
+
+        return;
+
+    }
+
+    let reader = new FileReader();
+
+    reader.onload = function(e){
+
+        try{
+
+            let data = JSON.parse(e.target.result);
+
+            if(!Array.isArray(data)){
+
+                errorMessage("❌ Invalid Backup File");
+
+                return;
+
+            }
+
+            invoiceHistory = data;
+
+            localStorage.setItem(
+
+                "invoiceHistory",
+
+                JSON.stringify(invoiceHistory)
+
+            );
+
+            loadInvoiceHistory();
+
+            renderInvoiceHistory();
+
+            successMessage("✅ Invoice History Imported Successfully");
+
+        }
+
+        catch(err){
+
+            errorMessage("❌ Invalid JSON File");
+
+        }
+
+    };
+
+    reader.readAsText(file);
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91D
+   Export Invoice History (CSV)
+======================================= */
+
+function exportInvoiceCSV(){
+
+    if(invoiceHistory.length===0){
+
+        warningMessage("⚠️ No Invoice History Found");
+
+        return;
+
+    }
+
+    let csv =
+
+    "Invoice No,Date,Customer,Grand Total\n";
+
+    invoiceHistory.forEach(function(item){
+
+        csv +=
+
+        `"${item.invoiceNumber}",` +
+
+        `"${item.invoiceDate}",` +
+
+        `"${item.customer.customerName || "-"}",` +
+
+        `"${item.grandTotal}"\n`;
+
+    });
+
+    let blob = new Blob(
+
+        [csv],
+
+        {
+
+            type:"text/csv"
+
+        }
+
+    );
+
+    let link = document.createElement("a");
+
+    link.href = URL.createObjectURL(blob);
+
+    link.download =
+
+    "ArthaFlow_Invoice_History.csv";
+
+    link.click();
+
+    successMessage("✅ CSV Exported Successfully");
+
+}
