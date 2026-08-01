@@ -11677,3 +11677,63 @@ function filterInvoiceByDate(){
     renderFilteredInvoiceHistory(filtered);
 
 }
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91T
+   Download Full Invoice Backup
+======================================= */
+
+function downloadInvoiceBackup(){
+
+    if(invoiceHistory.length===0){
+
+        alert("❌ No Invoice History Found");
+
+        return;
+
+    }
+
+    let data = JSON.stringify(
+
+        invoiceHistory,
+
+        null,
+
+        2
+
+    );
+
+    let blob = new Blob(
+
+        [data],
+
+        {
+
+            type:"application/json"
+
+        }
+
+    );
+
+    let url = URL.createObjectURL(blob);
+
+    let a = document.createElement("a");
+
+    a.href = url;
+
+    a.download =
+
+    "ArthaFlow_Invoice_Backup.json";
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+
+    successMessage("✅ Invoice Backup Downloaded");
+
+}
