@@ -7924,3 +7924,534 @@ function clearGSTStorage(){
     deleteData("companyStamp");
 
 }
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89C
+   Company Details Engine
+======================================= */
+
+// Save Company Details
+
+function saveCompanyDetails(){
+
+    companyDetails = {
+
+        companyName:
+        document.getElementById("companyName")?.value || "",
+
+        companyGST:
+        document.getElementById("companyGST")?.value || "",
+
+        companyPAN:
+        document.getElementById("companyPAN")?.value || "",
+
+        companyPhone:
+        document.getElementById("companyPhone")?.value || "",
+
+        companyEmail:
+        document.getElementById("companyEmail")?.value || "",
+
+        companyWebsite:
+        document.getElementById("companyWebsite")?.value || "",
+
+        companyAddress:
+        document.getElementById("companyAddress")?.value || ""
+
+    };
+
+    saveData("companyDetails", companyDetails);
+
+    alert("✅ Company Details Saved Successfully");
+
+}
+
+// Load Company Details
+
+function loadCompanyDetails(){
+
+    companyDetails = loadData("companyDetails", {});
+
+    if(document.getElementById("companyName"))
+        document.getElementById("companyName").value =
+        companyDetails.companyName || "";
+
+    if(document.getElementById("companyGST"))
+        document.getElementById("companyGST").value =
+        companyDetails.companyGST || "";
+
+    if(document.getElementById("companyPAN"))
+        document.getElementById("companyPAN").value =
+        companyDetails.companyPAN || "";
+
+    if(document.getElementById("companyPhone"))
+        document.getElementById("companyPhone").value =
+        companyDetails.companyPhone || "";
+
+    if(document.getElementById("companyEmail"))
+        document.getElementById("companyEmail").value =
+        companyDetails.companyEmail || "";
+
+    if(document.getElementById("companyWebsite"))
+        document.getElementById("companyWebsite").value =
+        companyDetails.companyWebsite || "";
+
+    if(document.getElementById("companyAddress"))
+        document.getElementById("companyAddress").value =
+        companyDetails.companyAddress || "";
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89D
+   Company Logo + Stamp Engine
+======================================= */
+
+// ===============================
+// Save Company Logo
+// ===============================
+
+function loadCompanyLogo(){
+
+    let file =
+    document.getElementById("companyLogo").files[0];
+
+    if(!file) return;
+
+    let reader = new FileReader();
+
+    reader.onload = function(e){
+
+        let logo = e.target.result;
+
+        saveData("companyLogo", logo);
+
+        let preview =
+        document.getElementById("logoPreview");
+
+        if(preview){
+
+            preview.src = logo;
+
+            preview.style.display = "block";
+
+        }
+
+    };
+
+    reader.readAsDataURL(file);
+
+}
+
+// ===============================
+// Load Saved Company Logo
+// ===============================
+
+function loadSavedCompanyLogo(){
+
+    let logo = loadData("companyLogo","");
+
+    if(!logo) return;
+
+    let preview =
+    document.getElementById("logoPreview");
+
+    if(preview){
+
+        preview.src = logo;
+
+        preview.style.display = "block";
+
+    }
+
+}
+
+// ===============================
+// Save Company Stamp
+// ===============================
+
+function loadCompanyStamp(){
+
+    let file =
+    document.getElementById("companyStamp").files[0];
+
+    if(!file) return;
+
+    let reader = new FileReader();
+
+    reader.onload = function(e){
+
+        let stamp = e.target.result;
+
+        saveData("companyStamp", stamp);
+
+        let preview =
+        document.getElementById("stampPreview");
+
+        if(preview){
+
+            preview.src = stamp;
+
+            preview.style.display = "block";
+
+        }
+
+    };
+
+    reader.readAsDataURL(file);
+
+}
+
+// ===============================
+// Load Saved Company Stamp
+// ===============================
+
+function loadSavedCompanyStamp(){
+
+    let stamp = loadData("companyStamp","");
+
+    if(!stamp) return;
+
+    let preview =
+    document.getElementById("stampPreview");
+
+    if(preview){
+
+        preview.src = stamp;
+
+        preview.style.display = "block";
+
+    }
+
+}
+
+// ===============================
+// Get Assets
+// ===============================
+
+function getCompanyLogo(){
+
+    return loadData("companyLogo","");
+
+}
+
+function getCompanyStamp(){
+
+    return loadData("companyStamp","");
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89E
+   Customer Details Engine
+======================================= */
+
+// ===============================
+// Save Customer Details
+// ===============================
+
+function saveCustomerDetails(){
+
+    customerDetails = {
+
+        customerName:
+        document.getElementById("customerName")?.value || "",
+
+        customerMobile:
+        document.getElementById("customerMobile")?.value || "",
+
+        customerEmail:
+        document.getElementById("customerEmail")?.value || "",
+
+        customerGST:
+        document.getElementById("customerGST")?.value || "",
+
+        customerState:
+        document.getElementById("customerState")?.value || "",
+
+        customerPincode:
+        document.getElementById("customerPincode")?.value || "",
+
+        customerAddress:
+        document.getElementById("customerAddress")?.value || ""
+
+    };
+
+    saveData("customerDetails", customerDetails);
+
+    alert("✅ Customer Details Saved Successfully");
+
+}
+
+// ===============================
+// Load Customer Details
+// ===============================
+
+function loadCustomerDetails(){
+
+    customerDetails = loadData("customerDetails", {});
+
+    if(document.getElementById("customerName"))
+        document.getElementById("customerName").value =
+        customerDetails.customerName || "";
+
+    if(document.getElementById("customerMobile"))
+        document.getElementById("customerMobile").value =
+        customerDetails.customerMobile || "";
+
+    if(document.getElementById("customerEmail"))
+        document.getElementById("customerEmail").value =
+        customerDetails.customerEmail || "";
+
+    if(document.getElementById("customerGST"))
+        document.getElementById("customerGST").value =
+        customerDetails.customerGST || "";
+
+    if(document.getElementById("customerState"))
+        document.getElementById("customerState").value =
+        customerDetails.customerState || "";
+
+    if(document.getElementById("customerPincode"))
+        document.getElementById("customerPincode").value =
+        customerDetails.customerPincode || "";
+
+    if(document.getElementById("customerAddress"))
+        document.getElementById("customerAddress").value =
+        customerDetails.customerAddress || "";
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89F
+   Invoice Number Engine
+======================================= */
+
+// ===============================
+// Generate Invoice Number
+// ===============================
+
+function generateInvoiceNumber(){
+
+    let lastNumber =
+    Number(localStorage.getItem("lastInvoiceNumber")) || 0;
+
+    lastNumber++;
+
+    localStorage.setItem(
+        "lastInvoiceNumber",
+        lastNumber
+    );
+
+    currentInvoiceNumber =
+    "AF-" +
+    new Date().getFullYear() +
+    "-" +
+    String(lastNumber).padStart(5,"0");
+
+    let invoiceBox =
+    document.getElementById("invoiceNumber");
+
+    if(invoiceBox){
+
+        invoiceBox.value =
+        currentInvoiceNumber;
+
+    }
+
+}
+
+// ===============================
+// Get Current Invoice Number
+// ===============================
+
+function getCurrentInvoiceNumber(){
+
+    return currentInvoiceNumber;
+
+}
+
+// ===============================
+// Check Duplicate Invoice
+// ===============================
+
+function isDuplicateInvoice(invoiceNumber){
+
+    return invoiceHistory.some(function(item){
+
+        return item.invoiceNumber === invoiceNumber;
+
+    });
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89G
+   Product Engine
+======================================= */
+
+// ===============================
+// Add Product
+// ===============================
+
+function addProduct(){
+
+    let product = {
+
+        productName:
+        document.getElementById("productName")?.value.trim() || "",
+
+        productHSN:
+        document.getElementById("productHSN")?.value.trim() || "",
+
+        qty:
+        Number(document.getElementById("productQty")?.value) || 0,
+
+        unit:
+        document.getElementById("productUnit")?.value || "Pcs",
+
+        rate:
+        Number(document.getElementById("productRate")?.value) || 0,
+
+        discount:
+        Number(document.getElementById("productDiscount")?.value) || 0,
+
+        gst:
+        Number(document.getElementById("gstPercent")?.value) || 18
+
+    };
+
+    if(
+        product.productName === "" ||
+        product.qty <= 0 ||
+        product.rate <= 0
+    ){
+
+        alert("⚠ Please Enter Product Details");
+
+        return;
+
+    }
+
+    product.amount =
+    (product.qty * product.rate)
+    - product.discount;
+
+    invoiceProducts.push(product);
+
+    renderProductTable();
+
+    clearProduct();
+
+}
+
+// ===============================
+// Delete Product
+// ===============================
+
+function deleteProduct(index){
+
+    if(index < 0 || index >= invoiceProducts.length){
+
+        return;
+
+    }
+
+    invoiceProducts.splice(index,1);
+
+    renderProductTable();
+
+}
+
+// ===============================
+// Clear Product Form
+// ===============================
+
+function clearProduct(){
+
+    document.getElementById("productName").value="";
+
+    document.getElementById("productHSN").value="";
+
+    document.getElementById("productQty").value="";
+
+    document.getElementById("productRate").value="";
+
+    document.getElementById("productDiscount").value="";
+
+    document.getElementById("productUnit").selectedIndex=0;
+
+    document.getElementById("gstPercent").value="18";
+
+}
+
+// ===============================
+// Render Product Table
+// ===============================
+
+function renderProductTable(){
+
+    let tbody =
+    document.getElementById("productTableBody");
+
+    if(!tbody) return;
+
+    if(invoiceProducts.length===0){
+
+        tbody.innerHTML=`
+<tr>
+<td colspan="10" style="text-align:center;">
+No Product Added
+</td>
+</tr>`;
+
+        return;
+
+    }
+
+    let html="";
+
+    invoiceProducts.forEach(function(item,index){
+
+        html += `
+<tr>
+
+<td>${index+1}</td>
+
+<td>${item.productName}</td>
+
+<td>${item.productHSN}</td>
+
+<td>${item.qty}</td>
+
+<td>${item.unit}</td>
+
+<td>₹${item.rate.toFixed(2)}</td>
+
+<td>₹${item.discount.toFixed(2)}</td>
+
+<td>${item.gst}%</td>
+
+<td>₹${item.amount.toFixed(2)}</td>
+
+<td>
+
+<button onclick="deleteProduct(${index})">
+
+🗑
+
+</button>
+
+</td>
+
+</tr>
+`;
+
+    });
+
+    tbody.innerHTML = html;
+
+}
