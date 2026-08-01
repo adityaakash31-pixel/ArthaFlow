@@ -694,19 +694,65 @@ Invoice Statistics
 
 <h2>📜 Invoice History</h2>
 
+<!-- Filter Buttons -->
+
+<div class="dashboard-grid">
+
+<button onclick="filterInvoiceHistory('all')">
+📄 All
+</button>
+
+<button onclick="filterInvoiceHistory('today')">
+📅 Today
+</button>
+
+<button onclick="filterInvoiceHistory('month')">
+🗓 This Month
+</button>
+
+<button onclick="filterInvoiceHistory('year')">
+📆 This Year
+</button>
+
+</div>
+
+<br>
+
+<!-- Date Range Filter -->
+
+<div class="dashboard-grid">
+
+<input
+type="date"
+id="invoiceFromDate">
+
+<input
+type="date"
+id="invoiceToDate">
+
+<button onclick="filterInvoiceByDate()">
+🔍 Search
+</button>
+
+</div>
+
+<br>
+
 <input
 type="text"
 id="invoiceSearch"
 placeholder="🔍 Search Invoice No / Customer"
 onkeyup="searchInvoice()">
 
-  <button onclick="exportInvoiceHistory()">
+<br><br>
+
+<button onclick="exportInvoiceHistory()">
 📥 Export Invoice History
-  </button>
+</button>
 
-  <br><br>
+<br><br>
 
-  <button onclick="exportInvoiceCSV()">
+<button onclick="exportInvoiceCSV()">
 📊 Export CSV
 </button>
 
@@ -737,29 +783,7 @@ color:#777;
 
 </div>
 
-  <div class="dashboard-grid">
-
-<button onclick="filterInvoiceHistory('all')">
-📄 All
-</button>
-
-<button onclick="filterInvoiceHistory('today')">
-📅 Today
-</button>
-
-<button onclick="filterInvoiceHistory('month')">
-🗓 This Month
-</button>
-
-<button onclick="filterInvoiceHistory('year')">
-📆 This Year
-</button>
-
-</div>
-
-<br>
-
-  <div class="card">
+<div class="card">
 
 <h2>📈 Monthly Sales Analytics</h2>
 
@@ -769,9 +793,9 @@ color:#777;
 
 </div>
 
-  </div>
+</div>
 
-  <div class="card">
+<div class="card">
 
 <h2>🏆 Top Customers</h2>
 
@@ -781,9 +805,9 @@ color:#777;
 
 </div>
 
-  </div>
+</div>
 
-  <div class="card">
+<div class="card">
 
 <h2>📊 GST Sales Chart</h2>
 
@@ -792,8 +816,7 @@ id="salesChart"
 height="120">
 </canvas>
 
-  </div>
-
+</div>
 <!-- ========================= -->
 <!-- 89K - Payment Details -->
 <!-- ========================= -->
