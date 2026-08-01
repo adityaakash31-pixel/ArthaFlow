@@ -9936,6 +9936,14 @@ ${item.invoiceDate}</p>
 ✏️ Edit
 </button>
 
+<button onclick="reprintInvoice(${index})">
+🖨 Print
+</button>
+
+<button onclick="downloadHistoryInvoicePDF(${index})">
+📄 PDF
+</button>
+
 <button onclick="deleteInvoice(${index})">
 🗑 Delete
 </button>
@@ -9950,7 +9958,7 @@ ${item.invoiceDate}</p>
 
     container.innerHTML = html;
 
-}
+    }
 
 /* =======================================
    ArthaFlow Premium
@@ -10911,5 +10919,133 @@ function saveOrUpdateInvoice(invoice){
     renderInvoiceHistory();
 
     successMessage("✅ Invoice Saved Successfully");
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91H
+   Smart Invoice Number Manager
+======================================= */
+
+function updateInvoiceCounter(){
+
+    let counter = Number(
+
+        localStorage.getItem("invoiceCounter")
+
+    ) || 1;
+
+    let maxCounter = counter;
+
+    invoiceHistory.forEach(function(item){
+
+        let num = Number(
+
+            String(item.invoiceNumber)
+
+            .replace(/\D/g,"")
+
+        );
+
+        if(num > maxCounter){
+
+            maxCounter = num;
+
+        }
+
+    });
+
+    localStorage.setItem(
+
+        "invoiceCounter",
+
+        maxCounter
+
+    );
+
+}
+
+function generateInvoiceNumber(){
+
+    updateInvoiceCounter();
+
+    let counter = Number(
+
+        localStorage.getItem("invoiceCounter")
+
+    ) || 1;
+
+    counter++;
+
+    localStorage.setItem(
+
+        "invoiceCounter",
+
+        counter
+
+    );
+
+    currentInvoiceNumber =
+
+    "INV-" +
+
+    String(counter).padStart(5,"0");
+
+    let box =
+
+    document.getElementById("invoiceNumber");
+
+    if(box){
+
+        box.value = currentInvoiceNumber;
+
+    }
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91I
+   Reprint & PDF From History
+======================================= */
+
+function reprintInvoice(index){
+
+    if(index < 0 || index >= invoiceHistory.length){
+
+        errorMessage("❌ Invoice Not Found");
+
+        return;
+
+    }
+
+    restoreInvoice(index);
+
+    setTimeout(function(){
+
+        printInvoice();
+
+    },300);
+
+}
+
+function downloadHistoryInvoicePDF(index){
+
+    if(index < 0 || index >= invoiceHistory.length){
+
+        errorMessage("❌ Invoice Not Found");
+
+        return;
+
+    }
+
+    restoreInvoice(index);
+
+    setTimeout(function(){
+
+        downloadInvoicePDF();
+
+    },300);
 
 }
