@@ -9131,3 +9131,265 @@ function printInvoice(){
     window.print();
 
 }
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89M
+   Draft Auto Save Engine
+======================================= */
+
+// ===============================
+// Save Draft
+// ===============================
+
+function autoSaveDraft(){
+
+    let draft = {
+
+        invoiceNumber:
+        document.getElementById("invoiceNumber")?.value || "",
+
+        invoiceDate:
+        document.getElementById("invoiceDate")?.value || "",
+
+        dueDate:
+        document.getElementById("dueDate")?.value || "",
+
+        customerName:
+        document.getElementById("customerName")?.value || "",
+
+        customerMobile:
+        document.getElementById("customerMobile")?.value || "",
+
+        customerAddress:
+        document.getElementById("customerAddress")?.value || "",
+
+        customerGST:
+        document.getElementById("customerGST")?.value || "",
+
+        customerEmail:
+        document.getElementById("customerEmail")?.value || "",
+
+        customerState:
+        document.getElementById("customerState")?.value || "",
+
+        products:
+        JSON.parse(JSON.stringify(invoiceProducts)),
+
+        subtotal: subtotal,
+
+        cgst: cgstTotal,
+
+        sgst: sgstTotal,
+
+        igst: igstTotal,
+
+        grandTotal: grandTotal
+
+    };
+
+    localStorage.setItem(
+
+        "draftInvoice",
+
+        JSON.stringify(draft)
+
+    );
+
+}
+
+// ===============================
+// Load Draft
+// ===============================
+
+function loadDraftInvoice(){
+
+    let draft = JSON.parse(
+
+        localStorage.getItem("draftInvoice")
+
+    );
+
+    if(!draft) return;
+
+    if(document.getElementById("invoiceNumber"))
+        document.getElementById("invoiceNumber").value =
+        draft.invoiceNumber || "";
+
+    if(document.getElementById("invoiceDate"))
+        document.getElementById("invoiceDate").value =
+        draft.invoiceDate || "";
+
+    if(document.getElementById("dueDate"))
+        document.getElementById("dueDate").value =
+        draft.dueDate || "";
+
+    if(document.getElementById("customerName"))
+        document.getElementById("customerName").value =
+        draft.customerName || "";
+
+    if(document.getElementById("customerMobile"))
+        document.getElementById("customerMobile").value =
+        draft.customerMobile || "";
+
+    if(document.getElementById("customerAddress"))
+        document.getElementById("customerAddress").value =
+        draft.customerAddress || "";
+
+    if(document.getElementById("customerGST"))
+        document.getElementById("customerGST").value =
+        draft.customerGST || "";
+
+    if(document.getElementById("customerEmail"))
+        document.getElementById("customerEmail").value =
+        draft.customerEmail || "";
+
+    if(document.getElementById("customerState"))
+        document.getElementById("customerState").value =
+        draft.customerState || "";
+
+    invoiceProducts = draft.products || [];
+
+    subtotal = draft.subtotal || 0;
+
+    cgstTotal = draft.cgst || 0;
+
+    sgstTotal = draft.sgst || 0;
+
+    igstTotal = draft.igst || 0;
+
+    grandTotal = draft.grandTotal || 0;
+
+    renderProductList();
+
+    calculateGST();
+
+}
+
+// ===============================
+// Auto Save Every 10 Seconds
+// ===============================
+
+setInterval(function(){
+
+    autoSaveDraft();
+
+},10000);
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89N
+   GST Initialization Engine
+======================================= */
+
+function initializeGSTInvoice(){
+
+    // Company
+    loadCompanyDetails();
+    loadSavedCompanyLogo();
+    loadSavedCompanyStamp();
+
+    // Customer
+    loadCustomerDetails();
+
+    // Draft
+    loadDraftInvoice();
+
+    // Invoice History
+    loadInvoiceHistory();
+    renderInvoiceHistory();
+
+    // Invoice Number
+    if(document.getElementById("invoiceNumber")){
+
+        if(
+            document.getElementById("invoiceNumber").value==""
+        ){
+
+            generateInvoiceNumber();
+
+        }
+
+    }
+
+}
+
+// ===============================
+// Run After Page Load
+// ===============================
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+function(){
+
+    initializeGSTInvoice();
+
+}
+
+);
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 89O
+   Notification System
+======================================= */
+
+function showNotification(
+
+    message,
+
+    color="#16A34A"
+
+){
+
+    let box =
+
+    document.getElementById("notificationBox");
+
+    if(!box) return;
+
+    box.innerText = message;
+
+    box.style.background = color;
+
+    box.style.display = "block";
+
+    box.style.opacity = "1";
+
+    setTimeout(function(){
+
+        box.style.opacity = "0";
+
+        setTimeout(function(){
+
+            box.style.display = "none";
+
+        },300);
+
+    },3000);
+
+}
+
+// ===============================
+// Notification Shortcuts
+// ===============================
+
+function successMessage(message){
+
+    showNotification(message,"#16A34A");
+
+}
+
+function errorMessage(message){
+
+    showNotification(message,"#DC2626");
+
+}
+
+function warningMessage(message){
+
+    showNotification(message,"#F59E0B");
+
+}
