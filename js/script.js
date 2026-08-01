@@ -9749,3 +9749,260 @@ setInterval(function(){
     autoSaveDraft();
 
 },10000);
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 90A
+   Invoice History Save Engine
+======================================= */
+
+function saveInvoiceHistory(){
+
+    let invoice = {
+
+        invoiceNumber : currentInvoiceNumber,
+
+        invoiceDate :
+        document.getElementById("invoiceDate")?.value || "",
+
+        dueDate :
+        document.getElementById("dueDate")?.value || "",
+
+        company :
+        JSON.parse(
+        localStorage.getItem("companyDetails")
+        ) || {},
+
+        customer :
+        JSON.parse(
+        localStorage.getItem("customerDetails")
+        ) || {},
+
+        products :
+        JSON.parse(
+        JSON.stringify(invoiceProducts)
+        ),
+
+        subtotal : subtotal,
+
+        cgst : cgstTotal,
+
+        sgst : sgstTotal,
+
+        igst : igstTotal,
+
+        grandTotal : grandTotal,
+
+        createdAt :
+        new Date().toLocaleString()
+
+    };
+
+    // Duplicate Check
+
+    let alreadyExists =
+    invoiceHistory.find(function(item){
+
+        return item.invoiceNumber === invoice.invoiceNumber;
+
+    });
+
+    if(alreadyExists){
+
+        return;
+
+    }
+
+    invoiceHistory.unshift(invoice);
+
+    localStorage.setItem(
+
+        "invoiceHistory",
+
+        JSON.stringify(invoiceHistory)
+
+    );
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 90B
+   Invoice History Load Engine
+======================================= */
+
+function loadInvoiceHistory(){
+
+    let savedHistory =
+
+    localStorage.getItem("invoiceHistory");
+
+    if(savedHistory){
+
+        invoiceHistory =
+
+        JSON.parse(savedHistory);
+
+    }else{
+
+        invoiceHistory = [];
+
+    }
+
+    console.log(
+
+        "✅ Invoice History Loaded",
+
+        invoiceHistory
+
+    );
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 90C
+   Invoice History Render Engine
+======================================= */
+
+function renderInvoiceHistory(){
+
+    let container =
+    document.getElementById("invoiceHistory");
+
+    if(!container) return;
+
+    if(invoiceHistory.length===0){
+
+        container.innerHTML = `
+        <div style="
+        text-align:center;
+        padding:40px;
+        color:#777;
+        ">
+        📄 No Invoice History Available
+        </div>
+        `;
+
+        return;
+
+    }
+
+    let html = "";
+
+    invoiceHistory.forEach(function(item,index){
+
+        html += `
+
+<div class="card" style="margin-bottom:12px;">
+
+<h3>🧾 ${item.invoiceNumber}</h3>
+
+<p><b>Customer :</b>
+${item.customer.customerName || "-"}</p>
+
+<p><b>Date :</b>
+${item.invoiceDate}</p>
+
+<p><b>Total :</b>
+₹${Number(item.grandTotal).toFixed(2)}</p>
+
+<div class="dashboard-grid">
+
+<button onclick="viewInvoice(${index})">
+👀 View
+</button>
+
+<button onclick="deleteInvoice(${index})">
+🗑 Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+    });
+
+    container.innerHTML = html;
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 90D
+   View Invoice Engine
+======================================= */
+
+function viewInvoice(index){
+
+    if(index < 0 || index >= invoiceHistory.length){
+
+        errorMessage("❌ Invoice Not Found");
+
+        return;
+
+    }
+
+    let invoice = invoiceHistory[index];
+
+    let message =
+
+`🧾 Invoice No : ${invoice.invoiceNumber}
+
+👤 Customer : ${invoice.customer.customerName || "-"}
+
+📅 Date : ${invoice.invoiceDate}
+
+💰 Grand Total : ₹${Number(invoice.grandTotal).toFixed(2)}
+
+📦 Total Products : ${invoice.products.length}`;
+
+    alert(message);
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 90E
+   Delete Invoice Engine
+======================================= */
+
+function deleteInvoice(index){
+
+    if(index < 0 || index >= invoiceHistory.length){
+
+        errorMessage("❌ Invoice Not Found");
+
+        return;
+
+    }
+
+    let confirmDelete = confirm(
+        "🗑 Do you want to delete this invoice?"
+    );
+
+    if(!confirmDelete){
+
+        return;
+
+    }
+
+    invoiceHistory.splice(index,1);
+
+    localStorage.setItem(
+
+        "invoiceHistory",
+
+        JSON.stringify(invoiceHistory)
+
+    );
+
+    loadInvoiceHistory();
+
+    renderInvoiceHistory();
+
+    successMessage("✅ Invoice Deleted Successfully");
+
+}
