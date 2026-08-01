@@ -9708,6 +9708,9 @@ function initializeGSTInvoice(){
 
     // History
     loadInvoiceHistory();
+
+    validateInvoiceHistory();
+
     renderInvoiceHistory();
 
     // Product List
@@ -9833,6 +9836,8 @@ localStorage.setItem(
     JSON.stringify(invoiceHistory)
 
 );
+
+autoBackupInvoiceHistory();    
 
 sortInvoiceHistory();
 
@@ -10523,6 +10528,7 @@ function initializeGSTModule(){
     // Invoice History
     loadInvoiceHistory();
     renderInvoiceHistory();
+    restoreBackupInvoiceHistory();
 
     // Product List
     renderProductList();
@@ -11125,5 +11131,112 @@ function previousInvoicePage(){
     invoicePage--;
 
     renderInvoiceHistory();
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91K
+   Permanent Auto Backup System
+======================================= */
+
+function autoBackupInvoiceHistory(){
+
+    try{
+
+        localStorage.setItem(
+
+            "invoiceHistoryBackup",
+
+            JSON.stringify(invoiceHistory)
+
+        );
+
+        console.log("✅ Invoice Backup Updated");
+
+    }
+
+    catch(err){
+
+        console.error("Backup Failed", err);
+
+    }
+
+}
+
+function restoreBackupInvoiceHistory(){
+
+    let backup = JSON.parse(
+
+        localStorage.getItem("invoiceHistoryBackup")
+
+    );
+
+    if(
+
+        invoiceHistory.length===0 &&
+
+        backup &&
+
+        backup.length>0
+
+    ){
+
+        invoiceHistory = backup;
+
+        localStorage.setItem(
+
+            "invoiceHistory",
+
+            JSON.stringify(invoiceHistory)
+
+        );
+
+        renderInvoiceHistory();
+
+        console.log("✅ Invoice History Restored From Backup");
+
+    }
+
+}
+/* =======================================
+   ArthaFlow Premium
+   Phase 91L
+   Invoice History Integrity Check
+======================================= */
+
+function validateInvoiceHistory(){
+
+    if(!Array.isArray(invoiceHistory)){
+
+        invoiceHistory = [];
+
+    }
+
+    invoiceHistory = invoiceHistory.filter(function(item){
+
+        return (
+
+            item &&
+
+            item.invoiceNumber &&
+
+            item.invoiceDate &&
+
+            item.customer &&
+
+            Array.isArray(item.products)
+
+        );
+
+    });
+
+    localStorage.setItem(
+
+        "invoiceHistory",
+
+        JSON.stringify(invoiceHistory)
+
+    );
 
 }
