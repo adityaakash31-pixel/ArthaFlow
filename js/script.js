@@ -9909,8 +9909,8 @@ ${item.invoiceDate}</p>
 
 <div class="dashboard-grid">
 
-<button onclick="viewInvoice(${index})">
-👀 View
+<button onclick="restoreInvoice(${index})">
+📂 Open
 </button>
 
 <button onclick="deleteInvoice(${index})">
@@ -10506,3 +10506,118 @@ document.addEventListener(
     }
 
 );
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91A
+   Restore Invoice From History
+======================================= */
+
+function restoreInvoice(index){
+
+    if(index < 0 || index >= invoiceHistory.length){
+
+        errorMessage("❌ Invoice Not Found");
+
+        return;
+
+    }
+
+    let invoice = invoiceHistory[index];
+
+    // Invoice Details
+
+    currentInvoiceNumber = invoice.invoiceNumber;
+
+    document.getElementById("invoiceNumber").value =
+    invoice.invoiceNumber;
+
+    document.getElementById("invoiceDate").value =
+    invoice.invoiceDate;
+
+    document.getElementById("dueDate").value =
+    invoice.dueDate;
+
+    // Customer
+
+    localStorage.setItem(
+
+        "customerDetails",
+
+        JSON.stringify(invoice.customer)
+
+    );
+
+    loadCustomerDetails();
+
+    // Products
+
+    invoiceProducts =
+    JSON.parse(JSON.stringify(invoice.products));
+
+    subtotal =
+    invoice.subtotal;
+
+    cgstTotal =
+    invoice.cgst;
+
+    sgstTotal =
+    invoice.sgst;
+
+    igstTotal =
+    invoice.igst;
+
+    grandTotal =
+    invoice.grandTotal;
+
+    renderProductList();
+
+    calculateGST();
+
+    previewInvoice();
+
+    successMessage("✅ Invoice Restored Successfully");
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 91B
+   Invoice History Backup
+======================================= */
+
+function exportInvoiceHistory(){
+
+    if(invoiceHistory.length===0){
+
+        warningMessage("⚠️ No Invoice History Found");
+
+        return;
+
+    }
+
+    let blob = new Blob(
+
+        [JSON.stringify(invoiceHistory,null,2)],
+
+        {
+
+            type:"application/json"
+
+        }
+
+    );
+
+    let link = document.createElement("a");
+
+    link.href = URL.createObjectURL(blob);
+
+    link.download =
+
+    "ArthaFlow_Invoice_History.json";
+
+    link.click();
+
+    successMessage("✅ Invoice History Exported");
+
+}
