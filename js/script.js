@@ -1427,6 +1427,8 @@ if (monthlyHistory) {
 
     }
 
+}
+
 // ===============================
 // Monthly Record Save
 // ===============================
@@ -1455,7 +1457,7 @@ localStorage.setItem(
 
 }
 
-}
+
 
 // =========================
 // Recurring Transactions
