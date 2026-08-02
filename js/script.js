@@ -1442,11 +1442,11 @@ JSON.parse(localStorage.getItem("monthlyData")) || {};
 
 monthlyData[currentMonth] = {
 
-income: totalIncome,
+    income: totalIncome,
 
-expense: totalExpense,
+    expense: totalExpense,
 
-balance: totalIncome-totalExpense
+    balance: totalIncome-totalExpense
 
 };
 
@@ -1454,10 +1454,6 @@ localStorage.setItem(
     "monthlyData",
     JSON.stringify(monthlyData)
 );
-
-}
-
-}
 
 // =========================
 // Recurring Transactions
