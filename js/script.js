@@ -9911,6 +9911,55 @@ function loadInvoiceHistory(){
 /* =======================================
    ArthaFlow Premium
    Phase 90C
+   Restore Invoice
+======================================= */
+
+function restoreInvoice(index){
+
+    loadInvoiceHistory();
+
+    if(index < 0 || index >= invoiceHistory.length){
+
+        errorMessage("❌ Invoice Not Found");
+
+        return;
+
+    }
+
+    let invoice = invoiceHistory[index];
+
+    currentInvoiceNumber = invoice.invoiceNumber;
+
+    document.getElementById("invoiceNumber").value = invoice.invoiceNumber;
+    document.getElementById("invoiceDate").value = invoice.invoiceDate;
+    document.getElementById("dueDate").value = invoice.dueDate;
+
+    companyDetails = invoice.company || {};
+    customerDetails = invoice.customer || {};
+
+    invoiceProducts = invoice.products || [];
+
+    subtotal = invoice.subtotal || 0;
+    cgstTotal = invoice.cgst || 0;
+    sgstTotal = invoice.sgst || 0;
+    igstTotal = invoice.igst || 0;
+    grandTotal = invoice.grandTotal || 0;
+
+    loadCompanyDetails();
+    loadCustomerDetails();
+
+    renderProductTable();
+    calculateGST();
+
+    previewInvoice();
+
+    successMessage("✅ Invoice Restored Successfully");
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 90C
    Invoice History Render Engine
 ======================================= */
 
