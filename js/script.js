@@ -8555,15 +8555,18 @@ function calculateGST(){
    ArthaFlow Premium
    Phase 89I
    Invoice Preview Engine
+   Step 8A
 ======================================= */
 
 function previewInvoice(){
 
     calculateGST();
 
-    let company = companyDetails || {};
+    let company =
+    JSON.parse(localStorage.getItem("companyDetails")) || {};
 
-    let customer = customerDetails || {};
+    let customer =
+    JSON.parse(localStorage.getItem("customerDetails")) || {};
 
     let logo = getCompanyLogo();
 
@@ -8574,23 +8577,17 @@ function previewInvoice(){
     invoiceProducts.forEach(function(item,index){
 
         productRows += `
-
 <tr>
-
 <td>${index+1}</td>
-
 <td>${item.productName}</td>
-
+<td>${item.productHSN}</td>
 <td>${item.qty}</td>
-
-<td>₹${item.rate.toFixed(2)}</td>
-
+<td>${item.unit}</td>
+<td>₹${Number(item.rate).toFixed(2)}</td>
+<td>₹${Number(item.discount).toFixed(2)}</td>
 <td>${item.gst}%</td>
-
-<td>₹${item.amount.toFixed(2)}</td>
-
+<td>₹${Number(item.amount).toFixed(2)}</td>
 </tr>
-
 `;
 
     });
@@ -8599,18 +8596,16 @@ function previewInvoice(){
 
 <div class="invoice-box">
 
-${logo ?
+<div style="text-align:center;">
 
-`<img
+${logo ? `<img
 src="${logo}"
 style="
 width:90px;
 height:90px;
 object-fit:contain;
 margin-bottom:10px;
-">`
-
-: ""}
+">` : ""}
 
 <h1>${company.companyName || "Company Name"}</h1>
 
@@ -8632,38 +8627,56 @@ margin-bottom:10px;
 
 <p><b>Invoice No :</b> ${currentInvoiceNumber}</p>
 
-<p><b>Date :</b> ${document.getElementById("invoiceDate").value}</p>
+<p><b>Invoice Date :</b>
+${document.getElementById("invoiceDate").value}</p>
 
-<p><b>Due Date :</b> ${document.getElementById("dueDate").value}</p>
+<p><b>Due Date :</b>
+${document.getElementById("dueDate").value}</p>
+
+</div>
+`;
+
+        document.getElementById("invoicePreview").innerHTML += `
 
 <hr>
 
-<h3>Customer Details</h3>
+<h3>👤 Customer Details</h3>
 
 <p><b>Name :</b> ${customer.customerName || ""}</p>
 
 <p><b>Mobile :</b> ${customer.customerMobile || ""}</p>
 
-<p><b>Address :</b> ${customer.customerAddress || ""}</p>
+<p><b>Email :</b> ${customer.customerEmail || ""}</p>
 
 <p><b>GST :</b> ${customer.customerGST || ""}</p>
 
-<table border="1" width="100%" cellspacing="0" cellpadding="6">
+<p><b>State :</b> ${customer.customerState || ""}</p>
+
+<p><b>Address :</b> ${customer.customerAddress || ""}</p>
+
+<hr>
+
+<h3>📦 Product Details</h3>
+
+<table
+border="1"
+width="100%"
+cellspacing="0"
+cellpadding="8"
+style="border-collapse:collapse;">
 
 <thead>
 
 <tr>
 
 <th>#</th>
-
 <th>Product</th>
-
+<th>HSN</th>
 <th>Qty</th>
-
+<th>Unit</th>
 <th>Rate</th>
-
+<th>Discount</th>
 <th>GST</th>
-
 <th>Amount</th>
 
 </tr>
@@ -8678,7 +8691,13 @@ ${productRows}
 
 </table>
 
+`;
+
+        document.getElementById("invoicePreview").innerHTML += `
+
 <hr>
+
+<h3>🧾 GST Summary</h3>
 
 <p><b>Subtotal :</b> ₹${subtotal.toFixed(2)}</p>
 
@@ -8688,17 +8707,24 @@ ${productRows}
 
 <p><b>IGST :</b> ₹${igstTotal.toFixed(2)}</p>
 
-<h2>Grand Total : ₹${grandTotal.toFixed(2)}</h2>
+<h2 style="color:#1565C0;">
+
+Grand Total : ₹${grandTotal.toFixed(2)}
+
+</h2>
 
 <hr>
 
 <div style="
 display:flex;
 justify-content:space-between;
+align-items:center;
 margin-top:40px;
+flex-wrap:wrap;
+gap:20px;
 ">
 
-<div>
+<div style="text-align:center;">
 
 ____________________
 
@@ -8710,7 +8736,8 @@ Customer Signature
 
 <div style="text-align:center;">
 
-${stamp ?
+${
+stamp ?
 
 `<img
 src="${stamp}"
@@ -8722,7 +8749,8 @@ display:block;
 margin:auto;
 ">`
 
-: ""}
+: ""
+}
 
 ____________________
 
@@ -8734,19 +8762,37 @@ Authorized Signatory
 
 </div>
 
-<p style="text-align:center;margin-top:30px;">
+<hr>
 
-Thank You For Your Business ❤️
+<p style="
+text-align:center;
+font-size:18px;
+font-weight:bold;
+">
+
+🙏 Thank You For Your Business ❤️
 
 </p>
 
-</div>
-
 `;
+/* =======================================
+   ArthaFlow Premium
+   Phase 89I
+   Step 8D
+   End Preview Function
+======================================= */
 
-    saveInvoiceHistory();
+    </div>
+
+    `;
+
+    // केवल Preview दिखाना है
+    // Save History अभी नहीं होगा
+
+    successMessage("👀 Invoice Preview Ready");
 
 }
+
 
 /* =======================================
    ArthaFlow Premium
