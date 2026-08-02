@@ -8775,20 +8775,6 @@ font-weight:bold;
 </p>
 
 `;
-/* =======================================
-   ArthaFlow Premium
-   Phase 89I
-   Step 8D
-   End Preview Function
-======================================= */
-
-    </div>
-
-    `;
-
-    // केवल Preview दिखाना है
-    // Save History अभी नहीं होगा
-
     successMessage("👀 Invoice Preview Ready");
 
 }
