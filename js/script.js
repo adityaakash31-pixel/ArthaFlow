@@ -8834,12 +8834,36 @@ function saveInvoiceHistory(){
 
 function loadInvoiceHistory(){
 
-    invoiceHistory =
-    JSON.parse(
-    localStorage.getItem("invoiceHistory")
-    ) || [];
+    let data = localStorage.getItem("invoiceHistory");
 
-}
+    if(!data){
+
+        invoiceHistory = [];
+
+        return;
+
+    }
+
+    try{
+
+        invoiceHistory = JSON.parse(data);
+
+        if(!Array.isArray(invoiceHistory)){
+
+            invoiceHistory = [];
+
+        }
+
+    }
+    catch(error){
+
+        console.error("Invoice History Error :", error);
+
+        invoiceHistory = [];
+
+    }
+
+                                    }
 
 // ===============================
 // Render Invoice History
