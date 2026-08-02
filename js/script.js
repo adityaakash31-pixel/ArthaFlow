@@ -1465,17 +1465,21 @@ let monthlyData =
 JSON.parse(localStorage.getItem("monthlyData")) || {};
 
 monthlyData[currentMonth] = {
-    income: totalIncome,
-    expense: totalExpense,
-    balance: totalIncome - totalExpense
+
+income: totalIncome,
+
+expense: totalExpense,
+
+balance: totalIncome-totalExpense
+
 };
 
 localStorage.setItem(
-    "monthlyData",
-    JSON.stringify(monthlyData)
+"monthlyData",
+JSON.stringify(monthlyData)
 );
 
-    }
+}
 
 }
 
