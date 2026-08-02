@@ -10,15 +10,15 @@ content="width=device-width, initial-scale=1.0">
 
 <title>ArthaFlow Premium GST Invoice</title>
 
-<link rel="stylesheet"
-href="css/style.css">
+<link rel="stylesheet" href="css/style.css">
 
 </head>
 
 <body>
 
 <!-- ========================= -->
-<!-- 89A - Header -->
+<!-- ArthaFlow Premium GST -->
+<!-- Part 1 -->
 <!-- ========================= -->
 
 <header class="gst-header">
@@ -38,9 +38,7 @@ Professional GST Invoice Generator
 <h2>💎 Premium Business Billing</h2>
 
 <p>
-
 GST • Invoice • Reports • PDF
-
 </p>
 
 </div>
@@ -48,33 +46,25 @@ GST • Invoice • Reports • PDF
 </header>
 
 <!-- ========================= -->
-<!-- 89B - Navigation -->
+<!-- Navigation -->
 <!-- ========================= -->
 
 <nav class="navbar">
 
 <a href="index.html">
-
 🏠 Dashboard
-
 </a>
 
 <a href="reports.html">
-
 📊 Reports
-
 </a>
 
 <a href="settings.html">
-
 ⚙ Settings
-
 </a>
 
 <button onclick="history.back()">
-
 ⬅ Back
-
 </button>
 
 </nav>
@@ -86,7 +76,7 @@ GST • Invoice • Reports • PDF
 <div class="gst-container">
 
 <!-- ========================= -->
-<!-- 89C - Invoice Details -->
+<!-- Invoice Details -->
 <!-- ========================= -->
 
 <div class="card">
@@ -113,17 +103,14 @@ id="invoiceDate">
 type="date"
 id="dueDate">
 
-<button
-onclick="generateInvoiceNumber()">
-
+<button onclick="generateInvoiceNumber()">
 🆔 Generate Invoice Number
-
 </button>
 
 </div>
 
-  <!-- ========================= -->
-<!-- 89D - Company Details -->
+<!-- ========================= -->
+<!-- Company Details -->
 <!-- ========================= -->
 
 <div class="card">
@@ -212,15 +199,13 @@ rows="3"
 placeholder="📍 Company Address"></textarea>
 
 <button onclick="saveCompanyDetails()">
-
 💾 Save Company Details
-
 </button>
 
 </div>
 
 <!-- ========================= -->
-<!-- 89E - Customer Details -->
+<!-- Customer Details -->
 <!-- ========================= -->
 
 <div class="card">
@@ -275,15 +260,13 @@ rows="3"
 placeholder="📍 Customer Address"></textarea>
 
 <button onclick="saveCustomerDetails()">
-
 💾 Save Customer Details
-
 </button>
 
 </div>
 
   <!-- ========================= -->
-<!-- 89F - Product Details -->
+<!-- Product Details -->
 <!-- ========================= -->
 
 <div class="card">
@@ -338,15 +321,11 @@ placeholder="🎁 Discount">
 <div class="dashboard-grid">
 
 <button onclick="addProduct()">
-
 ➕ Add Product
-
 </button>
 
 <button onclick="clearProduct()">
-
 🗑 Clear
-
 </button>
 
 </div>
@@ -354,7 +333,7 @@ placeholder="🎁 Discount">
 </div>
 
 <!-- ========================= -->
-<!-- 89G - Product Table -->
+<!-- Product List -->
 <!-- ========================= -->
 
 <div class="card">
@@ -373,23 +352,14 @@ style="border-collapse:collapse;">
 <tr>
 
 <th>#</th>
-
 <th>Product</th>
-
 <th>HSN</th>
-
 <th>Qty</th>
-
 <th>Unit</th>
-
 <th>Rate</th>
-
 <th>Discount</th>
-
 <th>GST</th>
-
 <th>Total</th>
-
 <th>Action</th>
 
 </tr>
@@ -441,8 +411,62 @@ Grand Total :
 
 </div>
 
+<!-- ========================= -->
+<!-- Payment Details -->
+<!-- ========================= -->
+
+<div class="card">
+
+<h2>💳 Payment Details</h2>
+
+<select id="paymentMode">
+
+<option>Cash</option>
+<option>UPI</option>
+<option>Bank Transfer</option>
+<option>Credit Card</option>
+<option>Debit Card</option>
+<option>Cheque</option>
+
+</select>
+
+<select id="paymentStatus">
+
+<option>Paid</option>
+<option>Pending</option>
+<option>Partial</option>
+
+</select>
+
+<input
+type="text"
+id="bankName"
+placeholder="🏦 Bank Name">
+
+<input
+type="text"
+id="accountNumber"
+placeholder="💳 Account Number">
+
+<input
+type="text"
+id="ifscCode"
+placeholder="🏛 IFSC Code">
+
+<input
+type="text"
+id="upiId"
+placeholder="📱 UPI ID">
+
+<textarea
+id="paymentNotes"
+rows="3"
+placeholder="📝 Payment Notes"></textarea>
+
+</div>
+
   <!-- ========================= -->
-<!-- 89H - Invoice Preview -->
+<!-- Invoice Preview -->
 <!-- ========================= -->
 
 <div class="card">
@@ -463,39 +487,19 @@ color:#777;
 <h2>🧾 GST TAX INVOICE</h2>
 
 <p>
-
 Invoice Preview Will Appear Here
-
 </p>
 
 </div>
 
 </div>
 
-  <div id="qrcode" style="display:none;"></div>
-
-<br>
-
-<div class="dashboard-grid">
-
-<button onclick="previewInvoice()">
-👀 Preview Invoice
-</button>
-
-<button onclick="downloadInvoicePDF()">
-📄 Download PDF
-</button>
-
-<button onclick="printInvoice()">
-🖨 Print Invoice
-</button>
-
-</div>
+<div id="qrcode" style="display:none;"></div>
 
 </div>
 
 <!-- ========================= -->
-<!-- 89I - Signature Section -->
+<!-- Signature & Verification -->
 <!-- ========================= -->
 
 <div class="card">
@@ -510,8 +514,7 @@ gap:30px;
 flex-wrap:wrap;
 ">
 
-<div
-style="text-align:center;">
+<div style="text-align:center;">
 
 <br><br><br>
 
@@ -523,8 +526,7 @@ Customer Signature
 
 </div>
 
-<div
-style="text-align:center;">
+<div style="text-align:center;">
 
 <br><br><br>
 
@@ -582,8 +584,7 @@ STAMP
 
 </div>
 
-<div
-style="text-align:center;">
+<div style="text-align:center;">
 
 <h3>📱 QR Code</h3>
 
@@ -618,107 +619,87 @@ QR CODE
 
 </div>
 
-<hr>
+</div>
 
-<p
-style="
-text-align:center;
-font-size:15px;
-color:#666;
-">
+<!-- ========================= -->
+<!-- Invoice Actions -->
+<!-- ========================= -->
 
-🙏 Thank You For Your Business
+<div class="card">
 
-</p>
+<h2>⚡ Invoice Actions</h2>
 
-<p
-style="
-text-align:center;
-font-size:12px;
-color:#999;
-">
+<div class="dashboard-grid">
 
-This is a Computer Generated GST Invoice.
+<button onclick="previewInvoice()">
+👀 Preview Invoice
+</button>
 
-</p>
+<button onclick="saveInvoiceHistory()">
+💾 Save Invoice
+</button>
+
+<button onclick="downloadInvoicePDF()">
+📄 Download PDF
+</button>
+
+<button onclick="printInvoice()">
+🖨 Print Invoice
+</button>
+
+</div>
 
 </div>
 
   <!-- ========================= -->
-<!-- 89J - Invoice History -->
+<!-- Invoice Statistics -->
 <!-- ========================= -->
-
-  <!-- =======================================
-ArthaFlow Premium
-Phase 91N
-Invoice Statistics
-======================================= -->
 
 <div class="dashboard-grid">
 
 <div class="card">
-
 <h3>📄 Total Invoices</h3>
-
 <h2 id="totalInvoices">0</h2>
-
 </div>
 
 <div class="card">
-
 <h3>💰 Total Sales</h3>
-
 <h2 id="totalSales">₹0.00</h2>
-
 </div>
 
 <div class="card">
-
 <h3>📦 Total Products</h3>
-
 <h2 id="totalProducts">0</h2>
-
 </div>
 
 <div class="card">
-
 <h3>🧾 Average Invoice</h3>
-
 <h2 id="averageInvoice">₹0.00</h2>
-
 </div>
 
 </div>
+
+<!-- ========================= -->
+<!-- Invoice History -->
+<!-- ========================= -->
 
 <div class="card">
 
 <h2>📜 Invoice History</h2>
 
-<!-- Filter Buttons -->
-
 <div class="dashboard-grid">
 
-<button onclick="filterInvoiceHistory('all')">
-📄 All
-</button>
+<button onclick="filterInvoiceHistory('all')">📄 All</button>
 
-<button onclick="filterInvoiceHistory('today')">
-📅 Today
-</button>
+<button onclick="filterInvoiceHistory('today')">📅 Today</button>
 
-<button onclick="filterInvoiceHistory('month')">
-🗓 This Month
-</button>
+<button onclick="filterInvoiceHistory('month')">🗓 This Month</button>
 
-<button onclick="filterInvoiceHistory('year')">
-📆 This Year
-</button>
+<button onclick="filterInvoiceHistory('year')">📆 This Year</button>
 
 </div>
 
 <br>
-
-<!-- Date Range Filter -->
 
 <div class="dashboard-grid">
 
@@ -746,23 +727,23 @@ onkeyup="searchInvoice()">
 
 <br><br>
 
+<div class="dashboard-grid">
+
 <button onclick="exportInvoiceHistory()">
-📥 Export Invoice History
+📥 Export History
 </button>
 
-<br><br>
-
-  <button onclick="downloadInvoiceBackup()">
-💾 Download Backup
+<button onclick="downloadInvoiceBackup()">
+💾 Backup
 </button>
-
-<br><br>
 
 <button onclick="exportInvoiceCSV()">
 📊 Export CSV
 </button>
 
-<br><br>
+</div>
+
+<br>
 
 <input
 type="file"
@@ -774,12 +755,7 @@ onchange="importInvoiceHistory(event)">
 
 <div id="invoiceHistory">
 
-<div
-style="
-text-align:center;
-padding:40px;
-color:#777;
-">
+<div style="text-align:center;padding:40px;color:#777;">
 
 📄 No Invoice History Available
 
@@ -788,6 +764,10 @@ color:#777;
 </div>
 
 </div>
+
+<!-- ========================= -->
+<!-- Monthly Sales -->
+<!-- ========================= -->
 
 <div class="card">
 
@@ -801,6 +781,10 @@ color:#777;
 
 </div>
 
+<!-- ========================= -->
+<!-- Top Customers -->
+<!-- ========================= -->
+
 <div class="card">
 
 <h2>🏆 Top Customers</h2>
@@ -813,6 +797,10 @@ color:#777;
 
 </div>
 
+<!-- ========================= -->
+<!-- GST Sales Chart -->
+<!-- ========================= -->
+
 <div class="card">
 
 <h2>📊 GST Sales Chart</h2>
@@ -823,108 +811,28 @@ height="120">
 </canvas>
 
 </div>
+
 <!-- ========================= -->
-<!-- 89K - Payment Details -->
-<!-- ========================= -->
-
-<div class="card">
-
-<h2>💳 Payment Details</h2>
-
-<select id="paymentMode">
-
-<option>Cash</option>
-
-<option>UPI</option>
-
-<option>Bank Transfer</option>
-
-<option>Credit Card</option>
-
-<option>Debit Card</option>
-
-<option>Cheque</option>
-
-</select>
-
-<select id="paymentStatus">
-
-<option>Paid</option>
-
-<option>Pending</option>
-
-<option>Partial</option>
-
-</select>
-
-<input
-type="text"
-id="bankName"
-placeholder="🏦 Bank Name">
-
-<input
-type="text"
-id="accountNumber"
-placeholder="💳 Account Number">
-
-<input
-type="text"
-id="ifscCode"
-placeholder="🏛 IFSC Code">
-
-<input
-type="text"
-id="upiId"
-placeholder="📱 UPI ID">
-
-<textarea
-id="paymentNotes"
-rows="3"
-placeholder="📝 Payment Notes"></textarea>
-
-</div>
-
-  <!-- ========================= -->
-<!-- 89L - Business Footer -->
+<!-- Terms -->
 <!-- ========================= -->
 
 <footer class="card">
 
 <h2>📌 Terms & Declaration</h2>
 
-<p>
+<p>1. Goods once sold will not be taken back without valid reason.</p>
 
-1. Goods once sold will not be taken back without valid reason.
+<p>2. Please verify all invoice details before payment.</p>
 
-</p>
+<p>3. GST charged as per Government Rules.</p>
 
-<p>
-
-2. Please verify all invoice details before payment.
-
-</p>
-
-<p>
-
-3. GST charged as per Government Rules.
-
-</p>
-
-<p>
-
-4. This invoice is generated through ArthaFlow Premium.
-
-</p>
+<p>4. This invoice is generated through ArthaFlow Premium.</p>
 
 <hr>
 
 <h3>🙏 Thank You For Choosing Us</h3>
 
-<p>
-
-We appreciate your business.
-
-</p>
+<p>We appreciate your business.</p>
 
 <hr>
 
@@ -946,9 +854,7 @@ font-size:13px;
 color:#888;
 ">
 
-Developed by
-
-<b>Aditya Aakash</b>
+Developed by <b>Aditya Aakash</b>
 
 </p>
 
@@ -958,13 +864,15 @@ Developed by
 
 <!-- End GST Container -->
 
-  <div id="notificationBox" class="notification"></div>
-
-<script src="js/script.js"></script>
+<div id="notificationBox"
+class="notification">
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script src="js/script.js"></script>
 
 </body>
 
