@@ -8774,7 +8774,6 @@ font-weight:bold;
 
 </p>
 
-`;
     successMessage("👀 Invoice Preview Ready");
 
 }
