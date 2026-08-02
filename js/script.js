@@ -35,6 +35,8 @@ window.onload = function () {
 totalExpense = Number(localStorage.getItem("totalExpense")) || 0;
 
     let incomeBox = document.getElementById("totalIncome");
+    console.log("LocalStorage Income =", localStorage.getItem("totalIncome"));
+console.log("Variable Income =", totalIncome);
     if (incomeBox) {
         incomeBox.innerText = "₹" + totalIncome;
     }
