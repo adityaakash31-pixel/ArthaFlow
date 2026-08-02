@@ -8708,9 +8708,7 @@ ${productRows}
 <p><b>IGST :</b> ₹${igstTotal.toFixed(2)}</p>
 
 <h2 style="color:#1565C0;">
-
 Grand Total : ₹${grandTotal.toFixed(2)}
-
 </h2>
 
 <hr>
@@ -8734,12 +8732,13 @@ Customer Signature
 
 </div>
 
+
 <div style="text-align:center;">
 
 ${
-stamp ?
-
-`<img
+stamp 
+?
+`<img 
 src="${stamp}"
 style="
 width:100px;
@@ -8748,8 +8747,8 @@ object-fit:contain;
 display:block;
 margin:auto;
 ">`
-
-: ""
+:
+""
 }
 
 ____________________
@@ -8774,7 +8773,9 @@ font-weight:bold;
 
 </p>
 
-    successMessage("👀 Invoice Preview Ready");
+`;
+
+successMessage("👀 Invoice Preview Ready");
 
 }
 
