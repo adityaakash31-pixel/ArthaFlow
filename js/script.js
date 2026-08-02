@@ -11803,3 +11803,65 @@ function downloadInvoiceBackup(){
     successMessage("✅ Invoice Backup Downloaded");
 
 }
+
+/* =======================================
+   ArthaFlow Premium
+   Step 10A
+   Invoice Statistics Engine
+======================================= */
+
+function calculateInvoiceStatistics(){
+
+    loadInvoiceHistory();
+
+    let totalInvoices = invoiceHistory.length;
+
+    let totalSales = 0;
+
+    let totalProducts = 0;
+
+    invoiceHistory.forEach(function(invoice){
+
+        totalSales += Number(invoice.grandTotal) || 0;
+
+        totalProducts += (invoice.products || []).length;
+
+    });
+
+    let averageInvoice = 0;
+
+    if(totalInvoices > 0){
+
+        averageInvoice = totalSales / totalInvoices;
+
+    }
+
+    if(document.getElementById("totalInvoices")){
+
+        document.getElementById("totalInvoices").innerText =
+        totalInvoices;
+
+    }
+
+    if(document.getElementById("totalSales")){
+
+        document.getElementById("totalSales").innerText =
+        "₹" + totalSales.toFixed(2);
+
+    }
+
+    if(document.getElementById("totalProducts")){
+
+        document.getElementById("totalProducts").innerText =
+        totalProducts;
+
+    }
+
+    if(document.getElementById("averageInvoice")){
+
+        document.getElementById("averageInvoice").innerText =
+        "₹" + averageInvoice.toFixed(2);
+
+    }
+
+}
