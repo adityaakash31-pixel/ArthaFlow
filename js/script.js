@@ -1374,7 +1374,8 @@ rate = ((totalIncome - totalExpense) / totalIncome) * 100;
 
 savingRate.innerText = rate.toFixed(1) + "%";
 
-    let financialHealth =
+let financialHealth =
+
 document.getElementById("financialHealth");
 
 if(financialHealth){
@@ -1406,26 +1407,49 @@ rate.toFixed(1) + "%";
 
 }
 
-let monthlyHistory = document.getElementById("monthlyHistory");
+let monthlyHistory =
+document.getElementById("monthlyHistory");
 
-if (monthlyHistory) {
+if(monthlyHistory){
 
-    monthlyHistory.innerHTML = "";
+let balance =
+totalIncome-totalExpense;
 
-    let data =
-    JSON.parse(localStorage.getItem("monthlyData")) || {};
+let monthlyHistory =
+document.getElementById("monthlyHistory");
 
-    for (let month in data) {
+if(monthlyHistory){
 
-        monthlyHistory.innerHTML +=
-        "<tr>" +
-        "<td>" + month + "</td>" +
-        "<td>₹" + data[month].income + "</td>" +
-        "<td>₹" + data[month].expense + "</td>" +
-        "<td>₹" + data[month].balance + "</td>" +
-        "</tr>";
+let balance =
+totalIncome-totalExpense;
 
-    }
+let monthlyHistory =
+document.getElementById("monthlyHistory");
+
+if(monthlyHistory){
+
+monthlyHistory.innerHTML="";
+
+let data =
+JSON.parse(localStorage.getItem("monthlyData")) || {};
+
+for(let month in data){
+
+monthlyHistory.innerHTML +=
+
+"<tr>" +
+
+"<td>"+month+"</td>"+
+
+"<td>₹"+data[month].income+"</td>"+
+
+"<td>₹"+data[month].expense+"</td>"+
+
+"<td>₹"+data[month].balance+"</td>"+
+
+"</tr>";
+
+}
 
 }
 
@@ -1454,6 +1478,10 @@ localStorage.setItem(
     "monthlyData",
     JSON.stringify(monthlyData)
 );
+
+}
+
+    }
 
 // =========================
 // Recurring Transactions
