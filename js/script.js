@@ -29,22 +29,22 @@ JSON.parse(localStorage.getItem("expenseHistory")) || [];
 let incomeHistory =
 JSON.parse(localStorage.getItem("incomeHistory")) || [];
 
-window.onload = function () {
+document.addEventListener("DOMContentLoaded", function () {
 
     totalIncome = Number(localStorage.getItem("totalIncome")) || 0;
-totalExpense = Number(localStorage.getItem("totalExpense")) || 0;
+    totalExpense = Number(localStorage.getItem("totalExpense")) || 0;
 
-    let incomeBox = document.getElementById("totalIncome");
+    const incomeBox = document.getElementById("totalIncome");
     if (incomeBox) {
         incomeBox.innerText = "₹" + totalIncome;
     }
 
-    let expenseBox = document.getElementById("totalExpense");
+    const expenseBox = document.getElementById("totalExpense");
     if (expenseBox) {
         expenseBox.innerText = "₹" + totalExpense;
     }
 
-};
+});
 
 let list = document.getElementById("incomeList");
 
