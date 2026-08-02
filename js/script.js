@@ -8786,79 +8786,6 @@ successMessage("👀 Invoice Preview Ready");
    Invoice History Engine
 ======================================= */
 
-// ===============================
-// Save Invoice History
-// ===============================
-
-function saveInvoiceHistory(){
-
-    calculateGST();
-
-    loadInvoiceHistory();
-
-    let invoice = {
-
-        invoiceNumber: currentInvoiceNumber,
-
-        invoiceDate:
-        document.getElementById("invoiceDate").value,
-
-        dueDate:
-        document.getElementById("dueDate").value,
-
-        company:
-        JSON.parse(localStorage.getItem("companyDetails")) || {},
-
-        customer:
-        JSON.parse(localStorage.getItem("customerDetails")) || {},
-
-        products:
-        JSON.parse(JSON.stringify(invoiceProducts)),
-
-        subtotal: subtotal,
-
-        cgst: cgstTotal,
-
-        sgst: sgstTotal,
-
-        igst: igstTotal,
-
-        grandTotal: grandTotal,
-
-        createdAt:
-        new Date().toLocaleString()
-
-    };
-
-    let alreadyExists = invoiceHistory.find(function(item){
-
-        return item.invoiceNumber === currentInvoiceNumber;
-
-    });
-
-    if(alreadyExists){
-
-        showNotification("⚠ Invoice Already Saved","#F59E0B");
-
-        return;
-
-    }
-
-    invoiceHistory.unshift(invoice);
-
-    localStorage.setItem(
-
-        "invoiceHistory",
-
-        JSON.stringify(invoiceHistory)
-
-    );
-
-    renderInvoiceHistory();
-
-    showNotification("✅ Invoice Saved Successfully");
-
-}
 
 // ===============================
 // Load Invoice History
@@ -9820,10 +9747,74 @@ setInterval(function(){
 /* =======================================
    ArthaFlow Premium
    Phase 90A
-   Invoice History Save Engine
+   Invoice Action Engine
+======================================= */
+
+// ===============================
+// Save Invoice Button
+// ===============================
+
+function saveInvoice(){
+
+    // Preview पहले तैयार हो
+    previewInvoice();
+
+    // फिर History में Save
+    saveInvoiceHistory();
+
+    successMessage("✅ Invoice Saved Successfully");
+
+}
+
+// ===============================
+// New Invoice
+// ===============================
+
+function newInvoice(){
+
+    if(!confirm("Create New Invoice ?")){
+
+        return;
+
+    }
+
+    invoiceProducts = [];
+
+    renderProductTable();
+
+    calculateGST();
+
+    document.getElementById("invoiceDate").value = "";
+    document.getElementById("dueDate").value = "";
+
+    clearProduct();
+
+    generateInvoiceNumber();
+
+    document.getElementById("invoicePreview").innerHTML = `
+    <div style="
+    text-align:center;
+    padding:50px;
+    color:#777;
+    ">
+    <h2>🧾 GST TAX INVOICE</h2>
+    <p>Invoice Preview Will Appear Here</p>
+    </div>
+    `;
+
+    successMessage("🆕 New Invoice Ready");
+
+}
+
+/* =======================================
+   ArthaFlow Premium
+   Phase 90B
+   Save Invoice History
 ======================================= */
 
 function saveInvoiceHistory(){
+
+    loadInvoiceHistory();
 
     let invoice = {
 
@@ -9835,20 +9826,11 @@ function saveInvoiceHistory(){
         dueDate :
         document.getElementById("dueDate")?.value || "",
 
-        company :
-        JSON.parse(
-        localStorage.getItem("companyDetails")
-        ) || {},
+        company : companyDetails,
 
-        customer :
-        JSON.parse(
-        localStorage.getItem("customerDetails")
-        ) || {},
+        customer : customerDetails,
 
-        products :
-        JSON.parse(
-        JSON.stringify(invoiceProducts)
-        ),
+        products : JSON.parse(JSON.stringify(invoiceProducts)),
 
         subtotal : subtotal,
 
@@ -9860,49 +9842,35 @@ function saveInvoiceHistory(){
 
         grandTotal : grandTotal,
 
-        createdAt :
-        new Date().toLocaleString()
+        createdAt : new Date().toLocaleString()
 
     };
 
-    let alreadyExists = invoiceHistory.findIndex(function(item){
+    let exists = invoiceHistory.find(function(item){
 
         return item.invoiceNumber === invoice.invoiceNumber;
 
     });
 
-    if(editingInvoiceIndex >= 0){
+    if(exists){
 
-        invoiceHistory[editingInvoiceIndex] = invoice;
+        warningMessage("⚠ Invoice Already Exists");
 
-        editingInvoiceIndex = -1;
-
-    }
-    else if(alreadyExists >= 0){
-
-        invoiceHistory[alreadyExists] = invoice;
-
-    }
-    else{
-
-        invoiceHistory.unshift(invoice);
+        return;
 
     }
 
-    validateInvoiceHistory();
+    invoiceHistory.unshift(invoice);
 
     localStorage.setItem(
+
         "invoiceHistory",
+
         JSON.stringify(invoiceHistory)
+
     );
 
-    autoBackupInvoiceHistory();
-
-    sortInvoiceHistory();
-
     renderInvoiceHistory();
-
-    successMessage("✅ Invoice Saved Successfully");
 
 }
 
