@@ -1474,7 +1474,11 @@ localStorage.setItem(
     "monthlyData",
     JSON.stringify(monthlyData)
 );
-    
+
+    }
+
+}
+
 // =========================
 // Recurring Transactions
 // =========================
