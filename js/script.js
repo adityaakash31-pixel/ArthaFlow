@@ -1406,49 +1406,26 @@ rate.toFixed(1) + "%";
 
 }
 
-let monthlyHistory =
-document.getElementById("monthlyHistory");
+let monthlyHistory = document.getElementById("monthlyHistory");
 
-if(monthlyHistory){
+if (monthlyHistory) {
 
-let balance =
-totalIncome-totalExpense;
+    monthlyHistory.innerHTML = "";
 
-let monthlyHistory =
-document.getElementById("monthlyHistory");
+    let data =
+    JSON.parse(localStorage.getItem("monthlyData")) || {};
 
-if(monthlyHistory){
+    for (let month in data) {
 
-let balance =
-totalIncome-totalExpense;
+        monthlyHistory.innerHTML +=
+        "<tr>" +
+        "<td>" + month + "</td>" +
+        "<td>₹" + data[month].income + "</td>" +
+        "<td>₹" + data[month].expense + "</td>" +
+        "<td>₹" + data[month].balance + "</td>" +
+        "</tr>";
 
-let monthlyHistory =
-document.getElementById("monthlyHistory");
-
-if(monthlyHistory){
-
-monthlyHistory.innerHTML="";
-
-let data =
-JSON.parse(localStorage.getItem("monthlyData")) || {};
-
-for(let month in data){
-
-monthlyHistory.innerHTML +=
-
-"<tr>" +
-
-"<td>"+month+"</td>"+
-
-"<td>₹"+data[month].income+"</td>"+
-
-"<td>₹"+data[month].expense+"</td>"+
-
-"<td>₹"+data[month].balance+"</td>"+
-
-"</tr>";
-
-}
+    }
 
 }
 
