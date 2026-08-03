@@ -1396,11 +1396,25 @@ if (monthlyHistory) {
 
     let data = JSON.parse(localStorage.getItem("monthlyData")) || {};
 
+    const monthNames = [
+        "January","February","March","April",
+        "May","June","July","August",
+        "September","October","November","December"
+    ];
+
     for (let month in data) {
+
+        let parts = month.split("-");
+
+        let year = parts[0];
+
+        let monthIndex = parseInt(parts[1], 10) - 1;
+
+        let displayMonth = monthNames[monthIndex] + " " + year;
 
         monthlyHistory.innerHTML +=
             "<tr>" +
-            "<td>" + month + "</td>" +
+            "<td>" + displayMonth + "</td>" +
             "<td>₹" + data[month].income + "</td>" +
             "<td>₹" + data[month].expense + "</td>" +
             "<td>₹" + data[month].balance + "</td>" +
