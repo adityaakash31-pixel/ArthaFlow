@@ -37,7 +37,11 @@ function loadBrandLogo(){
         item.innerHTML = `
 <a href="index.html" class="brandLink">
 
-💎 <span>${BRAND.APP_NAME}</span>
+<div class="brandTitle">💎 ${BRAND.APP_NAME}</div>
+
+<div class="brandTagline">${BRAND.TAGLINE}</div>
+
+<div class="brandVersion">v${BRAND.VERSION}</div>
 
 </a>
 `;
