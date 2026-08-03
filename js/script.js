@@ -34,7 +34,13 @@ function loadBrandLogo(){
 
     logos.forEach(function(item){
 
-        item.innerHTML = "💎 <span>" + BRAND.APP_NAME + "</span>";
+        item.innerHTML = `
+<a href="index.html" class="brandLink">
+
+💎 <span>${BRAND.APP_NAME}</span>
+
+</a>
+`;
 
     });
 
