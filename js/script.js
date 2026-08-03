@@ -1460,8 +1460,6 @@ JSON.stringify(monthlyData)
 
 }
 
-}
-
 // =========================
 // Recurring Transactions
 // =========================
