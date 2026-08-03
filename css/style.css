@@ -1880,3 +1880,25 @@ white-space:nowrap;
 text-shadow:0 0 8px rgba(255,215,0,.35);
 
 }
+
+.brandLink{
+
+text-decoration:none;
+
+color:#FFD700;
+
+font-size:22px;
+
+font-weight:bold;
+
+transition:0.3s;
+
+}
+
+.brandLink:hover{
+
+color:#ffffff;
+
+transform:scale(1.05);
+
+}
