@@ -10,7 +10,6 @@ if (
 
 // ===============================
 // Phase 93A.1
-// ArthaFlow Brand Information
 // ===============================
 
 const BRAND = {
@@ -24,6 +23,22 @@ const BRAND = {
     TAGLINE: "Smart Finance Manager"
 
 };
+
+// ===============================
+// Phase 93A.2
+// ===============================
+
+function loadBrandLogo(){
+
+    let logos = document.querySelectorAll(".brandLogo");
+
+    logos.forEach(function(item){
+
+        item.innerHTML = "💎 <b>" + BRAND.APP_NAME + "</b>";
+
+    });
+
+}
 
 // ===============================
 // ArthaFlow V1.0
@@ -47,6 +62,8 @@ let incomeHistory =
 JSON.parse(localStorage.getItem("incomeHistory")) || [];
 
 document.addEventListener("DOMContentLoaded", function () {
+
+    loadBrandLogo();
 
     totalIncome = Number(localStorage.getItem("totalIncome")) || 0;
     totalExpense = Number(localStorage.getItem("totalExpense")) || 0;
