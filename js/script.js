@@ -7792,7 +7792,3 @@ result.innerHTML += `
 `;
 
 }
-
-}
-
-                      }
