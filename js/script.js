@@ -1323,18 +1323,7 @@ percent.toFixed(1) + "%";
 // Income vs Expense Analytics
 // ===============================
 
-let biggestIncome =
-document.getElementById("biggestIncome");
-
-if(biggestIncome){
-
-let maxIncome = 0;
-
-incomeHistory.forEach(function(item){
-
-if(item.amount > maxIncome){
-maxIncome = item.amount;
-}
+// Biggest Income
 let biggestIncome = document.getElementById("biggestIncome");
 
 if (biggestIncome) {
@@ -1350,6 +1339,7 @@ if (biggestIncome) {
     biggestIncome.innerText = "₹" + maxIncome;
 }
 
+// Biggest Expense
 let biggestExpense = document.getElementById("biggestExpense");
 
 if (biggestExpense) {
@@ -1370,7 +1360,6 @@ let savingRate = document.getElementById("savingRate");
 let savingRateBar = document.getElementById("savingRateBar");
 let financialHealth = document.getElementById("financialHealth");
 
-// यहाँ rate बाहर बनाया गया है
 let rate = 0;
 
 if (totalIncome > 0) {
@@ -1385,11 +1374,9 @@ if (financialHealth) {
 
     if (rate >= 50) {
         financialHealth.innerText = "🟢 Excellent";
-    }
-    else if (rate >= 25) {
+    } else if (rate >= 25) {
         financialHealth.innerText = "🟡 Good";
-    }
-    else {
+    } else {
         financialHealth.innerText = "🔴 Needs Improvement";
     }
 
@@ -1412,17 +1399,16 @@ if (monthlyHistory) {
     for (let month in data) {
 
         monthlyHistory.innerHTML +=
-        "<tr>" +
-        "<td>" + month + "</td>" +
-        "<td>₹" + data[month].income + "</td>" +
-        "<td>₹" + data[month].expense + "</td>" +
-        "<td>₹" + data[month].balance + "</td>" +
-        "</tr>";
+            "<tr>" +
+            "<td>" + month + "</td>" +
+            "<td>₹" + data[month].income + "</td>" +
+            "<td>₹" + data[month].expense + "</td>" +
+            "<td>₹" + data[month].balance + "</td>" +
+            "</tr>";
 
     }
 
 }
-
 
 // ===============================
 // Monthly Record Save
