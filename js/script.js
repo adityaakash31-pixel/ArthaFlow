@@ -9,6 +9,23 @@ if (
 }
 
 // ===============================
+// Phase 93A.1
+// ArthaFlow Brand Information
+// ===============================
+
+const BRAND = {
+
+    APP_NAME: "ArthaFlow",
+
+    VERSION: "1.0 Premium",
+
+    DEVELOPER: "Aditya Aakash",
+
+    TAGLINE: "Smart Finance Manager"
+
+};
+
+// ===============================
 // ArthaFlow V1.0
 // Step 9
 // ===============================
