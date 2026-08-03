@@ -1335,96 +1335,88 @@ incomeHistory.forEach(function(item){
 if(item.amount > maxIncome){
 maxIncome = item.amount;
 }
+let biggestIncome = document.getElementById("biggestIncome");
 
-});
+if (biggestIncome) {
 
-biggestIncome.innerText = "₹" + maxIncome;
+    let maxIncome = 0;
 
+    incomeHistory.forEach(function(item) {
+        if (item.amount > maxIncome) {
+            maxIncome = item.amount;
+        }
+    });
+
+    biggestIncome.innerText = "₹" + maxIncome;
 }
 
-let biggestExpense =
-document.getElementById("biggestExpense");
+let biggestExpense = document.getElementById("biggestExpense");
 
-if(biggestExpense){
+if (biggestExpense) {
 
-let maxExpense = 0;
+    let maxExpense = 0;
 
-expenseHistory.forEach(function(item){
+    expenseHistory.forEach(function(item) {
+        if (item.amount > maxExpense) {
+            maxExpense = item.amount;
+        }
+    });
 
-if(item.amount > maxExpense){
-maxExpense = item.amount;
+    biggestExpense.innerText = "₹" + maxExpense;
 }
 
-});
+// Saving Rate
+let savingRate = document.getElementById("savingRate");
+let savingRateBar = document.getElementById("savingRateBar");
+let financialHealth = document.getElementById("financialHealth");
 
-biggestExpense.innerText = "₹" + maxExpense;
-
-}
-
-let savingRate =
-document.getElementById("savingRate");
-
-if(savingRate){
-
+// यहाँ rate बाहर बनाया गया है
 let rate = 0;
 
-if(totalIncome > 0){
-rate = ((totalIncome - totalExpense) / totalIncome) * 100;
+if (totalIncome > 0) {
+    rate = ((totalIncome - totalExpense) / totalIncome) * 100;
 }
 
-savingRate.innerText = rate.toFixed(1) + "%";
-
-let financialHealth =
-
-document.getElementById("financialHealth");
-
-if(financialHealth){
-
-if(rate >= 50){
-financialHealth.innerText = "🟢 Excellent";
-}
-else if(rate >= 25){
-financialHealth.innerText = "🟡 Good";
-}
-else{
-financialHealth.innerText = "🔴 Needs Improvement";
+if (savingRate) {
+    savingRate.innerText = rate.toFixed(1) + "%";
 }
 
-}
+if (financialHealth) {
+
+    if (rate >= 50) {
+        financialHealth.innerText = "🟢 Excellent";
+    }
+    else if (rate >= 25) {
+        financialHealth.innerText = "🟡 Good";
+    }
+    else {
+        financialHealth.innerText = "🔴 Needs Improvement";
+    }
 
 }
 
-let savingRateBar =
-document.getElementById("savingRateBar");
-
-if(savingRateBar){
-
-savingRateBar.style.width =
-rate + "%";
-
-savingRateBar.innerText =
-rate.toFixed(1) + "%";
-
+if (savingRateBar) {
+    savingRateBar.style.width = rate + "%";
+    savingRateBar.innerText = rate.toFixed(1) + "%";
 }
 
-let monthlyHistory =
-document.getElementById("monthlyHistory");
+// Monthly History
+let monthlyHistory = document.getElementById("monthlyHistory");
 
-if(monthlyHistory){
+if (monthlyHistory) {
 
     monthlyHistory.innerHTML = "";
 
-    let data =
-    JSON.parse(localStorage.getItem("monthlyData")) || {};
+    let data = JSON.parse(localStorage.getItem("monthlyData")) || {};
 
-    for(let month in data){
+    for (let month in data) {
 
         monthlyHistory.innerHTML +=
         "<tr>" +
-        "<td>"+month+"</td>" +
-        "<td>₹"+data[month].income+"</td>" +
-        "<td>₹"+data[month].expense+"</td>" +
-        "<td>₹"+data[month].balance+"</td>" +
+        "<td>" + month + "</td>" +
+        "<td>₹" + data[month].income + "</td>" +
+        "<td>₹" + data[month].expense + "</td>" +
+        "<td>₹" + data[month].balance + "</td>" +
         "</tr>";
 
     }
