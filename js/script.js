@@ -34,7 +34,7 @@ function loadBrandLogo(){
 
     logos.forEach(function(item){
 
-        item.innerHTML = "💎 <b>" + BRAND.APP_NAME + "</b>";
+        item.innerHTML = "💎 <span>" + BRAND.APP_NAME + "</span>";
 
     });
 
