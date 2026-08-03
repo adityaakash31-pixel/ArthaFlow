@@ -7790,5 +7790,3 @@ result.innerHTML += `
 <h3>👥 Grand Total : ₹${(paid+pending).toFixed(2)}</h3>
 
 `;
-
-}
