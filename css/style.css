@@ -2214,3 +2214,98 @@ gap:16px;
 }
 
 }
+
+/* ===============================
+   Phase 94B.5
+   Premium Animations
+=============================== */
+
+/* Page Fade Animation */
+
+body{
+
+animation:pageFade .5s ease;
+
+}
+
+/* Card Animation */
+
+.card{
+
+animation:cardFade .6s ease;
+
+}
+
+/* Summary Card Animation */
+
+.summary-box{
+
+animation:cardUp .5s ease;
+
+}
+
+/* Smooth Hover */
+
+.card:hover{
+
+transition:.35s ease;
+
+}
+
+/* Keyframes */
+
+@keyframes pageFade{
+
+0%{
+
+opacity:0;
+
+}
+
+100%{
+
+opacity:1;
+
+}
+
+}
+
+@keyframes cardFade{
+
+0%{
+
+opacity:0;
+
+transform:translateY(25px);
+
+}
+
+100%{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+@keyframes cardUp{
+
+0%{
+
+opacity:0;
+
+transform:translateY(15px);
+
+}
+
+100%{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
