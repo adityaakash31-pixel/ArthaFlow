@@ -408,15 +408,19 @@ button{
 
 width:100%;
 
-padding:14px;
+padding:15px;
 
 margin-top:10px;
 
 border:none;
 
-border-radius:14px;
+border-radius:16px;
 
-background:linear-gradient(135deg,#2563EB,#3B82F6);
+background:linear-gradient(
+135deg,
+var(--primary),
+var(--primary-dark)
+);
 
 color:#fff;
 
@@ -426,25 +430,41 @@ font-weight:600;
 
 cursor:pointer;
 
-transition:.30s;
+transition:.35s ease;
 
-box-shadow:0 6px 15px rgba(37,99,235,.25);
+box-shadow:0 10px 20px rgba(37,99,235,.25);
+
+letter-spacing:.3px;
 
 }
 
 button:hover{
 
-transform:translateY(-3px);
+transform:translateY(-4px);
 
-box-shadow:0 10px 20px rgba(37,99,235,.35);
+box-shadow:0 15px 30px rgba(37,99,235,.35);
 
-background:linear-gradient(135deg,#1D4ED8,#2563EB);
+background:linear-gradient(
+135deg,
+var(--primary-dark),
+var(--primary)
+);
 
 }
 
 button:active{
 
-transform:scale(.97);
+transform:scale(.96);
+
+}
+
+button:disabled{
+
+opacity:.6;
+
+cursor:not-allowed;
+
+box-shadow:none;
 
 }
 
