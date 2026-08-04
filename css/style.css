@@ -2399,48 +2399,39 @@ Step 93H.4
 Dashboard Header Logo
 =============================== */
 
+./* ===============================
+Header Brand
+=============================== */
+
 .header-brand{
 
 display:flex;
 
-align-items:center;
-
 justify-content:center;
 
-gap:18px;
+align-items:center;
 
-margin-bottom:18px;
+margin-bottom:20px;
 
 }
 
 .header-logo{
 
-width:80px;
+width:300px;
 
-height:80px;
+height:auto;
+
+display:block;
 
 object-fit:contain;
 
 }
 
-.header-text h1{
+/* यदि Header Logo में ही Text है तो
+   नीचे वाला हिस्सा हटाया जा सकता है */
 
-margin:0;
+.header-text{
 
-font-size:34px;
-
-font-weight:700;
-
-color:#fff;
-
-}
-
-.header-text p{
-
-margin-top:5px;
-
-font-size:15px;
-
-color:#E5E7EB;
+display:none;
 
 }
