@@ -389,41 +389,91 @@ color:#555;
 
 }
 
-/* Summary Cards */
+/* ===============================
+   Premium Summary Cards
+=============================== */
 
 .summary-box{
 
-border-radius:18px;
+border-radius:22px;
 
-padding:18px;
+padding:22px;
 
 text-align:center;
 
-color:white;
+color:#fff;
 
-box-shadow:0 8px 18px rgba(0,0,0,.12);
+box-shadow:0 12px 28px rgba(0,0,0,.15);
+
+transition:.35s ease;
+
+position:relative;
+
+overflow:hidden;
+
+border:1px solid rgba(255,255,255,.15);
+
+}
+
+.summary-box::before{
+
+content:"";
+
+position:absolute;
+
+top:-35px;
+
+right:-35px;
+
+width:100px;
+
+height:100px;
+
+background:rgba(255,255,255,.15);
+
+border-radius:50%;
 
 }
 
 .summary-box h3{
 
-color:white;
+color:#fff;
 
 font-size:17px;
 
-margin-bottom:10px;
+font-weight:600;
+
+margin-bottom:12px;
+
+position:relative;
+
+z-index:2;
 
 }
 
 .summary-box h2{
 
-color:white;
+color:#fff;
 
-font-size:28px;
+font-size:30px;
+
+font-weight:700;
+
+position:relative;
+
+z-index:2;
 
 }
 
-/* Colors */
+.summary-box:hover{
+
+transform:translateY(-6px);
+
+box-shadow:0 18px 35px rgba(0,0,0,.20);
+
+}
+
+/* Premium Colors */
 
 .income-card{
 
