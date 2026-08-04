@@ -2354,3 +2354,42 @@ font-size:15px;
 color:#666;
 
 }
+
+/* ===========================
+Splash Logo
+Step 93H.3
+=========================== */
+
+.splash-logo{
+
+width:140px;
+
+height:140px;
+
+object-fit:contain;
+
+margin-bottom:20px;
+
+animation:logoZoom 1s ease;
+
+}
+
+@keyframes logoZoom{
+
+0%{
+
+opacity:0;
+
+transform:scale(.5);
+
+}
+
+100%{
+
+opacity:1;
+
+transform:scale(1);
+
+}
+
+}
