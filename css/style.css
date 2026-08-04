@@ -1,3 +1,35 @@
+/* ===========================
+   Phase 94A
+   Premium Color System
+=========================== */
+
+:root{
+
+    --primary:#2563EB;
+    --primary-dark:#1D4ED8;
+
+    --success:#10B981;
+
+    --danger:#EF4444;
+
+    --warning:#F59E0B;
+
+    --background:#F5F7FB;
+
+    --card:#FFFFFF;
+
+    --text:#0F172A;
+
+    --text-light:#64748B;
+
+    --border:#E2E8F0;
+
+    --shadow:0 8px 25px rgba(0,0,0,.08);
+
+    --radius:18px;
+
+}
+
 /* =======================================
    ArthaFlow Premium
    Part 1 : Base + Header + Navbar
@@ -11,8 +43,8 @@ font-family:"Poppins",Arial,sans-serif;
 }
 
 body{
-background:#EEF4FF;
-color:#222;
+background:var(--background);
+color:var(--text);
 padding:15px;
 }
 
