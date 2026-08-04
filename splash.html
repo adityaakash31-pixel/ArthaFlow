@@ -6,52 +6,105 @@
 <title>ArthaFlow</title>
 
 <style>
-body{
+
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
-background:#0f172a;
-color:white;
-font-family:Arial,sans-serif;
 flex-direction:column;
+height:100vh;
+background:linear-gradient(135deg,#0F172A,#1E293B);
+font-family:Poppins,Arial,sans-serif;
+color:white;
+overflow:hidden;
+text-align:center;
+}
+
+.splash-logo{
+
+width:160px;
+height:160px;
+object-fit:contain;
+margin-bottom:20px;
+animation:logoZoom 1s ease;
+
 }
 
 h1{
-font-size:40px;
-margin:0;
+
+font-size:38px;
+font-weight:700;
+margin-bottom:8px;
+
 }
 
 p{
-font-size:18px;
-margin-top:10px;
-opacity:.8;
+
+font-size:17px;
+opacity:.85;
+margin-bottom:25px;
+
 }
 
 .loader{
-margin-top:25px;
-width:50px;
-height:50px;
-border:5px solid #ffffff33;
-border-top:5px solid #00e5ff;
+
+width:55px;
+height:55px;
+border:5px solid rgba(255,255,255,.20);
+border-top:5px solid #3B82F6;
 border-radius:50%;
 animation:spin 1s linear infinite;
+
 }
 
 @keyframes spin{
+
 100%{
+
 transform:rotate(360deg);
+
 }
+
 }
+
+@keyframes logoZoom{
+
+0%{
+
+opacity:0;
+transform:scale(.5);
+
+}
+
+100%{
+
+opacity:1;
+transform:scale(1);
+
+}
+
+}
+
 </style>
 
 </head>
 
 <body>
 
+<img
+src="assets/logo/master-logo.png"
+alt="ArthaFlow Logo"
+class="splash-logo">
+
 <h1>ArthaFlow</h1>
-<p>Loading...</p>
+
+<p>Smart Finance Manager</p>
 
 <div class="loader"></div>
 
