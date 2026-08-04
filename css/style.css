@@ -2165,3 +2165,52 @@ grid-template-columns:1fr;
 }
 
 }
+
+/* ===============================
+   Phase 94B.4
+   Dashboard Layout
+=============================== */
+
+.dashboard-grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+
+gap:20px;
+
+align-items:start;
+
+margin-top:20px;
+
+}
+
+.card{
+
+height:100%;
+
+}
+
+.card h2{
+
+margin-bottom:18px;
+
+font-size:24px;
+
+font-weight:700;
+
+color:var(--text);
+
+}
+
+@media(max-width:768px){
+
+.dashboard-grid{
+
+grid-template-columns:1fr;
+
+gap:16px;
+
+}
+
+}
