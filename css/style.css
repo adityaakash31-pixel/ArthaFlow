@@ -255,19 +255,19 @@ margin-top:15px;
 
 .card{
 
-background:#ffffff;
+background:var(--card);
 
-border-radius:22px;
+border-radius:var(--radius);
 
 padding:22px;
 
 margin-bottom:20px;
 
-box-shadow:0 10px 25px rgba(0,0,0,.08);
+box-shadow:var(--shadow);
 
-transition:.35s;
+transition:.35s ease;
 
-border:1px solid rgba(0,0,0,.05);
+border:1px solid var(--border);
 
 }
 
@@ -275,7 +275,7 @@ border:1px solid rgba(0,0,0,.05);
 
 transform:translateY(-8px);
 
-box-shadow:0 18px 35px rgba(0,0,0,.15);
+box-shadow:0 18px 35px rgba(37,99,235,.15);
 
 }
 
