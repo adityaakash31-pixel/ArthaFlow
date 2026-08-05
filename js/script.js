@@ -8044,3 +8044,26 @@ calculateGST();
 }
 
 });
+
+// ===============================
+// Step 95.3 - Generate Invoice
+// ===============================
+
+function generateInvoice(){
+
+calculateGST();
+
+invoiceCounter++;
+
+localStorage.setItem(
+"invoiceCounter",
+invoiceCounter
+);
+
+alert(
+"✅ GST Invoice Generated Successfully!"
+);
+
+loadGSTPage();
+
+}
