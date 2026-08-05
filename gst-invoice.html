@@ -1,1 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ArthaFlow - GST Invoice</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+
+</head>
+
+<body>
+
+<!-- ============================= -->
+<!-- Premium Header -->
+<!-- ============================= -->
+
+<header class="top-header">
+
+<div class="header-brand">
+
+<img
+src="header-logo.png"
+alt="ArthaFlow Header Logo"
+class="header-logo">
+
+</div>
+
+<div class="premium-banner">
+
+<h2>🧾 GST Invoice Generator</h2>
+
+<p>Create • Calculate • Export</p>
+
+</div>
+
+</header>
+
+<!-- ============================= -->
+<!-- Navigation -->
+<!-- ============================= -->
+
+<nav class="navbar">
+
+<a href="index.html">🏠 Dashboard</a>
+
+<a href="income.html">💰 Income</a>
+
+<a href="expense.html">💸 Expense</a>
+
+<a href="gst-invoice.html">🧾 GST</a>
+
+<a href="reports.html">📊 Reports</a>
+
+<a href="settings.html">⚙ Settings</a>
+
+</nav>
+
+<h1>🧾 GST Invoice</h1>
+
+<p>Create Professional GST Bills</p>
+
+  <!-- ===================================== -->
+<!-- Business Details -->
+<!-- ===================================== -->
+
+<div class="card">
+
+<h2>🏢 Business Details</h2>
+
+<label>Business Name</label>
+<input type="text" id="businessName" placeholder="ArthaFlow Enterprise">
+
+<label>GST Number</label>
+<input type="text" id="businessGST" placeholder="22AAAAA0000A1Z5">
+
+<label>Address</label>
+<textarea id="businessAddress" placeholder="Business Address"></textarea>
+
+<label>Mobile</label>
+<input type="text" id="businessMobile" placeholder="+91 XXXXXXXXXX">
+
+<label>Email</label>
+<input type="email" id="businessEmail" placeholder="example@email.com">
+
+</div>
+
+<!-- ===================================== -->
+<!-- Customer Details -->
+<!-- ===================================== -->
+
+<div class="card">
+
+<h2>👤 Customer Details</h2>
+
+<label>Customer Name</label>
+<input type="text" id="customerName" placeholder="Customer Name">
+
+<label>GST Number</label>
+<input type="text" id="customerGST" placeholder="Customer GST Number">
+
+<label>Mobile</label>
+<input type="text" id="customerMobile" placeholder="+91 XXXXXXXXXX">
+
+<label>Address</label>
+<textarea id="customerAddress" placeholder="Customer Address"></textarea>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Invoice Information -->
+<!-- ===================================== -->
+
+<div class="card">
+
+<h2>🧾 Invoice Information</h2>
+
+<label>Invoice Number</label>
+<input type="text" id="invoiceNumber" placeholder="AF-0001">
+
+<label>Invoice Date</label>
+<input type="date" id="invoiceDate">
+
+<label>Due Date</label>
+<input type="date" id="dueDate">
+
+</div>
+
+  <!-- ===================================== -->
+<!-- Product Details -->
+<!-- ===================================== -->
+
+<div class="card">
+
+<h2>📦 Product Details</h2>
+
+<table width="100%" border="1">
+
+<thead>
+
+<tr>
+
+<th>Product</th>
+
+<th>HSN</th>
+
+<th>Qty</th>
+
+<th>Rate</th>
+
+<th>GST%</th>
+
+<th>Total</th>
+
+</tr>
+
+</thead>
+
+<tbody id="productTable">
+
+<tr>
+
+<td><input type="text" placeholder="Product"></td>
+
+<td><input type="text" placeholder="HSN"></td>
+
+<td><input type="number" placeholder="Qty"></td>
+
+<td><input type="number" placeholder="Rate"></td>
+
+<td><input type="number" placeholder="18"></td>
+
+<td>₹0</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<br>
+
+<button>
+
+➕ Add Product
+
+</button>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Invoice Actions -->
+<!-- ===================================== -->
+
+<div class="card">
+
+<h2>⚡ Invoice Actions</h2>
+
+<div class="dashboard-grid">
+
+<button>
+
+🧾 Generate Invoice
+
+</button>
+
+<button>
+
+📄 Download PDF
+
+</button>
+
+<button>
+
+🖨 Print Invoice
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Footer -->
+<!-- ===================================== -->
+
+<footer class="footer">
+
+<h2>💎 ArthaFlow Premium</h2>
+
+<p>Create • Calculate • Export</p>
+
+<hr>
+
+<p>© 2026 ArthaFlow</p>
+
+<p>Developed with ❤️ by <b>Aditya Aakash</b></p>
+
+</footer>
+
+<script src="js/script.js"></script>
+
+</body>
+
+</html>
