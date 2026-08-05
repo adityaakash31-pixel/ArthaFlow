@@ -2435,3 +2435,39 @@ object-fit:contain;
 display:none;
 
 }
+
+/* ===============================
+Delete Product Button
+=============================== */
+
+.deleteBtn{
+
+background:#EF4444;
+
+color:#fff;
+
+border:none;
+
+padding:8px 12px;
+
+border-radius:8px;
+
+cursor:pointer;
+
+font-size:16px;
+
+font-weight:bold;
+
+transition:.3s;
+
+}
+
+.deleteBtn:hover{
+
+background:#DC2626;
+
+transform:scale(1.05);
+
+box-shadow:0 4px 12px rgba(239,68,68,.35);
+
+}
