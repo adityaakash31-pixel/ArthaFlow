@@ -172,13 +172,13 @@ class="header-logo">
 
 <td><input type="text" placeholder="HSN"></td>
 
-<td><input type="number" placeholder="Qty"></td>
+<td><input type="number" class="qty" value="1" min="1"></td>
 
-<td><input type="number" placeholder="Rate"></td>
+<td><input type="number" class="rate" value="0" min="0"></td>
 
-<td><input type="number" placeholder="18"></td>
+<td><input type="number" class="gst" value="18" min="0"></td>
 
-<td>₹0</td>
+<td class="total">₹0.00</td>
 
 </tr>
 
@@ -188,10 +188,8 @@ class="header-logo">
 
 <br>
 
-<button>
-
+<button id="addProductBtn">
 ➕ Add Product
-
 </button>
 
 </div>
