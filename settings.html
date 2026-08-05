@@ -3,66 +3,109 @@
 
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Settings - ArthaFlow</title>
+<title>ArthaFlow - Settings</title>
 
-    <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css">
+
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
 
 </head>
 
 <body>
 
-    <nav class="navbar">
+<!-- ============================= -->
+<!-- Premium Header -->
+<!-- ============================= -->
 
-        <a href="index.html">🏠 Dashboard</a>
-        <a href="income.html">💰 Income</a>
-        <a href="expense.html">💸 Expense</a>
-        <a href="reports.html">📊 Reports</a>
-        <a href="settings.html">⚙ Settings</a>
+<header class="top-header">
 
-    </nav>
+<div class="header-brand">
 
-    <h1>⚙ Settings</h1>
+<img
+src="header-logo.png"
+alt="ArthaFlow Header Logo"
+class="header-logo">
 
-    <div class="card">
+</div>
 
-        <h2>Application Settings</h2>
+<div class="premium-banner">
 
-        <p>Manage your ArthaFlow data and preferences.</p>
+<h2>⚙ Settings</h2>
 
-        <button onclick="exportCSV()">
-            📥 Export CSV
-        </button>
+<p>Customize • Backup • Security</p>
 
-        <button onclick="backupData()">
+</div>
+
+</header>
+
+<!-- ============================= -->
+<!-- Navigation -->
+<!-- ============================= -->
+
+<nav class="navbar">
+
+<a href="index.html">🏠 Dashboard</a>
+
+<a href="income.html">💰 Income</a>
+
+<a href="expense.html">💸 Expense</a>
+
+<a href="reports.html">📊 Reports</a>
+
+<a href="settings.html">⚙ Settings</a>
+
+</nav>
+
+<h1>⚙ Settings</h1>
+
+<p>Manage your ArthaFlow preferences</p>
+
+<div class="card">
+
+<h2>Application Settings</h2>
+
+<p>Manage your ArthaFlow data and preferences.</p>
+
+<button onclick="exportCSV()">
+📥 Export CSV
+</button>
+
+<button onclick="backupData()">
 💾 Backup Data
-        </button>
+</button>
 
-        <input type="file"
+<input
+type="file"
 id="restoreFile"
 accept=".json"
 onchange="restoreData(event)">
 
-        <button onclick="document.getElementById('restoreFile').click()">
+<button onclick="document.getElementById('restoreFile').click()">
 📂 Restore Backup
-        </button>
+</button>
 
-        <button onclick="toggleTheme()">
-            🌙 Toggle Dark Mode
-        </button>
+<button onclick="toggleTheme()">
+🌙 Toggle Dark Mode
+</button>
 
-        <h2>👤 User Profile</h2>
+<h2>👤 User Profile</h2>
 
 <label>Your Name</label>
-<input type="text" id="userName" placeholder="Enter Your Name">
+
+<input
+type="text"
+id="userName"
+placeholder="Enter Your Name">
 
 <button onclick="saveProfile()">
 💾 Save Profile
 </button>
 
-        <h2>💰 Monthly Budget</h2>
+<h2>💰 Monthly Budget</h2>
 
 <input
 type="number"
@@ -73,22 +116,141 @@ placeholder="Enter Monthly Budget">
 💾 Save Budget
 </button>
 
-        <button onclick="resetData()">
-            🗑 Reset All Data
-        </button>
+<button onclick="resetData()">
+🗑 Reset All Data
+</button>
 
-    </div>
+</div>
 
-    <footer class="footer">
+    <!-- ===================================== -->
+<!-- Appearance -->
+<!-- ===================================== -->
 
-<p>
-© 2026 ArthaFlow • Developed by Aditya Aakash
-</p>
+<div class="card">
 
-    </footer>
+<h2>🎨 Appearance</h2>
 
-    <script src="js/script.js"></script>
+<button onclick="toggleTheme()">
+
+🌙 Change Theme
+
+</button>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Security -->
+<!-- ===================================== -->
+
+<div class="card">
+
+<h2>🔒 Security</h2>
+
+<button onclick="location.href='pin-setup.html'">
+
+🔑 Change PIN
+
+</button>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Backup & Restore -->
+<!-- ===================================== -->
+
+<div class="card">
+
+<h2>☁ Backup & Restore</h2>
+
+<button onclick="backupData()">
+
+☁ Backup Data
+
+</button>
+
+<button onclick="restoreData()">
+
+📥 Restore Data
+
+</button>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Export -->
+<!-- ===================================== -->
+
+<div class="card">
+
+<h2>📄 Export</h2>
+
+<button onclick="downloadPDF()">
+
+📄 Export PDF
+
+</button>
+
+<button onclick="downloadCSV()">
+
+📊 Export CSV
+
+</button>
+
+</div>
+
+<!-- ===================================== -->
+<!-- About -->
+<!-- ===================================== -->
+
+<div class="card">
+
+<h2>ℹ About ArthaFlow</h2>
+
+<p><b>Version :</b> 1.0 Premium</p>
+
+<p><b>Developer :</b> Aditya Aakash</p>
+
+<p><b>Platform :</b> Personal Finance Manager</p>
+
+</div>
+
+  <!-- ===================================== -->
+<!-- Footer -->
+<!-- ===================================== -->
+
+<footer class="footer">
+
+<h2>💎 ArthaFlow Premium</h2>
+
+<p>Track • Save • Invest • Grow</p>
+
+<hr>
+
+<p>© 2026 ArthaFlow</p>
+
+<p>Developed with ❤️ by <b>Aditya Aakash</b></p>
+
+</footer>
+
+<!-- ===================================== -->
+<!-- Scripts -->
+<!-- ===================================== -->
+
+<script src="js/script.js"></script>
+
+<script>
+
+window.addEventListener("load", function(){
+
+if(typeof loadSettings==="function"){
+
+loadSettings();
+
+}
+
+});
+
+</script>
 
 </body>
-
 </html>
