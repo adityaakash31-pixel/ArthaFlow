@@ -7988,10 +7988,11 @@ Number(row.querySelector(".gst")?.value)||0;
 
 const amount = qty * rate;
 
-subtotal += amount;
+    const gstAmount = amount * gst / 100;
 
-const total =
-amount + (amount * gst / 100);
+const total = amount + gstAmount;
+
+subtotal += amount;
 
 if(row.querySelector(".total")){
 
