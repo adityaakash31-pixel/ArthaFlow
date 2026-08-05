@@ -1,18 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Reports - ArthaFlow</title>
+<title>ArthaFlow - Reports</title>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="stylesheet" href="css/style.css">
+
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </head>
 
 <body>
 
-  <nav class="navbar">
+<!-- ============================= -->
+<!-- Premium Header -->
+<!-- ============================= -->
+
+<header class="top-header">
+
+<div class="header-brand">
+
+<img
+src="header-logo.png"
+alt="ArthaFlow Header Logo"
+class="header-logo">
+
+</div>
+
+<div class="premium-banner">
+
+<h2>📊 Reports</h2>
+
+<p>Analyze • Compare • Export</p>
+
+</div>
+
+</header>
+
+<!-- ============================= -->
+<!-- Navigation -->
+<!-- ============================= -->
+
+<nav class="navbar">
 
 <a href="index.html">🏠 Dashboard</a>
 
@@ -24,69 +62,105 @@
 
 <a href="settings.html">⚙ Settings</a>
 
-  </nav>
+</nav>
 
-<h1>📊 Reports</h1>
+<h1>📊 Financial Reports</h1>
+
+<p>View, Analyze and Export Reports</p>
 
 <div class="card">
+
 <h2>Total Income</h2>
+
 <h1 id="reportIncome">₹0</h1>
+
 </div>
 
 <div class="card">
+
 <h2>Total Expense</h2>
+
 <h1 id="reportExpense">₹0</h1>
+
 </div>
 
 <div class="card">
+
 <h2>Current Balance</h2>
+
 <h1 id="reportBalance">₹0</h1>
+
 </div>
 
-  <div class="card">
-<h2>🏦 Total Savings</h2>
-<h1 id="reportSavings">₹0</h1>
-  </div>
+<div class="card">
 
-  <div class="card">
+<h2>🏦 Total Savings</h2>
+
+<h1 id="reportSavings">₹0</h1>
+
+</div>
+
+<div class="card">
 
 <h2>📅 This Month Summary</h2>
 
-<p>Total Income : <span id="monthIncome">₹0</span></p>
+<p>Total Income :
+<span id="monthIncome">₹0</span></p>
 
-<p>Total Expense : <span id="monthExpense">₹0</span></p>
+<p>Total Expense :
+<span id="monthExpense">₹0</span></p>
 
-<p>Balance : <span id="monthBalance">₹0</span></p>
+<p>Balance :
+<span id="monthBalance">₹0</span></p>
 
-  </div>
+</div>
 
-  <h2>📅 Filter By Date</h2>
+  <!-- ===================================== -->
+<!-- Date Filter -->
+<!-- ===================================== -->
+
+<h2>📅 Filter By Date</h2>
 
 <label>From</label>
+
 <input type="date" id="fromDate">
 
 <label>To</label>
+
 <input type="date" id="toDate">
 
 <button onclick="filterByDate()">
+
 🔍 Filter
+
 </button>
 
-  <div class="card">
+<!-- ===================================== -->
+<!-- Filter Result -->
+<!-- ===================================== -->
+
+<div class="card">
 
 <h2>📊 Filter Result</h2>
 
-<p>Income : <span id="filterIncome">₹0</span></p>
+<p>Income :
+<span id="filterIncome">₹0</span></p>
 
-<p>Expense : <span id="filterExpense">₹0</span></p>
+<p>Expense :
+<span id="filterExpense">₹0</span></p>
 
-<p>Balance : <span id="filterBalance">₹0</span></p>
+<p>Balance :
+<span id="filterBalance">₹0</span></p>
 
-  </div>
+</div>
 
-  <div class="card">
+<!-- ===================================== -->
+<!-- Analytics -->
+<!-- ===================================== -->
 
-<h2>📊 Income vs Expense Analytics</h2>
+<div class="card">
+
+<h2>📈 Income vs Expense Analytics</h2>
 
 <p>💰 Biggest Income :
 <span id="biggestIncome">₹0</span></p>
@@ -97,10 +171,10 @@
 <p>🏦 Saving Rate :
 <span id="savingRate">0%</span></p>
 
- <p>❤️ Financial Health :
+<p>❤️ Financial Health :
 <span id="financialHealth">Excellent</span></p>
 
-    <div class="progress">
+<div class="progress">
 
 <div id="savingRateBar" class="progress-fill">
 
@@ -108,21 +182,30 @@
 
 </div>
 
-    </div>
+</div>
 
-  </div>
+</div>
 
-  <div class="card">
+<!-- ===================================== -->
+<!-- Monthly History -->
+<!-- ===================================== -->
+
+<div class="card">
 
 <h2>📅 Monthly History</h2>
 
 <table border="1" width="100%">
 
 <tr>
+
 <th>Month</th>
+
 <th>Income</th>
+
 <th>Expense</th>
+
 <th>Balance</th>
+
 </tr>
 
 <tbody id="monthlyHistory">
@@ -131,14 +214,17 @@
 
 </table>
 
-  </div>
-  
-<div class="card">
-<h2>Total Transactions</h2>
-<h1 id="reportTransactions">0</h1>
 </div>
 
-  <div class="card">
+<div class="card">
+
+<h2>Total Transactions</h2>
+
+<h1 id="reportTransactions">0</h1>
+
+</div>
+
+<div class="card">
 
 <h2>📄 Export Report</h2>
 
@@ -148,19 +234,61 @@
 
 </button>
 
-  </div>
+</div>
 
-<link rel="stylesheet" href="css/style.css">
+  <!-- ===================================== -->
+<!-- Export Report -->
+<!-- ===================================== -->
 
-  <footer class="footer">
+<div class="card">
 
-<p>
-© 2026 ArthaFlow • Developed by Aditya Aakash
-</p>
+<h2>📄 Export Report</h2>
 
-  </footer>
+<button onclick="downloadPDF()">
+
+📥 Download PDF Report
+
+</button>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Footer -->
+<!-- ===================================== -->
+
+<footer class="footer">
+
+<h2>💎 ArthaFlow Premium</h2>
+
+<p>Track • Save • Invest • Grow</p>
+
+<hr>
+
+<p>© 2026 ArthaFlow</p>
+
+<p>Developed with ❤️ by <b>Aditya Aakash</b></p>
+
+</footer>
+
+<!-- ===================================== -->
+<!-- Scripts -->
+<!-- ===================================== -->
 
 <script src="js/script.js"></script>
+
+<script>
+
+window.addEventListener("load",function(){
+
+if(typeof loadReports==="function"){
+
+loadReports();
+
+}
+
+});
+
+</script>
 
 </body>
 </html>
