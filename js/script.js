@@ -8067,3 +8067,329 @@ alert(
 loadGSTPage();
 
 }
+
+// ===============================
+// Step 95.3 - Invoice Preview
+// ===============================
+
+function generateInvoice(){
+
+calculateGST();
+
+let preview = "";
+
+preview += "<h2>🧾 GST TAX INVOICE</h2>";
+
+preview += "<hr>";
+
+preview += "<h3>🏢 Business Details</h3>";
+
+preview += "<p><b>Name :</b> " +
+document.getElementById("businessName").value +
+"</p>";
+
+preview += "<p><b>GST :</b> " +
+document.getElementById("businessGST").value +
+"</p>";
+
+preview += "<p><b>Mobile :</b> " +
+document.getElementById("businessMobile").value +
+"</p>";
+
+preview += "<p><b>Email :</b> " +
+document.getElementById("businessEmail").value +
+"</p>";
+
+preview += "<hr>";
+
+preview += "<h3>👤 Customer Details</h3>";
+
+preview += "<p><b>Name :</b> " +
+document.getElementById("customerName").value +
+"</p>";
+
+preview += "<p><b>GST :</b> " +
+document.getElementById("customerGST").value +
+"</p>";
+
+preview += "<p><b>Mobile :</b> " +
+document.getElementById("customerMobile").value +
+"</p>";
+
+preview += "<hr>";
+
+preview += "<h3>📦 Products</h3>";
+
+preview += "<table border='1' width='100%'>";
+
+preview += `
+<tr>
+
+<th>Product</th>
+
+<th>Qty</th>
+
+<th>Rate</th>
+
+<th>GST%</th>
+
+<th>Total</th>
+
+</tr>
+`;
+
+document.querySelectorAll("#productTable tr").forEach(row=>{
+
+const product =
+row.cells[0].querySelector("input")?.value || "";
+
+const qty =
+row.cells[2].querySelector("input")?.value || "0";
+
+const rate =
+row.cells[3].querySelector("input")?.value || "0";
+
+const gst =
+row.cells[4].querySelector("input")?.value || "0";
+
+const total =
+row.cells[5].innerText;
+
+preview += `
+<tr>
+
+<td>${product}</td>
+
+<td>${qty}</td>
+
+<td>₹${rate}</td>
+
+<td>${gst}%</td>
+
+<td>${total}</td>
+
+</tr>
+`;
+
+});
+
+preview += "</table>";
+
+preview += "<hr>";
+
+preview += "<h3>💰 GST Summary</h3>";
+
+preview += "<p><b>Subtotal :</b> " +
+document.getElementById("subTotal").innerHTML +
+"</p>";
+
+preview += "<p><b>CGST :</b> " +
+document.getElementById("cgstTotal").innerHTML +
+"</p>";
+
+preview += "<p><b>SGST :</b> " +
+document.getElementById("sgstTotal").innerHTML +
+"</p>";
+
+preview += "<h2>Grand Total : " +
+document.getElementById("grandTotal").innerHTML +
+"</h2>";
+
+const win = window.open("","_blank");
+
+    win.document.write(`
+
+<html>
+
+<head>
+
+<title>ArthaFlow Invoice</title>
+
+<style>
+
+body{
+
+font-family:Arial,sans-serif;
+
+padding:30px;
+
+background:#F8FAFC;
+
+color:#111827;
+
+}
+
+.header{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+border-bottom:3px solid #2563EB;
+
+padding-bottom:15px;
+
+margin-bottom:25px;
+
+}
+
+.logo{
+
+height:70px;
+
+}
+
+.company{
+
+text-align:right;
+
+}
+
+.company h2{
+
+margin:0;
+
+color:#2563EB;
+
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+margin-top:20px;
+
+}
+
+th{
+
+background:#2563EB;
+
+color:#fff;
+
+padding:10px;
+
+}
+
+td{
+
+padding:10px;
+
+border:1px solid #CBD5E1;
+
+text-align:center;
+
+}
+
+.summary{
+
+margin-top:25px;
+
+float:right;
+
+width:320px;
+
+}
+
+.summary p{
+
+display:flex;
+
+justify-content:space-between;
+
+margin:8px 0;
+
+}
+
+.total{
+
+font-size:22px;
+
+font-weight:bold;
+
+color:#2563EB;
+
+border-top:2px solid #2563EB;
+
+padding-top:10px;
+
+}
+
+.footer{
+
+margin-top:80px;
+
+text-align:center;
+
+color:#64748B;
+
+font-size:14px;
+
+}
+
+.watermark{
+
+position:fixed;
+
+top:40%;
+
+left:25%;
+
+font-size:90px;
+
+font-weight:bold;
+
+color:rgba(37,99,235,.08);
+
+transform:rotate(-30deg);
+
+pointer-events:none;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="watermark">
+
+ArthaFlow
+
+</div>
+
+<div class="header">
+
+<img src="pdf-logo.png" class="logo">
+
+<div class="company">
+
+<h2>ArthaFlow Premium</h2>
+
+<p>GST TAX INVOICE</p>
+
+</div>
+
+</div>
+
+`);
+
+win.document.write(preview);
+
+win.document.close();
+
+invoiceCounter++;
+
+localStorage.setItem(
+"invoiceCounter",
+invoiceCounter
+);
+
+loadGSTPage();
+
+}
