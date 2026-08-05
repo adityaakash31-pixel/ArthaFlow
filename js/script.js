@@ -8756,3 +8756,19 @@ win.document.close();
 win.print();
 
 }
+
+// ===============================
+// Step 95.10 - Print Only Invoice
+// ===============================
+
+function printInvoice(){
+
+generateInvoice();
+
+setTimeout(function(){
+
+window.print();
+
+},300);
+
+}
