@@ -8645,3 +8645,90 @@ preview += "<h2>Grand Total : " + document.getElementById("grandTotal").innerHTM
 document.getElementById("invoicePreview").innerHTML = preview;
 
 }
+
+// ===============================
+// Step 95.9 - Print Invoice
+// ===============================
+
+function printInvoice(){
+
+const invoice =
+document.getElementById("invoicePreview").innerHTML;
+
+const win = window.open("","_blank");
+
+win.document.write(`
+<html>
+
+<head>
+
+<title>ArthaFlow GST Invoice</title>
+
+<style>
+
+body{
+
+font-family:Arial,sans-serif;
+
+padding:30px;
+
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+margin-top:15px;
+
+}
+
+table,th,td{
+
+border:1px solid #000;
+
+}
+
+th{
+
+background:#2563EB;
+
+color:white;
+
+padding:8px;
+
+}
+
+td{
+
+padding:8px;
+
+text-align:center;
+
+}
+
+h2{
+
+color:#2563EB;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+${invoice}
+
+</body>
+
+</html>
+`);
+
+win.document.close();
+
+win.print();
+
+}
