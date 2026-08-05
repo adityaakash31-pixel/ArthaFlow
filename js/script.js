@@ -7860,3 +7860,187 @@ result.innerHTML += `
 `;
 
 }
+
+// ===============================
+// Step 95.2 - GST Variables
+// ===============================
+
+let invoiceCounter =
+Number(localStorage.getItem("invoiceCounter")) || 1;
+
+function loadGSTPage(){
+
+const invoiceNo =
+"AF-" + String(invoiceCounter).padStart(4,"0");
+
+const today =
+new Date().toISOString().split("T")[0];
+
+if(document.getElementById("invoiceNumber")){
+
+document.getElementById("invoiceNumber").value =
+invoiceNo;
+
+}
+
+if(document.getElementById("invoiceDate")){
+
+document.getElementById("invoiceDate").value =
+today;
+
+}
+
+if(document.getElementById("dueDate")){
+
+document.getElementById("dueDate").value =
+today;
+
+}
+
+}
+
+    // ===============================
+// Step 95.2 - Add Product Row
+// ===============================
+
+function addProductRow(){
+
+const table =
+document.getElementById("productTable");
+
+if(!table) return;
+
+const row =
+document.createElement("tr");
+
+row.innerHTML = `
+
+<td><input type="text" placeholder="Product Name"></td>
+
+<td><input type="text" placeholder="HSN"></td>
+
+<td><input type="number" value="1" min="1" class="qty"></td>
+
+<td><input type="number" value="0" min="0" class="rate"></td>
+
+<td><input type="number" value="18" min="0" class="gst"></td>
+
+<td class="total">₹0</td>
+
+`;
+
+table.appendChild(row);
+
+}
+
+window.addEventListener("load",function(){
+
+const btn =
+document.getElementById("addProductBtn");
+
+if(btn){
+
+btn.addEventListener("click",addProductRow);
+
+}
+
+});
+
+// ===============================
+// Step 95.2 - GST Auto Calculation
+// ===============================
+
+function calculateGST(){
+
+let subtotal = 0;
+
+document.querySelectorAll("#productTable tr").forEach(row=>{
+
+const qty =
+Number(row.querySelector(".qty")?.value)||0;
+
+const rate =
+Number(row.querySelector(".rate")?.value)||0;
+
+const gst =
+Number(row.querySelector(".gst")?.value)||0;
+
+const amount = qty * rate;
+
+subtotal += amount;
+
+const total =
+amount + (amount * gst / 100);
+
+if(row.querySelector(".total")){
+
+row.querySelector(".total").innerHTML =
+"₹" + total.toFixed(2);
+
+}
+
+});
+
+const cgst = subtotal * 0.09;
+
+const sgst = subtotal * 0.09;
+
+const igst = 0;
+
+const grand =
+subtotal + cgst + sgst;
+
+if(document.getElementById("subTotal")){
+
+document.getElementById("subTotal").innerHTML =
+"₹" + subtotal.toFixed(2);
+
+}
+
+if(document.getElementById("cgstTotal")){
+
+document.getElementById("cgstTotal").innerHTML =
+"₹" + cgst.toFixed(2);
+
+}
+
+if(document.getElementById("sgstTotal")){
+
+document.getElementById("sgstTotal").innerHTML =
+"₹" + sgst.toFixed(2);
+
+}
+
+if(document.getElementById("igstTotal")){
+
+document.getElementById("igstTotal").innerHTML =
+"₹" + igst.toFixed(2);
+
+}
+
+if(document.getElementById("grandTotal")){
+
+document.getElementById("grandTotal").innerHTML =
+"₹" + grand.toFixed(2);
+
+}
+
+}
+
+document.addEventListener("input",function(e){
+
+if(
+
+e.target.classList.contains("qty") ||
+
+e.target.classList.contains("rate") ||
+
+e.target.classList.contains("gst")
+
+){
+
+calculateGST();
+
+}
+
+});
