@@ -7950,16 +7950,20 @@ table.appendChild(row);
 
 }
 
-window.addEventListener("load",function(){
+window.addEventListener("load", function(){
 
-const btn =
-document.getElementById("addProductBtn");
+    loadGSTPage();
 
-if(btn){
+    loadGSTData();
 
-btn.addEventListener("click",addProductRow);
+    const btn =
+    document.getElementById("addProductBtn");
 
-}
+    if(btn){
+
+        btn.addEventListener("click", addProductRow);
+
+    }
 
 });
 
@@ -8410,3 +8414,114 @@ invoiceCounter
 loadGSTPage();
 
 }
+
+// ===============================
+// Step 95.5 - GST Auto Save
+// ===============================
+
+function saveGSTData(){
+
+const ids = [
+
+"businessName",
+"businessGST",
+"businessAddress",
+"businessMobile",
+"businessEmail",
+
+"customerName",
+"customerGST",
+"customerMobile",
+"customerAddress",
+
+"invoiceNumber",
+"invoiceDate",
+"dueDate"
+
+];
+
+ids.forEach(id=>{
+
+const el = document.getElementById(id);
+
+if(el){
+
+localStorage.setItem(id,el.value);
+
+}
+
+});
+
+}
+
+// ===============================
+// Step 95.5 - GST Auto Load
+// ===============================
+
+function loadGSTData(){
+
+const ids = [
+
+"businessName",
+"businessGST",
+"businessAddress",
+"businessMobile",
+"businessEmail",
+
+"customerName",
+"customerGST",
+"customerMobile",
+"customerAddress",
+
+"invoiceNumber",
+"invoiceDate",
+"dueDate"
+
+];
+
+ids.forEach(id=>{
+
+const el = document.getElementById(id);
+
+if(el && localStorage.getItem(id)!=null){
+
+el.value = localStorage.getItem(id);
+
+}
+
+});
+
+}
+
+// ===============================
+// Step 95.5 - Auto Save While Typing
+// ===============================
+
+document.addEventListener("input", function(e){
+
+const ids = [
+
+"businessName",
+"businessGST",
+"businessAddress",
+"businessMobile",
+"businessEmail",
+
+"customerName",
+"customerGST",
+"customerMobile",
+"customerAddress",
+
+"invoiceNumber",
+"invoiceDate",
+"dueDate"
+
+];
+
+if(ids.includes(e.target.id)){
+
+saveGSTData();
+
+}
+
+});
