@@ -7956,6 +7956,8 @@ window.addEventListener("load", function(){
 
     loadGSTData();
 
+    calculateGST();
+
     const btn =
     document.getElementById("addProductBtn");
 
@@ -8064,6 +8066,17 @@ e.target.classList.contains("gst")
 calculateGST();
 
 }
+
+});
+
+document.querySelectorAll(
+"#productTable input"
+).forEach(input=>{
+
+input.addEventListener(
+"input",
+calculateGST
+);
 
 });
 
