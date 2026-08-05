@@ -8571,7 +8571,12 @@ function generateInvoice(){
 
 let preview = "";
 
-preview += "<h2>🧾 GST Invoice</h2>";
+preview += `
+<div style="text-align:center">
+<h2 style="color:#2563EB;">🧾 ArthaFlow GST Invoice</h2>
+<p><b>Create • Calculate • Export</b></p>
+</div>
+`;
 preview += "<hr>";
 
 preview += "<h3>🏢 Business Details</h3>";
