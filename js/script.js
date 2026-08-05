@@ -2249,8 +2249,6 @@ pdf.save("ArthaFlow_Report.pdf");
 
 };
 
-}
-
 // ===============================
 // Premium Dashboard Animation
 // ===============================
