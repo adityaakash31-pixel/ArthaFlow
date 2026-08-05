@@ -1947,7 +1947,7 @@ location.reload();
 // Step 95.4 - Professional PDF
 // ===============================
 
-async function downloadPDF(){
+async function downloadInvoicePDF(){
 
 const { jsPDF } = window.jspdf;
 
