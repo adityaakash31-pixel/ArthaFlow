@@ -2,15 +2,53 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Expense - ArthaFlow</title>
+<title>ArthaFlow - Expense</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
 
 </head>
 
 <body>
-  <nav class="navbar">
+
+<!-- ============================= -->
+<!-- Premium Header -->
+<!-- ============================= -->
+
+<header class="top-header">
+
+<div class="header-brand">
+
+<img
+src="header-logo.png"
+alt="ArthaFlow Header Logo"
+class="header-logo">
+
+</div>
+
+<div class="premium-banner">
+
+<h2>💸 Expense Manager</h2>
+
+<p>Track • Control • Save Money</p>
+
+</div>
+
+</header>
+
+<!-- ============================= -->
+<!-- Navigation -->
+<!-- ============================= -->
+
+<nav class="navbar">
 
 <a href="index.html">🏠 Dashboard</a>
 
@@ -22,11 +60,11 @@
 
 <a href="settings.html">⚙ Settings</a>
 
-  </nav>
+</nav>
 
 <h1>💸 Expense</h1>
 
-<p>Add your expense</p>
+<p>Add your expenses</p>
 
 <h2>Total Expense</h2>
 
@@ -35,42 +73,57 @@
 <div class="card">
 
 <label>Category</label>
-<input type="text" id="expenseCategory" placeholder="Food / Travel / Shopping">
+
+<input
+type="text"
+id="category"
+placeholder="Food / Travel / Shopping">
 
 <label>Amount</label>
-<input type="number" id="expenseAmount" placeholder="₹ Enter Amount">
 
-  <label>Date</label>
-<input type="date" id="expenseDate">
+<input
+type="number"
+id="amount"
+placeholder="₹ Enter Amount">
+
+<label>Date</label>
+
+<input
+type="date"
+id="expenseDate">
 
 <label>Note</label>
-<input type="text" id="expenseNote" placeholder="Example: Lunch / Petrol / Shopping">
+
+<input
+type="text"
+id="expenseNote"
+placeholder="Example : Grocery">
 
 <button onclick="saveExpense()">
+
 💾 Save Expense
+
 </button>
 
 </div>
 
-  <input
+<input
 type="text"
 id="searchExpense"
 placeholder="🔍 Search Expense..."
 onkeyup="searchExpense()">
 
-  <select id="expenseSort" onchange="sortExpense()">
-<option value="latest">Latest First</option>
-<option value="oldest">Oldest First</option>
-<option value="high">Highest Amount</option>
-<option value="low">Lowest Amount</option>
-  </select>
+<select id="expenseSort" onchange="sortExpense()">
 
-  <select id="expenseFilter" onchange="filterExpense()">
-    <option value="all">📋 All Expenses</option>
-    <option value="today">📅 Today</option>
-    <option value="month">🗓 This Month</option>
-  </select>
-<br><br>
+<option value="latest">Latest First</option>
+
+<option value="oldest">Oldest First</option>
+
+<option value="high">Highest Amount</option>
+
+<option value="low">Lowest Amount</option>
+
+</select>
 
 <select id="expenseFilter" onchange="filterExpense()">
 
@@ -82,30 +135,112 @@ onkeyup="searchExpense()">
 
 <option value="Shopping">Shopping</option>
 
+<option value="Bills">Bills</option>
+
 <option value="Other">Other</option>
 
 </select>
 
 <h2>Expense History</h2>
-<input
-type="text"
-id="searchExpense"
-placeholder="🔍 Search Expense..."
-onkeyup="searchExpense()">
 
 <ul id="expenseList"></ul>
 
-<link rel="stylesheet" href="css/style.css">
+  <!-- ===================================== -->
+<!-- Monthly Expense Summary -->
+<!-- ===================================== -->
 
-  <footer class="footer">
+<div class="card">
 
-<p>
-© 2026 ArthaFlow • Developed by Aditya Aakash
-</p>
+<h2>📊 Monthly Expense Summary</h2>
 
-  </footer>
+<p>Total Expense :
+<b id="monthExpense">₹0</b></p>
+
+<p>Total Entries :
+<b id="expenseEntries">0</b></p>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Quick Actions -->
+<!-- ===================================== -->
+
+<div class="card">
+
+<h2>⚡ Quick Actions</h2>
+
+<div class="dashboard-grid">
+
+<button onclick="downloadPDF()">
+📄 Export PDF
+</button>
+
+<button onclick="downloadCSV()">
+📊 Export CSV
+</button>
+
+<button onclick="window.print()">
+🖨 Print
+</button>
+
+<button onclick="clearExpenseHistory()">
+🗑 Clear History
+</button>
+
+</div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Expense Analytics -->
+<!-- ===================================== -->
+
+<div class="card">
+
+<h2>📉 Expense Analytics</h2>
+
+<canvas id="expenseChart"></canvas>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Footer -->
+<!-- ===================================== -->
+
+<footer class="footer">
+
+<h2>💎 ArthaFlow Premium</h2>
+
+<p>Track • Save • Invest • Grow</p>
+
+<hr>
+
+<p>© 2026 ArthaFlow</p>
+
+<p>Developed with ❤️ by <b>Aditya Aakash</b></p>
+
+</footer>
+
+<!-- ===================================== -->
+<!-- Scripts -->
+<!-- ===================================== -->
 
 <script src="js/script.js"></script>
 
+<script>
+
+window.addEventListener("load",function(){
+
+if(typeof loadExpense==="function"){
+
+loadExpense();
+
+}
+
+});
+
+</script>
+
 </body>
-</html>
+
+</html>  
