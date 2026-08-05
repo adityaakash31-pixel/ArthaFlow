@@ -2545,3 +2545,33 @@ color:#111827;
 margin:15px 0;
 
 }
+
+@media print {
+
+body *{
+visibility:hidden;
+}
+
+#invoicePreview,
+#invoicePreview *{
+visibility:visible;
+}
+
+#invoicePreview{
+position:absolute;
+left:0;
+top:0;
+width:100%;
+background:#fff;
+padding:20px;
+}
+
+button,
+.navbar,
+.top-header,
+.footer,
+.card{
+display:none !important;
+}
+
+}
