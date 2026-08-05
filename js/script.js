@@ -8562,3 +8562,147 @@ document.addEventListener("click", function(e){
     }
 
 });
+
+// ===============================
+// Step 95.8 - Generate Invoice Preview
+// ===============================
+
+function generateInvoice(){
+
+let preview = "";
+
+preview += "<h2>🧾 GST Invoice</h2>";
+
+preview += "<hr>";
+
+preview += "<h3>🏢 Business Details</h3>";
+
+preview += "<p><b>Business :</b> " +
+document.getElementById("businessName").value +
+"</p>";
+
+preview += "<p><b>GST :</b> " +
+document.getElementById("businessGST").value +
+"</p>";
+
+preview += "<p><b>Mobile :</b> " +
+document.getElementById("businessMobile").value +
+"</p>";
+
+preview += "<hr>";
+
+preview += "<h3>👤 Customer Details</h3>";
+
+preview += "<p><b>Name :</b> " +
+document.getElementById("customerName").value +
+"</p>";
+
+preview += "<p><b>GST :</b> " +
+document.getElementById("customerGST").value +
+"</p>";
+
+preview += "<p><b>Mobile :</b> " +
+document.getElementById("customerMobile").value +
+"</p>";
+
+    // ===============================
+// Product Table
+// ===============================
+
+preview += "<hr>";
+
+preview += "<h3>📦 Product Details</h3>";
+
+preview += `
+<table border="1" width="100%" cellspacing="0" cellpadding="6">
+
+<tr>
+
+<th>Product</th>
+
+<th>HSN</th>
+
+<th>Qty</th>
+
+<th>Rate</th>
+
+<th>GST</th>
+
+<th>Total</th>
+
+</tr>
+`;
+
+document.querySelectorAll("#productTable tr").forEach(row=>{
+
+const product =
+row.cells[0].querySelector("input")?.value || "";
+
+const hsn =
+row.cells[1].querySelector("input")?.value || "";
+
+const qty =
+row.cells[2].querySelector("input")?.value || "0";
+
+const rate =
+row.cells[3].querySelector("input")?.value || "0";
+
+const gst =
+row.cells[4].querySelector("input")?.value || "0";
+
+const total =
+row.cells[5].innerText || "₹0.00";
+
+preview += `
+<tr>
+
+<td>${product}</td>
+
+<td>${hsn}</td>
+
+<td>${qty}</td>
+
+<td>₹${rate}</td>
+
+<td>${gst}%</td>
+
+<td>${total}</td>
+
+</tr>
+`;
+
+});
+
+preview += "</table>";
+
+preview += "<hr>";
+
+// ===============================
+// GST Summary
+// ===============================
+
+preview += "<h3>💰 GST Summary</h3>";
+
+preview += "<p><b>Subtotal :</b> " +
+document.getElementById("subTotal").innerHTML +
+"</p>";
+
+preview += "<p><b>CGST :</b> " +
+document.getElementById("cgstTotal").innerHTML +
+"</p>";
+
+preview += "<p><b>SGST :</b> " +
+document.getElementById("sgstTotal").innerHTML +
+"</p>";
+
+preview += "<p><b>IGST :</b> " +
+document.getElementById("igstTotal").innerHTML +
+"</p>";
+
+preview += "<h2>Grand Total : " +
+document.getElementById("grandTotal").innerHTML +
+"</h2>";
+
+document.getElementById("invoicePreview").innerHTML = preview;
+
+}
