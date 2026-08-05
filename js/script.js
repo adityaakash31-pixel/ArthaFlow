@@ -7931,19 +7931,15 @@ const row =
 document.createElement("tr");
 
 row.innerHTML = `
-
-<td><input type="text" placeholder="Product Name"></td>
-
+<td><input type="text" placeholder="Product"></td>
 <td><input type="text" placeholder="HSN"></td>
-
-<td><input type="number" value="1" min="1" class="qty"></td>
-
-<td><input type="number" value="0" min="0" class="rate"></td>
-
-<td><input type="number" value="18" min="0" class="gst"></td>
-
-<td class="total">₹0</td>
-
+<td><input type="number" class="qty" value="1" min="1"></td>
+<td><input type="number" class="rate" value="0" min="0"></td>
+<td><input type="number" class="gst" value="18" min="0"></td>
+<td class="total">₹0.00</td>
+<td>
+<button class="deleteBtn">🗑️</button>
+</td>
 `;
 
 table.appendChild(row);
@@ -8537,5 +8533,32 @@ if(ids.includes(e.target.id)){
 saveGSTData();
 
 }
+
+});
+
+// ===============================
+// Delete Product Row
+// ===============================
+
+document.addEventListener("click", function(e){
+
+    if(e.target.classList.contains("deleteBtn")){
+
+        const table =
+        document.getElementById("productTable");
+
+        if(table.rows.length > 1){
+
+            e.target.closest("tr").remove();
+
+            calculateGST();
+
+        }else{
+
+            alert("At least one product row is required.");
+
+        }
+
+    }
 
 });
