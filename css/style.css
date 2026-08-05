@@ -2471,3 +2471,77 @@ transform:scale(1.05);
 box-shadow:0 4px 12px rgba(239,68,68,.35);
 
 }
+
+/* ===============================
+Invoice Preview
+=============================== */
+
+#invoicePreview{
+
+background:#ffffff;
+
+border:2px solid #2563EB;
+
+border-radius:12px;
+
+padding:20px;
+
+margin-top:20px;
+
+box-shadow:0 4px 12px rgba(0,0,0,0.10);
+
+overflow-x:auto;
+
+}
+
+#invoicePreview table{
+
+width:100%;
+
+border-collapse:collapse;
+
+margin-top:10px;
+
+}
+
+#invoicePreview th{
+
+background:#2563EB;
+
+color:white;
+
+padding:10px;
+
+}
+
+#invoicePreview td{
+
+padding:8px;
+
+text-align:center;
+
+border:1px solid #ddd;
+
+}
+
+#invoicePreview h2{
+
+color:#2563EB;
+
+margin-bottom:10px;
+
+}
+
+#invoicePreview h3{
+
+margin-top:15px;
+
+color:#111827;
+
+}
+
+#invoicePreview hr{
+
+margin:15px 0;
+
+}
