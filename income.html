@@ -2,16 +2,51 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Income - ArthaFlow</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="css/style.css">
+<title>ArthaFlow - Income</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+
 </head>
 
 <body>
-    <nav class="navbar">
+
+<!-- ============================= -->
+<!-- Premium Header -->
+<!-- ============================= -->
+
+<header class="top-header">
+
+<div class="header-brand">
+
+<img
+src="header-logo.png"
+alt="ArthaFlow Header Logo"
+class="header-logo">
+
+</div>
+
+<div class="premium-banner">
+
+<h2>💰 Income Manager</h2>
+
+<p>Add • Track • Manage Income</p>
+
+</div>
+
+</header>
+
+<!-- ============================= -->
+<!-- Navigation -->
+<!-- ============================= -->
+
+<nav class="navbar">
 
 <a href="index.html">🏠 Dashboard</a>
 
@@ -23,92 +58,182 @@
 
 <a href="settings.html">⚙ Settings</a>
 
-    </nav>
+</nav>
 
-    <h1>💰 Income</h1>
+<h1>💰 Income</h1>
 
-    <p>Add your income</p>
-    
-    <h2>Total Income</h2>
+<p>Add your income</p>
+
+<h2>Total Income</h2>
+
 <h1 id="totalIncome">₹0</h1>
 
-    <div class="card">
+<div class="card">
 
-        <label>Category</label>
-        <input type="text" id="category" placeholder="Salary / Business / Teaching">
+<label>Category</label>
 
-        <label>Amount</label>
-        <input type="number" id="amount" placeholder="₹ Enter Amount">
+<input
+type="text"
+id="category"
+placeholder="Salary / Business / Teaching">
 
-        <label>Date</label>
-<input type="date" id="incomeDate">
+<label>Amount</label>
+
+<input
+type="number"
+id="amount"
+placeholder="₹ Enter Amount">
+
+<label>Date</label>
+
+<input
+type="date"
+id="incomeDate">
 
 <label>Note</label>
-<input type="text" id="incomeNote" placeholder="Example: July Salary">
 
-        <button onclick="saveIncome()">
-    💾 Save Income
-        </button>
-
-    </div>
-
-    <input
+<input
 type="text"
-id="searchIncome"
-placeholder="🔍 Search Category..."
-onkeyup="searchIncome()">
+id="incomeNote"
+placeholder="Example: July Salary">
 
-    <select id="incomeSort" onchange="sortIncome()">
-<option value="latest">Latest First</option>
-<option value="oldest">Oldest First</option>
-<option value="high">Highest Amount</option>
-<option value="low">Lowest Amount</option>
-    </select>
+<button onclick="saveIncome()">
 
-    <select id="incomeFilter" onchange="filterIncome()">
+💾 Save Income
 
-<option value="all">All Categories</option>
+</button>
 
-<option value="Salary">Salary</option>
+</div>
 
-<option value="Business">Business</option>
-
-<option value="Teaching">Teaching</option>
-
-<option value="Other">Other</option>
-
-    </select>
-
-    <select id="incomeFilter" onchange="filterIncome()">
-
-<option value="all">All Categories</option>
-<option value="Salary">Salary</option>
-<option value="Business">Business</option>
-<option value="Freelancing">Freelancing</option>
-<option value="Investment">Investment</option>
-<option value="Other">Other</option>
-
-    </select>
-    <h2>Income History</h2>
-
-    <input
+<input
 type="text"
 id="searchIncome"
 placeholder="🔍 Search Income..."
 onkeyup="searchIncome()">
 
+<select id="incomeSort" onchange="sortIncome()">
+
+<option value="latest">Latest First</option>
+
+<option value="oldest">Oldest First</option>
+
+<option value="high">Highest Amount</option>
+
+<option value="low">Lowest Amount</option>
+
+</select>
+
+<select id="incomeFilter" onchange="filterIncome()">
+
+<option value="all">All Categories</option>
+
+<option value="Salary">Salary</option>
+
+<option value="Business">Business</option>
+
+<option value="Freelancing">Freelancing</option>
+
+<option value="Investment">Investment</option>
+
+<option value="Teaching">Teaching</option>
+
+<option value="Other">Other</option>
+
+</select>
+
+<h2>Income History</h2>
+
 <ul id="incomeList"></ul>
 
-    <footer class="footer">
+<!-- ============================= -->
+<!-- Monthly Income Summary -->
+<!-- ============================= -->
 
-<p>
-© 2026 ArthaFlow • Developed by Aditya Aakash
-</p>
+<div class="card">
 
-    </footer>
+<h2>📊 Monthly Income Summary</h2>
+
+<p>Total Income :
+<b id="monthIncome">₹0</b></p>
+
+<p>Total Entries :
+<b id="incomeEntries">0</b></p>
+
+</div>
+
+<!-- ============================= -->
+<!-- Quick Income Actions -->
+<!-- ============================= -->
+
+<div class="card">
+
+<h2>⚡ Quick Actions</h2>
+
+<div class="dashboard-grid">
+
+<button onclick="downloadPDF()">
+📄 Export PDF
+</button>
+
+<button onclick="downloadCSV()">
+📊 Export CSV
+</button>
+
+<button onclick="window.print()">
+🖨 Print
+</button>
+
+<button onclick="clearIncomeHistory()">
+🗑 Clear History
+</button>
+
+</div>
+
+</div>
+
+<!-- ============================= -->
+<!-- Income Analytics -->
+<!-- ============================= -->
+
+<div class="card">
+
+<h2>📈 Income Analytics</h2>
+
+<canvas id="incomeChart"></canvas>
+
+</div>
+
+    <!-- ============================= -->
+<!-- Footer -->
+<!-- ============================= -->
+
+<footer class="footer">
+
+<h2>💎 ArthaFlow Premium</h2>
+
+<p>Track • Save • Invest • Grow</p>
+
+<hr>
+
+<p>© 2026 ArthaFlow</p>
+
+<p>Developed with ❤️ by <b>Aditya Aakash</b></p>
+
+</footer>
 
 <script src="js/script.js"></script>
 
-</body>
+<script>
 
+window.addEventListener("load",function(){
+
+if(typeof loadIncome==="function"){
+loadIncome();
+}
+
+});
+
+</script>
+
+</body>
 </html>
