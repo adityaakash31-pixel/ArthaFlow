@@ -9174,3 +9174,49 @@ pdf.text("Developed with ❤️ by Aditya Aakash",120,285);
 pdf.save("ArthaFlow_GST_Invoice.pdf");
 
 }
+
+// ===============================
+// Step 95.16 - Download Filter PDF
+// ===============================
+
+async function downloadFilterPDF(){
+
+    alert("Filter PDF Started");
+
+    generateReport();
+
+    await new Promise(resolve => setTimeout(resolve,300));
+
+    const { jsPDF } = window.jspdf;
+
+    const pdf = new jsPDF();
+
+    let y = 20;
+
+// Header
+pdf.setFillColor(37,99,235);
+pdf.rect(0,0,210,28,"F");
+
+pdf.setTextColor(255,255,255);
+pdf.setFontSize(20);
+pdf.text("ArthaFlow Premium",20,16);
+
+pdf.setFontSize(10);
+pdf.text("Filtered Financial Report",135,16);
+
+pdf.setTextColor(0,0,0);
+
+y = 40;
+
+// Filter Dates
+const fromDate = document.getElementById("fromDate").value || "Not Selected";
+const toDate = document.getElementById("toDate").value || "Not Selected";
+
+pdf.setFontSize(12);
+pdf.text("From : " + fromDate,20,y);
+
+pdf.text("To : " + toDate,120,y);
+
+y += 12;
+
+}
