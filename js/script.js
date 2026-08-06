@@ -9027,9 +9027,10 @@ pdf.setTextColor(255,255,255);
 pdf.setFontSize(10);
 
 pdf.text("Product",22,y+5);
-pdf.text("Qty",85,y+5);
-pdf.text("Rate",105,y+5);
-pdf.text("GST",135,y+5);
+pdf.text("HSN",65,y+5);
+pdf.text("Qty",90,y+5);
+pdf.text("Rate",110,y+5);
+pdf.text("GST",140,y+5);
 pdf.text("Total",165,y+5);
 
 y += 12;
@@ -9041,6 +9042,9 @@ document.querySelectorAll("#productTable tr").forEach(row=>{
 const product =
 row.cells[0].querySelector("input")?.value.trim() || "-";
 
+const hsn =
+row.cells[1].querySelector("input")?.value.trim() || "-";
+
 const qty =
 row.cells[2].querySelector("input")?.value || "0";
 
@@ -9051,13 +9055,16 @@ const gst =
 row.cells[4].querySelector("input")?.value || "0";
 
 const total =
-row.cells[5].innerText || "₹0.00";
+parseFloat(
+row.cells[5].innerText.replace(/[^\d.]/g,"")
+) || 0;
 
 pdf.text(product,22,y);
-pdf.text(qty,85,y);
-pdf.text("₹" + Number(rate).toFixed(2),105,y);
-pdf.text(gst+"%",135,y);
-pdf.text("₹" + Number(total.replace(/[^\d.]/g,"")).toFixed(2),165,y);
+pdf.text(hsn,65,y);
+pdf.text(qty,90,y);
+pdf.text("₹" + Number(rate).toFixed(2),110,y);
+pdf.text(gst + "%",140,y);
+pdf.text("₹" + total.toFixed(2),165,y);
 
 y += 7;
 
