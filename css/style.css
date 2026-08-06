@@ -2562,15 +2562,14 @@ position:absolute;
 left:0;
 top:0;
 width:100%;
-background:#fff;
 padding:20px;
+background:#fff;
 }
 
-button,
-.navbar,
 .top-header,
+.navbar,
 .footer,
-.card{
+button{
 display:none !important;
 }
 
