@@ -1969,6 +1969,41 @@ const { jsPDF } = window.jspdf;
 
 const pdf = new jsPDF();
 
+// ===============================
+// Add Logo
+// ===============================
+
+const logo = document.getElementById("pdfLogo");
+
+if(logo){
+
+try{
+
+pdf.addImage(
+logo,
+"PNG",
+160,
+5,
+35,
+18
+);
+
+}catch(e){
+
+console.log("Logo not loaded");
+
+}
+
+}
+
+// Blue Header
+pdf.setFillColor(...pdfTheme.primary);
+pdf.rect(0,0,210,28,"F");
+
+pdf.setTextColor(255,255,255);
+pdf.setFontSize(22);
+pdf.text("ArthaFlow Premium",20,18);
+
 // Blue Header
 pdf.setFillColor(...pdfTheme.primary);
 pdf.rect(0,0,210,28,"F");
