@@ -8654,31 +8654,25 @@ function printInvoice(){
 
 generateInvoice();
 
-const preview = document.getElementById("invoicePreview");
-
-if(!preview.innerHTML.trim()){
-alert("Please Generate Invoice First.");
-return;
-}
-
 setTimeout(() => {
-window.print();
+
+const printWindow = window.open("", "_blank");
+
+printWindow.document.write(`
+<html>
+<head>
+<title>ArthaFlow GST Invoice</title>
+</head>
+<body>
+${document.getElementById("invoicePreview").innerHTML}
+</body>
+</html>
+`);
+
+printWindow.document.close();
+printWindow.focus();
+printWindow.print();
+
 },500);
-
-}
-
-// ===============================
-// Step 95.10 - Print Only Invoice
-// ===============================
-
-function printInvoice(){
-
-generateInvoice();
-
-setTimeout(function(){
-
-window.print();
-
-},300);
 
 }
