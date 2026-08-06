@@ -8874,3 +8874,287 @@ printWindow.print();
 },500);
 
 }
+
+// ===============================
+// Step 95.15 - Download Invoice PDF
+// ===============================
+
+async function downloadInvoicePDF(){
+
+    // पहले Preview Generate करो
+    generateInvoice();
+
+    // jsPDF Load
+    const { jsPDF } = window.jspdf;
+
+    const pdf = new jsPDF();
+
+    let y = 20;
+
+    // ===============================
+    // Header
+    // ===============================
+
+    pdf.setFontSize(20);
+    pdf.setTextColor(37,99,235);
+    pdf.text("ArthaFlow GST Invoice",20,y);
+
+    y += 10;
+
+    pdf.setFontSize(10);
+    pdf.setTextColor(120);
+    pdf.text("Create • Calculate • Export",20,y);
+
+    y += 10;
+
+    pdf.line(20,y,190,y);
+
+    y += 10;
+
+// ===============================
+// Business Details
+// ===============================
+
+pdf.setFontSize(14);
+pdf.setTextColor(37,99,235);
+pdf.text("Business Details",20,y);
+
+y += 8;
+
+pdf.setFontSize(11);
+pdf.setTextColor(0,0,0);
+
+pdf.text("Business : " + document.getElementById("businessName").value,20,y);
+y += 7;
+
+pdf.text("GST No : " + document.getElementById("businessGST").value,20,y);
+y += 7;
+
+pdf.text("Mobile : " + document.getElementById("businessMobile").value,20,y);
+y += 7;
+
+pdf.text("Email : " + document.getElementById("businessEmail").value,20,y);
+
+y += 12;
+
+// ===============================
+// Customer Details
+// ===============================
+
+pdf.setFontSize(14);
+pdf.setTextColor(37,99,235);
+pdf.text("Customer Details",20,y);
+
+y += 8;
+
+pdf.setFontSize(11);
+pdf.setTextColor(0,0,0);
+
+pdf.text("Customer : " + document.getElementById("customerName").value,20,y);
+y += 7;
+
+pdf.text("GST No : " + document.getElementById("customerGST").value,20,y);
+y += 7;
+
+pdf.text("Mobile : " + document.getElementById("customerMobile").value,20,y);
+y += 7;
+
+pdf.text("Address : " + document.getElementById("customerAddress").value,20,y);
+
+y += 12;
+
+// ===============================
+// Invoice Details
+// ===============================
+
+pdf.setFontSize(14);
+pdf.setTextColor(37,99,235);
+pdf.text("Invoice Details",20,y);
+
+y += 8;
+
+pdf.setFontSize(11);
+pdf.setTextColor(0,0,0);
+
+pdf.text("Invoice No : " + document.getElementById("invoiceNumber").value,20,y);
+y += 7;
+
+pdf.text("Invoice Date : " + document.getElementById("invoiceDate").value,20,y);
+y += 7;
+
+pdf.text("Due Date : " + document.getElementById("dueDate").value,20,y);
+
+y += 15;
+
+// ===============================
+// Business Details
+// ===============================
+
+pdf.setFontSize(14);
+pdf.setTextColor(37,99,235);
+pdf.text("Business Details",20,y);
+
+y += 8;
+
+pdf.setFontSize(11);
+pdf.setTextColor(0,0,0);
+
+pdf.text("Business : " + document.getElementById("businessName").value,20,y);
+
+y += 7;
+
+pdf.text("GST No : " + document.getElementById("businessGST").value,20,y);
+
+y += 7;
+
+pdf.text("Mobile : " + document.getElementById("businessMobile").value,20,y);
+
+y += 7;
+
+pdf.text("Email : " + document.getElementById("businessEmail").value,20,y);
+
+y += 12;
+
+// ===============================
+// Customer Details
+// ===============================
+
+pdf.setFontSize(14);
+pdf.setTextColor(37,99,235);
+pdf.text("Customer Details",20,y);
+
+y += 8;
+
+pdf.setFontSize(11);
+pdf.setTextColor(0,0,0);
+
+pdf.text("Customer : " + document.getElementById("customerName").value,20,y);
+
+y += 7;
+
+pdf.text("GST No : " + document.getElementById("customerGST").value,20,y);
+
+y += 7;
+
+pdf.text("Mobile : " + document.getElementById("customerMobile").value,20,y);
+
+y += 7;
+
+pdf.text("Address : " + document.getElementById("customerAddress").value,20,y);
+
+y += 12;
+
+// ===============================
+// Invoice Details
+// ===============================
+
+pdf.setFontSize(14);
+pdf.setTextColor(37,99,235);
+pdf.text("Invoice Details",20,y);
+
+y += 8;
+
+pdf.setFontSize(11);
+pdf.setTextColor(0,0,0);
+
+pdf.text("Invoice No : " + document.getElementById("invoiceNumber").value,20,y);
+
+y += 7;
+
+pdf.text("Invoice Date : " + document.getElementById("invoiceDate").value,20,y);
+
+y += 7;
+
+pdf.text("Due Date : " + document.getElementById("dueDate").value,20,y);
+
+y += 12;
+
+// ===============================
+// Product Table
+// ===============================
+
+pdf.setFontSize(14);
+pdf.setTextColor(37,99,235);
+pdf.text("Product Details",20,y);
+
+y += 8;
+
+pdf.setFontSize(10);
+
+pdf.text("Product",20,y);
+pdf.text("Qty",85,y);
+pdf.text("Rate",105,y);
+pdf.text("GST",140,y);
+pdf.text("Total",170,y);
+
+y += 6;
+
+document.querySelectorAll("#productTable tr").forEach(row=>{
+
+const product = row.cells[0].querySelector("input")?.value || "";
+const qty = row.cells[2].querySelector("input")?.value || "0";
+const rate = row.cells[3].querySelector("input")?.value || "0";
+const gst = row.cells[4].querySelector("input")?.value || "0";
+const total = row.cells[5].innerText || "₹0.00";
+
+pdf.text(product,20,y);
+pdf.text(qty,85,y);
+pdf.text("₹"+rate,105,y);
+pdf.text(gst+"%",140,y);
+pdf.text(total,170,y);
+
+y += 7;
+
+});
+
+// ===============================
+// GST Summary
+// ===============================
+
+y += 5;
+
+pdf.setFontSize(14);
+pdf.setTextColor(37,99,235);
+pdf.text("GST Summary",20,y);
+
+y += 8;
+
+pdf.setFontSize(11);
+pdf.setTextColor(0,0,0);
+
+pdf.text("Subtotal : " + document.getElementById("subTotal").innerText,20,y);
+
+y += 7;
+
+pdf.text("CGST : " + document.getElementById("cgstTotal").innerText,20,y);
+
+y += 7;
+
+pdf.text("SGST : " + document.getElementById("sgstTotal").innerText,20,y);
+
+y += 7;
+
+pdf.setFontSize(15);
+pdf.setTextColor(34,197,94);
+
+pdf.text("Grand Total : " + document.getElementById("grandTotal").innerText,20,y);
+
+// ===============================
+// Footer
+// ===============================
+
+pdf.setTextColor(120);
+
+pdf.setFontSize(10);
+
+pdf.text("Generated by ArthaFlow Premium",20,285);
+
+pdf.text("Developed with ❤️ by Aditya Aakash",110,285);
+
+// ===============================
+// Save PDF
+// ===============================
+
+pdf.save("ArthaFlow_GST_Invoice.pdf");
+
+}
