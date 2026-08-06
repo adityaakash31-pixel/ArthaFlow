@@ -8636,10 +8636,10 @@ const total = row.cells[5].innerText || "₹0.00";
 
 preview += `
 <tr>
-<td>${product}</td>
-<td>${hsn}</td>
+<td>${product || "-"}</td>
+<td>${hsn || "-"}</td>
 <td>${qty}</td>
-<td>₹${rate}</td>
+<td>₹${Number(rate).toFixed(2)}</td>
 <td>${gst}%</td>
 <td>${total}</td>
 </tr>
