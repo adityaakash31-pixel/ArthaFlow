@@ -8892,25 +8892,23 @@ const { jsPDF } = window.jspdf;
     let y = 20;
 
     // ===============================
-    // Header
-    // ===============================
+// Premium Header
+// ===============================
 
-    pdf.setFontSize(20);
-    pdf.setTextColor(37,99,235);
-    pdf.text("ArthaFlow GST Invoice",20,y);
+pdf.setFillColor(37,99,235);
+pdf.rect(0,0,210,28,"F");
 
-    y += 10;
+pdf.setTextColor(255,255,255);
+pdf.setFontSize(22);
+pdf.text("ArthaFlow Premium",20,18);
 
-    pdf.setFontSize(10);
-    pdf.setTextColor(120);
-    pdf.text("Create • Calculate • Export",20,y);
+pdf.setFontSize(11);
+pdf.text("GST Invoice",150,18);
 
-    y += 10;
+pdf.setTextColor(0,0,0);
 
-    pdf.line(20,y,190,y);
-
-    y += 10;
-
+y = 40;
+    
 // ===============================
 // Business Details
 // ===============================
