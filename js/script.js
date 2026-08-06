@@ -8881,11 +8881,11 @@ printWindow.print();
 
 async function downloadInvoicePDF(){
 
-    // पहले Preview Generate करो
-    generateInvoice();
+alert("Download Function Started");
 
-    // jsPDF Load
-    const { jsPDF } = window.jspdf;
+generateInvoice();
+
+const { jsPDF } = window.jspdf;
 
     const pdf = new jsPDF();
 
