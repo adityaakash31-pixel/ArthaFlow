@@ -8572,9 +8572,19 @@ function generateInvoice(){
 let preview = "";
 
 preview += `
-<div style="text-align:center">
-<h2 style="color:#2563EB;">🧾 ArthaFlow GST Invoice</h2>
-<p><b>Create • Calculate • Export</b></p>
+<div style="text-align:center;border-bottom:3px solid #2563EB;padding-bottom:15px;margin-bottom:20px;">
+
+<img src="header-logo.png"
+style="width:90px;height:auto;margin-bottom:10px;">
+
+<h2 style="color:#2563EB;margin:0;">
+ArthaFlow GST Invoice
+</h2>
+
+<p style="color:#666;">
+Create • Calculate • Export
+</p>
+
 </div>
 `;
 preview += "<hr>";
@@ -8657,6 +8667,59 @@ preview += "<p><b>CGST :</b> " + document.getElementById("cgstTotal").innerHTML 
 preview += "<p><b>SGST :</b> " + document.getElementById("sgstTotal").innerHTML + "</p>";
 preview += "<p><b>IGST :</b> " + document.getElementById("igstTotal").innerHTML + "</p>";
 preview += "<h2>Grand Total : " + document.getElementById("grandTotal").innerHTML + "</h2>";
+
+preview += "<hr>";
+
+preview += `
+<br><br>
+
+<table width="100%">
+
+<tr>
+
+<td align="left">
+
+____________________
+<br>
+
+Customer Signature
+
+</td>
+
+<td align="right">
+
+____________________
+<br>
+
+Authorized Signature
+
+</td>
+
+</tr>
+
+</table>
+
+`;
+
+preview += `
+<div style="text-align:center;margin-top:30px;">
+
+<h3 style="color:#2563EB;">
+💎 ArthaFlow Premium
+</h3>
+
+<p>Create • Calculate • Export</p>
+
+<p style="font-size:12px;color:gray;">
+© 2026 ArthaFlow
+</p>
+
+<p style="font-size:12px;">
+Developed with ❤️ by <b>Aditya Aakash</b>
+</p>
+
+</div>
+`;
 
 document.getElementById("invoicePreview").innerHTML = preview;
 
