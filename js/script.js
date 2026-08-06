@@ -8887,24 +8887,42 @@ generateInvoice();
 
 const { jsPDF } = window.jspdf;
 
-    const pdf = new jsPDF();
+// PDF Logo
+const logo = document.getElementById("pdfLogo");
 
-    let y = 20;
+const pdf = new jsPDF();
 
-    // ===============================
-// Premium Header
+let y = 20;
+
+// ===============================
+// Premium Header with Logo
 // ===============================
 
 pdf.setFillColor(37,99,235);
-pdf.rect(0,0,210,28,"F");
+pdf.rect(0,0,210,30,"F");
 
+// Logo
+if(logo){
+    pdf.addImage(
+        logo,
+        "PNG",
+        12,
+        6,
+        16,
+        16
+    );
+}
+
+// Title
 pdf.setTextColor(255,255,255);
-pdf.setFontSize(22);
-pdf.text("ArthaFlow Premium",20,18);
+pdf.setFontSize(20);
+pdf.text("ArthaFlow Premium",35,18);
 
+// Right Side
 pdf.setFontSize(11);
-pdf.text("GST Invoice",150,18);
+pdf.text("GST Invoice",160,18);
 
+// Reset Text Color
 pdf.setTextColor(0,0,0);
 
 y = 40;
