@@ -9181,6 +9181,8 @@ pdf.save("ArthaFlow_GST_Invoice.pdf");
 
 async function downloadFilterPDF(){
 
+    try{
+
     alert("Filter PDF Started");
 
     generateReport();
@@ -9421,5 +9423,11 @@ pdf.text(
 // ===============================
 
 pdf.save("ArthaFlow_Filter_Report.pdf");
+
+
+        }catch(err){
+    alert(err.message);
+    console.error(err);
+    }
 
 }
