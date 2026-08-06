@@ -8595,6 +8595,22 @@ preview += "<p><b>Address :</b> " + document.getElementById("customerAddress").v
 
 preview += "<hr>";
 
+preview += "<h3>🧾 Invoice Information</h3>";
+
+preview += "<p><b>Invoice No :</b> " +
+document.getElementById("invoiceNumber").value +
+"</p>";
+
+preview += "<p><b>Invoice Date :</b> " +
+document.getElementById("invoiceDate").value +
+"</p>";
+
+preview += "<p><b>Due Date :</b> " +
+document.getElementById("dueDate").value +
+"</p>";
+
+preview += "<hr>";
+
 preview += "<h3>📦 Product Details</h3>";
 
 preview += `
