@@ -9038,17 +9038,26 @@ pdf.setTextColor(0,0,0);
 
 document.querySelectorAll("#productTable tr").forEach(row=>{
 
-const product = row.cells[0].querySelector("input")?.value || "";
-const qty = row.cells[2].querySelector("input")?.value || "0";
-const rate = row.cells[3].querySelector("input")?.value || "0";
-const gst = row.cells[4].querySelector("input")?.value || "0";
-const total = row.cells[5].innerText || "₹0.00";
+const product =
+row.cells[0].querySelector("input")?.value.trim() || "-";
+
+const qty =
+row.cells[2].querySelector("input")?.value || "0";
+
+const rate =
+row.cells[3].querySelector("input")?.value || "0";
+
+const gst =
+row.cells[4].querySelector("input")?.value || "0";
+
+const total =
+row.cells[5].innerText || "₹0.00";
 
 pdf.text(product,22,y);
 pdf.text(qty,85,y);
-pdf.text("₹"+rate,105,y);
+pdf.text("₹" + Number(rate).toFixed(2),105,y);
 pdf.text(gst+"%",135,y);
-pdf.text(total,165,y);
+pdf.text("₹" + Number(total.replace(/[^\d.]/g,"")).toFixed(2),165,y);
 
 y += 7;
 
@@ -9089,8 +9098,13 @@ pdf.roundedRect(115,y+12,65,18,3,3,"F");
 pdf.setTextColor(255,255,255);
 pdf.setFontSize(12);
 
+const grand =
+document.getElementById("grandTotal")
+.innerText
+.replace(/[^\d.]/g,"");
+
 pdf.text(
-"Grand : " + document.getElementById("grandTotal").innerText,
+"Grand : ₹" + Number(grand).toFixed(2),
 120,
 y+24
 );
