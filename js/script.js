@@ -8910,100 +8910,113 @@ pdf.setTextColor(0,0,0);
 y = 40;
     
 // ===============================
-// Business Details
+// Business & Customer Details
 // ===============================
 
-pdf.setFontSize(14);
+pdf.setFontSize(13);
 pdf.setTextColor(37,99,235);
 pdf.text("Business Details",20,y);
 
-y += 8;
-
-pdf.setFontSize(11);
-pdf.setTextColor(0,0,0);
-
-pdf.text("Business : " + document.getElementById("businessName").value,20,y);
-y += 7;
-
-pdf.text("GST No : " + document.getElementById("businessGST").value,20,y);
-y += 7;
-
-pdf.text("Mobile : " + document.getElementById("businessMobile").value,20,y);
-y += 7;
-
-pdf.text("Email : " + document.getElementById("businessEmail").value,20,y);
-
-y += 12;
-
-// ===============================
-// Customer Details
-// ===============================
-
-pdf.setFontSize(14);
-pdf.setTextColor(37,99,235);
-pdf.text("Customer Details",20,y);
-
-y += 8;
-
-pdf.setFontSize(11);
-pdf.setTextColor(0,0,0);
-
-pdf.text("Customer : " + document.getElementById("customerName").value,20,y);
-y += 7;
-
-pdf.text("GST No : " + document.getElementById("customerGST").value,20,y);
-y += 7;
-
-pdf.text("Mobile : " + document.getElementById("customerMobile").value,20,y);
-y += 7;
-
-pdf.text("Address : " + document.getElementById("customerAddress").value,20,y);
-
-y += 12;
-
-// ===============================
-// Invoice Details
-// ===============================
-
-pdf.setFontSize(14);
-pdf.setTextColor(37,99,235);
-pdf.text("Invoice Details",20,y);
-
-y += 8;
-
-pdf.setFontSize(11);
-pdf.setTextColor(0,0,0);
-
-pdf.text("Invoice No : " + document.getElementById("invoiceNumber").value,20,y);
-y += 7;
-
-pdf.text("Invoice Date : " + document.getElementById("invoiceDate").value,20,y);
-y += 7;
-
-pdf.text("Due Date : " + document.getElementById("dueDate").value,20,y);
-
-y += 15;
-
-
-// ===============================
-// Product Table
-// ===============================
-
-pdf.setFontSize(14);
-pdf.setTextColor(37,99,235);
-pdf.text("Product Details",20,y);
+pdf.text("Customer Details",115,y);
 
 y += 8;
 
 pdf.setFontSize(10);
+pdf.setTextColor(0,0,0);
 
-pdf.text("Product",20,y);
-pdf.text("Qty",85,y);
-pdf.text("Rate",105,y);
-pdf.text("GST",140,y);
-pdf.text("Total",170,y);
+// Left Column (Business)
+
+pdf.text("Business :",20,y);
+pdf.text(document.getElementById("businessName").value,50,y);
 
 y += 6;
+
+pdf.text("GST No :",20,y);
+pdf.text(document.getElementById("businessGST").value,50,y);
+
+y += 6;
+
+pdf.text("Mobile :",20,y);
+pdf.text(document.getElementById("businessMobile").value,50,y);
+
+y += 6;
+
+pdf.text("Email :",20,y);
+pdf.text(document.getElementById("businessEmail").value,50,y);
+
+// Right Column (Customer)
+
+let y2 = y - 18;
+
+pdf.text("Customer :",115,y2);
+pdf.text(document.getElementById("customerName").value,150,y2);
+
+y2 += 6;
+
+pdf.text("GST No :",115,y2);
+pdf.text(document.getElementById("customerGST").value,150,y2);
+
+y2 += 6;
+
+pdf.text("Mobile :",115,y2);
+pdf.text(document.getElementById("customerMobile").value,150,y2);
+
+y2 += 6;
+
+pdf.text("Address :",115,y2);
+pdf.text(document.getElementById("customerAddress").value,150,y2);
+
+y = Math.max(y,y2) + 12;
+
+pdf.line(20,y,190,y);
+
+y += 10;
+
+// ===============================
+// Invoice Information Box
+// ===============================
+
+pdf.setFillColor(245,247,250);
+pdf.roundedRect(20,y,170,28,3,3,"F");
+
+pdf.setDrawColor(200);
+pdf.roundedRect(20,y,170,28,3,3);
+
+pdf.setFontSize(12);
+pdf.setTextColor(37,99,235);
+pdf.text("Invoice Information",25,y+7);
+
+pdf.setFontSize(10);
+pdf.setTextColor(0,0,0);
+
+pdf.text("Invoice No : " + document.getElementById("invoiceNumber").value,25,y+15);
+
+pdf.text("Invoice Date : " + document.getElementById("invoiceDate").value,100,y+15);
+
+pdf.text("Due Date : " + document.getElementById("dueDate").value,25,y+23);
+
+y += 40;
+
+
+// ===============================
+// Premium Product Table
+// ===============================
+
+pdf.setFillColor(37,99,235);
+pdf.rect(20,y,170,8,"F");
+
+pdf.setTextColor(255,255,255);
+pdf.setFontSize(10);
+
+pdf.text("Product",22,y+5);
+pdf.text("Qty",85,y+5);
+pdf.text("Rate",105,y+5);
+pdf.text("GST",135,y+5);
+pdf.text("Total",165,y+5);
+
+y += 12;
+
+pdf.setTextColor(0,0,0);
 
 document.querySelectorAll("#productTable tr").forEach(row=>{
 
@@ -9013,13 +9026,19 @@ const rate = row.cells[3].querySelector("input")?.value || "0";
 const gst = row.cells[4].querySelector("input")?.value || "0";
 const total = row.cells[5].innerText || "₹0.00";
 
-pdf.text(product,20,y);
+pdf.text(product,22,y);
 pdf.text(qty,85,y);
 pdf.text("₹"+rate,105,y);
-pdf.text(gst+"%",140,y);
-pdf.text(total,170,y);
+pdf.text(gst+"%",135,y);
+pdf.text(total,165,y);
 
 y += 7;
+
+// अगर पेज भर जाए तो नया पेज
+if(y > 260){
+    pdf.addPage();
+    y = 20;
+}
 
 });
 
