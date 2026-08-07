@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -92,62 +93,60 @@ button:disabled{
 
 <h2>✨ Create ArthaFlow Account</h2>
 
-<form id="registerForm" autocomplete="off">
+<form id="registerForm">
 
-<label for="email">Email</label>
-
-<input
-    type="email"
-    id="email"
-    name="register_email"
-    placeholder="Enter your email"
-    autocomplete="off"
-    required
->
-
-<label for="username">User ID</label>
+<label>Email</label>
 
 <input
-    type="text"
-    id="username"
-    name="new_user_id"
-    placeholder="Create your User ID"
-    autocomplete="off"
-    autocapitalize="none"
-    required
+type="email"
+id="email"
+placeholder="Enter your email"
+required
 >
 
-<label for="password">Password</label>
+<label>User ID</label>
 
 <input
-    type="password"
-    id="password"
-    name="new_password"
-    placeholder="Create password"
-    autocomplete="new-password"
-    required
+type="text"
+id="username"
+placeholder="Create your User ID"
+required
 >
 
-<label for="confirmPassword">Confirm Password</label>
+<label>Password</label>
 
 <input
-    type="password"
-    id="confirmPassword"
-    name="confirm_new_password"
-    placeholder="Confirm password"
-    autocomplete="new-password"
-    required
+type="password"
+id="password"
+placeholder="Create password"
+required
 >
 
-<button type="submit" id="createBtn">
+<label>Confirm Password</label>
+
+<input
+type="password"
+id="confirmPassword"
+placeholder="Confirm password"
+required
+>
+
+<button
+type="submit"
+id="createBtn">
+
 Create Account
+
 </button>
 
 </form>
 
 <div class="login">
+
 Already have an account?
+
 <a href="login.html">Login</a>
+
 </div>
 
 </div>
@@ -155,41 +154,47 @@ Already have an account?
 
 <script type="module">
 
-import { auth } from "./js/firebase-config.js";
+import { auth }
+from "./js/firebase-config.js";
 
 import {
     createUserWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.7.1/firebase-auth.js";
+}
+from "https://www.gstatic.com/firebasejs/12.7.1/firebase-auth.js";
 
 
-console.log("Firebase Auth:", auth);
+console.log("REGISTER FIREBASE READY");
 
 
-const form = document.getElementById("registerForm");
+const form =
+document.getElementById("registerForm");
 
-const button = document.getElementById("createBtn");
+const button =
+document.getElementById("createBtn");
 
 
 form.addEventListener("submit", async function(event){
 
     event.preventDefault();
 
+
     const email =
-        document.getElementById("email").value.trim();
+    document.getElementById("email").value.trim();
 
     const username =
-        document.getElementById("username").value.trim();
+    document.getElementById("username").value.trim();
 
     const password =
-        document.getElementById("password").value;
+    document.getElementById("password").value;
 
     const confirmPassword =
-        document.getElementById("confirmPassword").value;
+    document.getElementById("confirmPassword").value;
 
 
     if(!email || !username || !password || !confirmPassword){
 
         alert("सभी जानकारी भरें।");
+
         return;
 
     }
@@ -198,6 +203,7 @@ form.addEventListener("submit", async function(event){
     if(password !== confirmPassword){
 
         alert("Password और Confirm Password अलग हैं।");
+
         return;
 
     }
@@ -206,6 +212,7 @@ form.addEventListener("submit", async function(event){
     if(password.length < 6){
 
         alert("Password कम से कम 6 characters का होना चाहिए।");
+
         return;
 
     }
@@ -213,62 +220,84 @@ form.addEventListener("submit", async function(event){
 
     button.disabled = true;
 
-    button.textContent = "Creating Account...";
+    button.textContent =
+    "Creating Account...";
 
 
     try{
 
-        const userCredential =
-            await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
+        const result =
+        await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
 
 
         console.log(
-            "Account Created:",
-            userCredential.user.uid
+            "ACCOUNT CREATED:",
+            result.user.uid
         );
 
 
         alert(
-            "✅ Account successfully created!\n\n" +
-            "अब Login करें।"
+            "✅ Account successfully created!\n\nअब Login करें।"
         );
 
 
-        window.location.href = "login.html";
+        window.location.href =
+        "login.html";
 
 
-    }catch(error){
+    }
+
+    catch(error){
 
         console.error(
-            "Firebase Error:",
+            "REGISTER ERROR:",
             error
         );
 
 
-        if(error.code === "auth/email-already-in-use"){
+        if(
+            error.code ===
+            "auth/email-already-in-use"
+        ){
 
-            alert("यह Email पहले से registered है।");
-
-        }
-        else if(error.code === "auth/invalid-email"){
-
-            alert("Email सही नहीं है।");
-
-        }
-        else if(error.code === "auth/weak-password"){
-
-            alert("Password बहुत कमजोर है। कम से कम 6 characters रखें।");
+            alert(
+                "यह Email पहले से registered है।"
+            );
 
         }
+
+        else if(
+            error.code ===
+            "auth/invalid-email"
+        ){
+
+            alert(
+                "Email सही नहीं है।"
+            );
+
+        }
+
+        else if(
+            error.code ===
+            "auth/weak-password"
+        ){
+
+            alert(
+                "Password कम से कम 6 characters का रखें।"
+            );
+
+        }
+
         else{
 
             alert(
                 "Account create नहीं हुआ।\n\n" +
-                error.code + "\n" +
+                error.code +
+                "\n" +
                 error.message
             );
 
@@ -277,7 +306,8 @@ form.addEventListener("submit", async function(event){
 
         button.disabled = false;
 
-        button.textContent = "Create Account";
+        button.textContent =
+        "Create Account";
 
     }
 
@@ -286,4 +316,5 @@ form.addEventListener("submit", async function(event){
 </script>
 
 </body>
+
 </html>
