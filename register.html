@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ArthaFlow Create Account</title>
+
+</head>
+
+<body>
+
+<h2>Create ArthaFlow Account</h2>
+
+<input
+    type="email"
+    id="email"
+    placeholder="Email">
+
+<br><br>
+
+<input
+    type="text"
+    id="username"
+    placeholder="User ID">
+
+<br><br>
+
+<input
+    type="password"
+    id="password"
+    placeholder="Password">
+
+<br><br>
+
+<input
+    type="password"
+    id="confirmPassword"
+    placeholder="Confirm Password">
+
+<br><br>
+
+<button onclick="createAccount()">
+Create Account
+</button>
+
+<script type="module">
+
+import {
+    auth
+} from "./js/firebase-config.js";
+
+import {
+    createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.7.1/firebase-auth.js";
+
+window.createAccount = async function(){
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+    if(!email || !password){
+
+        alert("Email और Password भरें");
+        return;
+
+    }
+
+    if(password !== confirmPassword){
+
+        alert("Password match नहीं कर रहा है");
+        return;
+
+    }
+
+    try{
+
+        await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+        alert("Account successfully created!");
+
+        window.location.href = "login.html";
+
+    }catch(error){
+
+        console.error(error);
+
+        alert("Account create नहीं हुआ: " + error.message);
+
+    }
+
+};
+
+</script>
+
+</body>
+</html>
