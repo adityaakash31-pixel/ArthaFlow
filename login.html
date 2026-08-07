@@ -94,8 +94,7 @@ autocomplete="current-password">
 
 <button
 id="loginBtn"
-type="button"
-onclick="loginUser()">
+type="button">
 
 Login
 
@@ -107,8 +106,7 @@ New user?
 </p>
 
 <p>
-<a href="#"
-onclick="forgotPassword(); return false;">
+<a href="#" id="forgotPassword">
 Forgot Password?
 </a>
 </p>
@@ -116,95 +114,34 @@ Forgot Password?
 </div>
 
 
-<!-- Firebase -->
+<script type="module">
 
-<script src="https://www.gstatic.com/firebasejs/12.7.1/firebase-app-compat.js"></script>
+import { auth }
+from "./js/firebase-config.js";
 
-<script src="https://www.gstatic.com/firebasejs/12.7.1/firebase-auth-compat.js"></script>
-
-
-<script>
-
-/* =====================================
-   ARTHAFLOW FIREBASE LOGIN
-===================================== */
-
-console.log("ArthaFlow Login JavaScript Started");
-
-
-const firebaseConfig = {
-
-    apiKey:
-    "AIzaSyDM8WtiKL5hSSoDH4BoacMUIQ3QVSpjxJI",
-
-    authDomain:
-    "arthaflow-4d670.firebaseapp.com",
-
-    projectId:
-    "arthaflow-4d670",
-
-    storageBucket:
-    "arthaflow-4d670.firebasestorage.app",
-
-    messagingSenderId:
-    "417281404304",
-
-    appId:
-    "1:417281404304:web:a0b9fa5a787ad0426d5715",
-
-    measurementId:
-    "G-785TXW9WTL"
-
-};
-
-
-/* =====================================
-   FIREBASE INITIALIZE
-===================================== */
-
-try{
-
-    firebase.initializeApp(firebaseConfig);
-
-    console.log("Firebase initialized");
-
+import {
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail
 }
-
-catch(error){
-
-    console.error(
-        "Firebase initialization error:",
-        error
-    );
-
-    alert(
-        "Firebase शुरू नहीं हो पाया:\n\n" +
-        error.message
-    );
-
-}
+from "https://www.gstatic.com/firebasejs/12.7.1/firebase-auth.js";
 
 
-const auth = firebase.auth();
+console.log("ArthaFlow Firebase Login Ready");
 
 
-/* =====================================
+/* =================================
    LOGIN
-===================================== */
+================================= */
 
-async function loginUser(){
-
-    console.log("LOGIN BUTTON CLICKED");
-
-    alert("LOGIN BUTTON WORKING");
-
+document
+.getElementById("loginBtn")
+.addEventListener("click", async function(){
 
     const email =
         document
         .getElementById("email")
         .value
         .trim();
-
 
     const password =
         document
@@ -240,56 +177,19 @@ async function loginUser(){
         "Logging in...";
 
 
-    /* =================================
-       30 SECOND SAFETY TIMEOUT
-    ================================= */
-
-    let completed = false;
-
-
-    const timeout =
-        setTimeout(function(){
-
-            if(!completed){
-
-                button.disabled = false;
-
-                button.innerText =
-                    "Login";
-
-
-                alert(
-                    "Firebase से response नहीं आया।\n\n" +
-                    "Internet connection और Firebase configuration check करें।"
-                );
-
-            }
-
-        },30000);
-
-
     try{
 
-        console.log(
-            "Trying Firebase login..."
-        );
-
-
-        const userCredential =
-            await auth.signInWithEmailAndPassword(
+        const result =
+            await signInWithEmailAndPassword(
+                auth,
                 email,
                 password
             );
 
 
-        completed = true;
-
-        clearTimeout(timeout);
-
-
         console.log(
             "LOGIN SUCCESS:",
-            userCredential.user.email
+            result.user.email
         );
 
 
@@ -317,42 +217,45 @@ async function loginUser(){
 
     catch(error){
 
-        completed = true;
-
-        clearTimeout(timeout);
-
-
         console.error(
-            "FIREBASE LOGIN ERROR:",
+            "LOGIN ERROR:",
             error
         );
 
+
+        alert(
+            "Login Error\n\n" +
+            "Code: " +
+            error.code +
+            "\n\n" +
+            error.message
+        );
+
+
+    }
+
+    finally{
 
         button.disabled = false;
 
         button.innerText =
             "Login";
 
-
-        alert(
-            "LOGIN ERROR\n\n" +
-            "Code: " +
-            error.code +
-            "\n\n" +
-            "Message: " +
-            error.message
-        );
-
     }
 
-}
+});
 
 
-/* =====================================
+/* =================================
    FORGOT PASSWORD
-===================================== */
+================================= */
 
-async function forgotPassword(){
+document
+.getElementById("forgotPassword")
+.addEventListener("click", async function(event){
+
+    event.preventDefault();
+
 
     const email =
         document
@@ -374,7 +277,8 @@ async function forgotPassword(){
 
     try{
 
-        await auth.sendPasswordResetEmail(
+        await sendPasswordResetEmail(
+            auth,
             email
         );
 
@@ -382,6 +286,7 @@ async function forgotPassword(){
         alert(
             "Password reset link आपके Email पर भेज दिया गया है।"
         );
+
 
     }
 
@@ -395,16 +300,14 @@ async function forgotPassword(){
 
         alert(
             "Password reset नहीं हुआ।\n\n" +
-            "Code: " +
             error.code +
             "\n\n" +
-            "Message: " +
             error.message
         );
 
     }
 
-}
+});
 
 </script>
 
