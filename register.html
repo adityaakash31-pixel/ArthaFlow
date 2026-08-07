@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ArthaFlow - Create Account</title>
+<title>ArthaFlow Create Account</title>
 
 <style>
 
@@ -17,80 +16,67 @@
 body{
     margin:0;
     min-height:100vh;
-    font-family:Arial,sans-serif;
-    background:#0f172a;
     display:flex;
     justify-content:center;
     align-items:center;
-    padding:20px;
+    background:#0f172a;
+    font-family:Arial,sans-serif;
 }
 
 .box{
-    width:100%;
-    max-width:380px;
+    width:90%;
+    max-width:360px;
     background:white;
-    padding:30px 25px;
-    border-radius:18px;
+    padding:25px;
+    border-radius:16px;
     box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
 h2{
     text-align:center;
-    margin:0 0 25px;
-    color:#0f172a;
+    margin-top:0;
+    margin-bottom:22px;
 }
 
 label{
     display:block;
     margin-top:12px;
     margin-bottom:6px;
+    font-size:14px;
     font-weight:bold;
-    color:#334155;
 }
 
 input{
     width:100%;
-    padding:13px;
-    border:1px solid #cbd5e1;
-    border-radius:9px;
-    font-size:16px;
-    outline:none;
-}
-
-input:focus{
-    border-color:#2563eb;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:15px;
 }
 
 button{
     width:100%;
-    margin-top:22px;
     padding:13px;
-    border:none;
-    border-radius:9px;
+    margin-top:20px;
+    border:0;
+    border-radius:8px;
     background:#2563eb;
     color:white;
     font-size:16px;
     font-weight:bold;
-    cursor:pointer;
 }
 
 button:disabled{
-    background:#94a3b8;
-    cursor:not-allowed;
+    opacity:.6;
 }
 
-#message{
-    margin-top:15px;
+.login{
     text-align:center;
+    margin-top:18px;
     font-size:14px;
 }
 
-.login-link{
-    text-align:center;
-    margin-top:18px;
-}
-
-.login-link a{
+.login a{
     color:#2563eb;
     text-decoration:none;
     font-weight:bold;
@@ -100,78 +86,68 @@ button:disabled{
 
 </head>
 
-
 <body>
 
 <div class="box">
 
 <h2>✨ Create ArthaFlow Account</h2>
 
+<form id="registerForm" autocomplete="off">
 
-<label for="email">
-Email
-</label>
+<label for="email">Email</label>
 
 <input
     type="email"
     id="email"
+    name="register_email"
     placeholder="Enter your email"
-    autocomplete="email">
+    autocomplete="off"
+    required
+>
 
-
-<label for="username">
-User ID
-</label>
+<label for="username">User ID</label>
 
 <input
     type="text"
     id="username"
-    placeholder="Choose your User ID"
-    autocomplete="username">
+    name="new_user_id"
+    placeholder="Create your User ID"
+    autocomplete="off"
+    autocapitalize="none"
+    required
+>
 
-
-<label for="password">
-Password
-</label>
+<label for="password">Password</label>
 
 <input
     type="password"
     id="password"
+    name="new_password"
     placeholder="Create password"
-    autocomplete="new-password">
+    autocomplete="new-password"
+    required
+>
 
-
-<label for="confirmPassword">
-Confirm Password
-</label>
+<label for="confirmPassword">Confirm Password</label>
 
 <input
     type="password"
     id="confirmPassword"
-    placeholder="Re-enter password"
-    autocomplete="new-password">
+    name="confirm_new_password"
+    placeholder="Confirm password"
+    autocomplete="new-password"
+    required
+>
 
-
-<button
-    type="button"
-    id="createAccountBtn">
-
+<button type="submit" id="createBtn">
 Create Account
-
 </button>
 
+</form>
 
-<div id="message"></div>
-
-
-<div class="login-link">
-
+<div class="login">
 Already have an account?
-
-<a href="login.html">
-Login
-</a>
-
+<a href="login.html">Login</a>
 </div>
 
 </div>
@@ -179,260 +155,135 @@ Login
 
 <script type="module">
 
-import {
-    auth
-} from "./js/firebase-config.js";
+import { auth } from "./js/firebase-config.js";
 
 import {
-    createUserWithEmailAndPassword,
-    updateProfile
+    createUserWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/12.7.1/firebase-auth.js";
 
 
-console.log("Firebase Auth Loaded:", auth);
+console.log("Firebase Auth:", auth);
 
 
-const emailInput =
-    document.getElementById("email");
+const form = document.getElementById("registerForm");
 
-const usernameInput =
-    document.getElementById("username");
+const button = document.getElementById("createBtn");
 
-const passwordInput =
-    document.getElementById("password");
 
-const confirmPasswordInput =
-    document.getElementById("confirmPassword");
+form.addEventListener("submit", async function(event){
 
-const createAccountBtn =
-    document.getElementById("createAccountBtn");
+    event.preventDefault();
 
-const message =
-    document.getElementById("message");
+    const email =
+        document.getElementById("email").value.trim();
 
+    const username =
+        document.getElementById("username").value.trim();
 
-function showMessage(text, success = false){
+    const password =
+        document.getElementById("password").value;
 
-    message.textContent = text;
+    const confirmPassword =
+        document.getElementById("confirmPassword").value;
 
-    message.style.color =
-        success ? "green" : "red";
 
-}
+    if(!email || !username || !password || !confirmPassword){
 
-
-createAccountBtn.addEventListener(
-    "click",
-    async function(){
-
-        const email =
-            emailInput.value.trim();
-
-        const username =
-            usernameInput.value.trim();
-
-        const password =
-            passwordInput.value;
-
-        const confirmPassword =
-            confirmPasswordInput.value;
-
-
-        if(!email){
-
-            showMessage("Email भरिए।");
-            return;
-
-        }
-
-
-        if(!username){
-
-            showMessage("User ID भरिए।");
-            return;
-
-        }
-
-
-        if(username.length < 3){
-
-            showMessage(
-                "User ID कम से कम 3 characters का होना चाहिए।"
-            );
-
-            return;
-
-        }
-
-
-        if(!password){
-
-            showMessage("Password भरिए।");
-            return;
-
-        }
-
-
-        if(password.length < 6){
-
-            showMessage(
-                "Password कम से कम 6 characters का होना चाहिए।"
-            );
-
-            return;
-
-        }
-
-
-        if(password !== confirmPassword){
-
-            showMessage(
-                "Password match नहीं कर रहा है।"
-            );
-
-            return;
-
-        }
-
-
-        createAccountBtn.disabled = true;
-
-        createAccountBtn.textContent =
-            "Creating Account...";
-
-
-        try{
-
-            const userCredential =
-                await createUserWithEmailAndPassword(
-                    auth,
-                    email,
-                    password
-                );
-
-
-            const user =
-                userCredential.user;
-
-
-            /*
-             * User ID को Firebase user profile
-             * में displayName के रूप में save करेंगे.
-             */
-
-            await updateProfile(
-                user,
-                {
-                    displayName: username
-                }
-            );
-
-
-            /*
-             * Local device पर भी username रख रहे हैं.
-             * बाद में Firebase database में भी
-             * पूरा user data sync करेंगे.
-             */
-
-            localStorage.setItem(
-                "arthaFlowUsername",
-                username
-            );
-
-
-            showMessage(
-                "Account successfully created! Login page पर जा रहे हैं...",
-                true
-            );
-
-
-            setTimeout(
-                function(){
-
-                    window.location.href =
-                        "login.html";
-
-                },
-                1200
-            );
-
-
-        }catch(error){
-
-            console.error(
-                "Firebase Account Error:",
-                error
-            );
-
-
-            let errorMessage =
-                "Account create नहीं हुआ।";
-
-
-            if(
-                error.code ===
-                "auth/email-already-in-use"
-            ){
-
-                errorMessage =
-                    "यह Email पहले से registered है।";
-
-            }
-
-            else if(
-                error.code ===
-                "auth/invalid-email"
-            ){
-
-                errorMessage =
-                    "Email सही नहीं है।";
-
-            }
-
-            else if(
-                error.code ===
-                "auth/weak-password"
-            ){
-
-                errorMessage =
-                    "Password बहुत कमजोर है।";
-
-            }
-
-            else if(
-                error.code ===
-                "auth/operation-not-allowed"
-            ){
-
-                errorMessage =
-                    "Firebase में Email/Password Login अभी Enable नहीं है।";
-
-            }
-
-            else{
-
-                errorMessage =
-                    "Error: " + error.message;
-
-            }
-
-
-            showMessage(errorMessage);
-
-
-            createAccountBtn.disabled =
-                false;
-
-            createAccountBtn.textContent =
-                "Create Account";
-
-        }
+        alert("सभी जानकारी भरें।");
+        return;
 
     }
-);
+
+
+    if(password !== confirmPassword){
+
+        alert("Password और Confirm Password अलग हैं।");
+        return;
+
+    }
+
+
+    if(password.length < 6){
+
+        alert("Password कम से कम 6 characters का होना चाहिए।");
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent = "Creating Account...";
+
+
+    try{
+
+        const userCredential =
+            await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+
+        console.log(
+            "Account Created:",
+            userCredential.user.uid
+        );
+
+
+        alert(
+            "✅ Account successfully created!\n\n" +
+            "अब Login करें।"
+        );
+
+
+        window.location.href = "login.html";
+
+
+    }catch(error){
+
+        console.error(
+            "Firebase Error:",
+            error
+        );
+
+
+        if(error.code === "auth/email-already-in-use"){
+
+            alert("यह Email पहले से registered है।");
+
+        }
+        else if(error.code === "auth/invalid-email"){
+
+            alert("Email सही नहीं है।");
+
+        }
+        else if(error.code === "auth/weak-password"){
+
+            alert("Password बहुत कमजोर है। कम से कम 6 characters रखें।");
+
+        }
+        else{
+
+            alert(
+                "Account create नहीं हुआ।\n\n" +
+                error.code + "\n" +
+                error.message
+            );
+
+        }
+
+
+        button.disabled = false;
+
+        button.textContent = "Create Account";
+
+    }
+
+});
 
 </script>
 
 </body>
-
 </html>
