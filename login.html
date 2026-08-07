@@ -10,6 +10,10 @@
 
 <style>
 
+*{
+    box-sizing:border-box;
+}
+
 body{
     margin:0;
     font-family:Arial,sans-serif;
@@ -23,10 +27,11 @@ body{
 .box{
     background:white;
     padding:30px;
-    width:320px;
-    border-radius:15px;
+    width:90%;
+    max-width:360px;
+    border-radius:16px;
     text-align:center;
-    box-shadow:0 0 20px rgba(0,0,0,.3);
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
 .login-logo{
@@ -36,24 +41,35 @@ body{
     margin-bottom:15px;
 }
 
+h2{
+    margin:0 0 20px;
+}
+
 input{
     width:100%;
     padding:12px;
     margin:10px 0;
     border-radius:8px;
     border:1px solid #ccc;
-    box-sizing:border-box;
+    font-size:15px;
 }
 
 button{
     width:100%;
-    padding:12px;
+    padding:13px;
+    margin-top:10px;
     border:none;
     border-radius:8px;
     background:#2563eb;
     color:white;
     font-size:16px;
+    font-weight:bold;
     cursor:pointer;
+}
+
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
 }
 
 a{
@@ -61,30 +77,45 @@ a{
     text-decoration:none;
 }
 
+.message{
+    min-height:20px;
+    margin-top:12px;
+    font-size:14px;
+}
+
 </style>
 
 </head>
 
+
 <body>
 
+
 <div class="box">
+
 
 <img
 src="login-logo.png"
 alt="ArthaFlow Login Logo"
 class="login-logo">
 
+
 <h2>ArthaFlow Login</h2>
+
 
 <input
 type="email"
 id="email"
-placeholder="Email">
+placeholder="Email"
+autocomplete="email">
+
 
 <input
 type="password"
 id="password"
-placeholder="Password">
+placeholder="Password"
+autocomplete="current-password">
+
 
 <button
 id="loginBtn"
@@ -94,49 +125,332 @@ Login
 
 </button>
 
-<p>
+
+<div
+id="message"
+class="message">
+</div>
+
+
+<p style="margin-top:18px;">
+
 New user?
-<a href="register.html">Create Account</a>
+
+<a href="register.html">
+Create Account
+</a>
+
 </p>
 
+
 <p>
-<a href="#" id="forgotPassword">
+
+<a
+href="#"
+id="forgotPassword">
+
 Forgot Password?
+
 </a>
+
 </p>
+
 
 </div>
 
 
-<script>
+
+<!-- =================================
+     FIREBASE LOGIN
+================================= -->
+
+<script type="module">
+
+
+import { auth }
+from "./js/firebase-config.js";
+
+
+import {
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail
+}
+from "https://www.gstatic.com/firebasejs/12.7.1/firebase-auth.js";
+
+
+
+console.log(
+    "ArthaFlow Firebase Login Loaded"
+);
+
+
+
+const loginBtn =
+    document.getElementById("loginBtn");
+
+
+const forgotPassword =
+    document.getElementById("forgotPassword");
+
+
+const message =
+    document.getElementById("message");
+
+
 
 /* =================================
-   BASIC JAVASCRIPT TEST
+   LOGIN
 ================================= */
 
-alert("LOGIN PAGE JAVASCRIPT WORKING");
+loginBtn.addEventListener(
+    "click",
+    async function(){
+
+        const email =
+            document
+            .getElementById("email")
+            .value
+            .trim();
 
 
-document
-.getElementById("loginBtn")
-.addEventListener("click", function(){
-
-    alert("LOGIN BUTTON WORKING");
-
-});
+        const password =
+            document
+            .getElementById("password")
+            .value;
 
 
-document
-.getElementById("forgotPassword")
-.addEventListener("click", function(event){
+        message.innerText = "";
 
-    event.preventDefault();
 
-    alert("FORGOT PASSWORD BUTTON WORKING");
+        if(!email){
 
-});
+            alert(
+                "पहले Email डालिए।"
+            );
+
+            return;
+
+        }
+
+
+        if(!password){
+
+            alert(
+                "पहले Password डालिए।"
+            );
+
+            return;
+
+        }
+
+
+        loginBtn.disabled = true;
+
+        loginBtn.innerText =
+            "Logging in...";
+
+
+        try{
+
+
+            console.log(
+                "Firebase Login Started"
+            );
+
+
+            const result =
+                await signInWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+
+            console.log(
+                "Firebase Login Success:",
+                result.user.email
+            );
+
+
+            /*
+             * Login successful
+             */
+
+            sessionStorage.setItem(
+                "loggedIn",
+                "true"
+            );
+
+
+            sessionStorage.removeItem(
+                "pinVerified"
+            );
+
+
+            alert(
+                "Login Successfully!"
+            );
+
+
+            window.location.href =
+                "splash.html";
+
+
+        }
+
+
+        catch(error){
+
+
+            console.error(
+                "Firebase Login Error:",
+                error
+            );
+
+
+            if(
+                error.code ===
+                "auth/invalid-credential"
+            ){
+
+                alert(
+                    "Email या Password गलत है।"
+                );
+
+            }
+
+            else if(
+                error.code ===
+                "auth/invalid-email"
+            ){
+
+                alert(
+                    "Email सही नहीं है।"
+                );
+
+            }
+
+            else if(
+                error.code ===
+                "auth/user-not-found"
+            ){
+
+                alert(
+                    "इस Email से Account नहीं मिला।"
+                );
+
+            }
+
+            else if(
+                error.code ===
+                "auth/wrong-password"
+            ){
+
+                alert(
+                    "Password गलत है।"
+                );
+
+            }
+
+            else{
+
+                alert(
+                    "Login Error:\n\n" +
+                    error.code +
+                    "\n\n" +
+                    error.message
+                );
+
+            }
+
+        }
+
+
+        finally{
+
+
+            loginBtn.disabled = false;
+
+            loginBtn.innerText =
+                "Login";
+
+        }
+
+    }
+);
+
+
+
+/* =================================
+   FORGOT PASSWORD
+================================= */
+
+forgotPassword.addEventListener(
+    "click",
+    async function(event){
+
+        event.preventDefault();
+
+
+        const email =
+            document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+        if(!email){
+
+            alert(
+                "पहले Email डालिए।"
+            );
+
+            return;
+
+        }
+
+
+        try{
+
+
+            await sendPasswordResetEmail(
+                auth,
+                email
+            );
+
+
+            alert(
+                "Password reset link आपके Email पर भेज दिया गया है।"
+            );
+
+
+        }
+
+
+        catch(error){
+
+
+            console.error(
+                "Password Reset Error:",
+                error
+            );
+
+
+            alert(
+                "Password reset नहीं हुआ।\n\n" +
+                error.code +
+                "\n\n" +
+                error.message
+            );
+
+        }
+
+    }
+);
+
 
 </script>
+
 
 </body>
 
