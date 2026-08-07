@@ -1,49 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ArthaFlow Create Account</title>
+<title>ArthaFlow - Create Account</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:Arial,sans-serif;
+    background:#0f172a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.box{
+    width:100%;
+    max-width:380px;
+    background:white;
+    padding:30px 25px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+h2{
+    text-align:center;
+    margin:0 0 25px;
+    color:#0f172a;
+}
+
+label{
+    display:block;
+    margin-top:12px;
+    margin-bottom:6px;
+    font-weight:bold;
+    color:#334155;
+}
+
+input{
+    width:100%;
+    padding:13px;
+    border:1px solid #cbd5e1;
+    border-radius:9px;
+    font-size:16px;
+    outline:none;
+}
+
+input:focus{
+    border-color:#2563eb;
+}
+
+button{
+    width:100%;
+    margin-top:22px;
+    padding:13px;
+    border:none;
+    border-radius:9px;
+    background:#2563eb;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:disabled{
+    background:#94a3b8;
+    cursor:not-allowed;
+}
+
+#message{
+    margin-top:15px;
+    text-align:center;
+    font-size:14px;
+}
+
+.login-link{
+    text-align:center;
+    margin-top:18px;
+}
+
+.login-link a{
+    color:#2563eb;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+</style>
 
 </head>
 
+
 <body>
 
-<h2>Create ArthaFlow Account</h2>
+<div class="box">
+
+<h2>✨ Create ArthaFlow Account</h2>
+
+
+<label for="email">
+Email
+</label>
 
 <input
     type="email"
     id="email"
-    placeholder="Email">
+    placeholder="Enter your email"
+    autocomplete="email">
 
-<br><br>
+
+<label for="username">
+User ID
+</label>
 
 <input
     type="text"
     id="username"
-    placeholder="User ID">
+    placeholder="Choose your User ID"
+    autocomplete="username">
 
-<br><br>
+
+<label for="password">
+Password
+</label>
 
 <input
     type="password"
     id="password"
-    placeholder="Password">
+    placeholder="Create password"
+    autocomplete="new-password">
 
-<br><br>
+
+<label for="confirmPassword">
+Confirm Password
+</label>
 
 <input
     type="password"
     id="confirmPassword"
-    placeholder="Confirm Password">
+    placeholder="Re-enter password"
+    autocomplete="new-password">
 
-<br><br>
 
-<button onclick="createAccount()">
+<button
+    type="button"
+    id="createAccountBtn">
+
 Create Account
+
 </button>
+
+
+<div id="message"></div>
+
+
+<div class="login-link">
+
+Already have an account?
+
+<a href="login.html">
+Login
+</a>
+
+</div>
+
+</div>
+
 
 <script type="module">
 
@@ -51,59 +183,256 @@ import {
     auth
 } from "./js/firebase-config.js";
 
+import {
+    createUserWithEmailAndPassword,
+    updateProfile
+} from "https://www.gstatic.com/firebasejs/12.7.1/firebase-auth.js";
+
+
 console.log("Firebase Auth Loaded:", auth);
 
-import {
-    createUserWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.7.1/firebase-auth.js";
-window.createAccount = async function(){
 
-    const email =
-        document.getElementById("email").value.trim();
+const emailInput =
+    document.getElementById("email");
 
-    const password =
-        document.getElementById("password").value;
+const usernameInput =
+    document.getElementById("username");
 
-    const confirmPassword =
-        document.getElementById("confirmPassword").value;
+const passwordInput =
+    document.getElementById("password");
 
-    if(!email || !password){
+const confirmPasswordInput =
+    document.getElementById("confirmPassword");
 
-        alert("Email और Password भरें");
-        return;
+const createAccountBtn =
+    document.getElementById("createAccountBtn");
+
+const message =
+    document.getElementById("message");
+
+
+function showMessage(text, success = false){
+
+    message.textContent = text;
+
+    message.style.color =
+        success ? "green" : "red";
+
+}
+
+
+createAccountBtn.addEventListener(
+    "click",
+    async function(){
+
+        const email =
+            emailInput.value.trim();
+
+        const username =
+            usernameInput.value.trim();
+
+        const password =
+            passwordInput.value;
+
+        const confirmPassword =
+            confirmPasswordInput.value;
+
+
+        if(!email){
+
+            showMessage("Email भरिए।");
+            return;
+
+        }
+
+
+        if(!username){
+
+            showMessage("User ID भरिए।");
+            return;
+
+        }
+
+
+        if(username.length < 3){
+
+            showMessage(
+                "User ID कम से कम 3 characters का होना चाहिए।"
+            );
+
+            return;
+
+        }
+
+
+        if(!password){
+
+            showMessage("Password भरिए।");
+            return;
+
+        }
+
+
+        if(password.length < 6){
+
+            showMessage(
+                "Password कम से कम 6 characters का होना चाहिए।"
+            );
+
+            return;
+
+        }
+
+
+        if(password !== confirmPassword){
+
+            showMessage(
+                "Password match नहीं कर रहा है।"
+            );
+
+            return;
+
+        }
+
+
+        createAccountBtn.disabled = true;
+
+        createAccountBtn.textContent =
+            "Creating Account...";
+
+
+        try{
+
+            const userCredential =
+                await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+
+            const user =
+                userCredential.user;
+
+
+            /*
+             * User ID को Firebase user profile
+             * में displayName के रूप में save करेंगे.
+             */
+
+            await updateProfile(
+                user,
+                {
+                    displayName: username
+                }
+            );
+
+
+            /*
+             * Local device पर भी username रख रहे हैं.
+             * बाद में Firebase database में भी
+             * पूरा user data sync करेंगे.
+             */
+
+            localStorage.setItem(
+                "arthaFlowUsername",
+                username
+            );
+
+
+            showMessage(
+                "Account successfully created! Login page पर जा रहे हैं...",
+                true
+            );
+
+
+            setTimeout(
+                function(){
+
+                    window.location.href =
+                        "login.html";
+
+                },
+                1200
+            );
+
+
+        }catch(error){
+
+            console.error(
+                "Firebase Account Error:",
+                error
+            );
+
+
+            let errorMessage =
+                "Account create नहीं हुआ।";
+
+
+            if(
+                error.code ===
+                "auth/email-already-in-use"
+            ){
+
+                errorMessage =
+                    "यह Email पहले से registered है।";
+
+            }
+
+            else if(
+                error.code ===
+                "auth/invalid-email"
+            ){
+
+                errorMessage =
+                    "Email सही नहीं है।";
+
+            }
+
+            else if(
+                error.code ===
+                "auth/weak-password"
+            ){
+
+                errorMessage =
+                    "Password बहुत कमजोर है।";
+
+            }
+
+            else if(
+                error.code ===
+                "auth/operation-not-allowed"
+            ){
+
+                errorMessage =
+                    "Firebase में Email/Password Login अभी Enable नहीं है।";
+
+            }
+
+            else{
+
+                errorMessage =
+                    "Error: " + error.message;
+
+            }
+
+
+            showMessage(errorMessage);
+
+
+            createAccountBtn.disabled =
+                false;
+
+            createAccountBtn.textContent =
+                "Create Account";
+
+        }
 
     }
-
-    if(password !== confirmPassword){
-
-        alert("Password match नहीं कर रहा है");
-        return;
-
-    }
-
-    try{
-
-        await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
-
-        alert("Account successfully created!");
-
-        window.location.href = "login.html";
-
-    }catch(error){
-
-        console.error(error);
-
-        alert("Account create नहीं हुआ: " + error.message);
-
-    }
-
-};
+);
 
 </script>
 
 </body>
+
 </html>
