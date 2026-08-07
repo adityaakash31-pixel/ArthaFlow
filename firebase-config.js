@@ -7,12 +7,12 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/12.7.1/firebase-auth
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
-    apiKey: "APKI_FIREBASE_API_KEY",
+    apiKey: "AIzaSyDM8WtiKL5hSSoDH4BoacMUIQ3QVSpjxJI",
     authDomain: "arthaflow-4d670.firebaseapp.com",
     projectId: "arthaflow-4d670",
     storageBucket: "arthaflow-4d670.firebasestorage.app",
-    messagingSenderId: "APKA_SENDER_ID",
-    appId: "APKA_APP_ID"
+    messagingSenderId: "417281404304",
+    appId: "1:417281404304:web:a0b9fa5a787ad0426d5715"
 };
 
 const app = initializeApp(firebaseConfig);
