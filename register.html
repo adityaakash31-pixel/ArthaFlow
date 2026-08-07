@@ -51,10 +51,11 @@ import {
     auth
 } from "./js/firebase-config.js";
 
+console.log("Firebase Auth Loaded:", auth);
+
 import {
     createUserWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/12.7.1/firebase-auth.js";
-
 window.createAccount = async function(){
 
     const email =
