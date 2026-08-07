@@ -83,12 +83,14 @@ class="login-logo">
 <input
 type="email"
 id="email"
-placeholder="Email">
+placeholder="Email"
+autocomplete="email">
 
 <input
 type="password"
 id="password"
-placeholder="Password">
+placeholder="Password"
+autocomplete="current-password">
 
 <button
 id="loginBtn"
@@ -105,7 +107,8 @@ New user?
 </p>
 
 <p>
-<a href="#" onclick="forgotPassword(); return false;">
+<a href="#"
+onclick="forgotPassword(); return false;">
 Forgot Password?
 </a>
 </p>
@@ -121,6 +124,10 @@ Forgot Password?
 
 
 <script>
+
+/* =====================================
+   ARTHAFLOW FIREBASE LOGIN
+===================================== */
 
 console.log("ArthaFlow Login JavaScript Started");
 
@@ -151,24 +158,58 @@ const firebaseConfig = {
 };
 
 
-firebase.initializeApp(firebaseConfig);
+/* =====================================
+   FIREBASE INITIALIZE
+===================================== */
+
+try{
+
+    firebase.initializeApp(firebaseConfig);
+
+    console.log("Firebase initialized");
+
+}
+
+catch(error){
+
+    console.error(
+        "Firebase initialization error:",
+        error
+    );
+
+    alert(
+        "Firebase शुरू नहीं हो पाया:\n\n" +
+        error.message
+    );
+
+}
+
 
 const auth = firebase.auth();
 
 
-console.log("Firebase Auth Ready");
+/* =====================================
+   LOGIN
+===================================== */
 
+async function loginUser(){
 
-function loginUser(){
+    console.log("LOGIN BUTTON CLICKED");
 
     alert("LOGIN BUTTON WORKING");
 
 
     const email =
-        document.getElementById("email").value.trim();
+        document
+        .getElementById("email")
+        .value
+        .trim();
+
 
     const password =
-        document.getElementById("password").value;
+        document
+        .getElementById("password")
+        .value;
 
 
     if(!email){
@@ -195,19 +236,60 @@ function loginUser(){
 
     button.disabled = true;
 
-    button.innerText = "Logging in...";
+    button.innerText =
+        "Logging in...";
 
 
-    auth.signInWithEmailAndPassword(
-        email,
-        password
-    )
+    /* =================================
+       30 SECOND SAFETY TIMEOUT
+    ================================= */
 
-    .then(function(userCredential){
+    let completed = false;
+
+
+    const timeout =
+        setTimeout(function(){
+
+            if(!completed){
+
+                button.disabled = false;
+
+                button.innerText =
+                    "Login";
+
+
+                alert(
+                    "Firebase से response नहीं आया।\n\n" +
+                    "Internet connection और Firebase configuration check करें।"
+                );
+
+            }
+
+        },30000);
+
+
+    try{
 
         console.log(
-            "Login successful:",
-            userCredential.user
+            "Trying Firebase login..."
+        );
+
+
+        const userCredential =
+            await auth.signInWithEmailAndPassword(
+                email,
+                password
+            );
+
+
+        completed = true;
+
+        clearTimeout(timeout);
+
+
+        console.log(
+            "LOGIN SUCCESS:",
+            userCredential.user.email
         );
 
 
@@ -222,97 +304,105 @@ function loginUser(){
         );
 
 
-        alert("Login Successfully!");
+        alert(
+            "Login Successfully!"
+        );
 
 
         window.location.href =
             "splash.html";
 
-    })
 
-    .catch(function(error){
+    }
+
+    catch(error){
+
+        completed = true;
+
+        clearTimeout(timeout);
+
 
         console.error(
-            "LOGIN ERROR:",
+            "FIREBASE LOGIN ERROR:",
             error
         );
 
 
-        if(error.code === "auth/invalid-credential"){
-
-            alert("Email या Password गलत है।");
-
-        }
-
-        else if(error.code === "auth/invalid-email"){
-
-            alert("Email सही नहीं है।");
-
-        }
-
-        else if(error.code === "auth/user-not-found"){
-
-            alert("इस Email से Account नहीं मिला।");
-
-        }
-
-        else{
-
-            alert(
-                "Login Error: " +
-                error.message
-            );
-
-        }
-
-    })
-
-    .finally(function(){
-
         button.disabled = false;
 
-        button.innerText = "Login";
+        button.innerText =
+            "Login";
 
-    });
+
+        alert(
+            "LOGIN ERROR\n\n" +
+            "Code: " +
+            error.code +
+            "\n\n" +
+            "Message: " +
+            error.message
+        );
+
+    }
 
 }
 
 
-function forgotPassword(){
+/* =====================================
+   FORGOT PASSWORD
+===================================== */
+
+async function forgotPassword(){
 
     const email =
-        document.getElementById("email").value.trim();
+        document
+        .getElementById("email")
+        .value
+        .trim();
 
 
     if(!email){
 
-        alert("पहले Email डालिए।");
+        alert(
+            "पहले Email डालिए।"
+        );
 
         return;
 
     }
 
 
-    auth.sendPasswordResetEmail(email)
+    try{
 
-    .then(function(){
+        await auth.sendPasswordResetEmail(
+            email
+        );
+
 
         alert(
             "Password reset link आपके Email पर भेज दिया गया है।"
         );
 
-    })
+    }
 
-    .catch(function(error){
+    catch(error){
 
-        console.error(error);
+        console.error(
+            "PASSWORD RESET ERROR:",
+            error
+        );
+
 
         alert(
-            "Password reset नहीं हुआ: " +
+            "Password reset नहीं हुआ।\n\n" +
+            "Code: " +
+            error.code +
+            "\n\n" +
+            "Message: " +
             error.message
         );
 
-    });
+    }
 
 }
 
