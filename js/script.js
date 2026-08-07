@@ -9181,13 +9181,7 @@ pdf.save("ArthaFlow_GST_Invoice.pdf");
 
 async function downloadFilterPDF(){
 
-    try{
-
     alert("Filter PDF Started");
-
-    generateReport();
-
-    await new Promise(resolve => setTimeout(resolve,300));
 
     const { jsPDF } = window.jspdf;
 
