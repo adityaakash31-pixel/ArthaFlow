@@ -56,10 +56,6 @@ button{
     cursor:pointer;
 }
 
-button:disabled{
-    opacity:.6;
-}
-
 a{
     color:#2563eb;
     text-decoration:none;
@@ -83,14 +79,12 @@ class="login-logo">
 <input
 type="email"
 id="email"
-placeholder="Email"
-autocomplete="email">
+placeholder="Email">
 
 <input
 type="password"
 id="password"
-placeholder="Password"
-autocomplete="current-password">
+placeholder="Password">
 
 <button
 id="loginBtn"
@@ -114,200 +108,31 @@ Forgot Password?
 </div>
 
 
-<script type="module">
-
-    alert("LOGIN SCRIPT LOADED");
-
-import { auth }
-from "./js/firebase-config.js";
-
-import {
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail
-}
-from "https://www.gstatic.com/firebasejs/12.7.1/firebase-auth.js";
-
-
-console.log("ArthaFlow Firebase Login Ready");
-
+<script>
 
 /* =================================
-   LOGIN
+   BASIC JAVASCRIPT TEST
 ================================= */
+
+alert("LOGIN PAGE JAVASCRIPT WORKING");
+
 
 document
 .getElementById("loginBtn")
-.addEventListener("click", async function(){
+.addEventListener("click", function(){
 
-    const email =
-        document
-        .getElementById("email")
-        .value
-        .trim();
-
-    const password =
-        document
-        .getElementById("password")
-        .value;
-
-
-    if(!email){
-
-        alert("Email डालिए");
-
-        return;
-
-    }
-
-
-    if(!password){
-
-        alert("Password डालिए");
-
-        return;
-
-    }
-
-
-    const button =
-        document.getElementById("loginBtn");
-
-
-    button.disabled = true;
-
-    button.innerText =
-        "Logging in...";
-
-
-    try{
-
-        const result =
-            await signInWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-
-
-        console.log(
-            "LOGIN SUCCESS:",
-            result.user.email
-        );
-
-
-        sessionStorage.setItem(
-            "loggedIn",
-            "true"
-        );
-
-
-        sessionStorage.removeItem(
-            "pinVerified"
-        );
-
-
-        alert(
-            "Login Successfully!"
-        );
-
-
-        window.location.href =
-            "splash.html";
-
-
-    }
-
-    catch(error){
-
-        console.error(
-            "LOGIN ERROR:",
-            error
-        );
-
-
-        alert(
-            "Login Error\n\n" +
-            "Code: " +
-            error.code +
-            "\n\n" +
-            error.message
-        );
-
-
-    }
-
-    finally{
-
-        button.disabled = false;
-
-        button.innerText =
-            "Login";
-
-    }
+    alert("LOGIN BUTTON WORKING");
 
 });
 
 
-/* =================================
-   FORGOT PASSWORD
-================================= */
-
 document
 .getElementById("forgotPassword")
-.addEventListener("click", async function(event){
+.addEventListener("click", function(event){
 
     event.preventDefault();
 
-
-    const email =
-        document
-        .getElementById("email")
-        .value
-        .trim();
-
-
-    if(!email){
-
-        alert(
-            "पहले Email डालिए।"
-        );
-
-        return;
-
-    }
-
-
-    try{
-
-        await sendPasswordResetEmail(
-            auth,
-            email
-        );
-
-
-        alert(
-            "Password reset link आपके Email पर भेज दिया गया है।"
-        );
-
-
-    }
-
-    catch(error){
-
-        console.error(
-            "PASSWORD RESET ERROR:",
-            error
-        );
-
-
-        alert(
-            "Password reset नहीं हुआ।\n\n" +
-            error.code +
-            "\n\n" +
-            error.message
-        );
-
-    }
+    alert("FORGOT PASSWORD BUTTON WORKING");
 
 });
 
