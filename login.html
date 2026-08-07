@@ -73,6 +73,7 @@ a{
 
 </head>
 
+
 <body>
 
 <div class="box">
@@ -84,11 +85,13 @@ class="login-logo">
 
 <h2>ArthaFlow Login</h2>
 
+
 <input
 type="email"
 id="email"
 placeholder="Email"
 autocomplete="email">
+
 
 <input
 type="password"
@@ -96,21 +99,24 @@ id="password"
 placeholder="Password"
 autocomplete="current-password">
 
+
 <button
 id="loginBtn"
-onclick="login()">
+type="button">
 
 Login
 
 </button>
+
 
 <p style="margin-top:15px;">
 New user?
 <a href="register.html">Create Account</a>
 </p>
 
+
 <p>
-<a href="#" onclick="forgotPassword(); return false;">
+<a href="#" id="forgotPassword">
 Forgot Password?
 </a>
 </p>
@@ -120,36 +126,101 @@ Forgot Password?
 
 <script type="module">
 
-import { auth } from "./js/firebase-config.js";
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.7.1/firebase-app.js";
 
 import {
+    getAuth,
     signInWithEmailAndPassword,
     sendPasswordResetEmail
-} from "https://www.gstatic.com/firebasejs/12.7.1/firebase-auth.js";
+}
+from "https://www.gstatic.com/firebasejs/12.7.1/firebase-auth.js";
 
 
-window.login = async function(){
+/* ================================
+   FIREBASE CONFIG
+================================ */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyDM8WtiKL5hSSoDH4BoacMUIQ3QVSpjxJI",
+
+    authDomain:
+    "arthaflow-4d670.firebaseapp.com",
+
+    projectId:
+    "arthaflow-4d670",
+
+    storageBucket:
+    "arthaflow-4d670.firebasestorage.app",
+
+    messagingSenderId:
+    "417281404304",
+
+    appId:
+    "1:417281404304:web:a0b9fa5a787ad0426d5715",
+
+    measurementId:
+    "G-785TXW9WTL"
+};
+
+
+/* ================================
+   INITIALIZE FIREBASE
+================================ */
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+console.log("ArthaFlow Firebase Login Ready");
+
+
+/* ================================
+   LOGIN
+================================ */
+
+document
+.getElementById("loginBtn")
+.addEventListener("click", async function(){
 
     const email =
-        document.getElementById("email").value.trim();
+        document
+        .getElementById("email")
+        .value
+        .trim();
 
     const password =
-        document.getElementById("password").value;
+        document
+        .getElementById("password")
+        .value;
+
+
+    if(!email){
+
+        alert("Email डालिए");
+
+        return;
+    }
+
+
+    if(!password){
+
+        alert("Password डालिए");
+
+        return;
+    }
+
 
     const button =
         document.getElementById("loginBtn");
 
 
-    if(!email || !password){
-
-        alert("Email और Password भरें");
-        return;
-
-    }
-
-
     button.disabled = true;
-    button.innerText = "Logging in...";
+
+    button.innerText =
+        "Logging in...";
 
 
     try{
@@ -161,17 +232,21 @@ window.login = async function(){
         );
 
 
-        /*
-         * Login successful
-         */
+        /* Login successful */
 
         sessionStorage.setItem(
             "loggedIn",
             "true"
         );
 
+
         sessionStorage.removeItem(
             "pinVerified"
+        );
+
+
+        alert(
+            "Login Successfully!"
         );
 
 
@@ -179,64 +254,97 @@ window.login = async function(){
             "splash.html";
 
 
-    }catch(error){
+    }
 
-        console.error(error);
+    catch(error){
 
-        if(error.code === "auth/invalid-credential"){
+        console.error(
+            "LOGIN ERROR:",
+            error
+        );
+
+
+        if(
+            error.code ===
+            "auth/invalid-credential"
+        ){
 
             alert(
-                "Email या Password गलत है."
+                "Email या Password गलत है।"
             );
 
         }
-        else if(error.code === "auth/user-not-found"){
+
+        else if(
+            error.code ===
+            "auth/invalid-email"
+        ){
 
             alert(
-                "इस Email से कोई account नहीं मिला."
+                "Email सही नहीं है।"
             );
 
         }
-        else if(error.code === "auth/wrong-password"){
+
+        else if(
+            error.code ===
+            "auth/user-not-found"
+        ){
 
             alert(
-                "Password गलत है."
+                "इस Email से Account नहीं मिला।"
             );
 
         }
+
         else{
 
             alert(
-                "Login नहीं हुआ: " +
+                "Login Error: " +
                 error.message
             );
 
         }
 
-    }finally{
+    }
+
+    finally{
 
         button.disabled = false;
-        button.innerText = "Login";
+
+        button.innerText =
+            "Login";
 
     }
 
-};
+});
 
 
-window.forgotPassword = async function(){
+/* ================================
+   FORGOT PASSWORD
+================================ */
+
+document
+.getElementById("forgotPassword")
+.addEventListener("click", async function(e){
+
+    e.preventDefault();
+
 
     const email =
-        document.getElementById("email").value.trim();
+        document
+        .getElementById("email")
+        .value
+        .trim();
 
 
     if(!email){
 
         alert(
-            "पहले अपना Email डालें."
+            "पहले Email डालिए।"
         );
 
         return;
-
     }
 
 
@@ -247,24 +355,29 @@ window.forgotPassword = async function(){
             email
         );
 
+
         alert(
-            "Password reset link आपके Email पर भेज दिया गया है."
+            "Password reset link आपके Email पर भेज दिया गया है।"
         );
 
-    }catch(error){
+    }
+
+    catch(error){
 
         console.error(error);
 
+
         alert(
-            "Reset Email नहीं भेजा गया: " +
+            "Password reset नहीं हुआ: " +
             error.message
         );
 
     }
 
-};
+});
 
 </script>
 
 </body>
+
 </html>
