@@ -9418,10 +9418,4 @@ pdf.text(
 
 pdf.save("ArthaFlow_Filter_Report.pdf");
 
-
-        }catch(err){
-    alert(err.message);
-    console.error(err);
-    }
-
 }
