@@ -32,6 +32,31 @@ document.getElementById("loginBtn").onclick = function(){
 };
 
 </script>
+
+    <script>
+
+console.log("Firebase test starting...");
+
+const firebaseTestScript = document.createElement("script");
+
+firebaseTestScript.src =
+"https://www.gstatic.com/firebasejs/12.7.1/firebase-app-compat.js";
+
+firebaseTestScript.onload = function(){
+
+    alert("FIREBASE APP LOADED SUCCESSFULLY");
+
+};
+
+firebaseTestScript.onerror = function(){
+
+    alert("FIREBASE APP LOAD FAILED");
+
+};
+
+document.head.appendChild(firebaseTestScript);
+
+    </script>
   
 </body>
 </html>
