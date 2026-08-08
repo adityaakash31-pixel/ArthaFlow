@@ -263,8 +263,29 @@ if(localStorage.getItem("theme")=="dark"){
     }
 }
 
+// ==========================================
+// Phase 11A - Step 4.3C
+// Automatic Cloud Sync Helper
+// ==========================================
+
+async function syncToCloud(){
+
+    if(typeof window.saveArthaFlowToCloud === "function"){
+
+        await window.saveArthaFlowToCloud();
+
+        console.log("☁️ Cloud Sync Completed");
+
+    }else{
+
+        console.log("☁️ Cloud Sync Not Ready");
+
+    }
+
+}
+
 // Save Income
-function saveIncome() {
+async function saveIncome() {
 
     let category = document.getElementById("category").value;
     let amount = Number(document.getElementById("amount").value);
@@ -280,25 +301,28 @@ function saveIncome() {
     }
 
     let date = document.getElementById("incomeDate").value;
-let note = document.getElementById("incomeNote").value;
+    let note = document.getElementById("incomeNote").value;
 
     totalIncome = totalIncome + amount;
+
     localStorage.setItem(
-    "totalIncome",
-    totalIncome
-);
+        "totalIncome",
+        totalIncome
+    );
 
     incomeHistory.push({
-    category: category,
-    amount: amount,
-    date: date,
-    note: note
-});
+        category: category,
+        amount: amount,
+        date: date,
+        note: note
+    });
 
-localStorage.setItem(
-    "incomeHistory",
-    JSON.stringify(incomeHistory)
-);
+    localStorage.setItem(
+        "incomeHistory",
+        JSON.stringify(incomeHistory)
+    );
+
+    await syncToCloud();
 
     alert("Income Saved Successfully");
 
@@ -312,14 +336,15 @@ document.getElementById("incomeNote").value = "";
 location.reload();
 
 }
-function deleteIncome(index){
+
+async function deleteIncome(index){
 
     if(!confirm("Delete this income?")){
         return;
     }
 
     totalIncome =
-    totalIncome - incomeHistory[index].amount;
+        totalIncome - incomeHistory[index].amount;
 
     localStorage.setItem(
         "totalIncome",
@@ -333,10 +358,13 @@ function deleteIncome(index){
         JSON.stringify(incomeHistory)
     );
 
+    await syncToCloud();
+
     location.reload();
 
 }
-function editIncome(index){
+
+async function editIncome(index){
 
     let newAmount = prompt(
         "Enter New Amount",
@@ -355,25 +383,28 @@ function editIncome(index){
     }
 
     totalIncome =
-        totalIncome
-        - incomeHistory[index].amount
-        + newAmount;
+    totalIncome
+    - incomeHistory[index].amount
+    + newAmount;
 
-    incomeHistory[index].amount = newAmount;
+incomeHistory[index].amount = newAmount;
 
-    localStorage.setItem(
-        "incomeHistory",
-        JSON.stringify(incomeHistory)
-    );
+localStorage.setItem(
+    "incomeHistory",
+    JSON.stringify(incomeHistory)
+);
 
-    localStorage.setItem(
-        "totalIncome",
-        totalIncome
-    );
+localStorage.setItem(
+    "totalIncome",
+    totalIncome
+);
 
-    location.reload();
+await syncToCloud();
+
+location.reload();
 
 }
+
 function searchIncome(){
 
     let input =
@@ -399,7 +430,7 @@ function searchIncome(){
     }
 
 }
-function saveExpense(){
+async function saveExpense(){
 
     let category =
     document.getElementById("expenseCategory").value;
@@ -430,17 +461,19 @@ document.getElementById("expenseNote").value;
     note: note
 });
 
-    localStorage.setItem(
-        "expenseHistory",
-        JSON.stringify(expenseHistory)
-    );
+totalExpense += amount;
 
-    totalExpense += amount;
+localStorage.setItem(
+    "expenseHistory",
+    JSON.stringify(expenseHistory)
+);
 
-    localStorage.setItem(
-        "totalExpense",
-        totalExpense
-    );
+localStorage.setItem(
+    "totalExpense",
+    totalExpense
+);
+
+await syncToCloud();
 
         document.getElementById("expenseDate").value = "";
 document.getElementById("expenseNote").value = "";
@@ -450,7 +483,7 @@ document.getElementById("expenseNote").value = "";
     location.reload();
 
 }
-function deleteExpense(index){
+async function deleteExpense(index){
 
     if(!confirm("Delete this expense?")){
         return;
@@ -470,10 +503,13 @@ function deleteExpense(index){
         JSON.stringify(expenseHistory)
     );
 
+    await syncToCloud();
+
     location.reload();
 
 }
-function editExpense(index){
+
+async function editExpense(index){
 
     let newAmount = prompt(
         "Enter New Amount",
@@ -495,21 +531,21 @@ function editExpense(index){
     - expenseHistory[index].amount
     + newAmount;
 
-    expenseHistory[index].amount = newAmount;
+expenseHistory[index].amount = newAmount;
 
-    localStorage.setItem(
-        "expenseHistory",
-        JSON.stringify(expenseHistory)
-    );
+localStorage.setItem(
+    "expenseHistory",
+    JSON.stringify(expenseHistory)
+);
 
-    localStorage.setItem(
-        "totalExpense",
-        totalExpense
-    );
+localStorage.setItem(
+    "totalExpense",
+    totalExpense
+);
 
-    location.reload();
+await syncToCloud();
 
-       }
+location.reload();
 // ===============================
 // Reports
 // ===============================
