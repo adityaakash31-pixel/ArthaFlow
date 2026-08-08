@@ -9512,4 +9512,3 @@ function googleLogin(){
     });
 
 }
-}
