@@ -1,6 +1,6 @@
 // ==========================================
 // ArthaFlow Cloud Sync
-// Phase 11A - Step 4.3A
+// Phase 11A - Step 4.3A FIX
 // ==========================================
 
 import {
@@ -53,53 +53,52 @@ const firebaseConfig = {
 // Firebase Initialize
 // ==========================================
 
-const app =
-    initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-const auth =
-    getAuth(app);
+const auth = getAuth(app);
 
-const db =
-    getFirestore(app);
+const db = getFirestore(app);
 
-
-console.log(
-    "✅ ArthaFlow Firestore Ready"
-);
+console.log("✅ ArthaFlow Firestore Ready");
 
 
 // ==========================================
-// Current User
+// Auth State
 // ==========================================
 
 let currentUser = null;
 
+let authReadyResolve;
 
-onAuthStateChanged(
-    auth,
-    function(user){
+const authReady = new Promise((resolve) => {
 
-        if(user){
+    authReadyResolve = resolve;
 
-            currentUser = user;
+});
 
-            console.log(
-                "☁️ Cloud User:",
-                user.email
-            );
 
-        }else{
+onAuthStateChanged(auth, function(user) {
 
-            currentUser = null;
+    currentUser = user;
 
-            console.log(
-                "No Firebase user logged in"
-            );
+    if(user){
 
-        }
+        console.log(
+            "☁️ Cloud User:",
+            user.email
+        );
+
+    }else{
+
+        console.log(
+            "No Firebase user logged in"
+        );
 
     }
-);
+
+    authReadyResolve(user);
+
+});
 
 
 // ==========================================
@@ -112,53 +111,37 @@ function getArthaFlowData(){
 
         totalIncome:
             Number(
-                localStorage.getItem(
-                    "totalIncome"
-                )
+                localStorage.getItem("totalIncome")
             ) || 0,
 
         totalExpense:
             Number(
-                localStorage.getItem(
-                    "totalExpense"
-                )
+                localStorage.getItem("totalExpense")
             ) || 0,
 
         incomeHistory:
             JSON.parse(
-                localStorage.getItem(
-                    "incomeHistory"
-                )
+                localStorage.getItem("incomeHistory")
             ) || [],
 
         expenseHistory:
             JSON.parse(
-                localStorage.getItem(
-                    "expenseHistory"
-                )
+                localStorage.getItem("expenseHistory")
             ) || [],
 
         userName:
-            localStorage.getItem(
-                "userName"
-            ) || "",
+            localStorage.getItem("userName") || "",
 
         monthlyBudget:
             Number(
-                localStorage.getItem(
-                    "monthlyBudget"
-                )
+                localStorage.getItem("monthlyBudget")
             ) || 0,
 
         theme:
-            localStorage.getItem(
-                "theme"
-            ) || "light",
+            localStorage.getItem("theme") || "light",
 
         userEmail:
-            localStorage.getItem(
-                "userEmail"
-            ) || "",
+            localStorage.getItem("userEmail") || "",
 
         updatedAt:
             new Date().toISOString()
@@ -169,23 +152,26 @@ function getArthaFlowData(){
 
 
 // ==========================================
-// Save Data To Firestore
+// SAVE DATA TO FIRESTORE
 // ==========================================
 
 async function saveArthaFlowToCloud(){
 
-    if(!currentUser){
-
-        console.log(
-            "Cloud Save skipped: User not logged in"
-        );
-
-        return;
-
-    }
-
-
     try{
+
+        // Wait until Firebase knows the login state
+        const user = await authReady;
+
+        if(!user){
+
+            console.log(
+                "☁️ Cloud Save skipped: User not logged in"
+            );
+
+            return false;
+
+        }
+
 
         const data =
             getArthaFlowData();
@@ -195,7 +181,7 @@ async function saveArthaFlowToCloud(){
             doc(
                 db,
                 "users",
-                currentUser.uid
+                user.uid
             );
 
 
@@ -212,6 +198,8 @@ async function saveArthaFlowToCloud(){
             "☁️ ArthaFlow data saved to Firestore"
         );
 
+        return true;
+
 
     }catch(error){
 
@@ -220,31 +208,39 @@ async function saveArthaFlowToCloud(){
             error
         );
 
+        return false;
+
     }
 
 }
 
 
 // ==========================================
-// Load Data From Firestore
+// LOAD DATA FROM FIRESTORE
 // ==========================================
 
 async function loadArthaFlowFromCloud(){
 
-    if(!currentUser){
-
-        return;
-
-    }
-
-
     try{
+
+        const user = await authReady;
+
+        if(!user){
+
+            console.log(
+                "☁️ Cloud Load skipped: User not logged in"
+            );
+
+            return false;
+
+        }
+
 
         const userRef =
             doc(
                 db,
                 "users",
-                currentUser.uid
+                user.uid
             );
 
 
@@ -255,10 +251,10 @@ async function loadArthaFlowFromCloud(){
         if(!snapshot.exists()){
 
             console.log(
-                "No cloud data found"
+                "☁️ No cloud data found"
             );
 
-            return;
+            return false;
 
         }
 
@@ -341,9 +337,21 @@ async function loadArthaFlowFromCloud(){
         }
 
 
+        if(data.userEmail !== undefined){
+
+            localStorage.setItem(
+                "userEmail",
+                data.userEmail
+            );
+
+        }
+
+
         console.log(
             "☁️ ArthaFlow cloud data loaded"
         );
+
+        return true;
 
 
     }catch(error){
@@ -352,6 +360,8 @@ async function loadArthaFlowFromCloud(){
             "❌ Cloud Load Error:",
             error
         );
+
+        return false;
 
     }
 
