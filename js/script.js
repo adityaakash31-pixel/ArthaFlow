@@ -9510,7 +9510,3 @@ function googleLogin(){
         );
 
     });
-
-}
-    
-}
