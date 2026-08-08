@@ -20,20 +20,15 @@
 Login
 </button>
 
-<script>
-alert("LOGIN PAGE JAVASCRIPT WORKING");
-
-document.getElementById("loginBtn").onclick = function(){
-    alert("LOGIN BUTTON WORKING");
-};
-</script>
-
-    <script type="module">
+<script type="module">
 
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 
-import { getAuth }
+import {
+    getAuth,
+    signInWithEmailAndPassword
+}
 from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 
@@ -62,40 +57,123 @@ const firebaseConfig = {
 };
 
 
-try {
+const app = initializeApp(firebaseConfig);
 
-    const app =
-        initializeApp(firebaseConfig);
-
-    alert("FIREBASE APP INITIALIZED");
+const auth = getAuth(app);
 
 
-    const auth =
-        getAuth(app);
-
-    alert("FIREBASE AUTH INITIALIZED");
+console.log("ArthaFlow Firebase Auth Ready");
 
 
-    window.arthaAuth = auth;
+document
+.getElementById("loginBtn")
+.addEventListener("click", async function(){
 
-    console.log(
-        "ArthaFlow Firebase Auth Ready",
-        auth
-    );
+    const email =
+        document
+        .getElementById("email")
+        .value
+        .trim();
 
 
-} catch(error) {
+    const password =
+        document
+        .getElementById("password")
+        .value;
 
-    console.error(error);
 
-    alert(
-        "FIREBASE AUTH ERROR\n\n" +
-        error.message
-    );
+    if(!email){
 
-}
+        alert("Email डालिए");
 
-    </script>
+        return;
 
+    }
+
+
+    if(!password){
+
+        alert("Password डालिए");
+
+        return;
+
+    }
+
+
+    const button =
+        document.getElementById("loginBtn");
+
+
+    button.disabled = true;
+
+    button.innerText =
+        "Logging in...";
+
+
+    try{
+
+        const result =
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+
+        console.log(
+            "LOGIN SUCCESS:",
+            result.user.email
+        );
+
+
+        sessionStorage.setItem(
+            "loggedIn",
+            "true"
+        );
+
+
+        sessionStorage.removeItem(
+            "pinVerified"
+        );
+
+
+        alert(
+            "Login Successfully!"
+        );
+
+
+        window.location.href =
+            "splash.html";
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            "LOGIN ERROR:",
+            error
+        );
+
+
+        alert(
+            "Login Error\n\n" +
+            "Code: " +
+            error.code +
+            "\n\n" +
+            error.message
+        );
+
+
+        button.disabled = false;
+
+        button.innerText =
+            "Login";
+
+    }
+
+});
+
+</script>
 </body>
 </html>
