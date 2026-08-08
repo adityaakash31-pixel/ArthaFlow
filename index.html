@@ -17,6 +17,29 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js";
+
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "arthaflow-4d670.firebaseapp.com",
+    projectId: "arthaflow-4d670",
+    storageBucket: "arthaflow-4d670.firebasestorage.app",
+    messagingSenderId: "417281404304",
+    appId: "1:417281404304:web:a0b9fa5a787ad0426d5715",
+    measurementId: "G-785TXW9WTL"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+
+  window.firebaseApp = app;
+
+  console.log("✅ Firebase Connected");
+</script>
+
 </head>
 
 <body>
