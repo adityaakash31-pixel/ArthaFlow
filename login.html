@@ -2,61 +2,409 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ArthaFlow Login Test</title>
+
+<title>ArthaFlow Login</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#0f172a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.box{
+    background:white;
+    padding:30px;
+    width:320px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 0 20px rgba(0,0,0,.3);
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:8px;
+    border:1px solid #ccc;
+    box-sizing:border-box;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#2563eb;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:disabled{
+    opacity:.6;
+}
+
+a{
+    color:#2563eb;
+    text-decoration:none;
+}
+
+</style>
+
 </head>
 
 <body>
 
+<div class="box">
+
 <h2>ArthaFlow Login</h2>
 
-<input type="email" id="email" placeholder="Email">
-<br><br>
+<input
+    type="email"
+    id="email"
+    placeholder="Email"
+    autocomplete="email">
 
-<input type="password" id="password" placeholder="Password">
-<br><br>
+<input
+    type="password"
+    id="password"
+    placeholder="Password"
+    autocomplete="current-password">
 
-<button id="loginBtn" type="button">
+<button
+    id="loginBtn"
+    type="button">
+
 Login
+
 </button>
+
+<p>
+New user?
+<a href="register.html">Create Account</a>
+</p>
+
+<p>
+<a href="#" id="forgotPassword">
+Forgot Password?
+</a>
+</p>
+
+</div>
+
+
+<!-- ================================
+     FIREBASE 12.16.0
+================================= -->
+
+<script
+src="https://www.gstatic.com/firebasejs/12.16.0/firebase-app-compat.js"
+onload="firebaseAppLoaded()"
+onerror="firebaseAppFailed()">
+</script>
 
 <script>
 
-alert("LOGIN PAGE JAVASCRIPT WORKING");
+function firebaseAppLoaded(){
 
-document.getElementById("loginBtn").onclick = function(){
+    console.log("Firebase App Loaded");
 
-    alert("LOGIN BUTTON WORKING");
+    alert("FIREBASE APP LOADED");
 
-};
+    loadFirebaseAuth();
+
+}
+
+
+function firebaseAppFailed(){
+
+    alert(
+        "FIREBASE APP LOAD FAILED"
+    );
+
+}
+
+
+function loadFirebaseAuth(){
+
+    const script =
+        document.createElement("script");
+
+    script.src =
+        "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth-compat.js";
+
+    script.onload = function(){
+
+        alert("FIREBASE AUTH LOADED");
+
+        startFirebase();
+
+    };
+
+    script.onerror = function(){
+
+        alert(
+            "FIREBASE AUTH LOAD FAILED"
+        );
+
+    };
+
+    document.head.appendChild(script);
+
+}
+
+
+/* ================================
+   FIREBASE INITIALIZE
+================================= */
+
+function startFirebase(){
+
+    const firebaseConfig = {
+
+        apiKey:
+        "AIzaSyDM8WtiKL5hSSoDH4BoacMUIQ3QVSpjxJI",
+
+        authDomain:
+        "arthaflow-4d670.firebaseapp.com",
+
+        projectId:
+        "arthaflow-4d670",
+
+        storageBucket:
+        "arthaflow-4d670.firebasestorage.app",
+
+        messagingSenderId:
+        "417281404304",
+
+        appId:
+        "1:417281404304:web:a0b9fa5a787ad0426d5715",
+
+        measurementId:
+        "G-785TXW9WTL"
+
+    };
+
+
+    try{
+
+        firebase.initializeApp(
+            firebaseConfig
+        );
+
+        window.arthaAuth =
+            firebase.auth();
+
+        alert(
+            "FIREBASE READY"
+        );
+
+        enableLogin();
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            "FIREBASE ERROR\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* ================================
+   LOGIN
+================================= */
+
+function enableLogin(){
+
+    const button =
+        document.getElementById(
+            "loginBtn"
+        );
+
+
+    button.onclick =
+    async function(){
+
+        const email =
+            document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+        const password =
+            document
+            .getElementById("password")
+            .value;
+
+
+        if(!email){
+
+            alert("Email डालिए");
+
+            return;
+
+        }
+
+
+        if(!password){
+
+            alert("Password डालिए");
+
+            return;
+
+        }
+
+
+        button.disabled = true;
+
+        button.innerText =
+            "Logging in...";
+
+
+        try{
+
+            const result =
+                await window.arthaAuth
+                .signInWithEmailAndPassword(
+                    email,
+                    password
+                );
+
+
+            console.log(
+                "LOGIN SUCCESS:",
+                result.user.email
+            );
+
+
+            sessionStorage.setItem(
+                "loggedIn",
+                "true"
+            );
+
+
+            sessionStorage.removeItem(
+                "pinVerified"
+            );
+
+
+            alert(
+                "Login Successfully!"
+            );
+
+
+            window.location.href =
+                "splash.html";
+
+        }
+
+        catch(error){
+
+            console.error(
+                "LOGIN ERROR:",
+                error
+            );
+
+
+            alert(
+                "LOGIN ERROR\n\n" +
+                "Code: " +
+                error.code +
+                "\n\n" +
+                error.message
+            );
+
+
+            button.disabled = false;
+
+            button.innerText =
+                "Login";
+
+        }
+
+    };
+
+
+    /* ============================
+       FORGOT PASSWORD
+    ============================ */
+
+    document
+    .getElementById("forgotPassword")
+    .onclick =
+    async function(event){
+
+        event.preventDefault();
+
+
+        const email =
+            document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+        if(!email){
+
+            alert(
+                "पहले Email डालिए।"
+            );
+
+            return;
+
+        }
+
+
+        try{
+
+            await window.arthaAuth
+            .sendPasswordResetEmail(
+                email
+            );
+
+
+            alert(
+                "Password reset link Email पर भेज दिया गया है।"
+            );
+
+        }
+
+        catch(error){
+
+            console.error(error);
+
+            alert(
+                "Password reset नहीं हुआ।\n\n" +
+                error.code +
+                "\n\n" +
+                error.message
+            );
+
+        }
+
+    };
+
+}
 
 </script>
 
-    <script>
-
-console.log("Firebase test starting...");
-
-const firebaseTestScript = document.createElement("script");
-
-firebaseTestScript.src =
-"https://www.gstatic.com/firebasejs/12.7.1/firebase-app-compat.js";
-
-firebaseTestScript.onload = function(){
-
-    alert("FIREBASE APP LOADED SUCCESSFULLY");
-
-};
-
-firebaseTestScript.onerror = function(){
-
-    alert("FIREBASE APP LOAD FAILED");
-
-};
-
-document.head.appendChild(firebaseTestScript);
-
-    </script>
-  
 </body>
-</html>
+
+    </html>
