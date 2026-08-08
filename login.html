@@ -1,1426 +1,335 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
+<!DOCTYPE html>  <html lang="en">  <head>  <meta charset="UTF-8">  <meta name="viewport"  
 content="width=device-width, initial-scale=1.0">
 
-<title>ArthaFlow Login</title>
-
-<style>
-
-/* =====================================================
-   ARTHAFLOW — PREMIUM LOGIN SCREEN
-   DESIGN ONLY
-   LOGIN FUNCTIONS UNCHANGED
-===================================================== */
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-html,
-body{
-    width:100%;
-    min-height:100%;
-}
-
-body{
-
-    min-height:100vh;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    padding:20px;
-
-    font-family:
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-
-    background:
-        radial-gradient(
-            circle at 10% 15%,
-            rgba(37,99,235,0.22),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 92% 82%,
-            rgba(124,58,237,0.20),
-            transparent 32%
-        ),
-        radial-gradient(
-            circle at 50% 100%,
-            rgba(6,182,212,0.10),
-            transparent 35%
-        ),
-        linear-gradient(
-            135deg,
-            #060d1c 0%,
-            #0b1630 48%,
-            #11112b 100%
-        );
-
-    overflow:auto;
-
-    position:relative;
-
-}
-
-
-/* =====================================================
-   BACKGROUND GLOW
-===================================================== */
-
-body::before{
-
-    content:"";
-
-    position:fixed;
-
-    width:340px;
-    height:340px;
-
-    border-radius:50%;
-
-    background:
-        rgba(37,99,235,0.12);
-
-    filter:blur(70px);
-
-    top:-170px;
-    left:-120px;
-
-    pointer-events:none;
-
-}
-
-body::after{
-
-    content:"";
-
-    position:fixed;
-
-    width:320px;
-    height:320px;
-
-    border-radius:50%;
-
-    background:
-        rgba(124,58,237,0.12);
-
-    filter:blur(75px);
-
-    right:-130px;
-    bottom:-160px;
-
-    pointer-events:none;
-
-}
-
-
-/* =====================================================
-   LOGIN CARD
-===================================================== */
-
-.login-card{
-
-    position:relative;
-
-    width:100%;
-    max-width:430px;
-
-    padding:40px 32px 32px;
-
-    border-radius:30px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,0.98),
-            rgba(248,250,252,0.96)
-        );
-
-    border:1px solid
-        rgba(255,255,255,0.72);
-
-    box-shadow:
-        0 35px 90px
-        rgba(0,0,0,0.40),
-        0 12px 35px
-        rgba(0,0,0,0.18);
-
-    backdrop-filter:blur(20px);
-
-    text-align:center;
-
-    z-index:2;
-
-    overflow:hidden;
-
-}
-
-
-/* =====================================================
-   PREMIUM TOP LINE
-===================================================== */
-
-.login-card::before{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-    left:8%;
-
-    width:84%;
-    height:4px;
-
-    border-radius:
-        0 0 15px 15px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #2563eb,
-            #06b6d4,
-            #6366f1,
-            #7c3aed
-        );
-
-}
-
-
-/* =====================================================
-   SUBTLE CARD GLOW
-===================================================== */
-
-.login-card::after{
-
-    content:"";
-
-    position:absolute;
-
-    width:180px;
-    height:180px;
-
-    border-radius:50%;
-
-    background:
-        rgba(99,102,241,0.07);
-
-    filter:blur(35px);
-
-    top:-90px;
-    right:-70px;
-
-    pointer-events:none;
-
-}
-
-
-/* =====================================================
-   LOGO AREA
-===================================================== */
-
-.logo-wrap{
-
-    position:relative;
-
-    width:108px;
-    height:108px;
-
-    margin:0 auto 20px;
-
-    padding:4px;
-
-    border-radius:32px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:
-        linear-gradient(
-            135deg,
-            #2563eb 0%,
-            #06b6d4 45%,
-            #6366f1 72%,
-            #7c3aed 100%
-        );
-
-    box-shadow:
-        0 18px 38px
-        rgba(37,99,235,0.28),
-        0 0 0 6px
-        rgba(37,99,235,0.05);
-
-    z-index:3;
-
-}
-
-
-/* =====================================================
-   LOGO INNER FRAME
-===================================================== */
-
-.logo-inner{
-
-    width:100%;
-    height:100%;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:28px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #ffffff,
-            #f8fafc
-        );
-
-    overflow:hidden;
-
-}
-
-
-/* =====================================================
-   REAL ARTHAFLOW LOGO
-===================================================== */
-
-.logo-image{
-
-    width:86%;
-    height:86%;
-
-    display:block;
-
-    object-fit:contain;
-
-    object-position:center;
-
-    transition:
-        transform 0.25s ease,
-        filter 0.25s ease;
-
-}
-
-.logo-wrap:hover .logo-image{
-
-    transform:
-        scale(1.05);
-
-    filter:
-        drop-shadow(
-            0 8px 12px
-            rgba(37,99,235,0.18)
-        );
-
-}
-
-
-/* =====================================================
-   BRAND NAME
-===================================================== */
-
-.brand-name{
-
-    font-size:32px;
-
-    line-height:1.1;
-
-    font-weight:850;
-
-    letter-spacing:-1.1px;
-
-    color:#0f172a;
-
-    margin-bottom:7px;
-
-}
-
-.brand-name .artha{
-
-    color:#2563eb;
-
-}
-
-.brand-name .flow{
-
-    color:#111827;
-
-}
-
-
-/* =====================================================
-   SUBTITLE
-===================================================== */
-
-.subtitle{
-
-    font-size:13px;
-
-    color:#64748b;
-
-    letter-spacing:0.35px;
-
-    margin-bottom:30px;
-
-}
-
-
-/* =====================================================
-   INPUT GROUP
-===================================================== */
-
-.input-group{
-
-    text-align:left;
-
-    margin-bottom:17px;
-
-}
-
-.input-group label{
-
-    display:block;
-
-    margin-bottom:7px;
-
-    padding-left:3px;
-
-    font-size:12px;
-
-    font-weight:700;
-
-    color:#334155;
-
-    letter-spacing:0.2px;
-
-}
-
-
-/* =====================================================
-   INPUT BOX
-===================================================== */
-
-.input-box{
-
-    position:relative;
-
-}
-
-
-/* =====================================================
-   INPUT ICON
-===================================================== */
-
-.input-icon{
-
-    position:absolute;
-
-    left:16px;
-
-    top:50%;
-
-    transform:
-        translateY(-50%);
-
-    width:20px;
-    height:20px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    font-size:16px;
-
-    color:#64748b;
-
-    opacity:0.85;
-
-    pointer-events:none;
-
-    z-index:2;
-
-}
-
-
-/* =====================================================
-   INPUT
-===================================================== */
-
-.input-group input{
-
-    width:100%;
-
-    height:55px;
-
-    padding:
-        0 16px 0 47px;
-
-    border:1px solid
-        #dbe3ef;
-
-    border-radius:16px;
-
-    outline:none;
-
-    background:
-        linear-gradient(
-            145deg,
-            #f8fafc,
-            #f1f5f9
-        );
-
-    color:#0f172a;
-
-    font-size:15px;
-
-    transition:
-        border 0.22s ease,
-        box-shadow 0.22s ease,
-        background 0.22s ease,
-        transform 0.22s ease;
-
-}
-
-.input-group input::placeholder{
-
-    color:#94a3b8;
-
-}
-
-.input-group input:focus{
-
-    background:#ffffff;
-
-    border-color:#6366f1;
-
-    box-shadow:
-        0 0 0 4px
-        rgba(99,102,241,0.09),
-        0 10px 25px
-        rgba(15,23,42,0.06);
-
-    transform:
-        translateY(-1px);
-
-}
-
-
-/* =====================================================
-   LOGIN BUTTON
-===================================================== */
-
-#loginBtn{
-
-    position:relative;
-
-    width:100%;
-
-    height:55px;
-
-    margin-top:4px;
-
-    border:0;
-
-    border-radius:16px;
-
-    color:#ffffff;
-
-    font-size:15px;
-
-    font-weight:750;
-
-    letter-spacing:0.2px;
-
-    cursor:pointer;
-
-    overflow:hidden;
-
-    background:
-        linear-gradient(
-            100deg,
-            #2563eb,
-            #4f46e5 55%,
-            #7c3aed
-        );
-
-    box-shadow:
-        0 14px 28px
-        rgba(79,70,229,0.30);
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        opacity 0.2s ease;
-
-}
-
-
-/* Button shine */
-
-#loginBtn::before{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-    left:-110%;
-
-    width:65%;
-    height:100%;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,255,255,0.25),
-            transparent
-        );
-
-    transform:
-        skewX(-20deg);
-
-    transition:
-        left 0.6s ease;
-
-}
-
-#loginBtn:hover::before{
-
-    left:135%;
-
-}
-
-#loginBtn:hover{
-
-    transform:
-        translateY(-2px);
-
-    box-shadow:
-        0 18px 34px
-        rgba(79,70,229,0.36);
-
-}
-
-#loginBtn:active{
-
-    transform:
-        translateY(0);
-
-}
-
-#loginBtn:disabled{
-
-    opacity:0.65;
-
-    cursor:not-allowed;
-
-    transform:none;
-
-}
-
-
-/* =====================================================
-   DIVIDER
-===================================================== */
-
-.divider{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:13px;
-
-    margin:25px 0;
-
-    color:#94a3b8;
-
-    font-size:10px;
-
-    font-weight:800;
-
-    letter-spacing:1.5px;
-
-}
-
-.divider::before,
-.divider::after{
-
-    content:"";
-
-    flex:1;
-
-    height:1px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            #dbe3ef
-        );
-
-}
-
-.divider::after{
-
-    background:
-        linear-gradient(
-            90deg,
-            #dbe3ef,
-            transparent
-        );
-
-}
-
-
-/* =====================================================
-   GOOGLE BUTTON
-===================================================== */
-
-#googleLoginBtn{
-
-    width:100%;
-
-    height:55px;
-
-    border:1px solid
-        #dbe3ef;
-
-    border-radius:16px;
-
-    background:#ffffff;
-
-    color:#1e293b;
-
-    font-size:14px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    box-shadow:
-        0 7px 18px
-        rgba(15,23,42,0.05);
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease,
-        border 0.2s ease;
-
-}
-
-#googleLoginBtn:hover{
-
-    background:#f8fafc;
-
-    border-color:#cbd5e1;
-
-    transform:
-        translateY(-2px);
-
-    box-shadow:
-        0 11px 23px
-        rgba(15,23,42,0.08);
-
-}
-
-#googleLoginBtn:active{
-
-    transform:
-        translateY(0);
-
-}
-
-#googleLoginBtn:disabled{
-
-    opacity:0.65;
-
-    cursor:not-allowed;
-
-}
-
-
-/* =====================================================
-   SECURITY BADGE
-===================================================== */
-
-.security-badge{
-
-    display:inline-flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:7px;
-
-    margin-top:22px;
-
-    padding:8px 13px;
-
-    border-radius:30px;
-
-    background:
-        #f1f5f9;
-
-    border:1px solid
-        #e2e8f0;
-
-    color:#64748b;
-
-    font-size:10px;
-
-    font-weight:650;
-
-}
-
-
-/* =====================================================
-   SECURITY DOT
-===================================================== */
-
-.security-dot{
-
-    width:7px;
-    height:7px;
-
-    border-radius:50%;
-
-    background:#22c55e;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(34,197,94,0.12);
-
-}
-
-
-/* =====================================================
-   FOOTER
-===================================================== */
-
-.login-footer{
-
-    margin-top:14px;
-
-    font-size:11px;
-
-    color:#94a3b8;
-
-}
-
-.login-footer strong{
-
-    color:#6366f1;
-
-}
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media(max-width:480px){
-
-    body{
-
-        padding:14px;
-
-    }
-
-    .login-card{
-
-        max-width:400px;
-
-        padding:
-            34px 21px 28px;
-
-        border-radius:27px;
-
-    }
-
-    .logo-wrap{
-
-        width:96px;
-        height:96px;
-
-        border-radius:29px;
-
-        margin-bottom:17px;
-
-    }
-
-    .logo-inner{
-
-        border-radius:25px;
-
-    }
-
-    .brand-name{
-
-        font-size:29px;
-
-    }
-
-    .subtitle{
-
-        margin-bottom:25px;
-
-    }
-
-    .input-group input{
-
-        height:53px;
-
-    }
-
-    #loginBtn,
-    #googleLoginBtn{
-
-        height:53px;
-
-    }
-
-}
-
-
-/* =====================================================
-   SMALL HEIGHT DEVICES
-===================================================== */
-
-@media(max-height:700px){
-
-    body{
-
-        padding-top:14px;
-        padding-bottom:14px;
-
-    }
-
-    .login-card{
-
-        padding-top:28px;
-        padding-bottom:24px;
-
-    }
-
-    .logo-wrap{
-
-        width:78px;
-        height:78px;
-
-        margin-bottom:12px;
-
-    }
-
-    .logo-inner{
-
-        border-radius:22px;
-
-    }
-
-    .brand-name{
-
-        font-size:26px;
-
-    }
-
-    .subtitle{
-
-        margin-bottom:19px;
-
-    }
-
-    .input-group{
-
-        margin-bottom:13px;
-
-    }
-
-    .divider{
-
-        margin:18px 0;
-
-    }
-
-    .security-badge{
-
-        margin-top:16px;
-
-    }
-
-}
-
-
-/* =====================================================
-   VERY SMALL HEIGHT
-===================================================== */
-
-@media(max-height:580px){
-
-    .login-card{
-
-        padding:
-            22px 20px 20px;
-
-    }
-
-    .logo-wrap{
-
-        width:65px;
-        height:65px;
-
-        margin-bottom:9px;
-
-    }
-
-    .brand-name{
-
-        font-size:23px;
-
-    }
-
-    .subtitle{
-
-        font-size:11px;
-
-        margin-bottom:14px;
-
-    }
-
-    .input-group{
-
-        margin-bottom:10px;
-
-    }
-
-    .input-group input{
-
-        height:47px;
-
-    }
-
-    #loginBtn,
-    #googleLoginBtn{
-
-        height:47px;
-
-    }
-
-    .divider{
-
-        margin:13px 0;
-
-    }
-
-    .security-badge{
-
-        margin-top:12px;
-
-        padding:6px 10px;
-
-    }
-
-    .login-footer{
-
-        margin-top:9px;
-
-    }
-
-}
-
-</style>
-
-</head>
-
-
-<body>
-
-
-<div class="login-card">
-
-
-    <!-- =================================================
-         REAL ARTHAFLOW LOGIN LOGO
-    ================================================== -->
-
-    <div class="logo-wrap">
-
-        <div class="logo-inner">
-
-            <img
-                src="login-logo.png"
-                alt="ArthaFlow Logo"
-                class="logo-image">
-
-        </div>
-
-    </div>
-
-
-    <!-- =================================================
-         BRAND
-    ================================================== -->
-
-    <h2 class="brand-name">
-
-        <span class="artha">Artha</span><span class="flow">Flow</span>
-
-    </h2>
-
-
-    <p class="subtitle">
-
-        Smart Finance Management
-
-    </p>
-
-
-    <!-- =================================================
-         EMAIL
-    ================================================== -->
-
-    <div class="input-group">
-
-        <label for="email">
-
-            Email Address
-
-        </label>
-
-        <div class="input-box">
-
-            <span class="input-icon">
-
-                ✉
-
-            </span>
-
-            <input
-                type="email"
-                id="email"
-                placeholder="Enter your email"
-                autocomplete="email">
-
-        </div>
-
-    </div>
-
-
-    <!-- =================================================
-         PASSWORD
-    ================================================== -->
-
-    <div class="input-group">
-
-        <label for="password">
-
-            Password
-
-        </label>
-
-        <div class="input-box">
-
-            <span class="input-icon">
-
-                🔒
-
-            </span>
-
-            <input
-                type="password"
-                id="password"
-                placeholder="Enter your password"
-                autocomplete="current-password">
-
-        </div>
-
-    </div>
-
-
-    <!-- =================================================
-         LOGIN
-    ================================================== -->
-
-    <button
-        id="loginBtn"
-        type="button">
-
-        Login
-
-    </button>
-
-
-    <!-- =================================================
-         DIVIDER
-    ================================================== -->
-
-    <div class="divider">
-
-        <span>OR</span>
-
-    </div>
-
-
-    <!-- =================================================
-         GOOGLE LOGIN
-    ================================================== -->
-
-    <button
-        id="googleLoginBtn"
-        type="button">
-
-        🔵 &nbsp; Continue with Google
-
-    </button>
-
-
-    <!-- =================================================
-         SECURITY
-    ================================================== -->
-
-    <div class="security-badge">
-
-        <span class="security-dot"></span>
-
-        Secure Firebase Authentication
-
-    </div>
-
-
-    <!-- =================================================
-         FOOTER
-    ================================================== -->
-
-    <div class="login-footer">
-
-        Secure login for
-        <strong>ArthaFlow</strong>
-
-    </div>
-
-
-</div>
-
-
-
-<!-- =====================================================
-     FIREBASE
-     ORIGINAL FUNCTIONS — UNCHANGED
-===================================================== -->
-
-<script type="module">
-
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-    GoogleAuthProvider,
-    signInWithPopup
-}
-from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
-
-
-/* ===============================
-   Firebase Configuration
-   =============================== */
-
-const firebaseConfig = {
-
-    apiKey:
-    "AIzaSyDM8WtiKL5hSSoDH4BoacMUIQ3QVSpjxJI",
-
-    authDomain:
-    "arthaflow-4d670.firebaseapp.com",
-
-    projectId:
-    "arthaflow-4d670",
-
-    storageBucket:
-    "arthaflow-4d670.firebasestorage.app",
-
-    messagingSenderId:
-    "417281404304",
-
-    appId:
-    "1:417281404304:web:a0b9fa5a787ad0426d5715",
-
-    measurementId:
-    "G-785TXW9WTL"
-};
-
-
-/* ===============================
-   Firebase Initialize
-   =============================== */
-
-const app =
-    initializeApp(firebaseConfig);
-
-const auth =
-    getAuth(app);
-
-const googleProvider =
-    new GoogleAuthProvider();
-
-
-console.log(
-    "✅ ArthaFlow Firebase Auth Ready"
-);
-
-
-/* ===============================
-   Email + Password Login
-================================ */
-
-document
-.getElementById("loginBtn")
-.addEventListener("click", async function(){
-
-    const email =
-        document
-        .getElementById("email")
-        .value
-        .trim();
-
-    const password =
-        document
-        .getElementById("password")
-        .value;
-
-
-    if(!email){
-
-        alert("Email डालिए");
-
-        return;
-
-    }
-
-
-    if(!password){
-
-        alert("Password डालिए");
-
-        return;
-
-    }
-
-
-    const button =
-        document.getElementById("loginBtn");
-
-
-    button.disabled = true;
-
-    button.innerText =
-        "Logging in...";
-
-
-    try{
-
-        const result =
-            await signInWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-
-
-        console.log(
-            "LOGIN SUCCESS:",
-            result.user.email
-        );
-
-
-        sessionStorage.setItem(
-            "loggedIn",
-            "true"
-        );
-
-
-        sessionStorage.removeItem(
-            "pinVerified"
-        );
-
-
-        /* User information */
-
-        localStorage.setItem(
-            "userEmail",
-            result.user.email || ""
-        );
-
-        localStorage.setItem(
-            "userName",
-            result.user.displayName || ""
-        );
-
-
-        alert(
-            "Login Successfully!"
-        );
-
-
-        window.location.href =
-            "splash.html";
-
-
-    }
-
-    catch(error){
-
-        console.error(
-            "LOGIN ERROR:",
-            error
-        );
-
-
-        alert(
-            "Login Error\n\n" +
-            "Code: " +
-            error.code +
-            "\n\n" +
-            error.message
-        );
-
-
-        button.disabled = false;
-
-        button.innerText =
-            "Login";
-
-    }
-
-});
-
-
-/* ===============================
-   Google Login
-   Phase 11A - Step 4.2
-================================ */
-
-document
-.getElementById("googleLoginBtn")
-.addEventL
+<title>ArthaFlow Login</title>  </head>  <body>  <h2>ArthaFlow Login</h2>  <input  
+type="email"  
+id="email"  
+placeholder="Email">
+
+<br><br>
+
+<input  
+type="password"  
+id="password"  
+placeholder="Password">
+
+<br><br>
+
+<button  
+id="loginBtn"  
+type="button">
+Login
+</button>
+
+<br><br>
+
+<hr>  <p>OR</p>  <button  
+id="googleLoginBtn"  
+type="button">
+🔵 Continue with Google
+</button>
+
+<script type="module">  
+  
+import { initializeApp }  
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";  
+  
+import {  
+    getAuth,  
+    signInWithEmailAndPassword,  
+    GoogleAuthProvider,  
+    signInWithPopup  
+}  
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";  
+  
+  
+/* ===============================  
+   Firebase Configuration  
+   =============================== */  
+  
+const firebaseConfig = {  
+  
+    apiKey:  
+    "AIzaSyDM8WtiKL5hSSoDH4BoacMUIQ3QVSpjxJI",  
+  
+    authDomain:  
+    "arthaflow-4d670.firebaseapp.com",  
+  
+    projectId:  
+    "arthaflow-4d670",  
+  
+    storageBucket:  
+    "arthaflow-4d670.firebasestorage.app",  
+  
+    messagingSenderId:  
+    "417281404304",  
+  
+    appId:  
+    "1:417281404304:web:a0b9fa5a787ad0426d5715",  
+  
+    measurementId:  
+    "G-785TXW9WTL"  
+};  
+  
+  
+/* ===============================  
+   Firebase Initialize  
+   =============================== */  
+  
+const app =  
+    initializeApp(firebaseConfig);  
+  
+const auth =  
+    getAuth(app);  
+  
+const googleProvider =  
+    new GoogleAuthProvider();  
+  
+  
+console.log(  
+    "✅ ArthaFlow Firebase Auth Ready"  
+);  
+  
+  
+/* ===============================  
+   Email + Password Login  
+   =============================== */  
+  
+document  
+.getElementById("loginBtn")  
+.addEventListener("click", async function(){  
+  
+    const email =  
+        document  
+        .getElementById("email")  
+        .value  
+        .trim();  
+  
+    const password =  
+        document  
+        .getElementById("password")  
+        .value;  
+  
+  
+    if(!email){  
+  
+        alert("Email डालिए");  
+  
+        return;  
+  
+    }  
+  
+  
+    if(!password){  
+  
+        alert("Password डालिए");  
+  
+        return;  
+  
+    }  
+  
+  
+    const button =  
+        document.getElementById("loginBtn");  
+  
+  
+    button.disabled = true;  
+  
+    button.innerText =  
+        "Logging in...";  
+  
+  
+    try{  
+  
+        const result =  
+            await signInWithEmailAndPassword(  
+                auth,  
+                email,  
+                password  
+            );  
+  
+  
+        console.log(  
+            "LOGIN SUCCESS:",  
+            result.user.email  
+        );  
+  
+  
+        sessionStorage.setItem(  
+            "loggedIn",  
+            "true"  
+        );  
+  
+  
+        sessionStorage.removeItem(  
+            "pinVerified"  
+        );  
+  
+  
+        /* User information */  
+  
+        localStorage.setItem(  
+            "userEmail",  
+            result.user.email || ""  
+        );  
+  
+        localStorage.setItem(  
+            "userName",  
+            result.user.displayName || ""  
+        );  
+  
+  
+        alert(  
+            "Login Successfully!"  
+        );  
+  
+  
+        window.location.href =  
+            "splash.html";  
+  
+  
+    }  
+  
+    catch(error){  
+  
+        console.error(  
+            "LOGIN ERROR:",  
+            error  
+        );  
+  
+  
+        alert(  
+            "Login Error\n\n" +  
+            "Code: " +  
+            error.code +  
+            "\n\n" +  
+            error.message  
+        );  
+  
+  
+        button.disabled = false;  
+  
+        button.innerText =  
+            "Login";  
+  
+    }  
+  
+});  
+  
+  
+/* ===============================  
+   Google Login  
+   Phase 11A - Step 4.2  
+   =============================== */  
+  
+document  
+.getElementById("googleLoginBtn")  
+.addEventListener("click", async function(){  
+  
+    const button =  
+        document.getElementById(  
+            "googleLoginBtn"  
+        );  
+  
+  
+    button.disabled = true;  
+  
+    button.innerText =  
+        "Connecting to Google...";  
+  
+  
+    try{  
+  
+        const result =  
+            await signInWithPopup(  
+                auth,  
+                googleProvider  
+            );  
+  
+  
+        const user =  
+            result.user;  
+  
+  
+        console.log(  
+            "GOOGLE LOGIN SUCCESS:",  
+            user.email  
+        );  
+  
+  
+        /* Login Status */  
+  
+        sessionStorage.setItem(  
+            "loggedIn",  
+            "true"  
+        );  
+  
+  
+        sessionStorage.removeItem(  
+            "pinVerified"  
+        );  
+  
+  
+        /* User Information */  
+  
+        localStorage.setItem(  
+            "userEmail",  
+            user.email || ""  
+        );  
+  
+        localStorage.setItem(  
+            "userName",  
+            user.displayName || ""  
+        );  
+  
+        localStorage.setItem(  
+            "userPhoto",  
+            user.photoURL || ""  
+        );  
+  
+        localStorage.setItem(  
+            "firebaseUID",  
+            user.uid || ""  
+        );  
+  
+  
+        alert(  
+            "✅ Google Login Successfully!"  
+        );  
+  
+  
+        window.location.href =  
+            "splash.html";  
+  
+  
+    }  
+  
+    catch(error){  
+  
+        console.error(  
+            "GOOGLE LOGIN ERROR:",  
+            error  
+        );  
+  
+  
+        alert(  
+            "Google Login Error\n\n" +  
+            "Code: " +  
+            error.code +  
+            "\n\n" +  
+            error.message  
+        );  
+  
+  
+        button.disabled = false;  
+  
+        button.innerText =  
+            "🔵 Continue with Google";  
+  
+    }  
+  
+});  
+  
+</script> 
+</body> 
+</html>  
