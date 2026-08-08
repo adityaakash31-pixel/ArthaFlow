@@ -12,15 +12,21 @@ content="width=device-width, initial-scale=1.0">
 
 <style>
 
-/* =========================================
-   ArthaFlow Premium Login UI
-   Design Only - No Login Function Changed
-========================================= */
+/* =====================================================
+   ARTHAFLOW PREMIUM LOGIN
+   DESIGN ONLY — FUNCTIONS UNCHANGED
+===================================================== */
 
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
+}
+
+html,
+body{
+    width:100%;
+    min-height:100%;
 }
 
 body{
@@ -41,125 +47,339 @@ body{
 
     background:
         radial-gradient(
-            circle at top left,
-            #dbeafe 0%,
-            transparent 35%
+            circle at 15% 10%,
+            rgba(59,130,246,0.20),
+            transparent 32%
         ),
         radial-gradient(
-            circle at bottom right,
-            #ede9fe 0%,
-            transparent 35%
+            circle at 90% 85%,
+            rgba(124,58,237,0.18),
+            transparent 34%
         ),
         linear-gradient(
             135deg,
-            #f8fafc,
-            #eef2ff
+            #07111f,
+            #101b32 48%,
+            #17152f
+        );
+
+    overflow:hidden;
+
+}
+
+
+/* =====================================================
+   BACKGROUND DECORATION
+===================================================== */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    width:280px;
+    height:280px;
+
+    border-radius:50%;
+
+    background:
+        rgba(59,130,246,0.13);
+
+    filter:blur(5px);
+
+    top:-120px;
+    right:-80px;
+
+    pointer-events:none;
+
+}
+
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:240px;
+    height:240px;
+
+    border-radius:50%;
+
+    background:
+        rgba(139,92,246,0.12);
+
+    filter:blur(8px);
+
+    bottom:-110px;
+    left:-80px;
+
+    pointer-events:none;
+
+}
+
+
+/* =====================================================
+   MAIN CARD
+===================================================== */
+
+.login-card{
+
+    position:relative;
+
+    width:100%;
+    max-width:430px;
+
+    padding:38px 32px 30px;
+
+    border-radius:30px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.97),
+            rgba(248,250,252,0.94)
+        );
+
+    border:1px solid
+        rgba(255,255,255,0.72);
+
+    box-shadow:
+        0 30px 80px
+        rgba(0,0,0,0.35),
+        0 0 0 1px
+        rgba(255,255,255,0.04);
+
+    backdrop-filter:blur(18px);
+
+    text-align:center;
+
+    z-index:2;
+
+}
+
+
+/* =====================================================
+   TOP ACCENT
+===================================================== */
+
+.login-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:12%;
+
+    width:76%;
+    height:3px;
+
+    border-radius:0 0 10px 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #06b6d4,
+            #7c3aed
         );
 
 }
 
 
-/* =========================================
-   Login Card
-========================================= */
+/* =====================================================
+   LOGO FRAME
+===================================================== */
 
-.login-card{
+.logo-wrap{
 
-    width:100%;
-    max-width:420px;
-
-    padding:38px 30px 32px;
-
-    background:rgba(255,255,255,0.92);
-
-    border:1px solid
-        rgba(255,255,255,0.8);
-
-    border-radius:26px;
-
-    box-shadow:
-        0 20px 55px
-        rgba(15,23,42,0.13);
-
-    backdrop-filter:blur(12px);
-
-    text-align:center;
-
-}
-
-
-/* =========================================
-   Logo
-========================================= */
-
-.logo{
-
-    width:70px;
-    height:70px;
+    width:92px;
+    height:92px;
 
     margin:0 auto 18px;
 
-    border-radius:20px;
+    padding:5px;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    border-radius:28px;
 
     background:
         linear-gradient(
             135deg,
             #2563eb,
+            #06b6d4 48%,
             #7c3aed
         );
 
-    color:white;
-
-    font-size:30px;
-    font-weight:800;
-
     box-shadow:
-        0 10px 25px
-        rgba(37,99,235,0.28);
+        0 15px 35px
+        rgba(37,99,235,0.30);
 
 }
 
 
-/* =========================================
-   Heading
-========================================= */
+/* =====================================================
+   LOGO
+===================================================== */
 
-h2{
+.logo{
 
-    font-size:30px;
+    width:100%;
+    height:100%;
 
-    letter-spacing:-0.8px;
+    border-radius:23px;
 
-    color:#111827;
+    display:flex;
 
-    margin-bottom:7px;
+    align-items:center;
+    justify-content:center;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0b1b35,
+            #172554
+        );
+
+    color:white;
+
+}
+
+
+/* Logo diamond */
+
+.logo::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:42px;
+    height:42px;
+
+    border:2px solid
+        rgba(255,255,255,0.85);
+
+    transform:
+        rotate(45deg);
+
+    border-radius:9px;
+
+}
+
+
+/* Logo inner glow */
+
+.logo::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:18px;
+    height:18px;
+
+    border-radius:5px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #60a5fa,
+            #a78bfa
+        );
+
+    transform:
+        rotate(45deg);
+
+    box-shadow:
+        0 0 20px
+        rgba(96,165,250,0.65);
+
+}
+
+
+/* AF text */
+
+.logo-text{
+
+    position:relative;
+
+    z-index:2;
+
+    font-size:23px;
+
+    font-weight:900;
+
+    letter-spacing:-1px;
+
+    text-shadow:
+        0 2px 8px
+        rgba(0,0,0,0.35);
+
+}
+
+
+/* =====================================================
+   BRAND
+===================================================== */
+
+.brand-name{
+
+    font-size:31px;
+
+    font-weight:800;
+
+    letter-spacing:-1px;
+
+    color:#0f172a;
+
+    margin-bottom:5px;
+
+}
+
+.brand-name span{
+
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #7c3aed
+        );
+
+    -webkit-background-clip:text;
+
+    background-clip:text;
+
+    color:transparent;
 
 }
 
 .subtitle{
 
+    font-size:13px;
+
     color:#64748b;
 
-    font-size:14px;
+    letter-spacing:0.3px;
 
     margin-bottom:28px;
 
 }
 
 
-/* =========================================
-   Input Group
-========================================= */
+/* =====================================================
+   INPUT
+===================================================== */
 
 .input-group{
 
     text-align:left;
 
-    margin-bottom:17px;
+    margin-bottom:16px;
 
 }
 
@@ -167,13 +387,41 @@ h2{
 
     display:block;
 
-    font-size:13px;
-
-    font-weight:600;
-
-    color:#374151;
-
     margin-bottom:7px;
+
+    padding-left:3px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    color:#334155;
+
+    letter-spacing:0.2px;
+
+}
+
+.input-box{
+
+    position:relative;
+
+}
+
+.input-icon{
+
+    position:absolute;
+
+    left:15px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    font-size:17px;
+
+    opacity:0.75;
+
+    pointer-events:none;
 
 }
 
@@ -181,24 +429,29 @@ h2{
 
     width:100%;
 
-    height:52px;
+    height:54px;
 
-    padding:0 16px;
+    padding:
+        0 16px 0 46px;
 
-    border:1px solid #dbe2ea;
+    border:1px solid
+        #dbe3ef;
 
-    border-radius:14px;
-
-    background:#f8fafc;
-
-    color:#111827;
-
-    font-size:15px;
+    border-radius:15px;
 
     outline:none;
 
+    background:#f8fafc;
+
+    color:#0f172a;
+
+    font-size:15px;
+
     transition:
-        0.25s ease;
+        border 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
 
 }
 
@@ -210,49 +463,63 @@ h2{
 
 .input-group input:focus{
 
-    border-color:#6366f1;
+    background:#ffffff;
 
-    background:white;
+    border-color:#6366f1;
 
     box-shadow:
         0 0 0 4px
-        rgba(99,102,241,0.10);
+        rgba(99,102,241,0.10),
+        0 8px 20px
+        rgba(15,23,42,0.05);
+
+    transform:
+        translateY(-1px);
 
 }
 
 
-/* =========================================
-   Login Button
-========================================= */
+/* =====================================================
+   LOGIN BUTTON
+===================================================== */
 
 #loginBtn{
 
+    position:relative;
+
     width:100%;
 
-    height:52px;
+    height:54px;
 
-    border:none;
+    margin-top:5px;
 
-    border-radius:14px;
+    border:0;
 
-    background:
-        linear-gradient(
-            135deg,
-            #2563eb,
-            #6366f1
-        );
+    border-radius:15px;
 
     color:white;
 
     font-size:15px;
 
-    font-weight:700;
+    font-weight:750;
+
+    letter-spacing:0.2px;
 
     cursor:pointer;
 
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            100deg,
+            #2563eb,
+            #4f46e5,
+            #7c3aed
+        );
+
     box-shadow:
-        0 9px 20px
-        rgba(37,99,235,0.22);
+        0 12px 25px
+        rgba(79,70,229,0.28);
 
     transition:
         transform 0.2s ease,
@@ -261,19 +528,55 @@ h2{
 
 }
 
+#loginBtn::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:-100%;
+
+    width:70%;
+    height:100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.22),
+            transparent
+        );
+
+    transform:
+        skewX(-20deg);
+
+    transition:
+        left 0.6s ease;
+
+}
+
+#loginBtn:hover::before{
+
+    left:130%;
+
+}
+
 #loginBtn:hover{
 
-    transform:translateY(-2px);
+    transform:
+        translateY(-2px);
 
     box-shadow:
-        0 13px 25px
-        rgba(37,99,235,0.28);
+        0 16px 30px
+        rgba(79,70,229,0.34);
 
 }
 
 #loginBtn:active{
 
-    transform:translateY(0);
+    transform:
+        translateY(0);
 
 }
 
@@ -288,9 +591,9 @@ h2{
 }
 
 
-/* =========================================
-   Divider
-========================================= */
+/* =====================================================
+   DIVIDER
+===================================================== */
 
 .divider{
 
@@ -300,11 +603,15 @@ h2{
 
     gap:12px;
 
-    margin:25px 0;
+    margin:24px 0;
 
     color:#94a3b8;
 
-    font-size:13px;
+    font-size:11px;
+
+    font-weight:700;
+
+    letter-spacing:1px;
 
 }
 
@@ -317,37 +624,61 @@ h2{
 
     height:1px;
 
-    background:#e2e8f0;
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #dbe3ef
+        );
+
+}
+
+.divider::after{
+
+    background:
+        linear-gradient(
+            90deg,
+            #dbe3ef,
+            transparent
+        );
 
 }
 
 
-/* =========================================
-   Google Button
-========================================= */
+/* =====================================================
+   GOOGLE BUTTON
+===================================================== */
 
 #googleLoginBtn{
 
     width:100%;
 
-    height:52px;
+    height:54px;
 
-    border:1px solid #dbe2ea;
+    border:1px solid
+        #dbe3ef;
 
-    border-radius:14px;
+    border-radius:15px;
 
-    background:white;
+    background:#ffffff;
 
-    color:#1f2937;
+    color:#1e293b;
 
-    font-size:15px;
+    font-size:14px;
 
-    font-weight:600;
+    font-weight:700;
 
     cursor:pointer;
 
+    box-shadow:
+        0 6px 15px
+        rgba(15,23,42,0.05);
+
     transition:
-        0.2s ease;
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease,
+        border 0.2s ease;
 
 }
 
@@ -357,13 +688,19 @@ h2{
 
     border-color:#cbd5e1;
 
-    transform:translateY(-1px);
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 10px 20px
+        rgba(15,23,42,0.08);
 
 }
 
 #googleLoginBtn:active{
 
-    transform:translateY(0);
+    transform:
+        translateY(0);
 
 }
 
@@ -376,15 +713,59 @@ h2{
 }
 
 
-/* =========================================
-   Footer
-========================================= */
+/* =====================================================
+   SECURITY BADGE
+===================================================== */
+
+.security-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    margin-top:22px;
+
+    padding:7px 11px;
+
+    border-radius:30px;
+
+    background:#f1f5f9;
+
+    color:#64748b;
+
+    font-size:10px;
+
+    font-weight:600;
+
+}
+
+.security-dot{
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#22c55e;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(34,197,94,0.12);
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
 
 .login-footer{
 
-    margin-top:25px;
+    margin-top:15px;
 
-    font-size:12px;
+    font-size:11px;
 
     color:#94a3b8;
 
@@ -397,39 +778,101 @@ h2{
 }
 
 
-/* =========================================
-   Mobile
-========================================= */
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media(max-width:480px){
 
     body{
 
-        padding:15px;
+        padding:14px;
+
+        overflow:auto;
 
     }
 
     .login-card{
 
-        padding:
-            32px 22px 27px;
+        max-width:400px;
 
-        border-radius:22px;
+        padding:
+            34px 21px 27px;
+
+        border-radius:25px;
 
     }
 
-    h2{
+    .logo-wrap{
 
-        font-size:27px;
+        width:82px;
+        height:82px;
+
+        border-radius:25px;
 
     }
 
     .logo{
 
-        width:64px;
-        height:64px;
+        border-radius:20px;
 
-        font-size:27px;
+    }
+
+    .brand-name{
+
+        font-size:28px;
+
+    }
+
+    .subtitle{
+
+        margin-bottom:24px;
+
+    }
+
+}
+
+
+/* =====================================================
+   VERY SMALL SCREEN
+===================================================== */
+
+@media(max-height:650px){
+
+    body{
+
+        align-items:flex-start;
+
+        padding-top:15px;
+
+        padding-bottom:15px;
+
+    }
+
+    .login-card{
+
+        padding-top:28px;
+
+    }
+
+    .logo-wrap{
+
+        width:70px;
+        height:70px;
+
+        margin-bottom:12px;
+
+    }
+
+    .brand-name{
+
+        font-size:25px;
+
+    }
+
+    .subtitle{
+
+        margin-bottom:18px;
 
     }
 
@@ -446,21 +889,39 @@ h2{
 <div class="login-card">
 
 
-    <!-- Logo -->
+    <!-- =================================================
+         UNIQUE ARTHAFLOW LOGO
+    ================================================== -->
 
-    <div class="logo">
-        AF
+    <div class="logo-wrap">
+
+        <div class="logo">
+
+            <div class="logo-text">
+                AF
+            </div>
+
+        </div>
+
     </div>
 
 
-    <h2>ArthaFlow</h2>
+    <!-- =================================================
+         BRAND
+    ================================================== -->
+
+    <h2 class="brand-name">
+        <span>Artha</span>Flow
+    </h2>
 
     <p class="subtitle">
         Smart Finance Management
     </p>
 
 
-    <!-- Email -->
+    <!-- =================================================
+         EMAIL
+    ================================================== -->
 
     <div class="input-group">
 
@@ -468,16 +929,26 @@ h2{
             Email Address
         </label>
 
-        <input
-            type="email"
-            id="email"
-            placeholder="Enter your email"
-            autocomplete="email">
+        <div class="input-box">
+
+            <span class="input-icon">
+                ✉
+            </span>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                autocomplete="email">
+
+        </div>
 
     </div>
 
 
-    <!-- Password -->
+    <!-- =================================================
+         PASSWORD
+    ================================================== -->
 
     <div class="input-group">
 
@@ -485,16 +956,26 @@ h2{
             Password
         </label>
 
-        <input
-            type="password"
-            id="password"
-            placeholder="Enter your password"
-            autocomplete="current-password">
+        <div class="input-box">
+
+            <span class="input-icon">
+                🔒
+            </span>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                autocomplete="current-password">
+
+        </div>
 
     </div>
 
 
-    <!-- Login -->
+    <!-- =================================================
+         LOGIN
+    ================================================== -->
 
     <button
         id="loginBtn"
@@ -505,25 +986,46 @@ h2{
     </button>
 
 
-    <!-- Divider -->
+    <!-- =================================================
+         DIVIDER
+    ================================================== -->
 
     <div class="divider">
+
         <span>OR</span>
+
     </div>
 
 
-    <!-- Google Login -->
+    <!-- =================================================
+         GOOGLE LOGIN
+    ================================================== -->
 
     <button
         id="googleLoginBtn"
         type="button">
 
-        🔵 Continue with Google
+        🔵 &nbsp; Continue with Google
 
     </button>
 
 
-    <!-- Footer -->
+    <!-- =================================================
+         SECURITY
+    ================================================== -->
+
+    <div class="security-badge">
+
+        <span class="security-dot"></span>
+
+        Secure Firebase Authentication
+
+    </div>
+
+
+    <!-- =================================================
+         FOOTER
+    ================================================== -->
 
     <div class="login-footer">
 
@@ -536,6 +1038,10 @@ h2{
 </div>
 
 
+
+<!-- =====================================================
+     FIREBASE — ORIGINAL FUNCTIONS UNCHANGED
+===================================================== -->
 
 <script type="module">
 
