@@ -9419,3 +9419,60 @@ pdf.text(
 pdf.save("ArthaFlow_Filter_Report.pdf");
 
 }
+
+// ===============================
+// Phase 11A - Step 4.2
+// Google Login
+// ===============================
+
+function googleLogin(){
+
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    auth.signInWithPopup(provider)
+
+    .then(function(result){
+
+        const user = result.user;
+
+        console.log("Google Login Successful");
+
+        console.log("User:", user.email);
+
+        // Login status
+        sessionStorage.setItem("loggedIn", "true");
+
+        // User information
+        localStorage.setItem(
+            "userEmail",
+            user.email
+        );
+
+        localStorage.setItem(
+            "userName",
+            user.displayName || ""
+        );
+
+        localStorage.setItem(
+            "userPhoto",
+            user.photoURL || ""
+        );
+
+        alert("✅ Google Login Successful");
+
+        window.location.href = "index.html";
+
+    })
+
+    .catch(function(error){
+
+        console.error("Google Login Error:", error);
+
+        alert(
+            "❌ Google Login Failed\n\n" +
+            error.message
+        );
+
+    });
+
+}
