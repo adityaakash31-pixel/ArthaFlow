@@ -546,6 +546,9 @@ localStorage.setItem(
 await syncToCloud();
 
 location.reload();
+
+}
+
 // ===============================
 // Reports
 // ===============================
