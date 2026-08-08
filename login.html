@@ -21,15 +21,15 @@
 Login
 </button>
 
-<script>
+<script type="module">
 
-alert("LOGIN PAGE JAVASCRIPT WORKING");
+alert("FIREBASE TEST START");
 
-document.getElementById("loginBtn").onclick = function(){
+import { auth } from "./js/firebase-config.js";
 
-    alert("LOGIN BUTTON WORKING");
+alert("FIREBASE CONNECTED");
 
-};
+console.log("Firebase Auth:", auth);
 
 </script>
 
