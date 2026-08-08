@@ -189,19 +189,23 @@ body::after{
 
 
 /* =====================================================
-   LOGO FRAME
+   REAL ARTHAFLOW LOGO FRAME
 ===================================================== */
 
 .logo-wrap{
 
-    width:92px;
-    height:92px;
+    width:96px;
+    height:96px;
 
     margin:0 auto 18px;
 
     padding:5px;
 
     border-radius:28px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
     background:
         linear-gradient(
@@ -213,112 +217,31 @@ body::after{
 
     box-shadow:
         0 15px 35px
-        rgba(37,99,235,0.30);
+        rgba(37,99,235,0.30),
+        0 0 30px
+        rgba(99,102,241,0.12);
 
 }
 
 
 /* =====================================================
-   LOGO
+   REAL LOGO IMAGE
 ===================================================== */
 
-.logo{
+.logo-image{
 
     width:100%;
     height:100%;
 
+    display:block;
+
+    object-fit:contain;
+
+    padding:7px;
+
     border-radius:23px;
 
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    position:relative;
-
-    overflow:hidden;
-
-    background:
-        linear-gradient(
-            145deg,
-            #0b1b35,
-            #172554
-        );
-
-    color:white;
-
-}
-
-
-/* Logo diamond */
-
-.logo::before{
-
-    content:"";
-
-    position:absolute;
-
-    width:42px;
-    height:42px;
-
-    border:2px solid
-        rgba(255,255,255,0.85);
-
-    transform:
-        rotate(45deg);
-
-    border-radius:9px;
-
-}
-
-
-/* Logo inner glow */
-
-.logo::after{
-
-    content:"";
-
-    position:absolute;
-
-    width:18px;
-    height:18px;
-
-    border-radius:5px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #60a5fa,
-            #a78bfa
-        );
-
-    transform:
-        rotate(45deg);
-
-    box-shadow:
-        0 0 20px
-        rgba(96,165,250,0.65);
-
-}
-
-
-/* AF text */
-
-.logo-text{
-
-    position:relative;
-
-    z-index:2;
-
-    font-size:23px;
-
-    font-weight:900;
-
-    letter-spacing:-1px;
-
-    text-shadow:
-        0 2px 8px
-        rgba(0,0,0,0.35);
+    background:#ffffff;
 
 }
 
@@ -805,16 +728,20 @@ body::after{
 
     .logo-wrap{
 
-        width:82px;
-        height:82px;
+        width:88px;
+        height:88px;
 
         border-radius:25px;
 
+        padding:5px;
+
     }
 
-    .logo{
+    .logo-image{
 
         border-radius:20px;
+
+        padding:6px;
 
     }
 
@@ -857,10 +784,16 @@ body::after{
 
     .logo-wrap{
 
-        width:70px;
-        height:70px;
+        width:76px;
+        height:76px;
 
         margin-bottom:12px;
+
+    }
+
+    .logo-image{
+
+        padding:5px;
 
     }
 
@@ -890,18 +823,15 @@ body::after{
 
 
     <!-- =================================================
-         UNIQUE ARTHAFLOW LOGO
+         REAL ARTHAFLOW LOGO
     ================================================== -->
 
     <div class="logo-wrap">
 
-        <div class="logo">
-
-            <div class="logo-text">
-                AF
-            </div>
-
-        </div>
+        <img
+            src="logo-transparent.png"
+            alt="ArthaFlow Logo"
+            class="logo-image">
 
     </div>
 
