@@ -33,34 +33,65 @@ document.getElementById("loginBtn").onclick = function(){
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 
-alert("FIREBASE MODULE LOADED");
+import { getAuth }
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDM8WtiKL5hSSoDH4BoacMUIQ3QVSpjxJI",
-    authDomain: "arthaflow-4d670.firebaseapp.com",
-    projectId: "arthaflow-4d670",
-    storageBucket: "arthaflow-4d670.firebasestorage.app",
-    messagingSenderId: "417281404304",
-    appId: "1:417281404304:web:a0b9fa5a787ad0426d5715",
-    measurementId: "G-785TXW9WTL"
+
+    apiKey:
+    "AIzaSyDM8WtiKL5hSSoDH4BoacMUIQ3QVSpjxJI",
+
+    authDomain:
+    "arthaflow-4d670.firebaseapp.com",
+
+    projectId:
+    "arthaflow-4d670",
+
+    storageBucket:
+    "arthaflow-4d670.firebasestorage.app",
+
+    messagingSenderId:
+    "417281404304",
+
+    appId:
+    "1:417281404304:web:a0b9fa5a787ad0426d5715",
+
+    measurementId:
+    "G-785TXW9WTL"
 };
+
 
 try {
 
-    const app = initializeApp(firebaseConfig);
+    const app =
+        initializeApp(firebaseConfig);
 
     alert("FIREBASE APP INITIALIZED");
 
-    console.log("Firebase App:", app);
+
+    const auth =
+        getAuth(app);
+
+    alert("FIREBASE AUTH INITIALIZED");
+
+
+    window.arthaAuth = auth;
+
+    console.log(
+        "ArthaFlow Firebase Auth Ready",
+        auth
+    );
+
 
 } catch(error) {
 
+    console.error(error);
+
     alert(
-        "FIREBASE ERROR\n\n" +
+        "FIREBASE AUTH ERROR\n\n" +
         error.message
     );
-
-    console.error(error);
 
 }
 
