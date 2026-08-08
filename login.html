@@ -1,24 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 <title>ArthaFlow Login</title>
+
 </head>
 
 <body>
 
 <h2>ArthaFlow Login</h2>
 
-<input type="email" id="email" placeholder="Email">
+<input
+type="email"
+id="email"
+placeholder="Email">
+
 <br><br>
 
-<input type="password" id="password" placeholder="Password">
+<input
+type="password"
+id="password"
+placeholder="Password">
+
 <br><br>
 
-<button id="loginBtn" type="button">
+<button
+id="loginBtn"
+type="button">
 Login
 </button>
+
+<br><br>
+
+<hr>
+
+<p>OR</p>
+
+<button
+id="googleLoginBtn"
+type="button">
+🔵 Continue with Google
+</button>
+
 
 <script type="module">
 
@@ -27,10 +56,16 @@ from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 
 import {
     getAuth,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithPopup
 }
 from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
+
+/* ===============================
+   Firebase Configuration
+   =============================== */
 
 const firebaseConfig = {
 
@@ -57,13 +92,28 @@ const firebaseConfig = {
 };
 
 
-const app = initializeApp(firebaseConfig);
+/* ===============================
+   Firebase Initialize
+   =============================== */
 
-const auth = getAuth(app);
+const app =
+    initializeApp(firebaseConfig);
+
+const auth =
+    getAuth(app);
+
+const googleProvider =
+    new GoogleAuthProvider();
 
 
-console.log("ArthaFlow Firebase Auth Ready");
+console.log(
+    "✅ ArthaFlow Firebase Auth Ready"
+);
 
+
+/* ===============================
+   Email + Password Login
+   =============================== */
 
 document
 .getElementById("loginBtn")
@@ -74,7 +124,6 @@ document
         .getElementById("email")
         .value
         .trim();
-
 
     const password =
         document
@@ -137,6 +186,19 @@ document
         );
 
 
+        /* User information */
+
+        localStorage.setItem(
+            "userEmail",
+            result.user.email || ""
+        );
+
+        localStorage.setItem(
+            "userName",
+            result.user.displayName || ""
+        );
+
+
         alert(
             "Login Successfully!"
         );
@@ -174,6 +236,122 @@ document
 
 });
 
+
+/* ===============================
+   Google Login
+   Phase 11A - Step 4.2
+   =============================== */
+
+document
+.getElementById("googleLoginBtn")
+.addEventListener("click", async function(){
+
+    const button =
+        document.getElementById(
+            "googleLoginBtn"
+        );
+
+
+    button.disabled = true;
+
+    button.innerText =
+        "Connecting to Google...";
+
+
+    try{
+
+        const result =
+            await signInWithPopup(
+                auth,
+                googleProvider
+            );
+
+
+        const user =
+            result.user;
+
+
+        console.log(
+            "GOOGLE LOGIN SUCCESS:",
+            user.email
+        );
+
+
+        /* Login Status */
+
+        sessionStorage.setItem(
+            "loggedIn",
+            "true"
+        );
+
+
+        sessionStorage.removeItem(
+            "pinVerified"
+        );
+
+
+        /* User Information */
+
+        localStorage.setItem(
+            "userEmail",
+            user.email || ""
+        );
+
+        localStorage.setItem(
+            "userName",
+            user.displayName || ""
+        );
+
+        localStorage.setItem(
+            "userPhoto",
+            user.photoURL || ""
+        );
+
+        localStorage.setItem(
+            "firebaseUID",
+            user.uid || ""
+        );
+
+
+        alert(
+            "✅ Google Login Successfully!"
+        );
+
+
+        window.location.href =
+            "splash.html";
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            "GOOGLE LOGIN ERROR:",
+            error
+        );
+
+
+        alert(
+            "Google Login Error\n\n" +
+            "Code: " +
+            error.code +
+            "\n\n" +
+            error.message
+        );
+
+
+        button.disabled = false;
+
+        button.innerText =
+            "🔵 Continue with Google";
+
+    }
+
+});
+
 </script>
+
 </body>
+
 </html>
