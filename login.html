@@ -21,15 +21,29 @@
 Login
 </button>
 
+<script src="https://www.gstatic.com/firebasejs/12.7.1/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/12.7.1/firebase-auth-compat.js"></script>
+
 <script>
 
-alert("LOGIN PAGE JAVASCRIPT WORKING");
+alert("FIREBASE SCRIPT LOADED");
 
-document.getElementById("loginBtn").onclick = function(){
-
-    alert("LOGIN BUTTON WORKING");
-
+const firebaseConfig = {
+    apiKey: "AIzaSyDM8WtiKL5hSSoDh4BoacMUIQ3QVSpjxJI",
+    authDomain: "arthaflow-4d670.firebaseapp.com",
+    projectId: "arthaflow-4d670",
+    storageBucket: "arthaflow-4d670.firebasestorage.app",
+    messagingSenderId: "417281404304",
+    appId: "1:417281404304:web:a0b9fa5a787ad0426d5715",
+    measurementId: "G-785TXW9WTL"
 };
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+
+alert("FIREBASE CONNECTED");
 
 </script>
   
