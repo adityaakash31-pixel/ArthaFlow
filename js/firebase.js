@@ -1,21 +1,31 @@
-// ===============================
+// ==========================================
 // ArthaFlow Firebase Connection
-// Phase 11A - Step 4.2
-// Modular Firebase Setup
-// ===============================
+// Phase 11A
+// Firebase Modular Setup
+// ==========================================
+
+
+// ==========================================
+// Firebase App
+// ==========================================
 
 import {
     initializeApp
-} from "https://www.gstatic.com/firebasejs/12.7.1/firebase-app.js";
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+
+// ==========================================
+// Firebase Authentication
+// ==========================================
 
 import {
     getAuth
-} from "https://www.gstatic.com/firebasejs/12.7.1/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 
-// ===============================
+// ==========================================
 // Firebase Configuration
-// ===============================
+// ==========================================
 
 const firebaseConfig = {
 
@@ -39,28 +49,29 @@ const firebaseConfig = {
 
     measurementId:
     "G-785TXW9WTL"
+
 };
 
 
-// ===============================
+// ==========================================
 // Initialize Firebase
-// ===============================
+// ==========================================
 
 const app =
     initializeApp(firebaseConfig);
 
 
-// ===============================
+// ==========================================
 // Firebase Authentication
-// ===============================
+// ==========================================
 
 const auth =
     getAuth(app);
 
 
-// ===============================
-// Make Auth Available
-// ===============================
+// ==========================================
+// Export Firebase
+// ==========================================
 
 export {
     app,
