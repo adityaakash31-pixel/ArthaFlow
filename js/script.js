@@ -1411,34 +1411,59 @@ if(recentList){
 
 }
 
-function saveProfile(){
+// ==========================================
+// ArthaFlow User Profile
+// Cloud Sync Enabled
+// ==========================================
+
+async function saveProfile(){
 
     let name =
-    document.getElementById("userName").value;
+        document
+        .getElementById("userName")
+        .value
+        .trim();
 
-    if(name==""){
+    if(name === ""){
+
         alert("Enter Your Name");
+
         return;
+
     }
 
-    localStorage.setItem("userName",name);
+    // Save locally
+    localStorage.setItem(
+        "userName",
+        name
+    );
 
-    alert("✅ Profile Saved");
+    // ☁️ Save to Firestore
+    if(
+        typeof window.saveArthaFlowToCloud ===
+        "function"
+    ){
 
-}
+        await window.saveArthaFlowToCloud();
 
-let welcome =
-document.getElementById("welcomeUser");
+    }
 
-if(welcome){
+    // Update Dashboard Welcome
+    let welcome =
+        document.getElementById(
+            "welcomeUser"
+        );
 
-    let name =
-    localStorage.getItem("userName");
+    if(welcome){
 
-    if(name){
         welcome.innerHTML =
-        "👋 Welcome, " + name;
+            "👋 Welcome, " + name;
+
     }
+
+    alert(
+        "✅ Profile Saved Successfully"
+    );
 
 }
 
