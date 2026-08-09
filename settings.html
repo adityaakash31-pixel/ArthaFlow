@@ -4,253 +4,526 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>ArthaFlow - Settings</title>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet"
+href="css/style.css">
 
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+<link rel="icon"
+type="image/png"
+sizes="32x32"
+href="favicon-32.png">
+
+<link rel="icon"
+type="image/png"
+sizes="64x64"
+href="favicon-64.png">
 
 </head>
 
+
 <body>
 
-<!-- ============================= -->
+
+<!-- ===================================== -->
 <!-- Premium Header -->
-<!-- ============================= -->
+<!-- ===================================== -->
 
 <header class="top-header">
 
-<div class="header-brand">
+    <div class="header-brand">
 
-<img
-src="header-logo.png"
-alt="ArthaFlow Header Logo"
-class="header-logo">
+        <img
+        src="header-logo.png"
+        alt="ArthaFlow Header Logo"
+        class="header-logo">
 
-</div>
+    </div>
 
-<div class="premium-banner">
 
-<h2>⚙ Settings</h2>
+    <div class="premium-banner">
 
-<p>Customize • Backup • Security</p>
+        <h2>⚙ Settings</h2>
 
-</div>
+        <p>
+            Profile • Security • Cloud • Preferences
+        </p>
+
+    </div>
 
 </header>
 
-<!-- ============================= -->
+
+<!-- ===================================== -->
 <!-- Navigation -->
-<!-- ============================= -->
+<!-- ===================================== -->
 
 <nav class="navbar">
 
-<a href="index.html">🏠 Dashboard</a>
+    <a href="index.html">
+        🏠 Dashboard
+    </a>
 
-<a href="income.html">💰 Income</a>
+    <a href="income.html">
+        💰 Income
+    </a>
 
-<a href="expense.html">💸 Expense</a>
+    <a href="expense.html">
+        💸 Expense
+    </a>
 
-<a href="reports.html">📊 Reports</a>
+    <a href="reports.html">
+        📊 Reports
+    </a>
 
-<a href="settings.html">⚙ Settings</a>
+    <a href="settings.html">
+        ⚙ Settings
+    </a>
 
 </nav>
 
-<h1>⚙ Settings</h1>
 
-<p>Manage your ArthaFlow preferences</p>
+<!-- ===================================== -->
+<!-- Page Heading -->
+<!-- ===================================== -->
 
-<div class="card">
+<h1>
+    ⚙ Settings
+</h1>
 
-<h2>Application Settings</h2>
+<p>
+    Manage your ArthaFlow account and preferences
+</p>
 
-<p>Manage your ArthaFlow data and preferences.</p>
 
-<button onclick="exportCSV()">
-📥 Export CSV
-</button>
-
-<button onclick="backupData()">
-💾 Backup Data
-</button>
-
-<input
-type="file"
-id="restoreFile"
-accept=".json"
-onchange="restoreData(event)">
-
-<button onclick="document.getElementById('restoreFile').click()">
-📂 Restore Backup
-</button>
-
-<button onclick="toggleTheme()">
-🌙 Toggle Dark Mode
-</button>
-
-<h2>👤 User Profile</h2>
-
-<label>Your Name</label>
-
-<input
-type="text"
-id="userName"
-placeholder="Enter Your Name">
-
-<button onclick="saveProfile()">
-💾 Save Profile
-</button>
-
-<h2>💰 Monthly Budget</h2>
-
-<input
-type="number"
-id="monthlyBudget"
-placeholder="Enter Monthly Budget">
-
-<button onclick="saveBudget()">
-💾 Save Budget
-</button>
-
-<button onclick="resetData()">
-🗑 Reset All Data
-</button>
-
-</div>
-
-    <!-- ===================================== -->
-<!-- Appearance -->
+<!-- ===================================== -->
+<!-- USER PROFILE -->
 <!-- ===================================== -->
 
 <div class="card">
 
-<h2>🎨 Appearance</h2>
+    <h2>
+        👤 My Profile
+    </h2>
 
-<button onclick="toggleTheme()">
 
-🌙 Change Theme
+    <label>
+        User Name
+    </label>
 
-</button>
+    <input
+    type="text"
+    id="userName"
+    placeholder="Enter Your Name">
+
+
+    <button
+    onclick="saveProfile()">
+
+        💾 Update User Name
+
+    </button>
+
+
+    <hr>
+
+
+    <label>
+        Gmail / Email
+    </label>
+
+    <input
+    type="email"
+    id="userEmail"
+    placeholder="Loading email..."
+    readonly>
+
+
+    <p>
+        🔒 Your login email is managed by Firebase.
+    </p>
+
 
 </div>
 
+
 <!-- ===================================== -->
-<!-- Security -->
+<!-- SECURITY -->
 <!-- ===================================== -->
 
 <div class="card">
 
-<h2>🔒 Security</h2>
+    <h2>
+        🔐 Security
+    </h2>
 
-<button onclick="location.href='pin-setup.html'">
 
-🔑 Change PIN
+    <p>
+        Protect your ArthaFlow account and app data.
+    </p>
 
-</button>
+
+    <button
+    onclick="location.href='pin-setup.html'">
+
+        🔑 Change App PIN
+
+    </button>
+
+
+    <button
+    onclick="logoutUser()">
+
+        🚪 Logout
+
+    </button>
+
+
+    <p>
+        🔒 Auto Lock:
+        <b>5 Minutes</b>
+    </p>
 
 </div>
 
+
 <!-- ===================================== -->
-<!-- Backup & Restore -->
+<!-- CLOUD SYNC -->
 <!-- ===================================== -->
 
 <div class="card">
 
-<h2>☁ Backup & Restore</h2>
+    <h2>
+        ☁️ Cloud Sync
+    </h2>
 
-<button onclick="backupData()">
 
-☁ Backup Data
+    <p>
+        Keep your ArthaFlow data safely synchronized
+        with your Firebase account.
+    </p>
 
-</button>
 
-<button onclick="restoreData()">
+    <p>
+        Status:
+        <b id="cloudStatus">
+            Checking...
+        </b>
+    </p>
 
-📥 Restore Data
 
-</button>
+    <p>
+        Last Sync:
+        <b id="lastSync">
+            Not synced yet
+        </b>
+    </p>
+
+
+    <button
+    onclick="syncNow()">
+
+        🔄 Sync Now
+
+    </button>
+
+
+    <button
+    onclick="loadCloudData()">
+
+        ☁️ Restore From Cloud
+
+    </button>
 
 </div>
 
+
 <!-- ===================================== -->
-<!-- Export -->
+<!-- MONTHLY BUDGET -->
 <!-- ===================================== -->
 
 <div class="card">
 
-<h2>📄 Export</h2>
+    <h2>
+        💰 Monthly Budget
+    </h2>
 
-<button onclick="downloadPDF()">
 
-📄 Export PDF
+    <input
+    type="number"
+    id="monthlyBudget"
+    placeholder="Enter Monthly Budget">
 
-</button>
 
-<button onclick="downloadCSV()">
+    <button
+    onclick="saveBudget()">
 
-📊 Export CSV
+        💾 Save Budget
 
-</button>
+    </button>
 
 </div>
 
+
 <!-- ===================================== -->
-<!-- About -->
+<!-- APPEARANCE -->
 <!-- ===================================== -->
 
 <div class="card">
 
-<h2>ℹ About ArthaFlow</h2>
+    <h2>
+        🎨 Appearance
+    </h2>
 
-<p><b>Version :</b> 1.0 Premium</p>
 
-<p><b>Developer :</b> Aditya Aakash</p>
+    <p>
+        Customize the appearance of ArthaFlow.
+    </p>
 
-<p><b>Platform :</b> Personal Finance Manager</p>
+
+    <button
+    onclick="toggleTheme()">
+
+        🌙 Change Theme
+
+    </button>
 
 </div>
 
-  <!-- ===================================== -->
-<!-- Footer -->
+
+<!-- ===================================== -->
+<!-- BACKUP & RESTORE -->
+<!-- ===================================== -->
+
+<div class="card">
+
+    <h2>
+        💾 Backup & Restore
+    </h2>
+
+
+    <button
+    onclick="backupData()">
+
+        💾 Backup Data
+
+    </button>
+
+
+    <input
+    type="file"
+    id="restoreFile"
+    accept=".json"
+    onchange="restoreData(event)">
+
+
+    <button
+    onclick="document.getElementById('restoreFile').click()">
+
+        📂 Restore Backup
+
+    </button>
+
+</div>
+
+
+<!-- ===================================== -->
+<!-- EXPORT -->
+<!-- ===================================== -->
+
+<div class="card">
+
+    <h2>
+        📄 Export Data
+    </h2>
+
+
+    <button
+    onclick="downloadPDF()">
+
+        📄 Export PDF
+
+    </button>
+
+
+    <button
+    onclick="downloadCSV()">
+
+        📊 Export CSV
+
+    </button>
+
+</div>
+
+
+<!-- ===================================== -->
+<!-- ACCOUNT SUMMARY -->
+<!-- ===================================== -->
+
+<div class="card">
+
+    <h2>
+        📊 Account Summary
+    </h2>
+
+
+    <p>
+        Total Income:
+        <b id="profileTotalIncome">
+            ₹0
+        </b>
+    </p>
+
+
+    <p>
+        Total Expense:
+        <b id="profileTotalExpense">
+            ₹0
+        </b>
+    </p>
+
+
+    <p>
+        Total Transactions:
+        <b id="profileTransactions">
+            0
+        </b>
+    </p>
+
+</div>
+
+
+<!-- ===================================== -->
+<!-- RESET -->
+<!-- ===================================== -->
+
+<div class="card">
+
+    <h2>
+        ⚠️ Danger Zone
+    </h2>
+
+
+    <p>
+        This will remove local ArthaFlow data
+        from this device.
+    </p>
+
+
+    <button
+    onclick="resetData()">
+
+        🗑 Reset Local Data
+
+    </button>
+
+</div>
+
+
+<!-- ===================================== -->
+<!-- ABOUT -->
+<!-- ===================================== -->
+
+<div class="card">
+
+    <h2>
+        ℹ️ About ArthaFlow
+    </h2>
+
+
+    <p>
+        <b>Version:</b>
+        1.0 Premium
+    </p>
+
+
+    <p>
+        <b>Developer:</b>
+        Aditya Aakash
+    </p>
+
+
+    <p>
+        <b>Platform:</b>
+        Personal Finance Manager
+    </p>
+
+
+    <p>
+        Track • Save • Invest • Grow
+    </p>
+
+</div>
+
+
+<!-- ===================================== -->
+<!-- FOOTER -->
 <!-- ===================================== -->
 
 <footer class="footer">
 
-<h2>💎 ArthaFlow Premium</h2>
+    <h2>
+        💎 ArthaFlow Premium
+    </h2>
 
-<p>Track • Save • Invest • Grow</p>
 
-<hr>
+    <p>
+        Track • Save • Invest • Grow
+    </p>
 
-<p>© 2026 ArthaFlow</p>
 
-<p>Developed with ❤️ by <b>Aditya Aakash</b></p>
+    <hr>
+
+
+    <p>
+        © 2026 ArthaFlow
+    </p>
+
+
+    <p>
+        Developed with ❤️ by
+        <b>Aditya Aakash</b>
+    </p>
 
 </footer>
 
+
 <!-- ===================================== -->
-<!-- Scripts -->
+<!-- Main JavaScript -->
 <!-- ===================================== -->
 
 <script src="js/script.js"></script>
 
+
+<!-- ===================================== -->
+<!-- Settings Loader -->
+<!-- ===================================== -->
+
 <script>
 
-window.addEventListener("load", function(){
+window.addEventListener(
+    "load",
+    function(){
 
-if(typeof loadSettings==="function"){
+        if(
+            typeof loadSettings ===
+            "function"
+        ){
 
-loadSettings();
+            loadSettings();
 
-}
+        }
 
-});
+    }
+);
 
 </script>
 
+
 </body>
+
 </html>
