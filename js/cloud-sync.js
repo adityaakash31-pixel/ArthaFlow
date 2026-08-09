@@ -59,6 +59,17 @@ onAuthStateChanged(auth, function(user){
             user.email
         );
 
+        window.dispatchEvent(
+            new CustomEvent(
+                "arthaFlowAuthReady",
+                {
+                    detail: {
+                        email: user.email || ""
+                    }
+                }
+            )
+        );
+
     }else{
 
         console.log(
