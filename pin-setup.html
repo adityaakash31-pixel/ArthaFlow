@@ -1,10 +1,13 @@
-alert("script.js loaded");
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 <title>Setup PIN</title>
 
 <link rel="stylesheet" href="style.css">
@@ -23,17 +26,30 @@ id="newPin"
 maxlength="6"
 placeholder="Enter 4 or 6 Digit PIN">
 
-<button onclick="alert('Button Clicked'); savePin();">
+<button onclick="savePin()">
 Save PIN
 </button>
 
 </div>
 
-  <script>
-alert("pin-setup.html loaded");
-  </script>
 
+<!-- Page Test -->
+<script>
+alert("pin-setup.html loaded");
+</script>
+
+
+<!-- Firebase Cloud Sync -->
+<script
+type="module"
+src="js/firebase-sync.js">
+</script>
+
+
+<!-- Main JavaScript -->
 <script src="js/script.js"></script>
 
+
 </body>
+
 </html>
