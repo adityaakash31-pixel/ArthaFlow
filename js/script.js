@@ -9992,3 +9992,42 @@ function googleLogin(){
     });
 
 }
+
+// ==========================================
+// ArthaFlow Profile - Load Firebase Email
+// ==========================================
+
+function loadProfileEmail(){
+
+    const emailBox =
+        document.getElementById("userEmail");
+
+    if(!emailBox){
+        return;
+    }
+
+    // Firebase Auth User
+    if(
+        typeof firebase !== "undefined" &&
+        firebase.auth &&
+        firebase.auth().currentUser
+    ){
+
+        emailBox.value =
+            firebase.auth().currentUser.email || "";
+
+        return;
+    }
+
+    // Saved email fallback
+    const savedEmail =
+        localStorage.getItem("userEmail") || "";
+
+    if(savedEmail){
+
+        emailBox.value =
+            savedEmail;
+
+    }
+
+}
