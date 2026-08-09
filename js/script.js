@@ -706,122 +706,277 @@ window.searchIncome =
     searchIncome;
 
 
+// ==========================================
+// ArthaFlow Expense Cloud Sync
+// ==========================================
+
+async function syncToCloud(){
+
+    if(
+        typeof window.saveArthaFlowToCloud ===
+        "function"
+    ){
+
+        await window.saveArthaFlowToCloud();
+
+        console.log(
+            "☁️ Expense Cloud Sync Completed"
+        );
+
+    }else{
+
+        console.log(
+            "☁️ Cloud Sync Not Ready"
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// Save Expense
+// ==========================================
+
 async function saveExpense(){
 
     let category =
-    document.getElementById("expenseCategory").value;
+        document
+        .getElementById("expenseCategory")
+        .value
+        .trim();
+
 
     let amount =
-    Number(document.getElementById("expenseAmount").value);
+        Number(
+            document
+            .getElementById("expenseAmount")
+            .value
+        );
+
 
     let date =
-document.getElementById("expenseDate").value;
+        document
+        .getElementById("expenseDate")
+        .value;
 
-let note =
-document.getElementById("expenseNote").value;
 
-    if(category==""){
+    let note =
+        document
+        .getElementById("expenseNote")
+        .value
+        .trim();
+
+
+    if(category === ""){
+
         alert("Enter Category");
+
         return;
+
     }
 
-    if(amount<=0){
+
+    if(amount <= 0){
+
         alert("Enter Amount");
+
         return;
+
     }
+
+
+    // Add Expense History
 
     expenseHistory.push({
-    category: category,
-    amount: amount,
-    date: date,
-    note: note
-});
 
-totalExpense += amount;
+        category: category,
 
-localStorage.setItem(
-    "expenseHistory",
-    JSON.stringify(expenseHistory)
-);
+        amount: amount,
 
-localStorage.setItem(
-    "totalExpense",
-    totalExpense
-);
+        date: date,
 
-await syncToCloud();
+        note: note
 
-        document.getElementById("expenseDate").value = "";
-document.getElementById("expenseNote").value = "";
+    });
 
-    showNotification("💸 Expense Saved Successfully");
 
-    location.reload();
+    // Update Total Expense
 
-}
-async function deleteExpense(index){
+    totalExpense += amount;
 
-    if(!confirm("Delete this expense?")){
-        return;
-    }
 
-    totalExpense -= expenseHistory[index].amount;
-
-    localStorage.setItem(
-        "totalExpense",
-        totalExpense
-    );
-
-    expenseHistory.splice(index,1);
+    // Save LocalStorage
 
     localStorage.setItem(
         "expenseHistory",
         JSON.stringify(expenseHistory)
     );
 
+
+    localStorage.setItem(
+        "totalExpense",
+        totalExpense
+    );
+
+
+    // ☁️ Firebase Cloud Sync
+
     await syncToCloud();
+
+
+    // Clear Form
+
+    document
+        .getElementById("expenseCategory")
+        .value = "";
+
+
+    document
+        .getElementById("expenseAmount")
+        .value = "";
+
+
+    document
+        .getElementById("expenseDate")
+        .value = "";
+
+
+    document
+        .getElementById("expenseNote")
+        .value = "";
+
+
+    showNotification(
+        "💸 Expense Saved Successfully"
+    );
+
 
     location.reload();
 
 }
 
-async function editExpense(index){
 
-    let newAmount = prompt(
-        "Enter New Amount",
-        expenseHistory[index].amount
+// ==========================================
+// Delete Expense
+// ==========================================
+
+async function deleteExpense(index){
+
+    if(
+        !confirm(
+            "Delete this expense?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    totalExpense -=
+        expenseHistory[index].amount;
+
+
+    expenseHistory.splice(
+        index,
+        1
     );
 
-    if(newAmount==null){
+
+    // Save LocalStorage
+
+    localStorage.setItem(
+        "totalExpense",
+        totalExpense
+    );
+
+
+    localStorage.setItem(
+        "expenseHistory",
+        JSON.stringify(expenseHistory)
+    );
+
+
+    // ☁️ Firebase Cloud Sync
+
+    await syncToCloud();
+
+
+    location.reload();
+
+}
+
+
+// ==========================================
+// Edit Expense
+// ==========================================
+
+async function editExpense(index){
+
+    let newAmount =
+        prompt(
+            "Enter New Amount",
+            expenseHistory[index].amount
+        );
+
+
+    if(newAmount == null){
+
         return;
+
     }
 
-    newAmount = Number(newAmount);
 
-    if(newAmount<=0){
+    newAmount =
+        Number(newAmount);
+
+
+    if(newAmount <= 0){
+
+        alert(
+            "Invalid Amount"
+        );
+
         return;
+
     }
+
+
+    // Update Total
 
     totalExpense =
-    totalExpense
-    - expenseHistory[index].amount
-    + newAmount;
+        totalExpense
+        - expenseHistory[index].amount
+        + newAmount;
 
-expenseHistory[index].amount = newAmount;
 
-localStorage.setItem(
-    "expenseHistory",
-    JSON.stringify(expenseHistory)
-);
+    // Update History
 
-localStorage.setItem(
-    "totalExpense",
-    totalExpense
-);
+    expenseHistory[index].amount =
+        newAmount;
 
-await syncToCloud();
 
-location.reload();
+    // Save LocalStorage
+
+    localStorage.setItem(
+        "expenseHistory",
+        JSON.stringify(expenseHistory)
+    );
+
+
+    localStorage.setItem(
+        "totalExpense",
+        totalExpense
+    );
+
+
+    // ☁️ Firebase Cloud Sync
+
+    await syncToCloud();
+
+
+    location.reload();
 
 }
 
