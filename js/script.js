@@ -264,172 +264,448 @@ if(localStorage.getItem("theme")=="dark"){
 }
 
 // ==========================================
+// ArthaFlow Income Module
 // Phase 11A - Step 4.3C
-// Automatic Cloud Sync Helper
+// Automatic Cloud Sync Enabled
+// ==========================================
+
+
+// ==========================================
+// CLOUD SYNC HELPER
 // ==========================================
 
 async function syncToCloud(){
 
-    if(typeof window.saveArthaFlowToCloud === "function"){
+    try{
 
-        await window.saveArthaFlowToCloud();
+        if(
+            typeof window.saveArthaFlowToCloud ===
+            "function"
+        ){
 
-        console.log("☁️ Cloud Sync Completed");
+            const result =
+                await window.saveArthaFlowToCloud();
 
-    }else{
+            if(result){
 
-        console.log("☁️ Cloud Sync Not Ready");
+                console.log(
+                    "☁️ Cloud Sync Completed"
+                );
+
+            }else{
+
+                console.log(
+                    "☁️ Cloud Sync Skipped"
+                );
+
+            }
+
+        }else{
+
+            console.log(
+                "☁️ Cloud Sync Not Ready"
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "❌ Cloud Sync Error:",
+            error
+        );
 
     }
 
 }
 
-// Save Income
-async function saveIncome() {
 
-    let category = document.getElementById("category").value;
-    let amount = Number(document.getElementById("amount").value);
+// ==========================================
+// SAVE INCOME
+// ==========================================
 
-    if (category === "") {
-        alert("Please enter category");
+async function saveIncome(){
+
+    let category =
+        document
+        .getElementById("category")
+        .value
+        .trim();
+
+
+    let amount =
+        Number(
+            document
+            .getElementById("amount")
+            .value
+        );
+
+
+    if(category === ""){
+
+        alert(
+            "Please enter category"
+        );
+
         return;
+
     }
 
-    if (amount <= 0) {
-        alert("Please enter valid amount");
+
+    if(amount <= 0){
+
+        alert(
+            "Please enter valid amount"
+        );
+
         return;
+
     }
 
-    let date = document.getElementById("incomeDate").value;
-    let note = document.getElementById("incomeNote").value;
 
-    totalIncome = totalIncome + amount;
+    let date =
+        document
+        .getElementById("incomeDate")
+        .value;
 
-    localStorage.setItem(
-        "totalIncome",
-        totalIncome
-    );
 
-    incomeHistory.push({
-        category: category,
-        amount: amount,
-        date: date,
-        note: note
-    });
+    let note =
+        document
+        .getElementById("incomeNote")
+        .value
+        .trim();
 
-    localStorage.setItem(
-        "incomeHistory",
-        JSON.stringify(incomeHistory)
-    );
 
-    await syncToCloud();
-
-    alert("Income Saved Successfully");
-
-    showNotification("✅ Income Saved Successfully");
-
-document.getElementById("category").value = "";
-document.getElementById("amount").value = "";
-document.getElementById("incomeDate").value = "";
-document.getElementById("incomeNote").value = "";
-
-location.reload();
-
-}
-
-async function deleteIncome(index){
-
-    if(!confirm("Delete this income?")){
-        return;
-    }
+    // ======================================
+    // UPDATE TOTAL INCOME
+    // ======================================
 
     totalIncome =
-        totalIncome - incomeHistory[index].amount;
+        totalIncome + amount;
+
 
     localStorage.setItem(
         "totalIncome",
         totalIncome
     );
 
-    incomeHistory.splice(index,1);
+
+    // ======================================
+    // ADD INCOME HISTORY
+    // ======================================
+
+    incomeHistory.push({
+
+        category: category,
+
+        amount: amount,
+
+        date: date,
+
+        note: note
+
+    });
+
 
     localStorage.setItem(
         "incomeHistory",
-        JSON.stringify(incomeHistory)
+        JSON.stringify(
+            incomeHistory
+        )
     );
 
+
+    // ======================================
+    // CLOUD SYNC
+    // ======================================
+
     await syncToCloud();
+
+
+    // ======================================
+    // SUCCESS
+    // ======================================
+
+    alert(
+        "Income Saved Successfully"
+    );
+
+
+    if(
+        typeof showNotification ===
+        "function"
+    ){
+
+        showNotification(
+            "✅ Income Saved Successfully"
+        );
+
+    }
+
+
+    // ======================================
+    // CLEAR FORM
+    // ======================================
+
+    document
+    .getElementById("category")
+    .value = "";
+
+
+    document
+    .getElementById("amount")
+    .value = "";
+
+
+    document
+    .getElementById("incomeDate")
+    .value = "";
+
+
+    document
+    .getElementById("incomeNote")
+    .value = "";
+
+
+    // ======================================
+    // RELOAD
+    // ======================================
 
     location.reload();
 
 }
 
-async function editIncome(index){
 
-    let newAmount = prompt(
-        "Enter New Amount",
-        incomeHistory[index].amount
-    );
+// ==========================================
+// DELETE INCOME
+// ==========================================
 
-    if(newAmount == null){
+async function deleteIncome(index){
+
+    if(
+        !confirm(
+            "Delete this income?"
+        )
+    ){
+
         return;
+
     }
 
-    newAmount = Number(newAmount);
 
-    if(newAmount <= 0){
-        alert("Invalid Amount");
-        return;
-    }
+    // ======================================
+    // UPDATE TOTAL
+    // ======================================
 
     totalIncome =
-    totalIncome
-    - incomeHistory[index].amount
-    + newAmount;
+        totalIncome -
+        incomeHistory[index].amount;
 
-incomeHistory[index].amount = newAmount;
 
-localStorage.setItem(
-    "incomeHistory",
-    JSON.stringify(incomeHistory)
-);
+    localStorage.setItem(
+        "totalIncome",
+        totalIncome
+    );
 
-localStorage.setItem(
-    "totalIncome",
-    totalIncome
-);
 
-await syncToCloud();
+    // ======================================
+    // REMOVE HISTORY
+    // ======================================
 
-location.reload();
+    incomeHistory.splice(
+        index,
+        1
+    );
+
+
+    localStorage.setItem(
+        "incomeHistory",
+        JSON.stringify(
+            incomeHistory
+        )
+    );
+
+
+    // ======================================
+    // CLOUD SYNC
+    // ======================================
+
+    await syncToCloud();
+
+
+    // ======================================
+    // RELOAD
+    // ======================================
+
+    location.reload();
 
 }
+
+
+// ==========================================
+// EDIT INCOME
+// ==========================================
+
+async function editIncome(index){
+
+    let newAmount =
+        prompt(
+            "Enter New Amount",
+            incomeHistory[index].amount
+        );
+
+
+    if(newAmount == null){
+
+        return;
+
+    }
+
+
+    newAmount =
+        Number(newAmount);
+
+
+    if(newAmount <= 0){
+
+        alert(
+            "Invalid Amount"
+        );
+
+        return;
+
+    }
+
+
+    // ======================================
+    // UPDATE TOTAL
+    // ======================================
+
+    totalIncome =
+        totalIncome
+        - incomeHistory[index].amount
+        + newAmount;
+
+
+    // ======================================
+    // UPDATE HISTORY
+    // ======================================
+
+    incomeHistory[index].amount =
+        newAmount;
+
+
+    localStorage.setItem(
+        "incomeHistory",
+        JSON.stringify(
+            incomeHistory
+        )
+    );
+
+
+    localStorage.setItem(
+        "totalIncome",
+        totalIncome
+    );
+
+
+    // ======================================
+    // CLOUD SYNC
+    // ======================================
+
+    await syncToCloud();
+
+
+    // ======================================
+    // RELOAD
+    // ======================================
+
+    location.reload();
+
+}
+
+
+// ==========================================
+// SEARCH INCOME
+// ==========================================
 
 function searchIncome(){
 
     let input =
-    document.getElementById("searchIncome").value.toLowerCase();
+        document
+        .getElementById("searchIncome")
+        .value
+        .toLowerCase();
+
 
     let list =
-    document.getElementById("incomeList");
+        document
+        .getElementById("incomeList");
+
+
+    if(!list){
+
+        return;
+
+    }
+
 
     let items =
-    list.getElementsByTagName("li");
+        list.getElementsByTagName(
+            "li"
+        );
 
-    for(let i = 0; i < items.length; i++){
+
+    for(
+        let i = 0;
+        i < items.length;
+        i++
+    ){
 
         let text =
-        items[i].innerText.toLowerCase();
+            items[i]
+            .innerText
+            .toLowerCase();
 
-        if(text.indexOf(input) > -1){
-            items[i].style.display = "";
+
+        if(
+            text.indexOf(input) > -1
+        ){
+
+            items[i]
+            .style
+            .display = "";
+
         }else{
-            items[i].style.display = "none";
+
+            items[i]
+            .style
+            .display = "none";
+
         }
 
     }
 
 }
+
+
+// ==========================================
+// MAKE FUNCTIONS AVAILABLE TO HTML
+// ==========================================
+
+window.saveIncome =
+    saveIncome;
+
+window.deleteIncome =
+    deleteIncome;
+
+window.editIncome =
+    editIncome;
+
+window.searchIncome =
+    searchIncome;
+
+
 async function saveExpense(){
 
     let category =
