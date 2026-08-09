@@ -347,3 +347,19 @@ window.saveArthaFlowToCloud =
 
 window.loadArthaFlowFromCloud =
     loadArthaFlowFromCloud;
+
+// ==========================================
+// Profile Email Access
+// ==========================================
+
+window.getArthaFlowUserEmail = function(){
+
+    if(currentUser){
+
+        return currentUser.email || "";
+
+    }
+
+    return "";
+
+};
