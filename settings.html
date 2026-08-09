@@ -64,25 +64,15 @@ href="favicon-64.png">
 
 <nav class="navbar">
 
-    <a href="index.html">
-        🏠 Dashboard
-    </a>
+    <a href="index.html">🏠 Dashboard</a>
 
-    <a href="income.html">
-        💰 Income
-    </a>
+    <a href="income.html">💰 Income</a>
 
-    <a href="expense.html">
-        💸 Expense
-    </a>
+    <a href="expense.html">💸 Expense</a>
 
-    <a href="reports.html">
-        📊 Reports
-    </a>
+    <a href="reports.html">📊 Reports</a>
 
-    <a href="settings.html">
-        ⚙ Settings
-    </a>
+    <a href="settings.html">⚙ Settings</a>
 
 </nav>
 
@@ -91,9 +81,7 @@ href="favicon-64.png">
 <!-- Page Heading -->
 <!-- ===================================== -->
 
-<h1>
-    ⚙ Settings
-</h1>
+<h1>⚙ Settings</h1>
 
 <p>
     Manage your ArthaFlow account and preferences
@@ -106,9 +94,7 @@ href="favicon-64.png">
 
 <div class="card">
 
-    <h2>
-        👤 My Profile
-    </h2>
+    <h2>👤 My Profile</h2>
 
 
     <label>
@@ -120,13 +106,16 @@ href="favicon-64.png">
     id="userName"
     placeholder="Enter Your Name">
 
-    <label>📧 Gmail</label>
 
-<input
-type="email"
-id="userEmail"
-placeholder="Your Gmail"
-readonly>
+    <label>
+        📧 Gmail
+    </label>
+
+    <input
+    type="email"
+    id="userEmail"
+    placeholder="Loading email..."
+    readonly>
 
 
     <button
@@ -137,24 +126,9 @@ readonly>
     </button>
 
 
-    <hr>
-
-
-    <label>
-        Gmail / Email
-    </label>
-
-    <input
-    type="email"
-    id="userEmail"
-    placeholder="Loading email..."
-    readonly>
-
-
     <p>
         🔒 Your login email is managed by Firebase.
     </p>
-
 
 </div>
 
@@ -165,10 +139,7 @@ readonly>
 
 <div class="card">
 
-    <h2>
-        🔐 Security
-    </h2>
-
+    <h2>🔐 Security</h2>
 
     <p>
         Protect your ArthaFlow account and app data.
@@ -205,13 +176,10 @@ readonly>
 
 <div class="card">
 
-    <h2>
-        ☁️ Cloud Sync
-    </h2>
-
+    <h2>☁️ Cloud Sync</h2>
 
     <p>
-        Keep your ArthaFlow data safely synchronized
+        Keep your ArthaFlow data synchronized
         with your Firebase account.
     </p>
 
@@ -256,9 +224,7 @@ readonly>
 
 <div class="card">
 
-    <h2>
-        💰 Monthly Budget
-    </h2>
+    <h2>💰 Monthly Budget</h2>
 
 
     <input
@@ -283,10 +249,7 @@ readonly>
 
 <div class="card">
 
-    <h2>
-        🎨 Appearance
-    </h2>
-
+    <h2>🎨 Appearance</h2>
 
     <p>
         Customize the appearance of ArthaFlow.
@@ -309,9 +272,7 @@ readonly>
 
 <div class="card">
 
-    <h2>
-        💾 Backup & Restore
-    </h2>
+    <h2>💾 Backup & Restore</h2>
 
 
     <button
@@ -345,9 +306,7 @@ readonly>
 
 <div class="card">
 
-    <h2>
-        📄 Export Data
-    </h2>
+    <h2>📄 Export Data</h2>
 
 
     <button
@@ -374,9 +333,7 @@ readonly>
 
 <div class="card">
 
-    <h2>
-        📊 Account Summary
-    </h2>
+    <h2>📊 Account Summary</h2>
 
 
     <p>
@@ -406,14 +363,12 @@ readonly>
 
 
 <!-- ===================================== -->
-<!-- RESET -->
+<!-- DANGER ZONE -->
 <!-- ===================================== -->
 
 <div class="card">
 
-    <h2>
-        ⚠️ Danger Zone
-    </h2>
+    <h2>⚠️ Danger Zone</h2>
 
 
     <p>
@@ -438,9 +393,7 @@ readonly>
 
 <div class="card">
 
-    <h2>
-        ℹ️ About ArthaFlow
-    </h2>
+    <h2>ℹ️ About ArthaFlow</h2>
 
 
     <p>
@@ -474,23 +427,17 @@ readonly>
 
 <footer class="footer">
 
-    <h2>
-        💎 ArthaFlow Premium
-    </h2>
-
+    <h2>💎 ArthaFlow Premium</h2>
 
     <p>
         Track • Save • Invest • Grow
     </p>
 
-
     <hr>
-
 
     <p>
         © 2026 ArthaFlow
     </p>
-
 
     <p>
         Developed with ❤️ by
@@ -501,10 +448,22 @@ readonly>
 
 
 <!-- ===================================== -->
+<!-- Firebase / Cloud Sync -->
+<!-- ===================================== -->
+
+<script
+type="module"
+src="js/cloud-sync.js">
+</script>
+
+
+<!-- ===================================== -->
 <!-- Main JavaScript -->
 <!-- ===================================== -->
 
-<script src="js/script.js"></script>
+<script
+src="js/script.js">
+</script>
 
 
 <!-- ===================================== -->
