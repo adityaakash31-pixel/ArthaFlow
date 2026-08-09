@@ -5,48 +5,43 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>ArthaFlow Premium</title>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet"
+href="css/style.css">
 
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon"
+type="image/png"
+sizes="32x32"
+href="favicon-32.png">
 
-<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+<link rel="icon"
+type="image/png"
+sizes="64x64"
+href="favicon-64.png">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Firebase -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js";
-
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "arthaflow-4d670.firebaseapp.com",
-    projectId: "arthaflow-4d670",
-    storageBucket: "arthaflow-4d670.firebasestorage.app",
-    messagingSenderId: "417281404304",
-    appId: "1:417281404304:web:a0b9fa5a787ad0426d5715",
-    measurementId: "G-785TXW9WTL"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-
-  window.firebaseApp = app;
-
-  console.log("✅ Firebase Connected");
-</script>
-
 </head>
+
 
 <body>
 
-<div id="notification" class="notification">
+
+<!-- ===================================== -->
+<!-- Notification -->
+<!-- ===================================== -->
+
+<div id="notification"
+class="notification">
+
 Notification
+
 </div>
+
 
 <!-- ===================================== -->
 <!-- Premium Header -->
@@ -63,17 +58,25 @@ class="header-logo">
 
 </div>
 
+
 <div class="premium-banner">
 
-<h2>💎 ArthaFlow Premium</h2>
+<h2>
+💎 ArthaFlow Premium
+</h2>
 
-<p>Track • Save • Invest • Grow</p>
+<p>
+Track • Save • Invest • Grow
+</p>
 
 </div>
 
+
 <div class="header-bottom">
 
-<h3 id="welcomeUser">👋 Welcome</h3>
+<h3 id="welcomeUser">
+👋 Welcome
+</h3>
 
 <p id="dailyQuote">
 Every Rupee Matters 🚀
@@ -83,80 +86,126 @@ Every Rupee Matters 🚀
 
 </header>
 
+
 <!-- ===================================== -->
 <!-- Navigation -->
 <!-- ===================================== -->
 
 <nav class="navbar">
 
-<button id="themeBtn"
+<button
+id="themeBtn"
 onclick="toggleTheme()">
+
 🌙 Theme
+
 </button>
 
-<a href="index.html">🏠 Dashboard</a>
 
-<a href="income.html">💰 Income</a>
+<a href="index.html">
+🏠 Dashboard
+</a>
 
-<a href="expense.html">💸 Expense</a>
 
-<a href="reports.html">📊 Reports</a>
+<a href="income.html">
+💰 Income
+</a>
 
-<a href="settings.html">⚙ Settings</a>
+
+<a href="expense.html">
+💸 Expense
+</a>
+
+
+<a href="reports.html">
+📊 Reports
+</a>
+
+
+<a href="settings.html">
+⚙ Settings
+</a>
 
 </nav>
 
+
 <!-- ===================================== -->
-<!-- Dashboard Start -->
+<!-- Dashboard -->
 <!-- ===================================== -->
 
 <div class="dashboard-grid">
 
-    <!-- ===================================== -->
+
+<!-- ===================================== -->
 <!-- Financial Overview -->
 <!-- ===================================== -->
 
 <div class="card">
 
-<h2>📊 Financial Overview</h2>
+<h2>
+📊 Financial Overview
+</h2>
+
 
 <div class="summary-grid">
 
+
 <div class="summary-box income-card">
 
-<h3>💰 Total Income</h3>
+<h3>
+💰 Total Income
+</h3>
 
-<h2 id="dashboardIncome">₹0</h2>
+<h2 id="dashboardIncome">
+₹0
+</h2>
 
 </div>
+
 
 <div class="summary-box expense-card">
 
-<h3>💸 Total Expense</h3>
+<h3>
+💸 Total Expense
+</h3>
 
-<h2 id="dashboardExpense">₹0</h2>
+<h2 id="dashboardExpense">
+₹0
+</h2>
 
 </div>
+
 
 <div class="summary-box balance-card">
 
-<h3>🏦 Current Balance</h3>
+<h3>
+🏦 Current Balance
+</h3>
 
-<h2 id="dashboardBalance">₹0</h2>
+<h2 id="dashboardBalance">
+₹0
+</h2>
 
 </div>
+
 
 <div class="summary-box saving-card">
 
-<h3>💎 Savings</h3>
+<h3>
+💎 Savings
+</h3>
 
-<h2 id="dashboardSavings">₹0</h2>
+<h2 id="dashboardSavings">
+₹0
+</h2>
+
+</div>
+
 
 </div>
 
 </div>
 
-</div>
 
 <!-- ===================================== -->
 <!-- Charts -->
@@ -164,15 +213,23 @@ onclick="toggleTheme()">
 
 <div class="card">
 
-<h2>📈 Finance Overview</h2>
+<h2>
+📈 Finance Overview
+</h2>
 
-<canvas id="financeChart"></canvas>
+
+<canvas id="financeChart">
+</canvas>
+
 
 <hr>
 
-<canvas id="barChart"></canvas>
+
+<canvas id="barChart">
+</canvas>
 
 </div>
+
 
 <!-- ===================================== -->
 <!-- Quick Actions -->
@@ -180,25 +237,64 @@ onclick="toggleTheme()">
 
 <div class="card">
 
-<h2>⚡ Quick Actions</h2>
+<h2>
+⚡ Quick Actions
+</h2>
+
 
 <div class="dashboard-grid">
 
-<button onclick="location.href='income.html'">💰 Income</button>
+<button
+onclick="location.href='income.html'">
 
-<button onclick="location.href='expense.html'">💸 Expense</button>
+💰 Income
 
-<button onclick="location.href='reports.html'">📊 Reports</button>
+</button>
 
-<button onclick="location.href='gst-invoice.html'">🧾 GST Invoice</button>
 
-<button onclick="location.href='family.html'">👨‍👩‍👧 Family</button>
+<button
+onclick="location.href='expense.html'">
 
-<button onclick="location.href='shared-expense.html'">🤝 Shared Expense</button>
+💸 Expense
+
+</button>
+
+
+<button
+onclick="location.href='reports.html'">
+
+📊 Reports
+
+</button>
+
+
+<button
+onclick="location.href='gst-invoice.html'">
+
+🧾 GST Invoice
+
+</button>
+
+
+<button
+onclick="location.href='family.html'">
+
+👨‍👩‍👧 Family
+
+</button>
+
+
+<button
+onclick="location.href='shared-expense.html'">
+
+🤝 Shared Expense
+
+</button>
 
 </div>
 
 </div>
+
 
 <!-- ===================================== -->
 <!-- Financial Tools -->
@@ -206,25 +302,64 @@ onclick="toggleTheme()">
 
 <div class="card">
 
-<h2>🏦 Financial Tools</h2>
+<h2>
+🏦 Financial Tools
+</h2>
+
 
 <div class="dashboard-grid">
 
-<button onclick="location.href='investment.html'">📈 Investment</button>
+<button
+onclick="location.href='investment.html'">
 
-<button onclick="location.href='sip.html'">💹 SIP Calculator</button>
+📈 Investment
 
-<button onclick="location.href='loan.html'">🏦 Loan Manager</button>
+</button>
 
-<button onclick="location.href='emi.html'">💳 EMI Tracker</button>
 
-<button onclick="location.href='networth.html'">💎 Net Worth</button>
+<button
+onclick="location.href='sip.html'">
 
-<button onclick="location.href='cashflow.html'">💵 Cash Flow</button>
+💹 SIP Calculator
+
+</button>
+
+
+<button
+onclick="location.href='loan.html'">
+
+🏦 Loan Manager
+
+</button>
+
+
+<button
+onclick="location.href='emi.html'">
+
+💳 EMI Tracker
+
+</button>
+
+
+<button
+onclick="location.href='networth.html'">
+
+💎 Net Worth
+
+</button>
+
+
+<button
+onclick="location.href='cashflow.html'">
+
+💵 Cash Flow
+
+</button>
 
 </div>
 
 </div>
+
 
 <!-- ===================================== -->
 <!-- Analytics -->
@@ -232,47 +367,113 @@ onclick="toggleTheme()">
 
 <div class="card">
 
-<h2>📊 Analytics</h2>
+<h2>
+📊 Analytics
+</h2>
+
 
 <div class="dashboard-grid">
 
-<button onclick="location.href='analytics.html'">📊 Category Analytics</button>
+<button
+onclick="location.href='analytics.html'">
 
-<button onclick="location.href='topspending.html'">🏆 Top Spending</button>
+📊 Category Analytics
 
-<button onclick="location.href='comparison.html'">📅 Comparison</button>
+</button>
 
-<button onclick="location.href='incomegrowth.html'">📈 Income Growth</button>
 
-<button onclick="location.href='expensegrowth.html'">📉 Expense Growth</button>
+<button
+onclick="location.href='topspending.html'">
 
-<button onclick="location.href='calendar.html'">📅 Calendar</button>
+🏆 Top Spending
+
+</button>
+
+
+<button
+onclick="location.href='comparison.html'">
+
+📅 Comparison
+
+</button>
+
+
+<button
+onclick="location.href='incomegrowth.html'">
+
+📈 Income Growth
+
+</button>
+
+
+<button
+onclick="location.href='expensegrowth.html'">
+
+📉 Expense Growth
+
+</button>
+
+
+<button
+onclick="location.href='calendar.html'">
+
+📅 Calendar
+
+</button>
 
 </div>
 
 </div>
 
-    <!-- ===================================== -->
+
+<!-- ===================================== -->
 <!-- AI Smart Tools -->
 <!-- ===================================== -->
 
 <div class="card">
 
-<h2>🤖 AI Smart Tools</h2>
+<h2>
+🤖 AI Smart Tools
+</h2>
+
 
 <div class="dashboard-grid">
 
-<button onclick="location.href='ai-spending.html'">🤖 AI Spending</button>
+<button
+onclick="location.href='ai-spending.html'">
 
-<button onclick="location.href='smart-budget.html'">🎯 Smart Budget</button>
+🤖 AI Spending
 
-<button onclick="location.href='goal-tracker.html'">🎯 Goal Tracker</button>
+</button>
 
-<button onclick="location.href='calendar.html'">📅 Calendar</button>
+
+<button
+onclick="location.href='smart-budget.html'">
+
+🎯 Smart Budget
+
+</button>
+
+
+<button
+onclick="location.href='goal-tracker.html'">
+
+🎯 Goal Tracker
+
+</button>
+
+
+<button
+onclick="location.href='calendar.html'">
+
+📅 Calendar
+
+</button>
 
 </div>
 
 </div>
+
 
 <!-- ===================================== -->
 <!-- Family Finance -->
@@ -280,21 +481,48 @@ onclick="toggleTheme()">
 
 <div class="card">
 
-<h2>👨‍👩‍👧‍👦 Family Finance</h2>
+<h2>
+👨‍👩‍👧‍👦 Family Finance
+</h2>
+
 
 <div class="dashboard-grid">
 
-<button onclick="location.href='family.html'">👨‍👩‍👧 Family Management</button>
+<button
+onclick="location.href='family.html'">
 
-<button onclick="location.href='shared-expense.html'">🤝 Shared Expense</button>
+👨‍👩‍👧 Family Management
 
-<button onclick="location.href='gst-invoice.html'">🧾 GST Invoice</button>
+</button>
 
-<button onclick="location.href='reports.html'">📊 Financial Reports</button>
+
+<button
+onclick="location.href='shared-expense.html'">
+
+🤝 Shared Expense
+
+</button>
+
+
+<button
+onclick="location.href='gst-invoice.html'">
+
+🧾 GST Invoice
+
+</button>
+
+
+<button
+onclick="location.href='reports.html'">
+
+📊 Financial Reports
+
+</button>
 
 </div>
 
 </div>
+
 
 <!-- ===================================== -->
 <!-- Premium Shortcuts -->
@@ -302,25 +530,64 @@ onclick="toggleTheme()">
 
 <div class="card">
 
-<h2>⭐ Premium Shortcuts</h2>
+<h2>
+⭐ Premium Shortcuts
+</h2>
+
 
 <div class="dashboard-grid">
 
-<button onclick="location.href='settings.html'">⚙ Settings</button>
+<button
+onclick="location.href='settings.html'">
 
-<button onclick="location.href='reminders.html'">🔔 Reminders</button>
+⚙ Settings
 
-<button onclick="location.href='recurring.html'">🔁 Recurring</button>
+</button>
 
-<button onclick="location.href='analytics.html'">📈 Analytics</button>
 
-<button onclick="location.href='reports.html'">📋 Reports</button>
+<button
+onclick="location.href='reminders.html'">
 
-<button onclick="location.href='comparison.html'">📅 Comparison</button>
+🔔 Reminders
+
+</button>
+
+
+<button
+onclick="location.href='recurring.html'">
+
+🔁 Recurring
+
+</button>
+
+
+<button
+onclick="location.href='analytics.html'">
+
+📈 Analytics
+
+</button>
+
+
+<button
+onclick="location.href='reports.html'">
+
+📋 Reports
+
+</button>
+
+
+<button
+onclick="location.href='comparison.html'">
+
+📅 Comparison
+
+</button>
 
 </div>
 
 </div>
+
 
 <!-- ===================================== -->
 <!-- Monthly Summary -->
@@ -328,25 +595,55 @@ onclick="toggleTheme()">
 
 <div class="card">
 
-<h2>📅 Monthly Summary</h2>
+<h2>
+📅 Monthly Summary
+</h2>
 
-<p>💰 Income : <b id="monthIncome">₹0</b></p>
 
-<p>💸 Expense : <b id="monthExpense">₹0</b></p>
+<p>
+💰 Income :
+<b id="monthIncome">
+₹0
+</b>
+</p>
 
-<p>🏦 Balance : <b id="monthBalance">₹0</b></p>
 
-<p>📋 Transactions : <b id="totalEntries">0</b></p>
+<p>
+💸 Expense :
+<b id="monthExpense">
+₹0
+</b>
+</p>
+
+
+<p>
+🏦 Balance :
+<b id="monthBalance">
+₹0
+</b>
+</p>
+
+
+<p>
+📋 Transactions :
+<b id="totalEntries">
+0
+</b>
+</p>
 
 </div>
 
+
 <!-- ===================================== -->
-<!-- Notification -->
+<!-- Notifications -->
 <!-- ===================================== -->
 
 <div class="card">
 
-<h2>🔔 Notifications</h2>
+<h2>
+🔔 Notifications
+</h2>
+
 
 <div id="notificationBox">
 
@@ -356,7 +653,9 @@ onclick="toggleTheme()">
 
 </div>
 
+
 </div>
+
 
 <!-- ===================================== -->
 <!-- Footer -->
@@ -364,66 +663,236 @@ onclick="toggleTheme()">
 
 <footer class="footer">
 
-<h2>💎 ArthaFlow Premium</h2>
+<h2>
+💎 ArthaFlow Premium
+</h2>
 
-<p>Track • Save • Invest • Grow</p>
+
+<p>
+Track • Save • Invest • Grow
+</p>
+
 
 <div class="footer-links">
 
-<span>💰 Finance</span>
+<span>
+💰 Finance
+</span>
 
-<span>📊 Analytics</span>
+<span>
+📊 Analytics
+</span>
 
-<span>🧾 GST</span>
+<span>
+🧾 GST
+</span>
 
-<span>👨‍👩‍👧 Family</span>
+<span>
+👨‍👩‍👧 Family
+</span>
 
-<span>🎯 Goals</span>
+<span>
+🎯 Goals
+</span>
 
-<span>🤖 AI</span>
+<span>
+🤖 AI
+</span>
 
 </div>
 
+
 <hr>
 
-<p>© 2026 ArthaFlow</p>
 
-<p>Developed with ❤️ by <b>Aditya Aakash</b></p>
+<p>
+© 2026 ArthaFlow
+</p>
+
+
+<p>
+Developed with ❤️ by
+<b>
+Aditya Aakash
+</b>
+</p>
 
 </footer>
 
+
 <!-- ===================================== -->
-<!-- Scripts -->
+<!-- Firebase Core -->
 <!-- ===================================== -->
 
-<!-- Firebase Cloud Sync -->
-<script type="module" src="js/cloud-sync.js"></script>
+<script
+type="module"
+src="js/firebase.js">
+</script>
 
-<script src="js/script.js"></script>
 
-<script>
+<!-- ===================================== -->
+<!-- Cloud Sync -->
+<!-- ===================================== -->
 
-window.addEventListener("load",function(){
+<script
+type="module"
+src="js/cloud-sync.js">
+</script>
 
-if(typeof loadDashboard==="function")
-loadDashboard();
 
-if(typeof loadMonthlySummary==="function")
-loadMonthlySummary();
+<!-- ===================================== -->
+<!-- Main JavaScript -->
+<!-- ===================================== -->
 
-if(typeof loadFinanceChart==="function")
-loadFinanceChart();
+<script
+src="js/script.js">
+</script>
 
-if(typeof loadBarChart==="function")
-loadBarChart();
 
-if(typeof loadNotifications==="function")
-loadNotifications();
+<!-- ===================================== -->
+<!-- Dashboard Loader -->
+<!-- ===================================== -->
 
-});
+<script
+type="module">
+
+window.addEventListener(
+    "load",
+    async function(){
+
+        console.log(
+            "📊 ArthaFlow Dashboard Loading..."
+        );
+
+
+        /*
+         * First load data from Firestore.
+         * This makes sure the latest
+         * User Name / Income / Expense
+         * is available before Dashboard
+         * displays the data.
+         */
+
+        if(
+            typeof window.loadArthaFlowFromCloud ===
+            "function"
+        ){
+
+            await window.loadArthaFlowFromCloud();
+
+        }
+
+
+        /*
+         * Load Dashboard
+         */
+
+        if(
+            typeof loadDashboard ===
+            "function"
+        ){
+
+            loadDashboard();
+
+        }
+
+
+        /*
+         * Monthly Summary
+         */
+
+        if(
+            typeof loadMonthlySummary ===
+            "function"
+        ){
+
+            loadMonthlySummary();
+
+        }
+
+
+        /*
+         * Finance Chart
+         */
+
+        if(
+            typeof loadFinanceChart ===
+            "function"
+        ){
+
+            loadFinanceChart();
+
+        }
+
+
+        /*
+         * Bar Chart
+         */
+
+        if(
+            typeof loadBarChart ===
+            "function"
+        ){
+
+            loadBarChart();
+
+        }
+
+
+        /*
+         * Notifications
+         */
+
+        if(
+            typeof loadNotifications ===
+            "function"
+        ){
+
+            loadNotifications();
+
+        }
+
+
+        /*
+         * Load User Name
+         */
+
+        const welcome =
+            document.getElementById(
+                "welcomeUser"
+            );
+
+
+        if(welcome){
+
+            const name =
+                localStorage.getItem(
+                    "userName"
+                );
+
+
+            if(name){
+
+                welcome.innerHTML =
+                    "👋 Welcome, " +
+                    name;
+
+            }
+
+        }
+
+
+        console.log(
+            "✅ ArthaFlow Dashboard Ready"
+        );
+
+    }
+
+);
 
 </script>
 
+
 </body>
 
-</html>
+    </html>
