@@ -1,6 +1,6 @@
 // ==========================================
 // ArthaFlow Cloud Sync
-// Phase 11A - Step 4.3A FIX
+// Phase 11A - Firestore Cloud Sync
 // ==========================================
 
 import {
@@ -16,44 +16,15 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 import {
-    initializeApp
+    getApp
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 
 
 // ==========================================
-// Firebase Configuration
+// Firebase App
 // ==========================================
 
-const firebaseConfig = {
-
-    apiKey:
-    "AIzaSyDM8WtiKL5hSSoDH4BoacMUIQ3QVSpjxJI",
-
-    authDomain:
-    "arthaflow-4d670.firebaseapp.com",
-
-    projectId:
-    "arthaflow-4d670",
-
-    storageBucket:
-    "arthaflow-4d670.firebasestorage.app",
-
-    messagingSenderId:
-    "417281404304",
-
-    appId:
-    "1:417281404304:web:a0b9fa5a787ad0426d5715",
-
-    measurementId:
-    "G-785TXW9WTL"
-};
-
-
-// ==========================================
-// Firebase Initialize
-// ==========================================
-
-const app = initializeApp(firebaseConfig);
+const app = getApp();
 
 const auth = getAuth(app);
 
@@ -70,14 +41,14 @@ let currentUser = null;
 
 let authReadyResolve;
 
-const authReady = new Promise((resolve) => {
+const authReady = new Promise(function(resolve){
 
     authReadyResolve = resolve;
 
 });
 
 
-onAuthStateChanged(auth, function(user) {
+onAuthStateChanged(auth, function(user){
 
     currentUser = user;
 
@@ -91,7 +62,7 @@ onAuthStateChanged(auth, function(user) {
     }else{
 
         console.log(
-            "No Firebase user logged in"
+            "☁️ No Firebase user logged in"
         );
 
     }
@@ -159,7 +130,6 @@ async function saveArthaFlowToCloud(){
 
     try{
 
-        // Wait until Firebase knows the login state
         const user = await authReady;
 
         if(!user){
@@ -189,7 +159,7 @@ async function saveArthaFlowToCloud(){
             userRef,
             data,
             {
-                merge: true
+                merge:true
             }
         );
 
