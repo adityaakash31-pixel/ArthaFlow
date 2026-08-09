@@ -2626,56 +2626,79 @@ card.style.transform="scale(1)";
 // App PIN Setup
 // ===============================
 
-function savePin(){
+async function savePin(){
 
-let pin = document.getElementById("newPin").value;
+    let pin = document.getElementById("newPin").value;
 
-if(pin.length!=4 && pin.length!=6){
-    alert("Please Enter 4 or 6 Digit PIN");
-    return;
+    if(pin.length != 4 && pin.length != 6){
+        alert("Please Enter 4 or 6 Digit PIN");
+        return;
+    }
+
+    localStorage.setItem("appPin", pin);
+
+    sessionStorage.setItem("pinVerified","true");
+
+    // ☁️ Load Cloud Data
+    if(typeof window.loadArthaFlowFromCloud === "function"){
+
+        await window.loadArthaFlowFromCloud();
+
+        console.log("☁️ Cloud Data Loaded");
+
+    }
+
+    alert("PIN Saved Successfully");
+
+    window.location.href = "index.html";
+
 }
 
-localStorage.setItem("appPin", pin);
-
-alert("PIN Saved = " + localStorage.getItem("appPin"));
-
-sessionStorage.setItem("pinVerified","true");
-
-window.location.href="index.html";
-
-}
 
 // ===============================
 // PIN Verification
 // ===============================
 
-function verifyPin(){
+async function verifyPin(){
 
-let pin = document.getElementById("enterPin").value;
-let savedPin = localStorage.getItem("appPin");
+    let pin = document.getElementById("enterPin").value;
 
-if(pin === savedPin){
+    let savedPin = localStorage.getItem("appPin");
 
-    sessionStorage.setItem("pinVerified","true");
+    if(pin === savedPin){
 
-    alert("Saved = " + sessionStorage.getItem("pinVerified"));
+        sessionStorage.setItem("pinVerified","true");
 
-    location.replace("index.html");
+        // ☁️ Load Data From Firestore
+        if(typeof window.loadArthaFlowFromCloud === "function"){
 
-}else{
+            await window.loadArthaFlowFromCloud();
 
-    alert("Wrong PIN");
+            console.log("☁️ Cloud Data Loaded After PIN");
+
+        }
+
+        alert("PIN Verified Successfully");
+
+        location.replace("index.html");
+
+    }else{
+
+        alert("Wrong PIN");
+
+    }
 
 }
 
-}
 
 // ================================
 // Step 73A - Auto Lock Timer
 // ================================
 
 let autoLockTime = 5 * 60 * 1000; // 5 Minutes
+
 let autoLockTimer;
+
 
 function resetAutoLock(){
 
@@ -2693,13 +2716,36 @@ function resetAutoLock(){
 
 }
 
-// User Activity पर Timer Reset
-document.addEventListener("mousemove", resetAutoLock);
-document.addEventListener("keydown", resetAutoLock);
-document.addEventListener("click", resetAutoLock);
-document.addEventListener("touchstart", resetAutoLock);
 
+// ================================
+// User Activity पर Timer Reset
+// ================================
+
+document.addEventListener(
+    "mousemove",
+    resetAutoLock
+);
+
+document.addEventListener(
+    "keydown",
+    resetAutoLock
+);
+
+document.addEventListener(
+    "click",
+    resetAutoLock
+);
+
+document.addEventListener(
+    "touchstart",
+    resetAutoLock
+);
+
+
+// ================================
 // Start Timer
+// ================================
+
 resetAutoLock();
 
 // ===============================
