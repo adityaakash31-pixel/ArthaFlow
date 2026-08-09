@@ -30,7 +30,7 @@ href="favicon-64.png">
 
 
 <!-- ===================================== -->
-<!-- Premium Header -->
+<!-- PREMIUM HEADER -->
 <!-- ===================================== -->
 
 <header class="top-header">
@@ -59,7 +59,7 @@ href="favicon-64.png">
 
 
 <!-- ===================================== -->
-<!-- Navigation -->
+<!-- NAVIGATION -->
 <!-- ===================================== -->
 
 <nav class="navbar">
@@ -88,7 +88,7 @@ href="favicon-64.png">
 
 
 <!-- ===================================== -->
-<!-- Page Heading -->
+<!-- PAGE HEADING -->
 <!-- ===================================== -->
 
 <h1>
@@ -394,7 +394,7 @@ href="favicon-64.png">
 
 
 <!-- ===================================== -->
-<!-- RESET -->
+<!-- DANGER ZONE -->
 <!-- ===================================== -->
 
 <div class="card">
@@ -489,7 +489,7 @@ href="favicon-64.png">
 
 
 <!-- ===================================== -->
-<!-- Firebase Core -->
+<!-- FIREBASE CORE -->
 <!-- ===================================== -->
 
 <script
@@ -499,7 +499,7 @@ src="js/firebase.js">
 
 
 <!-- ===================================== -->
-<!-- Cloud Sync -->
+<!-- CLOUD SYNC -->
 <!-- ===================================== -->
 
 <script
@@ -509,7 +509,7 @@ src="js/cloud-sync.js">
 
 
 <!-- ===================================== -->
-<!-- Main JavaScript -->
+<!-- MAIN JAVASCRIPT -->
 <!-- ===================================== -->
 
 <script
@@ -518,30 +518,542 @@ src="js/script.js">
 
 
 <!-- ===================================== -->
-<!-- Settings Loader -->
+<!-- SETTINGS / PROFILE CONTROLLER -->
 <!-- ===================================== -->
 
 <script>
 
 window.addEventListener(
     "load",
-    function(){
+    async function(){
 
-        if(
-            typeof loadSettings ===
-            "function"
-        ){
+        /*
+         * Load existing local profile
+         */
 
-            loadSettings();
+        const nameInput =
+            document.getElementById("userName");
+
+        if(nameInput){
+
+            const savedName =
+                localStorage.getItem("userName");
+
+            if(savedName){
+
+                nameInput.value =
+                    savedName;
+
+            }
 
         }
 
+
+        /*
+         * Load Gmail from Firebase
+         */
+
+        await loadFirebaseEmail();
+
+
+        /*
+         * Load account summary
+         */
+
+        loadAccountSummary();
+
+
+        /*
+         * Cloud status
+         */
+
+        updateCloudStatus();
+
     }
 );
+
+
+// ==========================================
+// LOAD FIREBASE EMAIL
+// ==========================================
+
+async function loadFirebaseEmail(){
+
+    const emailBox =
+        document.getElementById("userEmail");
+
+    if(!emailBox){
+
+        return;
+
+    }
+
+
+    let attempts = 0;
+
+
+    const timer =
+        setInterval(
+            function(){
+
+                attempts++;
+
+
+                if(
+                    typeof window.getArthaFlowUserEmail ===
+                    "function"
+                ){
+
+                    const email =
+                        window.getArthaFlowUserEmail();
+
+
+                    if(email){
+
+                        emailBox.value =
+                            email;
+
+                        clearInterval(timer);
+
+                        return;
+
+                    }
+
+                }
+
+
+                /*
+                 * Firebase को थोड़ा समय दें
+                 */
+
+                if(attempts >= 50){
+
+                    clearInterval(timer);
+
+                    emailBox.placeholder =
+                        "Firebase email not loaded";
+
+                }
+
+            },
+            200
+        );
+
+}
+
+
+// ==========================================
+// SAVE PROFILE
+// ==========================================
+
+window.saveProfile =
+async function(){
+
+    const nameInput =
+        document.getElementById("userName");
+
+
+    if(!nameInput){
+
+        return;
+
+    }
+
+
+    const name =
+        nameInput.value.trim();
+
+
+    if(name === ""){
+
+        alert(
+            "Please enter your name"
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * Save locally
+     */
+
+    localStorage.setItem(
+        "userName",
+        name
+    );
+
+
+    /*
+     * Save to Cloud
+     */
+
+    if(
+        typeof window.saveArthaFlowToCloud ===
+        "function"
+    ){
+
+        const result =
+            await window.saveArthaFlowToCloud();
+
+
+        if(result){
+
+            localStorage.setItem(
+                "lastSync",
+                new Date().toISOString()
+            );
+
+            updateCloudStatus();
+
+            alert(
+                "✅ Profile Updated & Synced"
+            );
+
+        }else{
+
+            alert(
+                "✅ Name Saved Locally\n☁️ Cloud Sync not available"
+            );
+
+        }
+
+    }else{
+
+        alert(
+            "✅ Profile Saved"
+        );
+
+    }
+
+};
+
+
+// ==========================================
+// SYNC NOW
+// ==========================================
+
+window.syncNow =
+async function(){
+
+    const status =
+        document.getElementById(
+            "cloudStatus"
+        );
+
+
+    if(status){
+
+        status.innerText =
+            "Syncing...";
+
+    }
+
+
+    if(
+        typeof window.saveArthaFlowToCloud !==
+        "function"
+    ){
+
+        if(status){
+
+            status.innerText =
+                "Cloud Sync Not Loaded";
+
+        }
+
+        alert(
+            "☁️ Cloud Sync is not loaded"
+        );
+
+        return;
+
+    }
+
+
+    const result =
+        await window.saveArthaFlowToCloud();
+
+
+    if(result){
+
+        localStorage.setItem(
+            "lastSync",
+            new Date().toISOString()
+        );
+
+
+        if(status){
+
+            status.innerText =
+                "🟢 Synced";
+
+        }
+
+
+        updateLastSync();
+
+
+        alert(
+            "☁️ Cloud Sync Successful"
+        );
+
+    }else{
+
+        if(status){
+
+            status.innerText =
+                "🔴 Sync Failed";
+
+        }
+
+
+        alert(
+            "❌ Cloud Sync Failed"
+        );
+
+    }
+
+};
+
+
+// ==========================================
+// RESTORE FROM CLOUD
+// ==========================================
+
+window.loadCloudData =
+async function(){
+
+    if(
+        typeof window.loadArthaFlowFromCloud !==
+        "function"
+    ){
+
+        alert(
+            "☁️ Cloud Sync is not loaded"
+        );
+
+        return;
+
+    }
+
+
+    const result =
+        await window.loadArthaFlowFromCloud();
+
+
+    if(result){
+
+        alert(
+            "☁️ Cloud Data Restored Successfully"
+        );
+
+
+        location.reload();
+
+    }else{
+
+        alert(
+            "☁️ No Cloud Data Found"
+        );
+
+    }
+
+};
+
+
+// ==========================================
+// CLOUD STATUS
+// ==========================================
+
+function updateCloudStatus(){
+
+    const status =
+        document.getElementById(
+            "cloudStatus"
+        );
+
+
+    if(!status){
+
+        return;
+
+    }
+
+
+    if(
+        typeof window.saveArthaFlowToCloud ===
+        "function"
+    ){
+
+        status.innerText =
+            "🟢 Cloud Sync Ready";
+
+    }else{
+
+        status.innerText =
+            "🔴 Cloud Sync Not Loaded";
+
+    }
+
+
+    updateLastSync();
+
+}
+
+
+// ==========================================
+// LAST SYNC
+// ==========================================
+
+function updateLastSync(){
+
+    const box =
+        document.getElementById(
+            "lastSync"
+        );
+
+
+    if(!box){
+
+        return;
+
+    }
+
+
+    const last =
+        localStorage.getItem(
+            "lastSync"
+        );
+
+
+    if(!last){
+
+        box.innerText =
+            "Not synced yet";
+
+        return;
+
+    }
+
+
+    const date =
+        new Date(last);
+
+
+    box.innerText =
+        date.toLocaleString();
+
+}
+
+
+// ==========================================
+// ACCOUNT SUMMARY
+// ==========================================
+
+function loadAccountSummary(){
+
+    const income =
+        Number(
+            localStorage.getItem(
+                "totalIncome"
+            )
+        ) || 0;
+
+
+    const expense =
+        Number(
+            localStorage.getItem(
+                "totalExpense"
+            )
+        ) || 0;
+
+
+    let incomeHistory = [];
+
+    let expenseHistory = [];
+
+
+    try{
+
+        incomeHistory =
+            JSON.parse(
+                localStorage.getItem(
+                    "incomeHistory"
+                )
+            ) || [];
+
+    }catch(error){
+
+        incomeHistory = [];
+
+    }
+
+
+    try{
+
+        expenseHistory =
+            JSON.parse(
+                localStorage.getItem(
+                    "expenseHistory"
+                )
+            ) || [];
+
+    }catch(error){
+
+        expenseHistory = [];
+
+    }
+
+
+    const incomeBox =
+        document.getElementById(
+            "profileTotalIncome"
+        );
+
+
+    const expenseBox =
+        document.getElementById(
+            "profileTotalExpense"
+        );
+
+
+    const transactionBox =
+        document.getElementById(
+            "profileTransactions"
+        );
+
+
+    if(incomeBox){
+
+        incomeBox.innerText =
+            "₹" + income.toLocaleString("en-IN");
+
+    }
+
+
+    if(expenseBox){
+
+        expenseBox.innerText =
+            "₹" + expense.toLocaleString("en-IN");
+
+    }
+
+
+    if(transactionBox){
+
+        transactionBox.innerText =
+            incomeHistory.length +
+            expenseHistory.length;
+
+    }
+
+}
 
 </script>
 
 
 </body>
 
-</html>
+    </html>
