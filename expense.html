@@ -5,19 +5,29 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>ArthaFlow - Expense</title>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet"
+href="css/style.css">
 
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon"
+type="image/png"
+sizes="32x32"
+href="favicon-32.png">
 
-<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+<link rel="icon"
+type="image/png"
+sizes="64x64"
+href="favicon-64.png">
 
 </head>
 
+
 <body>
+
 
 <!-- ============================= -->
 <!-- Premium Header -->
@@ -25,24 +35,28 @@
 
 <header class="top-header">
 
-<div class="header-brand">
+    <div class="header-brand">
 
-<img
-src="header-logo.png"
-alt="ArthaFlow Header Logo"
-class="header-logo">
+        <img
+        src="header-logo.png"
+        alt="ArthaFlow Header Logo"
+        class="header-logo">
 
-</div>
+    </div>
 
-<div class="premium-banner">
 
-<h2>💸 Expense Manager</h2>
+    <div class="premium-banner">
 
-<p>Track • Control • Save Money</p>
+        <h2>💸 Expense Manager</h2>
 
-</div>
+        <p>
+            Track • Control • Save Money
+        </p>
+
+    </div>
 
 </header>
+
 
 <!-- ============================= -->
 <!-- Navigation -->
@@ -50,62 +64,105 @@ class="header-logo">
 
 <nav class="navbar">
 
-<a href="index.html">🏠 Dashboard</a>
+    <a href="index.html">
+        🏠 Dashboard
+    </a>
 
-<a href="income.html">💰 Income</a>
+    <a href="income.html">
+        💰 Income
+    </a>
 
-<a href="expense.html">💸 Expense</a>
+    <a href="expense.html">
+        💸 Expense
+    </a>
 
-<a href="reports.html">📊 Reports</a>
+    <a href="reports.html">
+        📊 Reports
+    </a>
 
-<a href="settings.html">⚙ Settings</a>
+    <a href="settings.html">
+        ⚙ Settings
+    </a>
 
 </nav>
 
+
+<!-- ============================= -->
+<!-- Expense Heading -->
+<!-- ============================= -->
+
 <h1>💸 Expense</h1>
 
-<p>Add your expenses</p>
+<p>
+    Add your expenses
+</p>
+
 
 <h2>Total Expense</h2>
 
-<h1 id="totalExpense">₹0</h1>
+<h1 id="totalExpense">
+    ₹0
+</h1>
+
+
+<!-- ============================= -->
+<!-- Add Expense -->
+<!-- ============================= -->
 
 <div class="card">
 
-<label>Category</label>
+    <label>
+        Category
+    </label>
 
-<input
-type="text"
-id="category"
-placeholder="Food / Travel / Shopping">
+    <input
+    type="text"
+    id="expenseCategory"
+    placeholder="Food / Travel / Shopping">
 
-<label>Amount</label>
 
-<input
-type="number"
-id="amount"
-placeholder="₹ Enter Amount">
+    <label>
+        Amount
+    </label>
 
-<label>Date</label>
+    <input
+    type="number"
+    id="expenseAmount"
+    placeholder="₹ Enter Amount">
 
-<input
-type="date"
-id="expenseDate">
 
-<label>Note</label>
+    <label>
+        Date
+    </label>
 
-<input
-type="text"
-id="expenseNote"
-placeholder="Example : Grocery">
+    <input
+    type="date"
+    id="expenseDate">
 
-<button onclick="saveExpense()">
 
-💾 Save Expense
+    <label>
+        Note
+    </label>
 
-</button>
+    <input
+    type="text"
+    id="expenseNote"
+    placeholder="Example : Grocery">
+
+
+    <button
+    onclick="saveExpense()">
+
+        💾 Save Expense
+
+    </button>
 
 </div>
+
+
+<!-- ============================= -->
+<!-- Search -->
+<!-- ============================= -->
 
 <input
 type="text"
@@ -113,134 +170,248 @@ id="searchExpense"
 placeholder="🔍 Search Expense..."
 onkeyup="searchExpense()">
 
-<select id="expenseSort" onchange="sortExpense()">
 
-<option value="latest">Latest First</option>
+<!-- ============================= -->
+<!-- Sort -->
+<!-- ============================= -->
 
-<option value="oldest">Oldest First</option>
+<select
+id="expenseSort"
+onchange="sortExpense()">
 
-<option value="high">Highest Amount</option>
+    <option value="latest">
+        Latest First
+    </option>
 
-<option value="low">Lowest Amount</option>
+    <option value="oldest">
+        Oldest First
+    </option>
+
+    <option value="high">
+        Highest Amount
+    </option>
+
+    <option value="low">
+        Lowest Amount
+    </option>
 
 </select>
 
-<select id="expenseFilter" onchange="filterExpense()">
 
-<option value="all">All Categories</option>
+<!-- ============================= -->
+<!-- Filter -->
+<!-- ============================= -->
 
-<option value="Food">Food</option>
+<select
+id="expenseFilter"
+onchange="filterExpense()">
 
-<option value="Travel">Travel</option>
+    <option value="all">
+        All Categories
+    </option>
 
-<option value="Shopping">Shopping</option>
+    <option value="Food">
+        Food
+    </option>
 
-<option value="Bills">Bills</option>
+    <option value="Travel">
+        Travel
+    </option>
 
-<option value="Other">Other</option>
+    <option value="Shopping">
+        Shopping
+    </option>
+
+    <option value="Bills">
+        Bills
+    </option>
+
+    <option value="Other">
+        Other
+    </option>
 
 </select>
 
-<h2>Expense History</h2>
+
+<!-- ============================= -->
+<!-- Expense History -->
+<!-- ============================= -->
+
+<h2>
+    Expense History
+</h2>
 
 <ul id="expenseList"></ul>
 
-  <!-- ===================================== -->
+
+<!-- ============================= -->
 <!-- Monthly Expense Summary -->
-<!-- ===================================== -->
+<!-- ============================= -->
 
 <div class="card">
 
-<h2>📊 Monthly Expense Summary</h2>
+    <h2>
+        📊 Monthly Expense Summary
+    </h2>
 
-<p>Total Expense :
-<b id="monthExpense">₹0</b></p>
 
-<p>Total Entries :
-<b id="expenseEntries">0</b></p>
+    <p>
+
+        Total Expense :
+
+        <b id="monthExpense">
+            ₹0
+        </b>
+
+    </p>
+
+
+    <p>
+
+        Total Entries :
+
+        <b id="expenseEntries">
+            0
+        </b>
+
+    </p>
 
 </div>
 
-<!-- ===================================== -->
+
+<!-- ============================= -->
 <!-- Quick Actions -->
-<!-- ===================================== -->
+<!-- ============================= -->
 
 <div class="card">
 
-<h2>⚡ Quick Actions</h2>
+    <h2>
+        ⚡ Quick Actions
+    </h2>
 
-<div class="dashboard-grid">
 
-<button onclick="downloadPDF()">
-📄 Export PDF
-</button>
+    <div class="dashboard-grid">
 
-<button onclick="downloadCSV()">
-📊 Export CSV
-</button>
+        <button
+        onclick="downloadPDF()">
 
-<button onclick="window.print()">
-🖨 Print
-</button>
+            📄 Export PDF
 
-<button onclick="clearExpenseHistory()">
-🗑 Clear History
-</button>
+        </button>
+
+
+        <button
+        onclick="downloadCSV()">
+
+            📊 Export CSV
+
+        </button>
+
+
+        <button
+        onclick="window.print()">
+
+            🖨 Print
+
+        </button>
+
+
+        <button
+        onclick="clearExpenseHistory()">
+
+            🗑 Clear History
+
+        </button>
+
+    </div>
 
 </div>
 
-</div>
 
-<!-- ===================================== -->
+<!-- ============================= -->
 <!-- Expense Analytics -->
-<!-- ===================================== -->
+<!-- ============================= -->
 
 <div class="card">
 
-<h2>📉 Expense Analytics</h2>
+    <h2>
+        📉 Expense Analytics
+    </h2>
 
-<canvas id="expenseChart"></canvas>
+
+    <canvas
+    id="expenseChart">
+    </canvas>
 
 </div>
 
-<!-- ===================================== -->
+
+<!-- ============================= -->
 <!-- Footer -->
-<!-- ===================================== -->
+<!-- ============================= -->
 
 <footer class="footer">
 
-<h2>💎 ArthaFlow Premium</h2>
+    <h2>
+        💎 ArthaFlow Premium
+    </h2>
 
-<p>Track • Save • Invest • Grow</p>
 
-<hr>
+    <p>
+        Track • Save • Invest • Grow
+    </p>
 
-<p>© 2026 ArthaFlow</p>
 
-<p>Developed with ❤️ by <b>Aditya Aakash</b></p>
+    <hr>
+
+
+    <p>
+        © 2026 ArthaFlow
+    </p>
+
+
+    <p>
+        Developed with ❤️ by
+        <b>Aditya Aakash</b>
+    </p>
 
 </footer>
 
-<!-- ===================================== -->
-<!-- Scripts -->
-<!-- ===================================== -->
 
-<script src="js/script.js"></script>
+<!-- ============================= -->
+<!-- Main Script -->
+<!-- ============================= -->
+
+<script
+src="js/script.js">
+</script>
+
+
+<!-- ============================= -->
+<!-- Expense Loader -->
+<!-- ============================= -->
 
 <script>
 
-window.addEventListener("load",function(){
+window.addEventListener(
+    "load",
+    function(){
 
-if(typeof loadExpense==="function"){
+        if(
+            typeof loadExpense ===
+            "function"
+        ){
 
-loadExpense();
+            loadExpense();
 
-}
+        }
 
-});
+    }
+);
 
 </script>
 
+
 </body>
 
-</html>  
+      </html>
