@@ -1412,8 +1412,7 @@ if(recentList){
 }
 
 // ==========================================
-// ArthaFlow User Profile
-// Save Name Locally + Firestore
+// Save User Profile
 // ==========================================
 
 async function saveProfile(){
@@ -1422,7 +1421,6 @@ async function saveProfile(){
         document.getElementById("userName");
 
     if(!nameInput){
-        alert("User Name field not found");
         return;
     }
 
@@ -1430,17 +1428,21 @@ async function saveProfile(){
         nameInput.value.trim();
 
     if(name === ""){
-        alert("Enter Your Name");
+
+        alert("Please enter your name");
+
         return;
+
     }
 
-    // 1️⃣ LocalStorage
+    // Save locally
     localStorage.setItem(
         "userName",
         name
     );
 
-    // 2️⃣ Firestore Cloud Save
+
+    // ☁️ Save to Firestore
     if(
         typeof window.saveArthaFlowToCloud ===
         "function"
@@ -1449,40 +1451,24 @@ async function saveProfile(){
         const saved =
             await window.saveArthaFlowToCloud();
 
-        if(!saved){
+        if(saved){
 
-            alert(
-                "⚠️ Name saved locally, but Cloud Save failed."
+            console.log(
+                "☁️ User Name Saved To Cloud"
             );
 
-            return;
+        }else{
+
+            console.log(
+                "☁️ Cloud Save Failed"
+            );
+
         }
 
-    }else{
-
-        alert(
-            "⚠️ Cloud Sync is not loaded."
-        );
-
-        return;
     }
 
-    // 3️⃣ Dashboard Welcome
-    const welcome =
-        document.getElementById(
-            "welcomeUser"
-        );
 
-    if(welcome){
-
-        welcome.innerHTML =
-            "👋 Welcome, " + name;
-
-    }
-
-    alert(
-        "✅ Profile Saved to Cloud Successfully"
-    );
+    alert("✅ Profile Updated");
 
 }
 
