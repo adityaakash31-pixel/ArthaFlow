@@ -10031,3 +10031,65 @@ function loadProfileEmail(){
     }
 
 }
+
+// ==========================================
+// ArthaFlow Profile Email
+// ==========================================
+
+function loadProfileEmail(){
+
+    const emailBox =
+        document.getElementById("userEmail");
+
+    if(!emailBox){
+        return;
+    }
+
+    if(
+        typeof window.getArthaFlowUserEmail ===
+        "function"
+    ){
+
+        const email =
+            window.getArthaFlowUserEmail();
+
+        if(email){
+
+            emailBox.value = email;
+
+            // Local backup
+            localStorage.setItem(
+                "userEmail",
+                email
+            );
+
+            return;
+        }
+
+    }
+
+    // Fallback: LocalStorage
+    const savedEmail =
+        localStorage.getItem("userEmail") || "";
+
+    if(savedEmail){
+
+        emailBox.value =
+            savedEmail;
+
+    }
+
+}
+
+// ==========================================
+// Load Profile Email on Settings
+// ==========================================
+
+window.addEventListener(
+    "load",
+    function(){
+
+        loadProfileEmail();
+
+    }
+);
