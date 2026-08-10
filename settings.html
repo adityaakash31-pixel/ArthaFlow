@@ -110,7 +110,6 @@ href="favicon-64.png">
         👤 My Profile
     </h2>
 
-
     <label>
         User Name
     </label>
@@ -156,7 +155,6 @@ href="favicon-64.png">
     <h2>
         🔐 Security
     </h2>
-
 
     <p>
         Protect your ArthaFlow account and app data.
@@ -518,66 +516,62 @@ src="js/script.js">
 
 
 <!-- ===================================== -->
-<!-- SETTINGS / PROFILE CONTROLLER -->
+<!-- SETTINGS CONTROLLER -->
 <!-- ===================================== -->
 
 <script>
 
 window.addEventListener(
     "load",
-    async function(){
+    function(){
 
-        /*
-         * Load existing local profile
-         */
+        loadLocalProfile();
 
-        const nameInput =
-            document.getElementById("userName");
-
-        if(nameInput){
-
-            const savedName =
-                localStorage.getItem("userName");
-
-            if(savedName){
-
-                nameInput.value =
-                    savedName;
-
-            }
-
-        }
-
-
-        /*
-         * Load Gmail from Firebase
-         */
-
-        await loadFirebaseEmail();
-
-
-        /*
-         * Load account summary
-         */
+        loadFirebaseEmail();
 
         loadAccountSummary();
 
-
-        /*
-         * Cloud status
-         */
-
         updateCloudStatus();
+
+        loadSavedBudget();
 
     }
 );
 
 
 // ==========================================
+// LOAD LOCAL PROFILE
+// ==========================================
+
+function loadLocalProfile(){
+
+    const nameInput =
+        document.getElementById("userName");
+
+    if(!nameInput){
+
+        return;
+
+    }
+
+    const savedName =
+        localStorage.getItem("userName");
+
+    if(savedName){
+
+        nameInput.value =
+            savedName;
+
+    }
+
+}
+
+
+// ==========================================
 // LOAD FIREBASE EMAIL
 // ==========================================
 
-async function loadFirebaseEmail(){
+function loadFirebaseEmail(){
 
     const emailBox =
         document.getElementById("userEmail");
@@ -613,7 +607,15 @@ async function loadFirebaseEmail(){
                         emailBox.value =
                             email;
 
+                        emailBox.placeholder =
+                            "Firebase Email";
+
                         clearInterval(timer);
+
+                        console.log(
+                            "✅ Firebase Email Loaded:",
+                            email
+                        );
 
                         return;
 
@@ -622,16 +624,16 @@ async function loadFirebaseEmail(){
                 }
 
 
-                /*
-                 * Firebase को थोड़ा समय दें
-                 */
-
                 if(attempts >= 50){
 
                     clearInterval(timer);
 
                     emailBox.placeholder =
                         "Firebase email not loaded";
+
+                    console.log(
+                        "⚠️ Firebase email could not be loaded"
+                    );
 
                 }
 
@@ -675,19 +677,11 @@ async function(){
     }
 
 
-    /*
-     * Save locally
-     */
-
     localStorage.setItem(
         "userName",
         name
     );
 
-
-    /*
-     * Save to Cloud
-     */
 
     if(
         typeof window.saveArthaFlowToCloud ===
@@ -705,7 +699,9 @@ async function(){
                 new Date().toISOString()
             );
 
+
             updateCloudStatus();
+
 
             alert(
                 "✅ Profile Updated & Synced"
@@ -714,7 +710,7 @@ async function(){
         }else{
 
             alert(
-                "✅ Name Saved Locally\n☁️ Cloud Sync not available"
+                "✅ Name Saved Locally\n☁️ Cloud Sync Failed"
             );
 
         }
@@ -746,7 +742,7 @@ async function(){
     if(status){
 
         status.innerText =
-            "Syncing...";
+            "🔄 Syncing...";
 
     }
 
@@ -759,9 +755,10 @@ async function(){
         if(status){
 
             status.innerText =
-                "Cloud Sync Not Loaded";
+                "🔴 Cloud Sync Not Loaded";
 
         }
+
 
         alert(
             "☁️ Cloud Sync is not loaded"
@@ -1028,7 +1025,8 @@ function loadAccountSummary(){
     if(incomeBox){
 
         incomeBox.innerText =
-            "₹" + income.toLocaleString("en-IN");
+            "₹" +
+            income.toLocaleString("en-IN");
 
     }
 
@@ -1036,7 +1034,8 @@ function loadAccountSummary(){
     if(expenseBox){
 
         expenseBox.innerText =
-            "₹" + expense.toLocaleString("en-IN");
+            "₹" +
+            expense.toLocaleString("en-IN");
 
     }
 
@@ -1046,6 +1045,43 @@ function loadAccountSummary(){
         transactionBox.innerText =
             incomeHistory.length +
             expenseHistory.length;
+
+    }
+
+}
+
+
+// ==========================================
+// LOAD SAVED BUDGET
+// ==========================================
+
+function loadSavedBudget(){
+
+    const budgetInput =
+        document.getElementById(
+            "monthlyBudget"
+        );
+
+
+    if(!budgetInput){
+
+        return;
+
+    }
+
+
+    const budget =
+        Number(
+            localStorage.getItem(
+                "monthlyBudget"
+            )
+        ) || 0;
+
+
+    if(budget > 0){
+
+        budgetInput.value =
+            budget;
 
     }
 
