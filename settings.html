@@ -427,168 +427,154 @@ function getBrowserName(){
 
 }
 
+<!-- ========================================== -->
+<!-- Step 15E - Account & Device Information -->
+<!-- FINAL -->
+<!-- ========================================== -->
 
-// ==========================================
-// Load Account Information
-// ==========================================
+<script type="module">
 
-onAuthStateChanged(
-    auth,
-    function(user){
+import {
+    getApp
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 
-        const status =
-            document.getElementById(
-                "accountLoginStatus"
-            );
-
-
-        const created =
-            document.getElementById(
-                "accountCreated"
-            );
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 
-        const device =
-            document.getElementById(
-                "accountDevice"
-            );
+const app = getApp();
+const auth = getAuth(app);
 
 
-        const browser =
-            document.getElementById(
-                "accountBrowser"
-            );
+function loadAccountInformation(user){
+
+    const status =
+        document.getElementById("accountLoginStatus");
+
+    const created =
+        document.getElementById("accountCreated");
+
+    const device =
+        document.getElementById("accountDevice");
+
+    const browser =
+        document.getElementById("accountBrowser");
+
+    const platform =
+        document.getElementById("accountPlatform");
 
 
-        const platform =
-            document.getElementById(
-                "accountPlatform"
-            );
+    if(user){
+
+        if(status){
+            status.value = "🟢 Logged In";
+        }
 
 
-        if(user){
+        if(created){
 
-            // Login status
+            if(
+                user.metadata &&
+                user.metadata.creationTime
+            ){
 
-            if(status){
+                const date =
+                    new Date(
+                        user.metadata.creationTime
+                    );
 
-                status.value =
-                    "🟢 Logged In";
+                created.value =
+                    date.toLocaleString();
 
-            }
-
-
-            // Account creation date
-
-            if(created){
-
-                if(
-                    user.metadata &&
-                    user.metadata.creationTime
-                ){
-
-                    const date =
-                        new Date(
-                            user.metadata.creationTime
-                        );
-
-
-                    created.value =
-                        date.toLocaleString();
-
-                }else{
-
-                    created.value =
-                        "Not Available";
-
-                }
-
-            }
-
-
-            // Device
-
-            if(device){
-
-                device.value =
-                    getDeviceName();
-
-            }
-
-
-            // Browser
-
-            if(browser){
-
-                browser.value =
-                    getBrowserName();
-
-            }
-
-
-            // Platform
-
-            if(platform){
-
-                platform.value =
-                    navigator.platform ||
-                    "Not Available";
-
-            }
-
-
-            console.log(
-                "✅ Step 15E Account & Device Info Loaded"
-            );
-
-
-        }else{
-
-            if(status){
-
-                status.value =
-                    "🔴 Logged Out";
-
-            }
-
-
-            if(created){
+            }else{
 
                 created.value =
                     "Not Available";
 
             }
 
-
-            if(device){
-
-                device.value =
-                    "Not Available";
-
-            }
+        }
 
 
-            if(browser){
+        if(device){
 
-                browser.value =
-                    "Not Available";
-
-            }
-
-
-            if(platform){
-
-                platform.value =
-                    "Not Available";
-
-            }
+            device.value =
+                typeof getDeviceName === "function"
+                ? getDeviceName()
+                : "Unknown Device";
 
         }
+
+
+        if(browser){
+
+            browser.value =
+                typeof getBrowserName === "function"
+                ? getBrowserName()
+                : "Unknown Browser";
+
+        }
+
+
+        if(platform){
+
+            platform.value =
+                navigator.platform ||
+                "Not Available";
+
+        }
+
+
+        console.log(
+            "✅ Step 15E Account & Device Info Loaded"
+        );
+
+
+    }else{
+
+        if(status){
+            status.value = "🔴 Logged Out";
+        }
+
+        if(created){
+            created.value = "Not Available";
+        }
+
+        if(device){
+            device.value = "Not Available";
+        }
+
+        if(browser){
+            browser.value = "Not Available";
+        }
+
+        if(platform){
+            platform.value = "Not Available";
+        }
+
+    }
+
+}
+
+
+onAuthStateChanged(
+    auth,
+    function(user){
+
+        loadAccountInformation(user);
 
     }
 );
 
-            </script>
+
+console.log(
+    "✅ Step 15E Account & Device System Ready"
+);
+
+</script>
+
 
 <!-- ===================================== -->
 <!-- SECURITY -->
