@@ -731,6 +731,16 @@ src="js/firebase.js">
 
 
 <!-- ===================================== -->
+<!-- Authentication Guard -->
+<!-- ===================================== -->
+
+<script
+type="module"
+src="js/auth-guard.js">
+</script>
+
+
+<!-- ===================================== -->
 <!-- Cloud Sync -->
 <!-- ===================================== -->
 
@@ -766,11 +776,7 @@ window.addEventListener(
 
 
         /*
-         * First load data from Firestore.
-         * This makes sure the latest
-         * User Name / Income / Expense
-         * is available before Dashboard
-         * displays the data.
+         * Load latest cloud data
          */
 
         if(
@@ -895,4 +901,4 @@ window.addEventListener(
 
 </body>
 
-    </html>
+</html>
