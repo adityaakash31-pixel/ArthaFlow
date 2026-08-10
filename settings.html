@@ -1253,6 +1253,12 @@ onAuthStateChanged(auth, function(user){
 
     <script type="module">
 
+// ==========================================
+// ArthaFlow Profile Photo
+// Step 15D-2
+// Load Saved Photo After Refresh
+// ==========================================
+
 import {
     getStorage,
     ref,
@@ -1261,7 +1267,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-storage.js";
 
 import {
-    getAuth
+    getAuth,
+    onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 
@@ -1272,11 +1279,147 @@ const auth =
     getAuth();
 
 
+// ==========================================
+// Profile Photo Element
+// ==========================================
+
+const profilePhoto =
+    document.getElementById(
+        "profilePhoto"
+    );
+
 const photoInput =
     document.getElementById(
         "profilePhotoInput"
     );
 
+
+// ==========================================
+// Load Saved Profile Photo
+// ==========================================
+
+async function loadSavedProfilePhoto(user){
+
+    if(!profilePhoto){
+        return;
+    }
+
+
+    if(!user){
+
+        console.log(
+            "🖼️ No Firebase user available"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const photoRef =
+            ref(
+                storage,
+                "profilePhotos/" +
+                user.uid +
+                "/profile.jpg"
+            );
+
+
+        const photoURL =
+            await getDownloadURL(
+                photoRef
+            );
+
+
+        profilePhoto.src =
+            photoURL;
+
+
+        localStorage.setItem(
+            "userPhoto",
+            photoURL
+        );
+
+
+        console.log(
+            "✅ Saved Profile Photo Loaded"
+        );
+
+
+    }catch(error){
+
+        console.log(
+            "ℹ️ Custom Profile Photo not found"
+        );
+
+
+        // ======================================
+        // Google Photo Fallback
+        // ======================================
+
+        if(
+            user.photoURL &&
+            user.photoURL.trim() !== ""
+        ){
+
+            profilePhoto.src =
+                user.photoURL;
+
+
+            localStorage.setItem(
+                "userPhoto",
+                user.photoURL
+            );
+
+
+            console.log(
+                "🔵 Google Profile Photo Loaded"
+            );
+
+        }else{
+
+            // ==================================
+            // ArthaFlow Logo Fallback
+            // ==================================
+
+            profilePhoto.src =
+                "profile-logo.png";
+
+
+            console.log(
+                "💎 ArthaFlow Logo Loaded"
+            );
+
+        }
+
+    }
+
+}
+
+
+// ==========================================
+// Firebase Auth Ready
+// ==========================================
+
+onAuthStateChanged(
+    auth,
+    function(user){
+
+        if(user){
+
+            loadSavedProfilePhoto(user);
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// Upload Profile Photo
+// ==========================================
 
 if(photoInput){
 
@@ -1293,7 +1436,13 @@ if(photoInput){
             }
 
 
-            if(!file.type.startsWith("image/")){
+            // ==================================
+            // Check Image
+            // ==================================
+
+            if(
+                !file.type.startsWith("image/")
+            ){
 
                 alert(
                     "Please select an image file."
@@ -1321,16 +1470,16 @@ if(photoInput){
 
             try{
 
-                const profilePhoto =
-                    document.getElementById(
-                        "profilePhoto"
-                    );
-
+                // ==================================
+                // Temporary Preview
+                // ==================================
 
                 if(profilePhoto){
 
                     profilePhoto.src =
-                        URL.createObjectURL(file);
+                        URL.createObjectURL(
+                            file
+                        );
 
                 }
 
@@ -1340,6 +1489,10 @@ if(photoInput){
                 );
 
 
+                // ==================================
+                // Firebase Storage Location
+                // ==================================
+
                 const photoRef =
                     ref(
                         storage,
@@ -1348,6 +1501,10 @@ if(photoInput){
                         "/profile.jpg"
                     );
 
+
+                // ==================================
+                // Upload
+                // ==================================
 
                 await uploadBytes(
                     photoRef,
@@ -1359,17 +1516,29 @@ if(photoInput){
                 );
 
 
+                // ==================================
+                // Get Permanent Download URL
+                // ==================================
+
                 const photoURL =
                     await getDownloadURL(
                         photoRef
                     );
 
 
+                // ==================================
+                // Save URL Locally
+                // ==================================
+
                 localStorage.setItem(
                     "userPhoto",
                     photoURL
                 );
 
+
+                // ==================================
+                // Show Saved Photo
+                // ==================================
 
                 if(profilePhoto){
 
@@ -1404,7 +1573,7 @@ if(photoInput){
 
 }
 
-            </script>
+    </script>
 
 
 </body>
