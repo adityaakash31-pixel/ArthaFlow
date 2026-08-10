@@ -1590,7 +1590,571 @@ function loadSavedBudget(){
 
 </script>
 
- 
+ <!-- ========================================== -->
+<!-- ArthaFlow Profile Photo System -->
+<!-- Step 15D-4 FINAL -->
+<!-- Upload + Firestore Save + Cloud Load -->
+<!-- ========================================== -->
+
+<script type="module">
+
+import {
+    getApp
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+
+// ==========================================
+// FIREBASE
+// ==========================================
+
+const app = getApp();
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+
+// ==========================================
+// DEFAULT PHOTO
+// ==========================================
+
+const defaultPhoto = "profile-logo.png";
+
+
+// ==========================================
+// LOAD PROFILE PHOTO
+// ==========================================
+
+async function loadProfilePhoto(user) {
+
+    const profilePhoto =
+        document.getElementById("profilePhoto");
+
+
+    if (!profilePhoto) {
+        return;
+    }
+
+
+    // --------------------------------------
+    // First show ArthaFlow default logo
+    // --------------------------------------
+
+    profilePhoto.src = defaultPhoto;
+
+
+    if (!user) {
+        return;
+    }
+
+
+    try {
+
+        // ----------------------------------
+        // Firestore User Document
+        // ----------------------------------
+
+        const userRef =
+            doc(
+                db,
+                "users",
+                user.uid
+            );
+
+
+        const snapshot =
+            await getDoc(userRef);
+
+
+        // ----------------------------------
+        // Custom uploaded photo
+        // ----------------------------------
+
+        if (snapshot.exists()) {
+
+            const data =
+                snapshot.data();
+
+
+            if (data.profilePhoto) {
+
+                profilePhoto.src =
+                    data.profilePhoto;
+
+
+                localStorage.setItem(
+                    "userPhoto",
+                    data.profilePhoto
+                );
+
+
+                console.log(
+                    "✅ Custom Profile Photo Loaded"
+                );
+
+
+                return;
+            }
+        }
+
+
+        // ----------------------------------
+        // Google account photo
+        // ----------------------------------
+
+        if (user.photoURL) {
+
+            profilePhoto.src =
+                user.photoURL;
+
+
+            console.log(
+                "✅ Google Profile Photo Loaded"
+            );
+
+
+            return;
+        }
+
+
+        // ----------------------------------
+        // ArthaFlow logo fallback
+        // ----------------------------------
+
+        profilePhoto.src =
+            defaultPhoto;
+
+
+        console.log(
+            "💎 ArthaFlow Logo Used"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ Profile Photo Load Error:",
+            error
+        );
+
+
+        profilePhoto.src =
+            defaultPhoto;
+    }
+}
+
+
+// ==========================================
+// COMPRESS IMAGE
+// ==========================================
+
+function compressProfilePhoto(file) {
+
+    return new Promise(function(resolve, reject) {
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            function(event) {
+
+                const image =
+                    new Image();
+
+
+                image.onload =
+                    function() {
+
+                        const canvas =
+                            document.createElement(
+                                "canvas"
+                            );
+
+
+                        const maxSize = 256;
+
+
+                        let width =
+                            image.width;
+
+                        let height =
+                            image.height;
+
+
+                        // ------------------------------
+                        // Resize
+                        // ------------------------------
+
+                        if (width > height) {
+
+                            if (width > maxSize) {
+
+                                height =
+                                    height *
+                                    maxSize /
+                                    width;
+
+                                width =
+                                    maxSize;
+                            }
+
+                        } else {
+
+                            if (height > maxSize) {
+
+                                width =
+                                    width *
+                                    maxSize /
+                                    height;
+
+                                height =
+                                    maxSize;
+                            }
+                        }
+
+
+                        canvas.width =
+                            width;
+
+                        canvas.height =
+                            height;
+
+
+                        const ctx =
+                            canvas.getContext(
+                                "2d"
+                            );
+
+
+                        ctx.drawImage(
+                            image,
+                            0,
+                            0,
+                            width,
+                            height
+                        );
+
+
+                        // ------------------------------
+                        // JPEG compression
+                        // ------------------------------
+
+                        const photoData =
+                            canvas.toDataURL(
+                                "image/jpeg",
+                                0.70
+                            );
+
+
+                        resolve(
+                            photoData
+                        );
+                    };
+
+
+                image.onerror =
+                    function() {
+
+                        reject(
+                            new Error(
+                                "Image could not be loaded."
+                            )
+                        );
+                    };
+
+
+                image.src =
+                    event.target.result;
+            };
+
+
+        reader.onerror =
+            function() {
+
+                reject(
+                    new Error(
+                        "Image could not be read."
+                    )
+                );
+            };
+
+
+        reader.readAsDataURL(file);
+    });
+}
+
+
+// ==========================================
+// PROFILE PHOTO UPLOAD
+// ==========================================
+
+function setupProfilePhotoUpload(user) {
+
+    const profilePhoto =
+        document.getElementById("profilePhoto");
+
+
+    const photoInput =
+        document.getElementById(
+            "profilePhotoInput"
+        );
+
+
+    if (!photoInput) {
+
+        console.log(
+            "⚠️ Profile Photo Input Not Found"
+        );
+
+        return;
+    }
+
+
+    // --------------------------------------
+    // Prevent duplicate event listener
+    // --------------------------------------
+
+    if (
+        photoInput.dataset.photoReady === "true"
+    ) {
+
+        return;
+    }
+
+
+    photoInput.dataset.photoReady =
+        "true";
+
+
+    // ======================================
+    // CHANGE PHOTO
+    // ======================================
+
+    photoInput.addEventListener(
+        "change",
+        async function(event) {
+
+            const file =
+                event.target.files[0];
+
+
+            if (!file) {
+                return;
+            }
+
+
+            // ----------------------------------
+            // Check image
+            // ----------------------------------
+
+            if (
+                !file.type.startsWith("image/")
+            ) {
+
+                alert(
+                    "❌ Please select an image."
+                );
+
+                return;
+            }
+
+
+            // ----------------------------------
+            // Check login
+            // ----------------------------------
+
+            if (!user) {
+
+                alert(
+                    "❌ Please login first."
+                );
+
+                return;
+            }
+
+
+            try {
+
+                // --------------------------------
+                // Saving message
+                // --------------------------------
+
+                alert(
+                    "⏳ Saving Profile Photo..."
+                );
+
+
+                // --------------------------------
+                // Compress
+                // --------------------------------
+
+                const photoData =
+                    await compressProfilePhoto(
+                        file
+                    );
+
+
+                // --------------------------------
+                // Instant preview
+                // --------------------------------
+
+                if (profilePhoto) {
+
+                    profilePhoto.src =
+                        photoData;
+                }
+
+
+                // --------------------------------
+                // Firestore User Document
+                // --------------------------------
+
+                const userRef =
+                    doc(
+                        db,
+                        "users",
+                        user.uid
+                    );
+
+
+                // --------------------------------
+                // Save photo
+                // --------------------------------
+
+                await setDoc(
+                    userRef,
+                    {
+
+                        profilePhoto:
+                            photoData,
+
+                        profilePhotoUpdatedAt:
+                            new Date().toISOString()
+
+                    },
+                    {
+
+                        merge: true
+
+                    }
+                );
+
+
+                // --------------------------------
+                // Local backup
+                // --------------------------------
+
+                localStorage.setItem(
+                    "userPhoto",
+                    photoData
+                );
+
+
+                alert(
+                    "✅ Profile Photo Saved Successfully"
+                );
+
+
+                console.log(
+                    "☁️ Profile Photo Saved To Firestore"
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "❌ Profile Photo Save Error:",
+                    error
+                );
+
+
+                alert(
+                    "❌ Photo Save Failed\n\n" +
+                    error.message
+                );
+
+
+                // Restore previous photo
+                loadProfilePhoto(user);
+            }
+
+
+            // Allow selecting same photo again
+            photoInput.value = "";
+        }
+    );
+}
+
+
+// ==========================================
+// FIREBASE AUTH STATE
+// ==========================================
+
+onAuthStateChanged(
+    auth,
+    function(user) {
+
+        console.log(
+            "🔐 Auth State Changed:",
+            user ? user.email : "Logged Out"
+        );
+
+
+        // ----------------------------------
+        // Load profile photo
+        // ----------------------------------
+
+        loadProfilePhoto(user);
+
+
+        // ----------------------------------
+        // Setup upload
+        // ----------------------------------
+
+        if (user) {
+
+            setupProfilePhotoUpload(user);
+
+        } else {
+
+            const profilePhoto =
+                document.getElementById(
+                    "profilePhoto"
+                );
+
+
+            if (profilePhoto) {
+
+                profilePhoto.src =
+                    defaultPhoto;
+            }
+        }
+    }
+);
+
+
+// ==========================================
+// READY
+// ==========================================
+
+console.log(
+    "✅ ArthaFlow Profile Photo System Ready"
+);
+
+</script>
 
 </body>
 
