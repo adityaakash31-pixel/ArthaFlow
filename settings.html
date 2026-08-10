@@ -202,6 +202,394 @@ href="favicon-64.png">
 
 </div>
 
+    <!-- ===================================== -->
+<!-- ACCOUNT & DEVICE INFO -->
+<!-- Step 15E -->
+<!-- ===================================== -->
+
+<div class="card">
+
+    <h2>
+        📱 Account & Device Info
+    </h2>
+
+    <p>
+        View your ArthaFlow account and current device information.
+    </p>
+
+
+    <!-- LOGIN STATUS -->
+
+    <label>
+        🔐 Login Status
+    </label>
+
+    <input
+        type="text"
+        id="accountLoginStatus"
+        value="Checking..."
+        readonly>
+
+
+    <!-- ACCOUNT CREATED -->
+
+    <label>
+        📅 Account Created
+    </label>
+
+    <input
+        type="text"
+        id="accountCreated"
+        value="Loading..."
+        readonly>
+
+
+    <!-- DEVICE -->
+
+    <label>
+        📱 Device
+    </label>
+
+    <input
+        type="text"
+        id="accountDevice"
+        value="Loading..."
+        readonly>
+
+
+    <!-- BROWSER -->
+
+    <label>
+        🌐 Browser
+    </label>
+
+    <input
+        type="text"
+        id="accountBrowser"
+        value="Loading..."
+        readonly>
+
+
+    <!-- PLATFORM -->
+
+    <label>
+        ⚙️ Platform
+    </label>
+
+    <input
+        type="text"
+        id="accountPlatform"
+        value="Loading..."
+        readonly>
+
+
+    <p>
+        🔒 This information is used only to display your current account and device details.
+    </p>
+
+</div>
+
+
+<!-- ===================================== -->
+<!-- Step 15E JavaScript -->
+<!-- ===================================== -->
+
+<script type="module">
+
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+
+// ==========================================
+// Firebase Authentication
+// ==========================================
+
+const auth = getAuth();
+
+
+// ==========================================
+// Device Detection
+// ==========================================
+
+function getDeviceName(){
+
+    const userAgent =
+        navigator.userAgent;
+
+
+    if(/Android/i.test(userAgent)){
+
+        return "Android Device";
+
+    }
+
+
+    if(/iPhone/i.test(userAgent)){
+
+        return "iPhone";
+
+    }
+
+
+    if(/iPad/i.test(userAgent)){
+
+        return "iPad";
+
+    }
+
+
+    if(/Windows/i.test(userAgent)){
+
+        return "Windows PC";
+
+    }
+
+
+    if(/Macintosh/i.test(userAgent)){
+
+        return "Mac";
+
+    }
+
+
+    if(/Linux/i.test(userAgent)){
+
+        return "Linux Device";
+
+    }
+
+
+    return "Unknown Device";
+
+}
+
+
+// ==========================================
+// Browser Detection
+// ==========================================
+
+function getBrowserName(){
+
+    const userAgent =
+        navigator.userAgent;
+
+
+    if(
+        /Edg/i.test(userAgent)
+    ){
+
+        return "Microsoft Edge";
+
+    }
+
+
+    if(
+        /OPR|Opera/i.test(userAgent)
+    ){
+
+        return "Opera";
+
+    }
+
+
+    if(
+        /Chrome/i.test(userAgent) &&
+        !/Edg/i.test(userAgent)
+    ){
+
+        return "Google Chrome";
+
+    }
+
+
+    if(
+        /Firefox/i.test(userAgent)
+    ){
+
+        return "Mozilla Firefox";
+
+    }
+
+
+    if(
+        /Safari/i.test(userAgent) &&
+        !/Chrome/i.test(userAgent)
+    ){
+
+        return "Safari";
+
+    }
+
+
+    return "Unknown Browser";
+
+}
+
+
+// ==========================================
+// Load Account Information
+// ==========================================
+
+onAuthStateChanged(
+    auth,
+    function(user){
+
+        const status =
+            document.getElementById(
+                "accountLoginStatus"
+            );
+
+
+        const created =
+            document.getElementById(
+                "accountCreated"
+            );
+
+
+        const device =
+            document.getElementById(
+                "accountDevice"
+            );
+
+
+        const browser =
+            document.getElementById(
+                "accountBrowser"
+            );
+
+
+        const platform =
+            document.getElementById(
+                "accountPlatform"
+            );
+
+
+        if(user){
+
+            // Login status
+
+            if(status){
+
+                status.value =
+                    "🟢 Logged In";
+
+            }
+
+
+            // Account creation date
+
+            if(created){
+
+                if(
+                    user.metadata &&
+                    user.metadata.creationTime
+                ){
+
+                    const date =
+                        new Date(
+                            user.metadata.creationTime
+                        );
+
+
+                    created.value =
+                        date.toLocaleString();
+
+                }else{
+
+                    created.value =
+                        "Not Available";
+
+                }
+
+            }
+
+
+            // Device
+
+            if(device){
+
+                device.value =
+                    getDeviceName();
+
+            }
+
+
+            // Browser
+
+            if(browser){
+
+                browser.value =
+                    getBrowserName();
+
+            }
+
+
+            // Platform
+
+            if(platform){
+
+                platform.value =
+                    navigator.platform ||
+                    "Not Available";
+
+            }
+
+
+            console.log(
+                "✅ Step 15E Account & Device Info Loaded"
+            );
+
+
+        }else{
+
+            if(status){
+
+                status.value =
+                    "🔴 Logged Out";
+
+            }
+
+
+            if(created){
+
+                created.value =
+                    "Not Available";
+
+            }
+
+
+            if(device){
+
+                device.value =
+                    "Not Available";
+
+            }
+
+
+            if(browser){
+
+                browser.value =
+                    "Not Available";
+
+            }
+
+
+            if(platform){
+
+                platform.value =
+                    "Not Available";
+
+            }
+
+        }
+
+    }
+);
+
+            </script>
+
 <!-- ===================================== -->
 <!-- SECURITY -->
 <!-- ===================================== -->
