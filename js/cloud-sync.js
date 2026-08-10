@@ -374,3 +374,19 @@ window.getArthaFlowUserEmail = function(){
     return "";
 
 };
+
+// ==========================================
+// Firebase Account ID / UID
+// ==========================================
+
+window.getArthaFlowUserUID = function(){
+
+    if(currentUser){
+
+        return currentUser.uid || "";
+
+    }
+
+    return "";
+
+};
