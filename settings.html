@@ -1251,57 +1251,160 @@ onAuthStateChanged(auth, function(user){
 
 </script>
 
-    <script>
+    <script type="module">
 
-document
-.getElementById("profilePhotoInput")
-.addEventListener("change", function(event){
+import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-storage.js";
 
-    const file =
-        event.target.files[0];
-
-    if(!file){
-        return;
-    }
-
-
-    if(!file.type.startsWith("image/")){
-
-        alert("Please select an image file.");
-
-        return;
-
-    }
+import {
+    getAuth
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 
-    const reader =
-        new FileReader();
+const storage =
+    getStorage();
+
+const auth =
+    getAuth();
 
 
-    reader.onload =
-        function(e){
+const photoInput =
+    document.getElementById(
+        "profilePhotoInput"
+    );
 
-            const profilePhoto =
-                document.getElementById(
-                    "profilePhoto"
+
+if(photoInput){
+
+    photoInput.addEventListener(
+        "change",
+        async function(event){
+
+            const file =
+                event.target.files[0];
+
+
+            if(!file){
+                return;
+            }
+
+
+            if(!file.type.startsWith("image/")){
+
+                alert(
+                    "Please select an image file."
                 );
 
-
-            if(profilePhoto){
-
-                profilePhoto.src =
-                    e.target.result;
+                return;
 
             }
 
-        };
+
+            const user =
+                auth.currentUser;
 
 
-    reader.readAsDataURL(file);
+            if(!user){
 
-});
+                alert(
+                    "Please login before changing your profile photo."
+                );
 
-    </script>
+                return;
+
+            }
+
+
+            try{
+
+                const profilePhoto =
+                    document.getElementById(
+                        "profilePhoto"
+                    );
+
+
+                if(profilePhoto){
+
+                    profilePhoto.src =
+                        URL.createObjectURL(file);
+
+                }
+
+
+                alert(
+                    "⏳ Uploading profile photo..."
+                );
+
+
+                const photoRef =
+                    ref(
+                        storage,
+                        "profilePhotos/" +
+                        user.uid +
+                        "/profile.jpg"
+                    );
+
+
+                await uploadBytes(
+                    photoRef,
+                    file,
+                    {
+                        contentType:
+                            file.type
+                    }
+                );
+
+
+                const photoURL =
+                    await getDownloadURL(
+                        photoRef
+                    );
+
+
+                localStorage.setItem(
+                    "userPhoto",
+                    photoURL
+                );
+
+
+                if(profilePhoto){
+
+                    profilePhoto.src =
+                        photoURL;
+
+                }
+
+
+                alert(
+                    "✅ Profile Photo Saved Successfully"
+                );
+
+
+            }catch(error){
+
+                console.error(
+                    "❌ Profile Photo Upload Error:",
+                    error
+                );
+
+
+                alert(
+                    "❌ Profile Photo Upload Failed\n\n" +
+                    error.message
+                );
+
+            }
+
+        }
+    );
+
+}
+
+            </script>
 
 
 </body>
