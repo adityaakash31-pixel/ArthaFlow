@@ -10170,3 +10170,49 @@ async function logoutUser(){
     }
 
 }
+
+// ==========================================
+// ArthaFlow Logout
+// ==========================================
+
+async function logoutUser(){
+
+    const confirmLogout =
+        confirm("🚪 Are you sure you want to logout?");
+
+    if(!confirmLogout){
+        return;
+    }
+
+    try{
+
+        // Firebase Logout
+        if(window.firebaseLogout){
+
+            await window.firebaseLogout();
+
+        }
+
+        // Clear current session
+        sessionStorage.removeItem("pinVerified");
+
+        // Keep local finance data safe
+        // Only login/session information is cleared
+        localStorage.removeItem("userEmail");
+
+        alert("✅ Logged out successfully");
+
+        window.location.href = "login.html";
+
+    }catch(error){
+
+        console.error(
+            "❌ Logout Error:",
+            error
+        );
+
+        alert("Logout failed. Please try again.");
+
+    }
+
+}
