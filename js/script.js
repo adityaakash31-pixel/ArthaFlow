@@ -10123,3 +10123,50 @@ window.addEventListener(
 
     }
 );
+
+// ==========================================
+// ArthaFlow Logout
+// ==========================================
+
+async function logoutUser(){
+
+    const confirmLogout =
+        confirm("Are you sure you want to logout?");
+
+    if(!confirmLogout){
+        return;
+    }
+
+    try{
+
+        // Firebase Logout
+        if(typeof window.firebaseLogout === "function"){
+
+            await window.firebaseLogout();
+
+        }
+
+        // Clear login session
+        sessionStorage.removeItem("pinVerified");
+
+        // Clear temporary profile data
+        localStorage.removeItem("userEmail");
+
+        alert("✅ Logged out successfully");
+
+        window.location.href = "login.html";
+
+    }catch(error){
+
+        console.error(
+            "❌ Logout Error:",
+            error
+        );
+
+        alert(
+            "Logout failed. Please try again."
+        );
+
+    }
+
+}
