@@ -905,11 +905,448 @@ input[readonly]{
 
 </div>
 
+<!-- ========================================== -->
+<!-- ARTHAFLOW SETTINGS PROFILE SYSTEM -->
+<!-- ========================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    // ------------------------------------------
+    // Default ArthaFlow Logo
+    // ------------------------------------------
+
+    const defaultLogo = "profile-logo.png";
 
 
-<!-- ========================================== -->
-<!-- END OF SETTINGS HTML -->
-<!-- ========================================== -->
+    // ------------------------------------------
+    // Profile Photo
+    // ------------------------------------------
+
+    const profilePhoto =
+        document.getElementById("profilePhoto");
+
+    const savedPhoto =
+        localStorage.getItem("arthaFlowProfilePhoto");
+
+    if(profilePhoto){
+
+        profilePhoto.src =
+            savedPhoto || defaultLogo;
+
+    }
+
+
+    // ------------------------------------------
+    // Change Profile Photo
+    // ------------------------------------------
+
+    const changePhotoButton =
+        document.getElementById("changePhotoButton");
+
+    const photoInput =
+        document.getElementById("profilePhotoInput");
+
+
+    if(changePhotoButton && photoInput){
+
+        changePhotoButton.onclick = function(){
+
+            photoInput.click();
+
+        };
+
+
+        photoInput.onchange = function(){
+
+            const file =
+                photoInput.files[0];
+
+            if(!file) return;
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload = function(e){
+
+                const imageData =
+                    e.target.result;
+
+
+                localStorage.setItem(
+                    "arthaFlowProfilePhoto",
+                    imageData
+                );
+
+
+                if(profilePhoto){
+
+                    profilePhoto.src =
+                        imageData;
+
+                }
+
+            };
+
+
+            reader.readAsDataURL(file);
+
+        };
+
+    }
+
+
+    // ------------------------------------------
+    // Saved Name
+    // ------------------------------------------
+
+    const userName =
+        document.getElementById("userName");
+
+
+    const savedName =
+        localStorage.getItem("arthaFlowUserName");
+
+
+    if(userName && savedName){
+
+        userName.value =
+            savedName;
+
+    }
+
+
+    // ------------------------------------------
+    // Save Profile
+    // ------------------------------------------
+
+    const saveButton =
+        document.getElementById(
+            "saveProfileButton"
+        );
+
+
+    if(saveButton){
+
+        saveButton.onclick = function(){
+
+            if(userName){
+
+                const name =
+                    userName.value.trim();
+
+
+                if(name){
+
+                    localStorage.setItem(
+                        "arthaFlowUserName",
+                        name
+                    );
+
+                    alert(
+                        "✅ Profile Updated Successfully"
+                    );
+
+                }else{
+
+                    alert(
+                        "⚠️ Please enter your name."
+                    );
+
+                }
+
+            }
+
+        };
+
+    }
+
+
+    // ------------------------------------------
+    // Firebase Account Information
+    // ------------------------------------------
+
+    if(
+        typeof onAuthStateChanged === "function" &&
+        typeof auth !== "undefined"
+    ){
+
+        onAuthStateChanged(
+            auth,
+            function(user){
+
+                const email =
+                    document.getElementById(
+                        "userEmail"
+                    );
+
+
+                const uid =
+                    document.getElementById(
+                        "userUID"
+                    );
+
+
+                const status =
+                    document.getElementById(
+                        "accountLoginStatus"
+                    );
+
+
+                const created =
+                    document.getElementById(
+                        "accountCreated"
+                    );
+
+
+                const device =
+                    document.getElementById(
+                        "accountDevice"
+                    );
+
+
+                const browser =
+                    document.getElementById(
+                        "accountBrowser"
+                    );
+
+
+                const platform =
+                    document.getElementById(
+                        "accountPlatform"
+                    );
+
+
+                // --------------------------------
+                // LOGGED IN
+                // --------------------------------
+
+                if(user){
+
+                    if(email){
+
+                        email.value =
+                            user.email ||
+                            "Not Available";
+
+                    }
+
+
+                    if(uid){
+
+                        uid.value =
+                            user.uid ||
+                            "Not Available";
+
+                    }
+
+
+                    if(status){
+
+                        status.value =
+                            "🟢 Logged In";
+
+                    }
+
+
+                    if(
+                        created &&
+                        user.metadata &&
+                        user.metadata.creationTime
+                    ){
+
+                        created.value =
+                            new Date(
+                                user.metadata.creationTime
+                            ).toLocaleString();
+
+                    }
+
+
+                    if(device){
+
+                        const ua =
+                            navigator.userAgent;
+
+
+                        if(/Android/i.test(ua)){
+
+                            device.value =
+                                "Android Device";
+
+                        }else if(/iPhone/i.test(ua)){
+
+                            device.value =
+                                "iPhone";
+
+                        }else if(/iPad/i.test(ua)){
+
+                            device.value =
+                                "iPad";
+
+                        }else if(/Windows/i.test(ua)){
+
+                            device.value =
+                                "Windows PC";
+
+                        }else if(/Macintosh/i.test(ua)){
+
+                            device.value =
+                                "Mac";
+
+                        }else if(/Linux/i.test(ua)){
+
+                            device.value =
+                                "Linux Device";
+
+                        }else{
+
+                            device.value =
+                                "Unknown Device";
+
+                        }
+
+                    }
+
+
+                    if(browser){
+
+                        const ua =
+                            navigator.userAgent;
+
+
+                        if(/Edg/i.test(ua)){
+
+                            browser.value =
+                                "Microsoft Edge";
+
+                        }else if(
+                            /OPR|Opera/i.test(ua)
+                        ){
+
+                            browser.value =
+                                "Opera";
+
+                        }else if(
+                            /Chrome/i.test(ua) &&
+                            !/Edg/i.test(ua)
+                        ){
+
+                            browser.value =
+                                "Google Chrome";
+
+                        }else if(/Firefox/i.test(ua)){
+
+                            browser.value =
+                                "Mozilla Firefox";
+
+                        }else if(
+                            /Safari/i.test(ua) &&
+                            !/Chrome/i.test(ua)
+                        ){
+
+                            browser.value =
+                                "Safari";
+
+                        }else{
+
+                            browser.value =
+                                "Unknown Browser";
+
+                        }
+
+                    }
+
+
+                    if(platform){
+
+                        platform.value =
+                            navigator.platform ||
+                            "Not Available";
+
+                    }
+
+
+                    console.log(
+                        "✅ ArthaFlow Settings Loaded"
+                    );
+
+                }
+
+                // --------------------------------
+                // LOGGED OUT
+                // --------------------------------
+
+                else{
+
+                    if(email){
+
+                        email.value =
+                            "Not Logged In";
+
+                    }
+
+
+                    if(uid){
+
+                        uid.value =
+                            "Not Available";
+
+                    }
+
+
+                    if(status){
+
+                        status.value =
+                            "🔴 Logged Out";
+
+                    }
+
+
+                    if(created){
+
+                        created.value =
+                            "Not Available";
+
+                    }
+
+
+                    if(device){
+
+                        device.value =
+                            "Not Available";
+
+                    }
+
+
+                    if(browser){
+
+                        browser.value =
+                            "Not Available";
+
+                    }
+
+
+                    if(platform){
+
+                        platform.value =
+                            "Not Available";
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+
+});
+
+                        </script>
 
 </body>
 
