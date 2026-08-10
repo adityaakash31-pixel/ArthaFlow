@@ -19,7 +19,8 @@ import {
 // ==========================================
 
 import {
-    getAuth
+    getAuth,
+    signOut
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 
@@ -67,6 +68,36 @@ const app =
 
 const auth =
     getAuth(app);
+
+
+// ==========================================
+// Firebase Logout
+// ==========================================
+
+window.firebaseLogout = async function(){
+
+    try{
+
+        await signOut(auth);
+
+        console.log(
+            "✅ Firebase Logout Successful"
+        );
+
+        return true;
+
+    }catch(error){
+
+        console.error(
+            "❌ Firebase Logout Error:",
+            error
+        );
+
+        throw error;
+
+    }
+
+};
 
 
 // ==========================================
