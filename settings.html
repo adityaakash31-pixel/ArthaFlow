@@ -101,7 +101,7 @@ href="favicon-64.png">
 
 
 <!-- ===================================== -->
-<!-- USER PROFILE -->
+<!-- USER PROFILE - FINAL UI -->
 <!-- ===================================== -->
 
 <div class="card">
@@ -110,51 +110,66 @@ href="favicon-64.png">
         👤 My Profile
     </h2>
 
+    <p>
+        Manage your ArthaFlow account information
+    </p>
+
+
+    <!-- USER NAME -->
+
     <label>
-        User Name
+        👤 User Name
     </label>
 
     <input
-    type="text"
-    id="userName"
-    placeholder="Enter Your Name">
+        type="text"
+        id="userName"
+        placeholder="Enter Your Name">
 
+
+    <!-- EMAIL -->
 
     <label>
         📧 Gmail / Email
     </label>
 
     <input
-    type="email"
-    id="userEmail"
-    placeholder="Loading email..."
-    readonly>
+        type="email"
+        id="userEmail"
+        placeholder="Loading email..."
+        readonly>
+
+
+    <!-- ACCOUNT ID -->
 
     <label>
-    🆔 Account ID
-</label>
+        🆔 Account ID
+    </label>
 
-<input
-type="text"
-id="userUID"
-placeholder="Loading Account ID..."
-readonly>
+    <input
+        type="text"
+        id="userUID"
+        placeholder="Loading Account ID..."
+        readonly>
 
+
+    <!-- UPDATE BUTTON -->
 
     <button
-    onclick="saveProfile()">
+        onclick="saveProfile()">
 
-        💾 Update User Name
+        💾 Update Profile
 
     </button>
 
 
+    <!-- SECURITY NOTE -->
+
     <p>
-        🔒 Your login email is managed by Firebase.
+        🔒 Your login email and Account ID are managed securely by Firebase.
     </p>
 
 </div>
-
 
 <!-- ===================================== -->
 <!-- SECURITY -->
