@@ -269,6 +269,156 @@
 
 </div>
 
+    <!-- ========================================== -->
+<!-- ArthaFlow - Load User Name -->
+<!-- Step 15F -->
+<!-- ========================================== -->
+
+<script type="module">
+
+import {
+    getFirestore,
+    doc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+
+const auth = getAuth();
+const db = getFirestore();
+
+
+onAuthStateChanged(auth, async function(user){
+
+    const nameInput =
+        document.getElementById("userName");
+
+
+    if(!nameInput){
+        return;
+    }
+
+
+    // ------------------------------------------
+    // User not logged in
+    // ------------------------------------------
+
+    if(!user){
+
+        nameInput.value = "";
+
+        nameInput.placeholder =
+            "Login required";
+
+        return;
+    }
+
+
+    // ------------------------------------------
+    // First try Firebase Auth name
+    // ------------------------------------------
+
+    if(user.displayName){
+
+        nameInput.value =
+            user.displayName;
+
+        console.log(
+            "✅ User Name Loaded From Firebase Auth"
+        );
+
+        return;
+    }
+
+
+    // ------------------------------------------
+    // Then try Firestore
+    // ------------------------------------------
+
+    try{
+
+        const userRef =
+            doc(
+                db,
+                "users",
+                user.uid
+            );
+
+
+        const snapshot =
+            await getDoc(userRef);
+
+
+        if(snapshot.exists()){
+
+            const data =
+                snapshot.data();
+
+
+            if(data.userName){
+
+                nameInput.value =
+                    data.userName;
+
+                console.log(
+                    "✅ User Name Loaded From Firestore"
+                );
+
+                return;
+            }
+
+
+            if(data.name){
+
+                nameInput.value =
+                    data.name;
+
+                console.log(
+                    "✅ User Name Loaded From Firestore"
+                );
+
+                return;
+            }
+
+        }
+
+
+        // --------------------------------------
+        // Nothing found
+        // --------------------------------------
+
+        nameInput.value = "";
+
+        nameInput.placeholder =
+            "Enter Your Name";
+
+
+        console.log(
+            "ℹ️ No saved User Name found"
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "❌ User Name Load Error:",
+            error
+        );
+
+        nameInput.value = "";
+
+        nameInput.placeholder =
+            "Enter Your Name";
+    }
+
+});
+
+</script>
+
     <!-- ===================================== -->
 <!-- SECURITY -->
 <!-- ===================================== -->
