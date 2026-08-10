@@ -1185,6 +1185,55 @@ function loadSavedBudget(){
 
 </script>
 
+    <!-- ========================================== -->
+<!-- Profile Photo Loader -->
+<!-- Step 15B -->
+<!-- ========================================== -->
+
+<script type="module">
+
+import {
+    getApp
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+
+const app = getApp();
+
+const auth = getAuth(app);
+
+
+onAuthStateChanged(auth, function(user){
+
+    const profilePhoto =
+        document.getElementById("profilePhoto");
+
+
+    if(!profilePhoto){
+        return;
+    }
+
+
+    if(user && user.photoURL){
+
+        profilePhoto.src =
+            user.photoURL;
+
+    }else{
+
+        profilePhoto.src =
+            "profile-logo.png";
+
+    }
+
+});
+
+</script>
+
 
 </body>
 
