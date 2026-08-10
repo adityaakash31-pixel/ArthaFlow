@@ -3,68 +3,45 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-<title>ArthaFlow - Settings</title>
+    <title>ArthaFlow - Settings</title>
 
-<link rel="stylesheet"
-href="css/style.css">
-
-<link rel="icon"
-type="image/png"
-sizes="32x32"
-href="favicon-32.png">
-
-<link rel="icon"
-type="image/png"
-sizes="64x64"
-href="favicon-64.png">
+    <link
+        rel="stylesheet"
+        href="css/style.css">
 
 </head>
 
 
 <body>
 
-
 <!-- ===================================== -->
-<!-- PREMIUM HEADER -->
+<!-- SETTINGS HEADER -->
 <!-- ===================================== -->
 
-<header class="top-header">
+<div class="settings-header">
 
-    <div class="header-brand">
+    <h1>⚙️ Settings</h1>
 
-        <img
-        src="header-logo.png"
-        alt="ArthaFlow Header Logo"
-        class="header-logo">
+    <p>
+        Profile • Security • Cloud • Preferences
+    </p>
 
-    </div>
-
-
-    <div class="premium-banner">
-
-        <h2>⚙ Settings</h2>
-
-        <p>
-            Profile • Security • Cloud • Preferences
-        </p>
-
-    </div>
-
-</header>
+</div>
 
 
 <!-- ===================================== -->
 <!-- NAVIGATION -->
 <!-- ===================================== -->
 
-<nav class="navbar">
+<div class="settings-nav">
 
-    <a href="index.html">
+    <a href="dashboard.html">
         🏠 Dashboard
     </a>
 
@@ -81,27 +58,21 @@ href="favicon-64.png">
     </a>
 
     <a href="settings.html">
-        ⚙ Settings
+        ⚙️ Settings
     </a>
 
-</nav>
+</div>
 
 
 <!-- ===================================== -->
-<!-- PAGE HEADING -->
+<!-- MAIN SETTINGS -->
 <!-- ===================================== -->
 
-<h1>
-    ⚙ Settings
-</h1>
-
-<p>
-    Manage your ArthaFlow account and preferences
-</p>
+<div class="settings-container">
 
 
 <!-- ===================================== -->
-<!-- USER PROFILE - FINAL UI -->
+<!-- USER PROFILE -->
 <!-- ===================================== -->
 
 <div class="card">
@@ -110,36 +81,38 @@ href="favicon-64.png">
         👤 My Profile
     </h2>
 
-<!-- ===================================== -->
-<!-- PROFILE PHOTO -->
-<!-- Step 15C -->
-<!-- ===================================== -->
+    <!-- PROFILE PHOTO -->
 
-<div class="profile-photo-box">
+    <div class="profile-photo-box">
 
-    <img
-        id="profilePhoto"
-        src="profile-logo.png"
-        alt="Profile Photo"
-        class="profile-photo">
+        <img
+            id="profilePhoto"
+            src="profile-logo.png"
+            alt="Profile Photo"
+            class="profile-photo">
 
-</div>
+    </div>
 
 
-<input
-    type="file"
-    id="profilePhotoInput"
-    accept="image/*"
-    hidden>
+    <input
+        type="file"
+        id="profilePhotoInput"
+        accept="image/*"
+        hidden>
 
 
-<button
-    type="button"
-    onclick="document.getElementById('profilePhotoInput').click()">
+    <button
+        type="button"
+        onclick="
+        document
+        .getElementById('profilePhotoInput')
+        .click()
+        ">
 
-    🖼️ Change Profile Photo
+        🖼️ Change Profile Photo
 
-</button>
+    </button>
+
 
     <p>
         Manage your ArthaFlow account information
@@ -184,9 +157,10 @@ href="favicon-64.png">
         readonly>
 
 
-    <!-- UPDATE BUTTON -->
+    <!-- UPDATE PROFILE -->
 
     <button
+        type="button"
         onclick="saveProfile()">
 
         💾 Update Profile
@@ -194,17 +168,17 @@ href="favicon-64.png">
     </button>
 
 
-    <!-- SECURITY NOTE -->
-
     <p>
-        🔒 Your login email and Account ID are managed securely by Firebase.
+        🔒 Your login email and Account ID
+        are managed securely by Firebase.
     </p>
 
 </div>
 
-    <!-- ===================================== -->
+
+
+<!-- ===================================== -->
 <!-- ACCOUNT & DEVICE INFO -->
-<!-- Step 15E -->
 <!-- ===================================== -->
 
 <div class="card">
@@ -214,7 +188,8 @@ href="favicon-64.png">
     </h2>
 
     <p>
-        View your ArthaFlow account and current device information.
+        View your ArthaFlow account
+        and current device information.
     </p>
 
 
@@ -284,301 +259,22 @@ href="favicon-64.png">
 
 
     <p>
-        🔒 This information is used only to display your current account and device details.
+        🔒 This information is used only to
+        display your current account and
+        device details.
     </p>
 
 </div>
 
 
-<!-- ===================================== -->
-<!-- Step 15E JavaScript -->
-<!-- ===================================== -->
+</div>
 
-<script type="module">
-
-import {
-    getAuth,
-    onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
-
-
-// ==========================================
-// Firebase Authentication
-// ==========================================
-
-const auth = getAuth();
-
-
-// ==========================================
-// Device Detection
-// ==========================================
-
-function getDeviceName(){
-
-    const userAgent =
-        navigator.userAgent;
-
-
-    if(/Android/i.test(userAgent)){
-
-        return "Android Device";
-
-    }
-
-
-    if(/iPhone/i.test(userAgent)){
-
-        return "iPhone";
-
-    }
-
-
-    if(/iPad/i.test(userAgent)){
-
-        return "iPad";
-
-    }
-
-
-    if(/Windows/i.test(userAgent)){
-
-        return "Windows PC";
-
-    }
-
-
-    if(/Macintosh/i.test(userAgent)){
-
-        return "Mac";
-
-    }
-
-
-    if(/Linux/i.test(userAgent)){
-
-        return "Linux Device";
-
-    }
-
-
-    return "Unknown Device";
-
-}
-
-
-// ==========================================
-// Browser Detection
-// ==========================================
-
-function getBrowserName(){
-
-    const userAgent =
-        navigator.userAgent;
-
-
-    if(
-        /Edg/i.test(userAgent)
-    ){
-
-        return "Microsoft Edge";
-
-    }
-
-
-    if(
-        /OPR|Opera/i.test(userAgent)
-    ){
-
-        return "Opera";
-
-    }
-
-
-    if(
-        /Chrome/i.test(userAgent) &&
-        !/Edg/i.test(userAgent)
-    ){
-
-        return "Google Chrome";
-
-    }
-
-
-    if(
-        /Firefox/i.test(userAgent)
-    ){
-
-        return "Mozilla Firefox";
-
-    }
-
-
-    if(
-        /Safari/i.test(userAgent) &&
-        !/Chrome/i.test(userAgent)
-    ){
-
-        return "Safari";
-
-    }
-
-
-    return "Unknown Browser";
-
-}
-
-<!-- ========================================== -->
-<!-- Step 15E - Account & Device Information -->
-<!-- FINAL -->
-<!-- ========================================== -->
-
-<script type="module">
-
-import {
-    getApp
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-
-import {
-    getAuth,
-    onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
-
-
-const app = getApp();
-const auth = getAuth(app);
-
-
-function loadAccountInformation(user){
-
-    const status =
-        document.getElementById("accountLoginStatus");
-
-    const created =
-        document.getElementById("accountCreated");
-
-    const device =
-        document.getElementById("accountDevice");
-
-    const browser =
-        document.getElementById("accountBrowser");
-
-    const platform =
-        document.getElementById("accountPlatform");
-
-
-    if(user){
-
-        if(status){
-            status.value = "🟢 Logged In";
-        }
-
-
-        if(created){
-
-            if(
-                user.metadata &&
-                user.metadata.creationTime
-            ){
-
-                const date =
-                    new Date(
-                        user.metadata.creationTime
-                    );
-
-                created.value =
-                    date.toLocaleString();
-
-            }else{
-
-                created.value =
-                    "Not Available";
-
-            }
-
-        }
-
-
-        if(device){
-
-            device.value =
-                typeof getDeviceName === "function"
-                ? getDeviceName()
-                : "Unknown Device";
-
-        }
-
-
-        if(browser){
-
-            browser.value =
-                typeof getBrowserName === "function"
-                ? getBrowserName()
-                : "Unknown Browser";
-
-        }
-
-
-        if(platform){
-
-            platform.value =
-                navigator.platform ||
-                "Not Available";
-
-        }
-
-
-        console.log(
-            "✅ Step 15E Account & Device Info Loaded"
-        );
-
-
-    }else{
-
-        if(status){
-            status.value = "🔴 Logged Out";
-        }
-
-        if(created){
-            created.value = "Not Available";
-        }
-
-        if(device){
-            device.value = "Not Available";
-        }
-
-        if(browser){
-            browser.value = "Not Available";
-        }
-
-        if(platform){
-            platform.value = "Not Available";
-        }
-
-    }
-
-}
-
-
-onAuthStateChanged(
-    auth,
-    function(user){
-
-        loadAccountInformation(user);
-
-    }
-);
-
-
-console.log(
-    "✅ Step 15E Account & Device System Ready"
-);
-
-</script>
-
-
-<!-- ===================================== -->
+    <!-- ===================================== -->
 <!-- SECURITY -->
 <!-- ===================================== -->
+
+<div class="settings-container">
+
 
 <div class="card">
 
@@ -587,20 +283,27 @@ console.log(
     </h2>
 
     <p>
-        Protect your ArthaFlow account and app data.
+        Protect your ArthaFlow account
+        and app data.
     </p>
 
 
+    <!-- CHANGE PIN -->
+
     <button
-    onclick="location.href='pin-setup.html'">
+        type="button"
+        onclick="location.href='pin-setup.html'">
 
         🔑 Change App PIN
 
     </button>
 
 
+    <!-- LOGOUT -->
+
     <button
-    onclick="logoutUser()">
+        type="button"
+        onclick="logoutUser()">
 
         🚪 Logout
 
@@ -615,6 +318,7 @@ console.log(
 </div>
 
 
+
 <!-- ===================================== -->
 <!-- CLOUD SYNC -->
 <!-- ===================================== -->
@@ -625,15 +329,15 @@ console.log(
         ☁️ Cloud Sync
     </h2>
 
-
     <p>
-        Keep your ArthaFlow data safely synchronized
-        with your Firebase account.
+        Keep your ArthaFlow data safely
+        synchronized with your Firebase account.
     </p>
 
 
     <p>
         Status:
+
         <b id="cloudStatus">
             Checking...
         </b>
@@ -642,6 +346,7 @@ console.log(
 
     <p>
         Last Sync:
+
         <b id="lastSync">
             Not synced yet
         </b>
@@ -649,7 +354,8 @@ console.log(
 
 
     <button
-    onclick="syncNow()">
+        type="button"
+        onclick="syncNow()">
 
         🔄 Sync Now
 
@@ -657,13 +363,15 @@ console.log(
 
 
     <button
-    onclick="loadCloudData()">
+        type="button"
+        onclick="loadCloudData()">
 
         ☁️ Restore From Cloud
 
     </button>
 
 </div>
+
 
 
 <!-- ===================================== -->
@@ -677,20 +385,27 @@ console.log(
     </h2>
 
 
+    <label>
+        Monthly Budget
+    </label>
+
+
     <input
-    type="number"
-    id="monthlyBudget"
-    placeholder="Enter Monthly Budget">
+        type="number"
+        id="monthlyBudget"
+        placeholder="Enter Monthly Budget">
 
 
     <button
-    onclick="saveBudget()">
+        type="button"
+        onclick="saveBudget()">
 
         💾 Save Budget
 
     </button>
 
 </div>
+
 
 
 <!-- ===================================== -->
@@ -703,14 +418,14 @@ console.log(
         🎨 Appearance
     </h2>
 
-
     <p>
         Customize the appearance of ArthaFlow.
     </p>
 
 
     <button
-    onclick="toggleTheme()">
+        type="button"
+        onclick="toggleTheme()">
 
         🌙 Change Theme
 
@@ -719,9 +434,14 @@ console.log(
 </div>
 
 
-<!-- ===================================== -->
+</div>
+
+    <!-- ===================================== -->
 <!-- BACKUP & RESTORE -->
 <!-- ===================================== -->
+
+<div class="settings-container">
+
 
 <div class="card">
 
@@ -729,24 +449,39 @@ console.log(
         💾 Backup & Restore
     </h2>
 
+    <p>
+        Keep a safe backup of your ArthaFlow data.
+    </p>
+
+
+    <!-- BACKUP -->
 
     <button
-    onclick="backupData()">
+        type="button"
+        onclick="backupData()">
 
         💾 Backup Data
 
     </button>
 
 
+    <!-- RESTORE FILE -->
+
     <input
-    type="file"
-    id="restoreFile"
-    accept=".json"
-    onchange="restoreData(event)">
+        type="file"
+        id="restoreFile"
+        accept=".json"
+        hidden
+        onchange="restoreData(event)">
 
 
     <button
-    onclick="document.getElementById('restoreFile').click()">
+        type="button"
+        onclick="
+        document
+        .getElementById('restoreFile')
+        .click()
+        ">
 
         📂 Restore Backup
 
@@ -755,8 +490,9 @@ console.log(
 </div>
 
 
+
 <!-- ===================================== -->
-<!-- EXPORT -->
+<!-- EXPORT DATA -->
 <!-- ===================================== -->
 
 <div class="card">
@@ -766,22 +502,35 @@ console.log(
     </h2>
 
 
+    <p>
+        Export your ArthaFlow records whenever
+        you need them.
+    </p>
+
+
+    <!-- PDF -->
+
     <button
-    onclick="downloadPDF()">
+        type="button"
+        onclick="downloadPDF()">
 
         📄 Export PDF
 
     </button>
 
 
+    <!-- CSV -->
+
     <button
-    onclick="downloadCSV()">
+        type="button"
+        onclick="downloadCSV()">
 
         📊 Export CSV
 
     </button>
 
 </div>
+
 
 
 <!-- ===================================== -->
@@ -796,29 +545,39 @@ console.log(
 
 
     <p>
+
         Total Income:
+
         <b id="profileTotalIncome">
             ₹0
         </b>
+
     </p>
 
 
     <p>
+
         Total Expense:
+
         <b id="profileTotalExpense">
             ₹0
         </b>
+
     </p>
 
 
     <p>
+
         Total Transactions:
+
         <b id="profileTransactions">
             0
         </b>
+
     </p>
 
 </div>
+
 
 
 <!-- ===================================== -->
@@ -833,13 +592,14 @@ console.log(
 
 
     <p>
-        This will remove local ArthaFlow data
-        from this device.
+        This will remove local ArthaFlow
+        data from this device.
     </p>
 
 
     <button
-    onclick="resetData()">
+        type="button"
+        onclick="resetData()">
 
         🗑 Reset Local Data
 
@@ -848,9 +608,13 @@ console.log(
 </div>
 
 
+</div>
+
+   <!-- ===================================== -->
+<!-- ABOUT ARTHAFLOW -->
 <!-- ===================================== -->
-<!-- ABOUT -->
-<!-- ===================================== -->
+
+<div class="settings-container">
 
 <div class="card">
 
@@ -858,24 +622,20 @@ console.log(
         ℹ️ About ArthaFlow
     </h2>
 
-
     <p>
         <b>Version:</b>
         1.0 Premium
     </p>
-
 
     <p>
         <b>Developer:</b>
         Aditya Aakash
     </p>
 
-
     <p>
         <b>Platform:</b>
         Personal Finance Manager
     </p>
-
 
     <p>
         Track • Save • Invest • Grow
@@ -894,19 +654,15 @@ console.log(
         💎 ArthaFlow Premium
     </h2>
 
-
     <p>
         Track • Save • Invest • Grow
     </p>
 
-
     <hr>
-
 
     <p>
         © 2026 ArthaFlow
     </p>
-
 
     <p>
         Developed with ❤️ by
@@ -915,15 +671,19 @@ console.log(
 
 </footer>
 
+</div>
+
+
 
 <!-- ===================================== -->
-<!-- FIREBASE CORE -->
+<!-- FIREBASE -->
 <!-- ===================================== -->
 
 <script
-type="module"
-src="js/firebase.js">
+    type="module"
+    src="js/firebase.js">
 </script>
+
 
 
 <!-- ===================================== -->
@@ -931,726 +691,300 @@ src="js/firebase.js">
 <!-- ===================================== -->
 
 <script
-type="module"
-src="js/cloud-sync.js">
+    type="module"
+    src="js/cloud-sync.js">
 </script>
 
 
+
 <!-- ===================================== -->
-<!-- MAIN JAVASCRIPT -->
+<!-- MAIN SCRIPT -->
 <!-- ===================================== -->
 
 <script
-src="js/script.js">
+    src="js/script.js">
 </script>
 
 
+
 <!-- ===================================== -->
-<!-- SETTINGS CONTROLLER -->
+<!-- SETTINGS FIREBASE SYSTEM -->
 <!-- ===================================== -->
-
-<script>
-
-window.addEventListener(
-    "load",
-    function(){
-
-        loadLocalProfile();
-
-        loadFirebaseEmail();
-
-         loadFirebaseUID();
-
-        loadAccountSummary();
-
-        updateCloudStatus();
-
-        loadSavedBudget();
-
-    }
-);
-
-
-// ==========================================
-// LOAD LOCAL PROFILE
-// ==========================================
-
-function loadLocalProfile(){
-
-    const nameInput =
-        document.getElementById("userName");
-
-    if(!nameInput){
-
-        return;
-
-    }
-
-    const savedName =
-        localStorage.getItem("userName");
-
-    if(savedName){
-
-        nameInput.value =
-            savedName;
-
-    }
-
-}
-
-
-// ==========================================
-// LOAD FIREBASE EMAIL
-// ==========================================
-
-function loadFirebaseEmail(){
-
-    const emailBox =
-        document.getElementById("userEmail");
-
-    if(!emailBox){
-
-        return;
-
-    }
-
-
-    let attempts = 0;
-
-
-    const timer =
-        setInterval(
-            function(){
-
-                attempts++;
-
-
-                if(
-                    typeof window.getArthaFlowUserEmail ===
-                    "function"
-                ){
-
-                    const email =
-                        window.getArthaFlowUserEmail();
-
-
-                    if(email){
-
-                        emailBox.value =
-                            email;
-
-                        emailBox.placeholder =
-                            "Firebase Email";
-
-                        clearInterval(timer);
-
-                        console.log(
-                            "✅ Firebase Email Loaded:",
-                            email
-                        );
-
-                        return;
-
-                    }
-
-                }
-
-
-                if(attempts >= 50){
-
-                    clearInterval(timer);
-
-                    emailBox.placeholder =
-                        "Firebase email not loaded";
-
-                    console.log(
-                        "⚠️ Firebase email could not be loaded"
-                    );
-
-                }
-
-            },
-            200
-        );
-
-}
-
-    // ==========================================
-// LOAD FIREBASE ACCOUNT ID
-// ==========================================
-
-function loadFirebaseUID(){
-
-    const uidBox =
-        document.getElementById("userUID");
-
-    if(!uidBox){
-
-        return;
-
-    }
-
-    let attempts = 0;
-
-    const timer =
-        setInterval(function(){
-
-            attempts++;
-
-            if(
-                typeof window.getArthaFlowUserUID ===
-                "function"
-            ){
-
-                const uid =
-                    window.getArthaFlowUserUID();
-
-                if(uid){
-
-                    uidBox.value = uid;
-
-                    clearInterval(timer);
-
-                    return;
-
-                }
-
-            }
-
-            if(attempts >= 50){
-
-                clearInterval(timer);
-
-                uidBox.placeholder =
-                    "Account ID not loaded";
-
-            }
-
-        }, 200);
-
-}
-
-
-// ==========================================
-// SAVE PROFILE
-// ==========================================
-
-window.saveProfile =
-async function(){
-
-    const nameInput =
-        document.getElementById("userName");
-
-
-    if(!nameInput){
-
-        return;
-
-    }
-
-
-    const name =
-        nameInput.value.trim();
-
-
-    if(name === ""){
-
-        alert(
-            "Please enter your name"
-        );
-
-        return;
-
-    }
-
-
-    localStorage.setItem(
-        "userName",
-        name
-    );
-
-
-    if(
-        typeof window.saveArthaFlowToCloud ===
-        "function"
-    ){
-
-        const result =
-            await window.saveArthaFlowToCloud();
-
-
-        if(result){
-
-            localStorage.setItem(
-                "lastSync",
-                new Date().toISOString()
-            );
-
-
-            updateCloudStatus();
-
-
-            alert(
-                "✅ Profile Updated & Synced"
-            );
-
-        }else{
-
-            alert(
-                "✅ Name Saved Locally\n☁️ Cloud Sync Failed"
-            );
-
-        }
-
-    }else{
-
-        alert(
-            "✅ Profile Saved"
-        );
-
-    }
-
-};
-
-
-// ==========================================
-// SYNC NOW
-// ==========================================
-
-window.syncNow =
-async function(){
-
-    const status =
-        document.getElementById(
-            "cloudStatus"
-        );
-
-
-    if(status){
-
-        status.innerText =
-            "🔄 Syncing...";
-
-    }
-
-
-    if(
-        typeof window.saveArthaFlowToCloud !==
-        "function"
-    ){
-
-        if(status){
-
-            status.innerText =
-                "🔴 Cloud Sync Not Loaded";
-
-        }
-
-
-        alert(
-            "☁️ Cloud Sync is not loaded"
-        );
-
-        return;
-
-    }
-
-
-    const result =
-        await window.saveArthaFlowToCloud();
-
-
-    if(result){
-
-        localStorage.setItem(
-            "lastSync",
-            new Date().toISOString()
-        );
-
-
-        if(status){
-
-            status.innerText =
-                "🟢 Synced";
-
-        }
-
-
-        updateLastSync();
-
-
-        alert(
-            "☁️ Cloud Sync Successful"
-        );
-
-    }else{
-
-        if(status){
-
-            status.innerText =
-                "🔴 Sync Failed";
-
-        }
-
-
-        alert(
-            "❌ Cloud Sync Failed"
-        );
-
-    }
-
-};
-
-
-// ==========================================
-// RESTORE FROM CLOUD
-// ==========================================
-
-window.loadCloudData =
-async function(){
-
-    if(
-        typeof window.loadArthaFlowFromCloud !==
-        "function"
-    ){
-
-        alert(
-            "☁️ Cloud Sync is not loaded"
-        );
-
-        return;
-
-    }
-
-
-    const result =
-        await window.loadArthaFlowFromCloud();
-
-
-    if(result){
-
-        alert(
-            "☁️ Cloud Data Restored Successfully"
-        );
-
-
-        location.reload();
-
-    }else{
-
-        alert(
-            "☁️ No Cloud Data Found"
-        );
-
-    }
-
-};
-
-
-// ==========================================
-// CLOUD STATUS
-// ==========================================
-
-function updateCloudStatus(){
-
-    const status =
-        document.getElementById(
-            "cloudStatus"
-        );
-
-
-    if(!status){
-
-        return;
-
-    }
-
-
-    if(
-        typeof window.saveArthaFlowToCloud ===
-        "function"
-    ){
-
-        status.innerText =
-            "🟢 Cloud Sync Ready";
-
-    }else{
-
-        status.innerText =
-            "🔴 Cloud Sync Not Loaded";
-
-    }
-
-
-    updateLastSync();
-
-}
-
-
-// ==========================================
-// LAST SYNC
-// ==========================================
-
-function updateLastSync(){
-
-    const box =
-        document.getElementById(
-            "lastSync"
-        );
-
-
-    if(!box){
-
-        return;
-
-    }
-
-
-    const last =
-        localStorage.getItem(
-            "lastSync"
-        );
-
-
-    if(!last){
-
-        box.innerText =
-            "Not synced yet";
-
-        return;
-
-    }
-
-
-    const date =
-        new Date(last);
-
-
-    box.innerText =
-        date.toLocaleString();
-
-}
-
-
-// ==========================================
-// ACCOUNT SUMMARY
-// ==========================================
-
-function loadAccountSummary(){
-
-    const income =
-        Number(
-            localStorage.getItem(
-                "totalIncome"
-            )
-        ) || 0;
-
-
-    const expense =
-        Number(
-            localStorage.getItem(
-                "totalExpense"
-            )
-        ) || 0;
-
-
-    let incomeHistory = [];
-
-    let expenseHistory = [];
-
-
-    try{
-
-        incomeHistory =
-            JSON.parse(
-                localStorage.getItem(
-                    "incomeHistory"
-                )
-            ) || [];
-
-    }catch(error){
-
-        incomeHistory = [];
-
-    }
-
-
-    try{
-
-        expenseHistory =
-            JSON.parse(
-                localStorage.getItem(
-                    "expenseHistory"
-                )
-            ) || [];
-
-    }catch(error){
-
-        expenseHistory = [];
-
-    }
-
-
-    const incomeBox =
-        document.getElementById(
-            "profileTotalIncome"
-        );
-
-
-    const expenseBox =
-        document.getElementById(
-            "profileTotalExpense"
-        );
-
-
-    const transactionBox =
-        document.getElementById(
-            "profileTransactions"
-        );
-
-
-    if(incomeBox){
-
-        incomeBox.innerText =
-            "₹" +
-            income.toLocaleString("en-IN");
-
-    }
-
-
-    if(expenseBox){
-
-        expenseBox.innerText =
-            "₹" +
-            expense.toLocaleString("en-IN");
-
-    }
-
-
-    if(transactionBox){
-
-        transactionBox.innerText =
-            incomeHistory.length +
-            expenseHistory.length;
-
-    }
-
-}
-
-
-// ==========================================
-// LOAD SAVED BUDGET
-// ==========================================
-
-function loadSavedBudget(){
-
-    const budgetInput =
-        document.getElementById(
-            "monthlyBudget"
-        );
-
-
-    if(!budgetInput){
-
-        return;
-
-    }
-
-
-    const budget =
-        Number(
-            localStorage.getItem(
-                "monthlyBudget"
-            )
-        ) || 0;
-
-
-    if(budget > 0){
-
-        budgetInput.value =
-            budget;
-
-    }
-
-}
-
-</script>
-
- <!-- ========================================== -->
-<!-- ArthaFlow Profile Photo System -->
-<!-- Step 15D-4 FINAL -->
-<!-- Upload + Firestore Save + Cloud Load -->
-<!-- ========================================== -->
 
 <script type="module">
 
 import {
+
     getApp
+
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 
-import {
-    getAuth,
-    onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 import {
+
+    getAuth,
+    onAuthStateChanged
+
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+
+import {
+
     getFirestore,
     doc,
     getDoc,
     setDoc
+
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
 
-// ==========================================
-// FIREBASE
-// ==========================================
 
-const app = getApp();
-
-const auth = getAuth(app);
-
-const db = getFirestore(app);
+const app =
+    getApp();
 
 
-// ==========================================
-// DEFAULT PHOTO
-// ==========================================
-
-const defaultPhoto = "profile-logo.png";
+const auth =
+    getAuth(app);
 
 
-// ==========================================
-// LOAD PROFILE PHOTO
-// ==========================================
-
-async function loadProfilePhoto(user) {
-
-    const profilePhoto =
-        document.getElementById("profilePhoto");
+const db =
+    getFirestore(app);
 
 
-    if (!profilePhoto) {
+
+/* ==========================================
+   DEVICE
+========================================== */
+
+function getDeviceName(){
+
+    const ua =
+        navigator.userAgent;
+
+
+    if(/Android/i.test(ua))
+        return "Android Device";
+
+
+    if(/iPhone/i.test(ua))
+        return "iPhone";
+
+
+    if(/iPad/i.test(ua))
+        return "iPad";
+
+
+    if(/Windows/i.test(ua))
+        return "Windows PC";
+
+
+    if(/Macintosh/i.test(ua))
+        return "Mac";
+
+
+    if(/Linux/i.test(ua))
+        return "Linux Device";
+
+
+    return "Unknown Device";
+
+}
+
+
+
+/* ==========================================
+   BROWSER
+========================================== */
+
+function getBrowserName(){
+
+    const ua =
+        navigator.userAgent;
+
+
+    if(/Edg/i.test(ua))
+        return "Microsoft Edge";
+
+
+    if(/OPR|Opera/i.test(ua))
+        return "Opera";
+
+
+    if(
+        /Chrome/i.test(ua) &&
+        !/Edg/i.test(ua)
+    )
+        return "Google Chrome";
+
+
+    if(/Firefox/i.test(ua))
+        return "Mozilla Firefox";
+
+
+    if(
+        /Safari/i.test(ua) &&
+        !/Chrome/i.test(ua)
+    )
+        return "Safari";
+
+
+    return "Unknown Browser";
+
+}
+
+
+
+/* ==========================================
+   ACCOUNT INFORMATION
+========================================== */
+
+function loadAccountInformation(user){
+
+    const status =
+        document.getElementById(
+            "accountLoginStatus"
+        );
+
+
+    const created =
+        document.getElementById(
+            "accountCreated"
+        );
+
+
+    const device =
+        document.getElementById(
+            "accountDevice"
+        );
+
+
+    const browser =
+        document.getElementById(
+            "accountBrowser"
+        );
+
+
+    const platform =
+        document.getElementById(
+            "accountPlatform"
+        );
+
+
+    if(!user){
+
+        if(status)
+            status.value =
+                "🔴 Logged Out";
+
+
+        if(created)
+            created.value =
+                "Not Available";
+
+
+        if(device)
+            device.value =
+                "Not Available";
+
+
+        if(browser)
+            browser.value =
+                "Not Available";
+
+
+        if(platform)
+            platform.value =
+                "Not Available";
+
+
         return;
+
     }
 
 
-    // --------------------------------------
-    // First show ArthaFlow default logo
-    // --------------------------------------
 
-    profilePhoto.src = defaultPhoto;
+    if(status)
+        status.value =
+            "🟢 Logged In";
 
 
-    if (!user) {
-        return;
+
+    if(created){
+
+        if(
+            user.metadata &&
+            user.metadata.creationTime
+        ){
+
+            created.value =
+                new Date(
+                    user.metadata.creationTime
+                ).toLocaleString(
+                    "en-IN"
+                );
+
+        }else{
+
+            created.value =
+                "Not Available";
+
+        }
+
     }
 
 
-    try {
 
-        // ----------------------------------
-        // Firestore User Document
-        // ----------------------------------
+    if(device)
+        device.value =
+            getDeviceName();
+
+
+
+    if(browser)
+        browser.value =
+            getBrowserName();
+
+
+
+    if(platform)
+        platform.value =
+            navigator.platform ||
+            "Not Available";
+
+
+    console.log(
+        "✅ Account & Device Information Loaded"
+    );
+
+}
+
+
+
+/* ==========================================
+   PROFILE PHOTO
+========================================== */
+
+async function loadProfilePhoto(user){
+
+    const photo =
+        document.getElementById(
+            "profilePhoto"
+        );
+
+
+    if(!photo)
+        return;
+
+
+    photo.src =
+        "profile-logo.png";
+
+
+    if(!user)
+        return;
+
+
+    try{
 
         const userRef =
             doc(
@@ -1661,487 +995,243 @@ async function loadProfilePhoto(user) {
 
 
         const snapshot =
-            await getDoc(userRef);
+            await getDoc(
+                userRef
+            );
 
 
-        // ----------------------------------
-        // Custom uploaded photo
-        // ----------------------------------
-
-        if (snapshot.exists()) {
+        if(snapshot.exists()){
 
             const data =
                 snapshot.data();
 
 
-            if (data.profilePhoto) {
+            if(data.profilePhoto){
 
-                profilePhoto.src =
+                photo.src =
                     data.profilePhoto;
 
-
-                localStorage.setItem(
-                    "userPhoto",
-                    data.profilePhoto
-                );
-
-
-                console.log(
-                    "✅ Custom Profile Photo Loaded"
-                );
-
-
                 return;
+
             }
+
         }
 
 
-        // ----------------------------------
-        // Google account photo
-        // ----------------------------------
+        if(user.photoURL){
 
-        if (user.photoURL) {
-
-            profilePhoto.src =
+            photo.src =
                 user.photoURL;
 
-
-            console.log(
-                "✅ Google Profile Photo Loaded"
-            );
-
-
-            return;
         }
 
-
-        // ----------------------------------
-        // ArthaFlow logo fallback
-        // ----------------------------------
-
-        profilePhoto.src =
-            defaultPhoto;
-
-
-        console.log(
-            "💎 ArthaFlow Logo Used"
-        );
-
-
-    } catch (error) {
+    }catch(error){
 
         console.error(
-            "❌ Profile Photo Load Error:",
+            "❌ Profile Photo Error:",
             error
         );
 
-
-        profilePhoto.src =
-            defaultPhoto;
     }
+
 }
 
 
-// ==========================================
-// COMPRESS IMAGE
-// ==========================================
 
-function compressProfilePhoto(file) {
+/* ==========================================
+   PROFILE PHOTO UPLOAD
+========================================== */
 
-    return new Promise(function(resolve, reject) {
+const photoInput =
+    document.getElementById(
+        "profilePhotoInput"
+    );
 
-        const reader =
-            new FileReader();
 
-
-        reader.onload =
-            function(event) {
-
-                const image =
-                    new Image();
-
-
-                image.onload =
-                    function() {
-
-                        const canvas =
-                            document.createElement(
-                                "canvas"
-                            );
-
-
-                        const maxSize = 256;
-
-
-                        let width =
-                            image.width;
-
-                        let height =
-                            image.height;
-
-
-                        // ------------------------------
-                        // Resize
-                        // ------------------------------
-
-                        if (width > height) {
-
-                            if (width > maxSize) {
-
-                                height =
-                                    height *
-                                    maxSize /
-                                    width;
-
-                                width =
-                                    maxSize;
-                            }
-
-                        } else {
-
-                            if (height > maxSize) {
-
-                                width =
-                                    width *
-                                    maxSize /
-                                    height;
-
-                                height =
-                                    maxSize;
-                            }
-                        }
-
-
-                        canvas.width =
-                            width;
-
-                        canvas.height =
-                            height;
-
-
-                        const ctx =
-                            canvas.getContext(
-                                "2d"
-                            );
-
-
-                        ctx.drawImage(
-                            image,
-                            0,
-                            0,
-                            width,
-                            height
-                        );
-
-
-                        // ------------------------------
-                        // JPEG compression
-                        // ------------------------------
-
-                        const photoData =
-                            canvas.toDataURL(
-                                "image/jpeg",
-                                0.70
-                            );
-
-
-                        resolve(
-                            photoData
-                        );
-                    };
-
-
-                image.onerror =
-                    function() {
-
-                        reject(
-                            new Error(
-                                "Image could not be loaded."
-                            )
-                        );
-                    };
-
-
-                image.src =
-                    event.target.result;
-            };
-
-
-        reader.onerror =
-            function() {
-
-                reject(
-                    new Error(
-                        "Image could not be read."
-                    )
-                );
-            };
-
-
-        reader.readAsDataURL(file);
-    });
-}
-
-
-// ==========================================
-// PROFILE PHOTO UPLOAD
-// ==========================================
-
-function setupProfilePhotoUpload(user) {
-
-    const profilePhoto =
-        document.getElementById("profilePhoto");
-
-
-    const photoInput =
-        document.getElementById(
-            "profilePhotoInput"
-        );
-
-
-    if (!photoInput) {
-
-        console.log(
-            "⚠️ Profile Photo Input Not Found"
-        );
-
-        return;
-    }
-
-
-    // --------------------------------------
-    // Prevent duplicate event listener
-    // --------------------------------------
-
-    if (
-        photoInput.dataset.photoReady === "true"
-    ) {
-
-        return;
-    }
-
-
-    photoInput.dataset.photoReady =
-        "true";
-
-
-    // ======================================
-    // CHANGE PHOTO
-    // ======================================
+if(photoInput){
 
     photoInput.addEventListener(
         "change",
-        async function(event) {
+        async function(event){
 
             const file =
                 event.target.files[0];
 
 
-            if (!file) {
+            if(!file)
                 return;
-            }
 
 
-            // ----------------------------------
-            // Check image
-            // ----------------------------------
+            const user =
+                auth.currentUser;
 
-            if (
-                !file.type.startsWith("image/")
-            ) {
+
+            if(!user){
 
                 alert(
-                    "❌ Please select an image."
+                    "Please login first."
                 );
 
                 return;
+
             }
 
 
-            // ----------------------------------
-            // Check login
-            // ----------------------------------
+            try{
 
-            if (!user) {
-
-                alert(
-                    "❌ Please login first."
-                );
-
-                return;
-            }
+                const reader =
+                    new FileReader();
 
 
-            try {
+                reader.onload =
+                    async function(){
 
-                // --------------------------------
-                // Saving message
-                // --------------------------------
-
-                alert(
-                    "⏳ Saving Profile Photo..."
-                );
+                        const photoData =
+                            reader.result;
 
 
-                // --------------------------------
-                // Compress
-                // --------------------------------
-
-                const photoData =
-                    await compressProfilePhoto(
-                        file
-                    );
+                        const photo =
+                            document.getElementById(
+                                "profilePhoto"
+                            );
 
 
-                // --------------------------------
-                // Instant preview
-                // --------------------------------
-
-                if (profilePhoto) {
-
-                    profilePhoto.src =
-                        photoData;
-                }
+                        if(photo)
+                            photo.src =
+                                photoData;
 
 
-                // --------------------------------
-                // Firestore User Document
-                // --------------------------------
-
-                const userRef =
-                    doc(
-                        db,
-                        "users",
-                        user.uid
-                    );
+                        const userRef =
+                            doc(
+                                db,
+                                "users",
+                                user.uid
+                            );
 
 
-                // --------------------------------
-                // Save photo
-                // --------------------------------
+                        await setDoc(
+                            userRef,
+                            {
 
-                await setDoc(
-                    userRef,
-                    {
+                                profilePhoto:
+                                    photoData,
 
-                        profilePhoto:
-                            photoData,
+                                profilePhotoUpdatedAt:
+                                    new Date().toISOString()
 
-                        profilePhotoUpdatedAt:
-                            new Date().toISOString()
-
-                    },
-                    {
-
-                        merge: true
-
-                    }
-                );
+                            },
+                            {
+                                merge:true
+                            }
+                        );
 
 
-                // --------------------------------
-                // Local backup
-                // --------------------------------
+                        alert(
+                            "✅ Profile Photo Saved"
+                        );
 
-                localStorage.setItem(
-                    "userPhoto",
-                    photoData
-                );
+                    };
 
 
-                alert(
-                    "✅ Profile Photo Saved Successfully"
-                );
+                reader.readAsDataURL(file);
 
 
-                console.log(
-                    "☁️ Profile Photo Saved To Firestore"
-                );
-
-
-            } catch (error) {
+            }catch(error){
 
                 console.error(
-                    "❌ Profile Photo Save Error:",
                     error
                 );
 
 
                 alert(
-                    "❌ Photo Save Failed\n\n" +
-                    error.message
+                    "❌ Photo Save Failed"
                 );
 
-
-                // Restore previous photo
-                loadProfilePhoto(user);
             }
 
-
-            // Allow selecting same photo again
-            photoInput.value = "";
         }
     );
+
 }
 
 
-// ==========================================
-// FIREBASE AUTH STATE
-// ==========================================
+
+/* ==========================================
+   FIREBASE AUTH
+========================================== */
 
 onAuthStateChanged(
     auth,
-    function(user) {
+    async function(user){
 
-        console.log(
-            "🔐 Auth State Changed:",
-            user ? user.email : "Logged Out"
+        const email =
+            document.getElementById(
+                "userEmail"
+            );
+
+
+        const uid =
+            document.getElementById(
+                "userUID"
+            );
+
+
+        if(user){
+
+            if(email){
+
+                email.value =
+                    user.email ||
+                    "";
+
+            }
+
+
+            if(uid){
+
+                uid.value =
+                    user.uid ||
+                    "";
+
+            }
+
+        }else{
+
+            if(email)
+                email.value = "";
+
+
+            if(uid)
+                uid.value = "";
+
+        }
+
+
+        loadAccountInformation(
+            user
         );
 
 
-        // ----------------------------------
-        // Load profile photo
-        // ----------------------------------
+        await loadProfilePhoto(
+            user
+        );
 
-        loadProfilePhoto(user);
-
-
-        // ----------------------------------
-        // Setup upload
-        // ----------------------------------
-
-        if (user) {
-
-            setupProfilePhotoUpload(user);
-
-        } else {
-
-            const profilePhoto =
-                document.getElementById(
-                    "profilePhoto"
-                );
-
-
-            if (profilePhoto) {
-
-                profilePhoto.src =
-                    defaultPhoto;
-            }
-        }
     }
 );
 
 
-// ==========================================
-// READY
-// ==========================================
-
 console.log(
-    "✅ ArthaFlow Profile Photo System Ready"
+    "✅ ArthaFlow Settings Firebase Ready"
 );
 
 </script>
 
+
+
+<!-- ===================================== -->
+<!-- END -->
+<!-- ===================================== -->
+
 </body>
 
-    </html>
+</html> 
