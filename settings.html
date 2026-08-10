@@ -539,6 +539,8 @@ window.addEventListener(
 
         loadFirebaseEmail();
 
+         loadFirebaseUID();
+
         loadAccountSummary();
 
         updateCloudStatus();
@@ -650,6 +652,61 @@ function loadFirebaseEmail(){
             },
             200
         );
+
+}
+
+    // ==========================================
+// LOAD FIREBASE ACCOUNT ID
+// ==========================================
+
+function loadFirebaseUID(){
+
+    const uidBox =
+        document.getElementById("userUID");
+
+    if(!uidBox){
+
+        return;
+
+    }
+
+    let attempts = 0;
+
+    const timer =
+        setInterval(function(){
+
+            attempts++;
+
+            if(
+                typeof window.getArthaFlowUserUID ===
+                "function"
+            ){
+
+                const uid =
+                    window.getArthaFlowUserUID();
+
+                if(uid){
+
+                    uidBox.value = uid;
+
+                    clearInterval(timer);
+
+                    return;
+
+                }
+
+            }
+
+            if(attempts >= 50){
+
+                clearInterval(timer);
+
+                uidBox.placeholder =
+                    "Account ID not loaded";
+
+            }
+
+        }, 200);
 
 }
 
