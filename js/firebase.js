@@ -25,6 +25,16 @@ import {
 
 
 // ==========================================
+// Firebase Storage
+// Step 15D - Profile Photo
+// ==========================================
+
+import {
+    getStorage
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-storage.js";
+
+
+// ==========================================
 // Firebase Configuration
 // ==========================================
 
@@ -71,6 +81,14 @@ const auth =
 
 
 // ==========================================
+// Firebase Storage
+// ==========================================
+
+const storage =
+    getStorage(app);
+
+
+// ==========================================
 // Firebase Logout
 // ==========================================
 
@@ -106,10 +124,19 @@ window.firebaseLogout = async function(){
 
 export {
     app,
-    auth
+    auth,
+    storage
 };
 
 
+// ==========================================
+// Connection Status
+// ==========================================
+
 console.log(
     "✅ ArthaFlow Firebase Connected"
+);
+
+console.log(
+    "☁️ Firebase Storage Ready"
 );
