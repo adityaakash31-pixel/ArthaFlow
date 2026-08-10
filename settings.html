@@ -3,26 +3,310 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
-    <title>ArthaFlow - Settings</title>
+<title>ArthaFlow - Settings</title>
 
-    <link
-        rel="stylesheet"
-        href="css/style.css">
+<!-- ================================ -->
+<!-- ARTHAFLOW SETTINGS - PART 1 -->
+<!-- ================================ -->
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+    background:#071326;
+    color:#222;
+}
+
+/* ================================ */
+/* PAGE HEADER */
+/* ================================ */
+
+.settings-header{
+    margin:20px 10px 12px;
+    padding:18px 10px;
+    text-align:center;
+
+    background:linear-gradient(
+        135deg,
+        #26344d,
+        #3e4b63
+    );
+
+    border-radius:16px;
+    color:white;
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,0.25);
+}
+
+.settings-header h1{
+    margin:0;
+    font-size:22px;
+}
+
+.settings-header p{
+    margin:7px 0 0;
+    font-size:12px;
+    opacity:0.9;
+}
+
+
+/* ================================ */
+/* NAVIGATION */
+/* ================================ */
+
+.top-navigation{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px;
+
+    margin:12px 10px 20px;
+}
+
+.top-navigation a{
+
+    text-decoration:none;
+
+    background:white;
+
+    color:#2459a6;
+
+    padding:9px 13px;
+
+    border-radius:10px;
+
+    font-size:12px;
+
+    box-shadow:
+        0 3px 8px rgba(0,0,0,0.15);
+}
+
+.top-navigation a:hover{
+    background:#eaf2ff;
+}
+
+
+/* ================================ */
+/* CARD */
+/* ================================ */
+
+.card{
+
+    background:white;
+
+    margin:10px;
+
+    padding:18px;
+
+    border-radius:16px;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,0.20);
+}
+
+
+/* ================================ */
+/* CARD TITLE */
+/* ================================ */
+
+.card h2{
+
+    margin:0 0 15px;
+
+    font-size:18px;
+
+    border-bottom:1px solid #e5e5e5;
+
+    padding-bottom:10px;
+}
+
+
+/* ================================ */
+/* PROFILE PHOTO */
+/* ================================ */
+
+.profile-photo-section{
+
+    text-align:center;
+
+    margin-bottom:18px;
+}
+
+.profile-photo{
+
+    width:86px;
+    height:86px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:3px solid #2f73e8;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.20);
+
+    background:#f1f1f1;
+}
+
+
+/* ================================ */
+/* BUTTON */
+/* ================================ */
+
+.primary-button{
+
+    width:100%;
+
+    border:0;
+
+    border-radius:9px;
+
+    padding:10px;
+
+    margin-top:10px;
+
+    background:#2f73e8;
+
+    color:white;
+
+    font-size:13px;
+
+    cursor:pointer;
+}
+
+.primary-button:active{
+    transform:scale(0.99);
+}
+
+
+/* ================================ */
+/* LABEL */
+/* ================================ */
+
+label{
+
+    display:block;
+
+    margin-top:14px;
+
+    margin-bottom:6px;
+
+    font-size:12px;
+
+    color:#333;
+}
+
+
+/* ================================ */
+/* INPUT */
+/* ================================ */
+
+input{
+
+    width:100%;
+
+    padding:11px;
+
+    border-radius:9px;
+
+    border:1px solid #ddd;
+
+    background:#fff;
+
+    font-size:13px;
+
+    outline:none;
+}
+
+input:focus{
+
+    border-color:#2f73e8;
+
+    box-shadow:
+        0 0 0 2px rgba(47,115,232,0.10);
+}
+
+input[readonly]{
+
+    background:#f1f3f6;
+
+    color:#4771a8;
+}
+
+
+/* ================================ */
+/* SMALL TEXT */
+/* ================================ */
+
+.small-text{
+
+    font-size:11px;
+
+    color:#666;
+
+    line-height:1.5;
+
+    margin-top:8px;
+}
+
+
+/* ================================ */
+/* HIDDEN FILE INPUT */
+/* ================================ */
+
+#profilePhotoInput{
+    display:none;
+}
+
+
+/* ================================ */
+/* MOBILE */
+/* ================================ */
+
+@media(max-width:500px){
+
+    .settings-header{
+        margin-top:12px;
+    }
+
+    .top-navigation a{
+        padding:8px 10px;
+        font-size:11px;
+    }
+
+    .card{
+        margin:8px;
+        padding:15px;
+    }
+
+}
+
+</style>
 
 </head>
 
 
 <body>
 
-<!-- ===================================== -->
+
+<!-- ================================= -->
 <!-- SETTINGS HEADER -->
-<!-- ===================================== -->
+<!-- ================================= -->
 
 <div class="settings-header">
 
@@ -35,11 +319,11 @@
 </div>
 
 
-<!-- ===================================== -->
-<!-- NAVIGATION -->
-<!-- ===================================== -->
+<!-- ================================= -->
+<!-- TOP NAVIGATION -->
+<!-- ================================= -->
 
-<div class="settings-nav">
+<nav class="top-navigation">
 
     <a href="dashboard.html">
         🏠 Dashboard
@@ -61,25 +345,136 @@
         ⚙️ Settings
     </a>
 
-</div>
+</nav>
 
 
-<!-- ===================================== -->
-<!-- MAIN SETTINGS -->
-<!-- ===================================== -->
-
-<div class="settings-container">
-
-
-<!-- ===================================== -->
-<!-- USER PROFILE -->
-<!-- ===================================== -->
+<!-- ================================= -->
+<!-- MY PROFILE -->
+<!-- ================================= -->
 
 <div class="card">
 
     <h2>
         👤 My Profile
     </h2>
+
+
+    <div class="profile-photo-section">
+
+        <img
+            id="profilePhoto"
+            src="profile-logo.png"
+            alt="Profile Photo"
+            class="profile-photo">
+
+    </div>
+
+
+    <input
+        type="file"
+        id="profilePhotoInput"
+        accept="image/*">
+
+
+    <button
+        type="button"
+        class="primary-button"
+        id="changePhotoButton">
+
+        🖼️ Change Profile Photo
+
+    </button>
+
+
+    <p class="small-text">
+
+        Manage your ArthaFlow account information.
+
+    </p>
+
+
+    <!-- USER NAME -->
+
+    <label for="userName">
+
+        👤 User Name
+
+    </label>
+
+    <input
+        type="text"
+        id="userName"
+        placeholder="Enter Your Name">
+
+
+    <!-- EMAIL -->
+
+    <label for="userEmail">
+
+        📧 Gmail / Email
+
+    </label>
+
+    <input
+        type="email"
+        id="userEmail"
+        placeholder="Loading email..."
+        readonly>
+
+
+    <!-- ACCOUNT ID -->
+
+    <label for="userUID">
+
+        🆔 Account ID
+
+    </label>
+
+    <input
+        type="text"
+        id="userUID"
+        placeholder="Loading Account ID..."
+        readonly>
+
+
+    <!-- UPDATE PROFILE -->
+
+    <button
+        type="button"
+        class="primary-button"
+        id="saveProfileButton">
+
+        💾 Update Profile
+
+    </button>
+
+
+    <p class="small-text">
+
+        🔒 Your login email and Account ID are managed securely by Firebase.
+
+    </p>
+
+</div>
+
+        <!-- ========================================== -->
+<!-- PART 2 : PROFILE + ACCOUNT INFO -->
+<!-- ArthaFlow Settings - New Clean Version -->
+<!-- ========================================== -->
+
+
+<!-- ========================================== -->
+<!-- MY PROFILE -->
+<!-- ========================================== -->
+
+<div class="card">
+
+    <h2>👤 My Profile</h2>
+
+    <p>
+        Manage your ArthaFlow account information.
+    </p>
+
 
     <!-- PROFILE PHOTO -->
 
@@ -103,25 +498,16 @@
 
     <button
         type="button"
-        onclick="
-        document
-        .getElementById('profilePhotoInput')
-        .click()
-        ">
+        id="changeProfilePhotoBtn">
 
         🖼️ Change Profile Photo
 
     </button>
 
 
-    <p>
-        Manage your ArthaFlow account information
-    </p>
-
-
     <!-- USER NAME -->
 
-    <label>
+    <label for="userName">
         👤 User Name
     </label>
 
@@ -133,7 +519,7 @@
 
     <!-- EMAIL -->
 
-    <label>
+    <label for="userEmail">
         📧 Gmail / Email
     </label>
 
@@ -146,7 +532,7 @@
 
     <!-- ACCOUNT ID -->
 
-    <label>
+    <label for="userUID">
         🆔 Account ID
     </label>
 
@@ -157,11 +543,11 @@
         readonly>
 
 
-    <!-- UPDATE PROFILE -->
+    <!-- SAVE PROFILE -->
 
     <button
         type="button"
-        onclick="saveProfile()">
+        id="saveProfileBtn">
 
         💾 Update Profile
 
@@ -169,33 +555,29 @@
 
 
     <p>
-        🔒 Your login email and Account ID
-        are managed securely by Firebase.
+        🔒 Your login email and Account ID are managed securely by Firebase.
     </p>
 
 </div>
 
 
 
-<!-- ===================================== -->
-<!-- ACCOUNT & DEVICE INFO -->
-<!-- ===================================== -->
+<!-- ========================================== -->
+<!-- ACCOUNT & DEVICE INFORMATION -->
+<!-- ========================================== -->
 
 <div class="card">
 
-    <h2>
-        📱 Account & Device Info
-    </h2>
+    <h2>📱 Account & Device Info</h2>
 
     <p>
-        View your ArthaFlow account
-        and current device information.
+        View your ArthaFlow account and current device information.
     </p>
 
 
     <!-- LOGIN STATUS -->
 
-    <label>
+    <label for="accountLoginStatus">
         🔐 Login Status
     </label>
 
@@ -208,7 +590,7 @@
 
     <!-- ACCOUNT CREATED -->
 
-    <label>
+    <label for="accountCreated">
         📅 Account Created
     </label>
 
@@ -221,7 +603,7 @@
 
     <!-- DEVICE -->
 
-    <label>
+    <label for="accountDevice">
         📱 Device
     </label>
 
@@ -234,7 +616,7 @@
 
     <!-- BROWSER -->
 
-    <label>
+    <label for="accountBrowser">
         🌐 Browser
     </label>
 
@@ -247,7 +629,7 @@
 
     <!-- PLATFORM -->
 
-    <label>
+    <label for="accountPlatform">
         ⚙️ Platform
     </label>
 
@@ -259,190 +641,35 @@
 
 
     <p>
-        🔒 This information is used only to
-        display your current account and
-        device details.
+        🔒 This information is used only to display your
+        current account and device details.
     </p>
-
-</div>
-
 
 </div>
 
     <!-- ========================================== -->
-<!-- ArthaFlow - Load User Name -->
-<!-- Step 15F -->
+<!-- PART 3 : SECURITY + CLOUD SYNC -->
 <!-- ========================================== -->
 
-<script type="module">
 
-import {
-    getFirestore,
-    doc,
-    getDoc
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
-
-import {
-    getAuth,
-    onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
-
-
-const auth = getAuth();
-const db = getFirestore();
-
-
-onAuthStateChanged(auth, async function(user){
-
-    const nameInput =
-        document.getElementById("userName");
-
-
-    if(!nameInput){
-        return;
-    }
-
-
-    // ------------------------------------------
-    // User not logged in
-    // ------------------------------------------
-
-    if(!user){
-
-        nameInput.value = "";
-
-        nameInput.placeholder =
-            "Login required";
-
-        return;
-    }
-
-
-    // ------------------------------------------
-    // First try Firebase Auth name
-    // ------------------------------------------
-
-    if(user.displayName){
-
-        nameInput.value =
-            user.displayName;
-
-        console.log(
-            "✅ User Name Loaded From Firebase Auth"
-        );
-
-        return;
-    }
-
-
-    // ------------------------------------------
-    // Then try Firestore
-    // ------------------------------------------
-
-    try{
-
-        const userRef =
-            doc(
-                db,
-                "users",
-                user.uid
-            );
-
-
-        const snapshot =
-            await getDoc(userRef);
-
-
-        if(snapshot.exists()){
-
-            const data =
-                snapshot.data();
-
-
-            if(data.userName){
-
-                nameInput.value =
-                    data.userName;
-
-                console.log(
-                    "✅ User Name Loaded From Firestore"
-                );
-
-                return;
-            }
-
-
-            if(data.name){
-
-                nameInput.value =
-                    data.name;
-
-                console.log(
-                    "✅ User Name Loaded From Firestore"
-                );
-
-                return;
-            }
-
-        }
-
-
-        // --------------------------------------
-        // Nothing found
-        // --------------------------------------
-
-        nameInput.value = "";
-
-        nameInput.placeholder =
-            "Enter Your Name";
-
-
-        console.log(
-            "ℹ️ No saved User Name found"
-        );
-
-
-    }catch(error){
-
-        console.error(
-            "❌ User Name Load Error:",
-            error
-        );
-
-        nameInput.value = "";
-
-        nameInput.placeholder =
-            "Enter Your Name";
-    }
-
-});
-
-</script>
-
-    <!-- ===================================== -->
+<!-- ========================================== -->
 <!-- SECURITY -->
-<!-- ===================================== -->
-
-<div class="settings-container">
-
+<!-- ========================================== -->
 
 <div class="card">
 
-    <h2>
-        🔐 Security
-    </h2>
+    <h2>🔐 Security</h2>
 
     <p>
-        Protect your ArthaFlow account
-        and app data.
+        Protect your ArthaFlow account and app data.
     </p>
 
 
-    <!-- CHANGE PIN -->
+    <!-- APP PIN -->
 
     <button
         type="button"
-        onclick="location.href='pin-setup.html'">
+        id="changePinBtn">
 
         🔑 Change App PIN
 
@@ -453,7 +680,7 @@ onAuthStateChanged(auth, async function(user){
 
     <button
         type="button"
-        onclick="logoutUser()">
+        id="logoutBtn">
 
         🚪 Logout
 
@@ -461,84 +688,101 @@ onAuthStateChanged(auth, async function(user){
 
 
     <p>
-        🔒 Auto Lock:
-        <b>5 Minutes</b>
+        🔒 Your account security is managed through Firebase Authentication.
     </p>
 
 </div>
 
 
 
-<!-- ===================================== -->
+<!-- ========================================== -->
 <!-- CLOUD SYNC -->
-<!-- ===================================== -->
+<!-- ========================================== -->
 
 <div class="card">
 
-    <h2>
-        ☁️ Cloud Sync
-    </h2>
+    <h2>☁️ Cloud Sync</h2>
 
     <p>
-        Keep your ArthaFlow data safely
-        synchronized with your Firebase account.
+        Keep your ArthaFlow data synchronized with your account.
     </p>
 
 
-    <p>
-        Status:
+    <!-- SYNC STATUS -->
 
-        <b id="cloudStatus">
-            Checking...
-        </b>
-    </p>
+    <label>
+        ☁️ Sync Status
+    </label>
+
+    <input
+        type="text"
+        id="cloudStatus"
+        value="Checking..."
+        readonly>
 
 
-    <p>
-        Last Sync:
+    <!-- LAST SYNC -->
 
-        <b id="lastSync">
-            Not synced yet
-        </b>
-    </p>
+    <label>
+        🕒 Last Sync
+    </label>
 
+    <input
+        type="text"
+        id="lastSync"
+        value="Not synced yet"
+        readonly>
+
+
+    <!-- SYNC NOW -->
 
     <button
         type="button"
-        onclick="syncNow()">
+        id="syncNowBtn">
 
         🔄 Sync Now
 
     </button>
 
 
+    <!-- RESTORE -->
+
     <button
         type="button"
-        onclick="loadCloudData()">
+        id="restoreCloudBtn">
 
         ☁️ Restore From Cloud
 
     </button>
 
+
+    <p>
+        🔒 Your cloud data is linked to your Firebase account.
+    </p>
+
 </div>
 
+    <!-- ========================================== -->
+<!-- PART 4 : BUDGET + BACKUP + ABOUT -->
+<!-- ========================================== -->
 
 
-<!-- ===================================== -->
+<!-- ========================================== -->
 <!-- MONTHLY BUDGET -->
-<!-- ===================================== -->
+<!-- ========================================== -->
 
 <div class="card">
 
-    <h2>
-        💰 Monthly Budget
-    </h2>
+    <h2>💰 Monthly Budget</h2>
+
+    <p>
+        Set your monthly spending budget.
+    </p>
 
 
-    <label>
-        Monthly Budget
+    <label for="monthlyBudget">
+        💵 Monthly Budget
     </label>
-
 
     <input
         type="number"
@@ -548,7 +792,7 @@ onAuthStateChanged(auth, async function(user){
 
     <button
         type="button"
-        onclick="saveBudget()">
+        id="saveBudgetBtn">
 
         💾 Save Budget
 
@@ -558,49 +802,17 @@ onAuthStateChanged(auth, async function(user){
 
 
 
-<!-- ===================================== -->
-<!-- APPEARANCE -->
-<!-- ===================================== -->
-
-<div class="card">
-
-    <h2>
-        🎨 Appearance
-    </h2>
-
-    <p>
-        Customize the appearance of ArthaFlow.
-    </p>
-
-
-    <button
-        type="button"
-        onclick="toggleTheme()">
-
-        🌙 Change Theme
-
-    </button>
-
-</div>
-
-
-</div>
-
-    <!-- ===================================== -->
+<!-- ========================================== -->
 <!-- BACKUP & RESTORE -->
-<!-- ===================================== -->
-
-<div class="settings-container">
-
+<!-- ========================================== -->
 
 <div class="card">
 
-    <h2>
-        💾 Backup & Restore
-    </h2>
+    <h2>💾 Backup & Restore</h2>
 
     <p>
-        Keep a safe backup of your ArthaFlow data.
+        Create a backup of your ArthaFlow data
+        and restore it whenever required.
     </p>
 
 
@@ -608,7 +820,7 @@ onAuthStateChanged(auth, async function(user){
 
     <button
         type="button"
-        onclick="backupData()">
+        id="backupBtn">
 
         💾 Backup Data
 
@@ -621,17 +833,12 @@ onAuthStateChanged(auth, async function(user){
         type="file"
         id="restoreFile"
         accept=".json"
-        hidden
-        onchange="restoreData(event)">
+        hidden>
 
 
     <button
         type="button"
-        onclick="
-        document
-        .getElementById('restoreFile')
-        .click()
-        ">
+        id="restoreBtn">
 
         📂 Restore Backup
 
@@ -641,20 +848,16 @@ onAuthStateChanged(auth, async function(user){
 
 
 
-<!-- ===================================== -->
+<!-- ========================================== -->
 <!-- EXPORT DATA -->
-<!-- ===================================== -->
+<!-- ========================================== -->
 
 <div class="card">
 
-    <h2>
-        📄 Export Data
-    </h2>
-
+    <h2>📄 Export Data</h2>
 
     <p>
-        Export your ArthaFlow records whenever
-        you need them.
+        Export your financial records.
     </p>
 
 
@@ -662,7 +865,7 @@ onAuthStateChanged(auth, async function(user){
 
     <button
         type="button"
-        onclick="downloadPDF()">
+        id="exportPdfBtn">
 
         📄 Export PDF
 
@@ -673,7 +876,7 @@ onAuthStateChanged(auth, async function(user){
 
     <button
         type="button"
-        onclick="downloadCSV()">
+        id="exportCsvBtn">
 
         📊 Export CSV
 
@@ -683,705 +886,136 @@ onAuthStateChanged(auth, async function(user){
 
 
 
-<!-- ===================================== -->
+<!-- ========================================== -->
 <!-- ACCOUNT SUMMARY -->
-<!-- ===================================== -->
+<!-- ========================================== -->
 
 <div class="card">
 
-    <h2>
-        📊 Account Summary
-    </h2>
+    <h2>📊 Account Summary</h2>
+
+
+    <label>
+        💰 Total Income
+    </label>
+
+    <input
+        type="text"
+        id="profileTotalIncome"
+        value="₹0"
+        readonly>
+
+
+    <label>
+        💸 Total Expense
+    </label>
+
+    <input
+        type="text"
+        id="profileTotalExpense"
+        value="₹0"
+        readonly>
+
+
+    <label>
+        🧾 Total Transactions
+    </label>
+
+    <input
+        type="text"
+        id="profileTransactions"
+        value="0"
+        readonly>
+
+</div>
+
+
+
+<!-- ========================================== -->
+<!-- ABOUT ARTHAFLOW -->
+<!-- ========================================== -->
+
+<div class="card">
+
+    <h2>ℹ️ About ArthaFlow</h2>
 
 
     <p>
-
-        Total Income:
-
-        <b id="profileTotalIncome">
-            ₹0
-        </b>
-
+        <b>Application:</b>
+        ArthaFlow
     </p>
 
 
     <p>
-
-        Total Expense:
-
-        <b id="profileTotalExpense">
-            ₹0
-        </b>
-
+        <b>Version:</b>
+        1.0
     </p>
 
 
     <p>
+        <b>Purpose:</b>
+        Personal Finance Manager
+    </p>
 
-        Total Transactions:
 
-        <b id="profileTransactions">
-            0
-        </b>
-
+    <p>
+        Track • Save • Invest • Grow
     </p>
 
 </div>
 
 
 
-<!-- ===================================== -->
+<!-- ========================================== -->
 <!-- DANGER ZONE -->
-<!-- ===================================== -->
+<!-- ========================================== -->
 
 <div class="card">
 
-    <h2>
-        ⚠️ Danger Zone
-    </h2>
-
+    <h2>⚠️ Danger Zone</h2>
 
     <p>
-        This will remove local ArthaFlow
-        data from this device.
+        Remove locally stored ArthaFlow data
+        from this device.
     </p>
 
 
     <button
         type="button"
-        onclick="resetData()">
+        id="resetDataBtn">
 
-        🗑 Reset Local Data
+        🗑️ Reset Local Data
 
     </button>
 
 </div>
 
 
-</div>
 
-   <!-- ===================================== -->
-<!-- ABOUT ARTHAFLOW -->
-<!-- ===================================== -->
-
-<div class="settings-container">
+<!-- ========================================== -->
+<!-- FOOTER -->
+<!-- ========================================== -->
 
 <div class="card">
 
-    <h2>
-        ℹ️ About ArthaFlow
-    </h2>
+    <h2>💎 ArthaFlow</h2>
 
     <p>
-        <b>Version:</b>
-        1.0 Premium
+        Smart Finance Manager
     </p>
-
-    <p>
-        <b>Developer:</b>
-        Aditya Aakash
-    </p>
-
-    <p>
-        <b>Platform:</b>
-        Personal Finance Manager
-    </p>
-
-    <p>
-        Track • Save • Invest • Grow
-    </p>
-
-</div>
-
-
-<!-- ===================================== -->
-<!-- FOOTER -->
-<!-- ===================================== -->
-
-<footer class="footer">
-
-    <h2>
-        💎 ArthaFlow Premium
-    </h2>
-
-    <p>
-        Track • Save • Invest • Grow
-    </p>
-
-    <hr>
 
     <p>
         © 2026 ArthaFlow
     </p>
 
-    <p>
-        Developed with ❤️ by
-        <b>Aditya Aakash</b>
-    </p>
-
-</footer>
-
 </div>
 
 
 
-<!-- ===================================== -->
-<!-- FIREBASE -->
-<!-- ===================================== -->
-
-<script
-    type="module"
-    src="js/firebase.js">
-</script>
-
-
-
-<!-- ===================================== -->
-<!-- CLOUD SYNC -->
-<!-- ===================================== -->
-
-<script
-    type="module"
-    src="js/cloud-sync.js">
-</script>
-
-
-
-<!-- ===================================== -->
-<!-- MAIN SCRIPT -->
-<!-- ===================================== -->
-
-<script
-    src="js/script.js">
-</script>
-
-
-
-<!-- ===================================== -->
-<!-- SETTINGS FIREBASE SYSTEM -->
-<!-- ===================================== -->
-
-<script type="module">
-
-import {
-
-    getApp
-
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-
-
-import {
-
-    getAuth,
-    onAuthStateChanged
-
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
-
-
-import {
-
-    getFirestore,
-    doc,
-    getDoc,
-    setDoc
-
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
-
-
-
-const app =
-    getApp();
-
-
-const auth =
-    getAuth(app);
-
-
-const db =
-    getFirestore(app);
-
-
-
-/* ==========================================
-   DEVICE
-========================================== */
-
-function getDeviceName(){
-
-    const ua =
-        navigator.userAgent;
-
-
-    if(/Android/i.test(ua))
-        return "Android Device";
-
-
-    if(/iPhone/i.test(ua))
-        return "iPhone";
-
-
-    if(/iPad/i.test(ua))
-        return "iPad";
-
-
-    if(/Windows/i.test(ua))
-        return "Windows PC";
-
-
-    if(/Macintosh/i.test(ua))
-        return "Mac";
-
-
-    if(/Linux/i.test(ua))
-        return "Linux Device";
-
-
-    return "Unknown Device";
-
-}
-
-
-
-/* ==========================================
-   BROWSER
-========================================== */
-
-function getBrowserName(){
-
-    const ua =
-        navigator.userAgent;
-
-
-    if(/Edg/i.test(ua))
-        return "Microsoft Edge";
-
-
-    if(/OPR|Opera/i.test(ua))
-        return "Opera";
-
-
-    if(
-        /Chrome/i.test(ua) &&
-        !/Edg/i.test(ua)
-    )
-        return "Google Chrome";
-
-
-    if(/Firefox/i.test(ua))
-        return "Mozilla Firefox";
-
-
-    if(
-        /Safari/i.test(ua) &&
-        !/Chrome/i.test(ua)
-    )
-        return "Safari";
-
-
-    return "Unknown Browser";
-
-}
-
-
-
-/* ==========================================
-   ACCOUNT INFORMATION
-========================================== */
-
-function loadAccountInformation(user){
-
-    const status =
-        document.getElementById(
-            "accountLoginStatus"
-        );
-
-
-    const created =
-        document.getElementById(
-            "accountCreated"
-        );
-
-
-    const device =
-        document.getElementById(
-            "accountDevice"
-        );
-
-
-    const browser =
-        document.getElementById(
-            "accountBrowser"
-        );
-
-
-    const platform =
-        document.getElementById(
-            "accountPlatform"
-        );
-
-
-    if(!user){
-
-        if(status)
-            status.value =
-                "🔴 Logged Out";
-
-
-        if(created)
-            created.value =
-                "Not Available";
-
-
-        if(device)
-            device.value =
-                "Not Available";
-
-
-        if(browser)
-            browser.value =
-                "Not Available";
-
-
-        if(platform)
-            platform.value =
-                "Not Available";
-
-
-        return;
-
-    }
-
-
-
-    if(status)
-        status.value =
-            "🟢 Logged In";
-
-
-
-    if(created){
-
-        if(
-            user.metadata &&
-            user.metadata.creationTime
-        ){
-
-            created.value =
-                new Date(
-                    user.metadata.creationTime
-                ).toLocaleString(
-                    "en-IN"
-                );
-
-        }else{
-
-            created.value =
-                "Not Available";
-
-        }
-
-    }
-
-
-
-    if(device)
-        device.value =
-            getDeviceName();
-
-
-
-    if(browser)
-        browser.value =
-            getBrowserName();
-
-
-
-    if(platform)
-        platform.value =
-            navigator.platform ||
-            "Not Available";
-
-
-    console.log(
-        "✅ Account & Device Information Loaded"
-    );
-
-}
-
-
-
-/* ==========================================
-   PROFILE PHOTO
-========================================== */
-
-async function loadProfilePhoto(user){
-
-    const photo =
-        document.getElementById(
-            "profilePhoto"
-        );
-
-
-    if(!photo)
-        return;
-
-
-    photo.src =
-        "profile-logo.png";
-
-
-    if(!user)
-        return;
-
-
-    try{
-
-        const userRef =
-            doc(
-                db,
-                "users",
-                user.uid
-            );
-
-
-        const snapshot =
-            await getDoc(
-                userRef
-            );
-
-
-        if(snapshot.exists()){
-
-            const data =
-                snapshot.data();
-
-
-            if(data.profilePhoto){
-
-                photo.src =
-                    data.profilePhoto;
-
-                return;
-
-            }
-
-        }
-
-
-        if(user.photoURL){
-
-            photo.src =
-                user.photoURL;
-
-        }
-
-    }catch(error){
-
-        console.error(
-            "❌ Profile Photo Error:",
-            error
-        );
-
-    }
-
-}
-
-
-
-/* ==========================================
-   PROFILE PHOTO UPLOAD
-========================================== */
-
-const photoInput =
-    document.getElementById(
-        "profilePhotoInput"
-    );
-
-
-if(photoInput){
-
-    photoInput.addEventListener(
-        "change",
-        async function(event){
-
-            const file =
-                event.target.files[0];
-
-
-            if(!file)
-                return;
-
-
-            const user =
-                auth.currentUser;
-
-
-            if(!user){
-
-                alert(
-                    "Please login first."
-                );
-
-                return;
-
-            }
-
-
-            try{
-
-                const reader =
-                    new FileReader();
-
-
-                reader.onload =
-                    async function(){
-
-                        const photoData =
-                            reader.result;
-
-
-                        const photo =
-                            document.getElementById(
-                                "profilePhoto"
-                            );
-
-
-                        if(photo)
-                            photo.src =
-                                photoData;
-
-
-                        const userRef =
-                            doc(
-                                db,
-                                "users",
-                                user.uid
-                            );
-
-
-                        await setDoc(
-                            userRef,
-                            {
-
-                                profilePhoto:
-                                    photoData,
-
-                                profilePhotoUpdatedAt:
-                                    new Date().toISOString()
-
-                            },
-                            {
-                                merge:true
-                            }
-                        );
-
-
-                        alert(
-                            "✅ Profile Photo Saved"
-                        );
-
-                    };
-
-
-                reader.readAsDataURL(file);
-
-
-            }catch(error){
-
-                console.error(
-                    error
-                );
-
-
-                alert(
-                    "❌ Photo Save Failed"
-                );
-
-            }
-
-        }
-    );
-
-}
-
-
-
-/* ==========================================
-   FIREBASE AUTH
-========================================== */
-
-onAuthStateChanged(
-    auth,
-    async function(user){
-
-        const email =
-            document.getElementById(
-                "userEmail"
-            );
-
-
-        const uid =
-            document.getElementById(
-                "userUID"
-            );
-
-
-        if(user){
-
-            if(email){
-
-                email.value =
-                    user.email ||
-                    "";
-
-            }
-
-
-            if(uid){
-
-                uid.value =
-                    user.uid ||
-                    "";
-
-            }
-
-        }else{
-
-            if(email)
-                email.value = "";
-
-
-            if(uid)
-                uid.value = "";
-
-        }
-
-
-        loadAccountInformation(
-            user
-        );
-
-
-        await loadProfilePhoto(
-            user
-        );
-
-    }
-);
-
-
-console.log(
-    "✅ ArthaFlow Settings Firebase Ready"
-);
-
-</script>
-
-
-
-<!-- ===================================== -->
-<!-- END -->
-<!-- ===================================== -->
+<!-- ========================================== -->
+<!-- END OF SETTINGS HTML -->
+<!-- ========================================== -->
 
 </body>
 
-</html> 
+</html>
