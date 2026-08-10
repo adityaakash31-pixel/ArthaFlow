@@ -1255,16 +1255,16 @@ onAuthStateChanged(auth, function(user){
 
 // ==========================================
 // ArthaFlow Profile Photo
-// Step 15D-2
-// Load Saved Photo After Refresh
+// Step 15D-3
+// Firestore Photo Storage
 // ==========================================
 
 import {
-    getStorage,
-    ref,
-    uploadBytes,
-    getDownloadURL
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-storage.js";
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
 import {
     getAuth,
@@ -1272,44 +1272,173 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 
-const storage =
-    getStorage();
+// ==========================================
+// Firebase
+// ==========================================
 
-const auth =
-    getAuth();
+const auth = getAuth();
+
+const db = getFirestore();
 
 
 // ==========================================
-// Profile Photo Element
+// Elements
 // ==========================================
 
 const profilePhoto =
-    document.getElementById(
-        "profilePhoto"
-    );
+    document.getElementById("profilePhoto");
 
 const photoInput =
-    document.getElementById(
-        "profilePhotoInput"
-    );
+    document.getElementById("profilePhotoInput");
 
 
 // ==========================================
-// Load Saved Profile Photo
+// Default ArthaFlow Logo
 // ==========================================
 
-async function loadSavedProfilePhoto(user){
+const defaultPhoto =
+    "profile-logo.png";
+
+
+// ==========================================
+// Compress Image
+// ==========================================
+
+function compressProfilePhoto(file){
+
+    return new Promise(function(resolve, reject){
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            function(event){
+
+                const image =
+                    new Image();
+
+
+                image.onload =
+                    function(){
+
+                        const canvas =
+                            document.createElement(
+                                "canvas"
+                            );
+
+
+                        const maxSize = 256;
+
+
+                        let width =
+                            image.width;
+
+                        let height =
+                            image.height;
+
+
+                        if(width > height){
+
+                            if(width > maxSize){
+
+                                height =
+                                    height *
+                                    maxSize /
+                                    width;
+
+                                width =
+                                    maxSize;
+
+                            }
+
+                        }else{
+
+                            if(height > maxSize){
+
+                                width =
+                                    width *
+                                    maxSize /
+                                    height;
+
+                                height =
+                                    maxSize;
+
+                            }
+
+                        }
+
+
+                        canvas.width =
+                            width;
+
+                        canvas.height =
+                            height;
+
+
+                        const ctx =
+                            canvas.getContext(
+                                "2d"
+                            );
+
+
+                        ctx.drawImage(
+                            image,
+                            0,
+                            0,
+                            width,
+                            height
+                        );
+
+
+                        resolve(
+                            canvas.toDataURL(
+                                "image/jpeg",
+                                0.75
+                            )
+                        );
+
+                    };
+
+
+                image.onerror =
+                    reject;
+
+
+                image.src =
+                    event.target.result;
+
+            };
+
+
+        reader.onerror =
+            reject;
+
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+
+
+// ==========================================
+// Load Photo From Firestore
+// ==========================================
+
+async function loadProfilePhoto(user){
 
     if(!profilePhoto){
         return;
     }
 
 
-    if(!user){
+    // Default first
+    profilePhoto.src =
+        defaultPhoto;
 
-        console.log(
-            "🖼️ No Firebase user available"
-        );
+
+    if(!user){
 
         return;
 
@@ -1318,41 +1447,51 @@ async function loadSavedProfilePhoto(user){
 
     try{
 
-        const photoRef =
-            ref(
-                storage,
-                "profilePhotos/" +
-                user.uid +
-                "/profile.jpg"
+        const userRef =
+            doc(
+                db,
+                "users",
+                user.uid
             );
 
 
-        const photoURL =
-            await getDownloadURL(
-                photoRef
+        const snapshot =
+            await getDoc(
+                userRef
             );
 
 
-        profilePhoto.src =
-            photoURL;
+        if(
+            snapshot.exists()
+        ){
+
+            const data =
+                snapshot.data();
 
 
-        localStorage.setItem(
-            "userPhoto",
-            photoURL
-        );
+            if(
+                data.profilePhoto
+            ){
+
+                profilePhoto.src =
+                    data.profilePhoto;
 
 
-        console.log(
-            "✅ Saved Profile Photo Loaded"
-        );
+                localStorage.setItem(
+                    "userPhoto",
+                    data.profilePhoto
+                );
 
 
-    }catch(error){
+                console.log(
+                    "✅ Profile Photo Loaded From Cloud"
+                );
 
-        console.log(
-            "ℹ️ Custom Profile Photo not found"
-        );
+                return;
+
+            }
+
+        }
 
 
         // ======================================
@@ -1360,39 +1499,32 @@ async function loadSavedProfilePhoto(user){
         // ======================================
 
         if(
-            user.photoURL &&
-            user.photoURL.trim() !== ""
+            user.photoURL
         ){
 
             profilePhoto.src =
                 user.photoURL;
 
-
-            localStorage.setItem(
-                "userPhoto",
-                user.photoURL
-            );
-
-
-            console.log(
-                "🔵 Google Profile Photo Loaded"
-            );
-
-        }else{
-
-            // ==================================
-            // ArthaFlow Logo Fallback
-            // ==================================
-
-            profilePhoto.src =
-                "profile-logo.png";
-
-
-            console.log(
-                "💎 ArthaFlow Logo Loaded"
-            );
+            return;
 
         }
+
+
+        console.log(
+            "💎 ArthaFlow Logo Used"
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "❌ Profile Photo Load Error:",
+            error
+        );
+
+
+        profilePhoto.src =
+            defaultPhoto;
 
     }
 
@@ -1400,25 +1532,7 @@ async function loadSavedProfilePhoto(user){
 
 
 // ==========================================
-// Firebase Auth Ready
-// ==========================================
-
-onAuthStateChanged(
-    auth,
-    function(user){
-
-        if(user){
-
-            loadSavedProfilePhoto(user);
-
-        }
-
-    }
-);
-
-
-// ==========================================
-// Upload Profile Photo
+// Upload Photo
 // ==========================================
 
 if(photoInput){
@@ -1436,16 +1550,12 @@ if(photoInput){
             }
 
 
-            // ==================================
-            // Check Image
-            // ==================================
-
             if(
                 !file.type.startsWith("image/")
             ){
 
                 alert(
-                    "Please select an image file."
+                    "Please select an image."
                 );
 
                 return;
@@ -1460,7 +1570,7 @@ if(photoInput){
             if(!user){
 
                 alert(
-                    "Please login before changing your profile photo."
+                    "Please login first."
                 );
 
                 return;
@@ -1470,99 +1580,77 @@ if(photoInput){
 
             try{
 
-                // ==================================
-                // Temporary Preview
-                // ==================================
+                alert(
+                    "⏳ Saving Profile Photo..."
+                );
 
+
+                // Compress
+                const photoData =
+                    await compressProfilePhoto(
+                        file
+                    );
+
+
+                // Preview
                 if(profilePhoto){
 
                     profilePhoto.src =
-                        URL.createObjectURL(
-                            file
-                        );
+                        photoData;
 
                 }
 
 
-                alert(
-                    "⏳ Uploading profile photo..."
-                );
-
-
-                // ==================================
-                // Firebase Storage Location
-                // ==================================
-
-                const photoRef =
-                    ref(
-                        storage,
-                        "profilePhotos/" +
-                        user.uid +
-                        "/profile.jpg"
+                // Firestore user document
+                const userRef =
+                    doc(
+                        db,
+                        "users",
+                        user.uid
                     );
 
 
-                // ==================================
-                // Upload
-                // ==================================
-
-                await uploadBytes(
-                    photoRef,
-                    file,
+                await setDoc(
+                    userRef,
                     {
-                        contentType:
-                            file.type
+                        profilePhoto:
+                            photoData,
+
+                        profilePhotoUpdatedAt:
+                            new Date().toISOString()
+                    },
+                    {
+                        merge:true
                     }
                 );
 
 
-                // ==================================
-                // Get Permanent Download URL
-                // ==================================
-
-                const photoURL =
-                    await getDownloadURL(
-                        photoRef
-                    );
-
-
-                // ==================================
-                // Save URL Locally
-                // ==================================
-
                 localStorage.setItem(
                     "userPhoto",
-                    photoURL
+                    photoData
                 );
 
 
-                // ==================================
-                // Show Saved Photo
-                // ==================================
-
-                if(profilePhoto){
-
-                    profilePhoto.src =
-                        photoURL;
-
-                }
-
-
                 alert(
-                    "✅ Profile Photo Saved Successfully"
+                    "✅ Profile Photo Saved"
+                );
+
+
+                console.log(
+                    "☁️ Profile Photo Saved To Firestore"
                 );
 
 
             }catch(error){
 
                 console.error(
-                    "❌ Profile Photo Upload Error:",
+                    "❌ Profile Photo Save Error:",
                     error
                 );
 
 
                 alert(
-                    "❌ Profile Photo Upload Failed\n\n" +
+                    "❌ Photo Save Failed\n\n" +
                     error.message
                 );
 
@@ -1573,8 +1661,34 @@ if(photoInput){
 
 }
 
-    </script>
 
+// ==========================================
+// Firebase Login Ready
+// ==========================================
+
+onAuthStateChanged(
+    auth,
+    function(user){
+
+        if(user){
+
+            loadProfilePhoto(user);
+
+        }else{
+
+            if(profilePhoto){
+
+                profilePhoto.src =
+                    defaultPhoto;
+
+            }
+
+        }
+
+    }
+);
+
+    </script>
 
 </body>
 
