@@ -110,8 +110,9 @@ href="favicon-64.png">
         👤 My Profile
     </h2>
 
-    <!-- ===================================== -->
+<!-- ===================================== -->
 <!-- PROFILE PHOTO -->
+<!-- Step 15C -->
 <!-- ===================================== -->
 
 <div class="profile-photo-box">
@@ -123,6 +124,22 @@ href="favicon-64.png">
         class="profile-photo">
 
 </div>
+
+
+<input
+    type="file"
+    id="profilePhotoInput"
+    accept="image/*"
+    hidden>
+
+
+<button
+    type="button"
+    onclick="document.getElementById('profilePhotoInput').click()">
+
+    🖼️ Change Profile Photo
+
+</button>
 
     <p>
         Manage your ArthaFlow account information
@@ -1233,6 +1250,58 @@ onAuthStateChanged(auth, function(user){
 });
 
 </script>
+
+    <script>
+
+document
+.getElementById("profilePhotoInput")
+.addEventListener("change", function(event){
+
+    const file =
+        event.target.files[0];
+
+    if(!file){
+        return;
+    }
+
+
+    if(!file.type.startsWith("image/")){
+
+        alert("Please select an image file.");
+
+        return;
+
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function(e){
+
+            const profilePhoto =
+                document.getElementById(
+                    "profilePhoto"
+                );
+
+
+            if(profilePhoto){
+
+                profilePhoto.src =
+                    e.target.result;
+
+            }
+
+        };
+
+
+    reader.readAsDataURL(file);
+
+});
+
+    </script>
 
 
 </body>
