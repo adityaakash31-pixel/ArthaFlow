@@ -11,31 +11,46 @@
 
 <title>ArthaFlow - Settings</title>
 
-<!-- ================================ -->
-<!-- ARTHAFLOW SETTINGS - PART 1 -->
-<!-- ================================ -->
 
 <style>
+
+/* ==========================================
+   RESET
+========================================== */
 
 *{
     box-sizing:border-box;
 }
 
+
+/* ==========================================
+   BODY
+========================================== */
+
 body{
+
     margin:0;
     padding:0;
+
     font-family:Arial, sans-serif;
+
     background:#071326;
+
     color:#222;
+
 }
 
-/* ================================ */
-/* PAGE HEADER */
-/* ================================ */
+
+/* ==========================================
+   HEADER
+========================================== */
 
 .settings-header{
+
     margin:20px 10px 12px;
+
     padding:18px 10px;
+
     text-align:center;
 
     background:linear-gradient(
@@ -45,37 +60,55 @@ body{
     );
 
     border-radius:16px;
+
     color:white;
 
     box-shadow:
         0 8px 20px rgba(0,0,0,0.25);
+
 }
+
 
 .settings-header h1{
+
     margin:0;
+
     font-size:22px;
+
 }
+
 
 .settings-header p{
+
     margin:7px 0 0;
+
     font-size:12px;
-    opacity:0.9;
+
+    opacity:.9;
+
 }
 
 
-/* ================================ */
-/* NAVIGATION */
-/* ================================ */
+/* ==========================================
+   TOP NAVIGATION
+========================================== */
 
 .top-navigation{
+
     display:flex;
+
     justify-content:center;
+
     align-items:center;
+
     flex-wrap:wrap;
+
     gap:8px;
 
     margin:12px 10px 20px;
+
 }
+
 
 .top-navigation a{
 
@@ -92,17 +125,21 @@ body{
     font-size:12px;
 
     box-shadow:
-        0 3px 8px rgba(0,0,0,0.15);
+        0 3px 8px rgba(0,0,0,.15);
+
 }
+
 
 .top-navigation a:hover{
+
     background:#eaf2ff;
+
 }
 
 
-/* ================================ */
-/* CARD */
-/* ================================ */
+/* ==========================================
+   CARD
+========================================== */
 
 .card{
 
@@ -115,13 +152,14 @@ body{
     border-radius:16px;
 
     box-shadow:
-        0 5px 18px rgba(0,0,0,0.20);
+        0 5px 18px rgba(0,0,0,.20);
+
 }
 
 
-/* ================================ */
-/* CARD TITLE */
-/* ================================ */
+/* ==========================================
+   CARD TITLE
+========================================== */
 
 .card h2{
 
@@ -132,23 +170,27 @@ body{
     border-bottom:1px solid #e5e5e5;
 
     padding-bottom:10px;
+
 }
 
 
-/* ================================ */
-/* PROFILE PHOTO */
-/* ================================ */
+/* ==========================================
+   PROFILE PHOTO
+========================================== */
 
 .profile-photo-section{
 
     text-align:center;
 
     margin-bottom:18px;
+
 }
+
 
 .profile-photo{
 
     width:86px;
+
     height:86px;
 
     object-fit:cover;
@@ -158,17 +200,18 @@ body{
     border:3px solid #2f73e8;
 
     box-shadow:
-        0 4px 12px rgba(0,0,0,0.20);
+        0 4px 12px rgba(0,0,0,.20);
 
     background:#f1f1f1;
+
 }
 
 
-/* ================================ */
-/* BUTTON */
-/* ================================ */
+/* ==========================================
+   ALL BUTTONS
+========================================== */
 
-.primary-button{
+button{
 
     width:100%;
 
@@ -187,16 +230,30 @@ body{
     font-size:13px;
 
     cursor:pointer;
+
+    box-shadow:
+        0 4px 10px rgba(47,115,232,.20);
+
 }
 
-.primary-button:active{
-    transform:scale(0.99);
+
+button:hover{
+
+    background:#2464d1;
+
 }
 
 
-/* ================================ */
-/* LABEL */
-/* ================================ */
+button:active{
+
+    transform:scale(.99);
+
+}
+
+
+/* ==========================================
+   LABEL
+========================================== */
 
 label{
 
@@ -209,12 +266,13 @@ label{
     font-size:12px;
 
     color:#333;
+
 }
 
 
-/* ================================ */
-/* INPUT */
-/* ================================ */
+/* ==========================================
+   INPUT
+========================================== */
 
 input{
 
@@ -231,27 +289,32 @@ input{
     font-size:13px;
 
     outline:none;
+
 }
+
 
 input:focus{
 
     border-color:#2f73e8;
 
     box-shadow:
-        0 0 0 2px rgba(47,115,232,0.10);
+        0 0 0 2px rgba(47,115,232,.10);
+
 }
+
 
 input[readonly]{
 
     background:#f1f3f6;
 
     color:#4771a8;
+
 }
 
 
-/* ================================ */
-/* SMALL TEXT */
-/* ================================ */
+/* ==========================================
+   SMALL TEXT
+========================================== */
 
 .small-text{
 
@@ -262,36 +325,71 @@ input[readonly]{
     line-height:1.5;
 
     margin-top:8px;
+
 }
 
 
-/* ================================ */
-/* HIDDEN FILE INPUT */
-/* ================================ */
+/* ==========================================
+   HIDDEN INPUT
+========================================== */
 
 #profilePhotoInput{
+
     display:none;
+
 }
 
 
-/* ================================ */
-/* MOBILE */
-/* ================================ */
+#restoreFile{
+
+    display:none;
+
+}
+
+
+/* ==========================================
+   PROFILE PHOTO BOX
+========================================== */
+
+.profile-photo-section{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
 
 @media(max-width:500px){
 
     .settings-header{
+
         margin-top:12px;
+
     }
+
 
     .top-navigation a{
+
         padding:8px 10px;
+
         font-size:11px;
+
     }
 
+
     .card{
+
         margin:8px;
+
         padding:15px;
+
     }
 
 }
@@ -304,9 +402,9 @@ input[readonly]{
 <body>
 
 
-<!-- ================================= -->
-<!-- SETTINGS HEADER -->
-<!-- ================================= -->
+<!-- ==========================================
+     SETTINGS HEADER
+========================================== -->
 
 <div class="settings-header">
 
@@ -319,38 +417,44 @@ input[readonly]{
 </div>
 
 
-<!-- ================================= -->
-<!-- TOP NAVIGATION -->
-<!-- ================================= -->
+
+<!-- ==========================================
+     TOP NAVIGATION
+========================================== -->
 
 <nav class="top-navigation">
 
-    <a href="dashboard.html">
+    <a href="./dashboard.html">
         🏠 Dashboard
     </a>
 
-    <a href="income.html">
+
+    <a href="./income.html">
         💰 Income
     </a>
 
-    <a href="expense.html">
+
+    <a href="./expense.html">
         💸 Expense
     </a>
 
-    <a href="reports.html">
+
+    <a href="./reports.html">
         📊 Reports
     </a>
 
-    <a href="settings.html">
+
+    <a href="./settings.html">
         ⚙️ Settings
     </a>
 
 </nav>
 
 
-<!-- ================================= -->
-<!-- MY PROFILE -->
-<!-- ================================= -->
+
+<!-- ==========================================
+     MY PROFILE
+========================================== -->
 
 <div class="card">
 
@@ -364,7 +468,7 @@ input[readonly]{
         <img
             id="profilePhoto"
             src="profile-logo.png"
-            alt="Profile Photo"
+            alt="ArthaFlow Profile"
             class="profile-photo">
 
     </div>
@@ -378,7 +482,6 @@ input[readonly]{
 
     <button
         type="button"
-        class="primary-button"
         id="changePhotoButton">
 
         🖼️ Change Profile Photo
@@ -393,6 +496,7 @@ input[readonly]{
     </p>
 
 
+
     <!-- USER NAME -->
 
     <label for="userName">
@@ -401,10 +505,12 @@ input[readonly]{
 
     </label>
 
+
     <input
         type="text"
         id="userName"
         placeholder="Enter Your Name">
+
 
 
     <!-- EMAIL -->
@@ -415,11 +521,13 @@ input[readonly]{
 
     </label>
 
+
     <input
         type="email"
         id="userEmail"
         placeholder="Loading email..."
         readonly>
+
 
 
     <!-- ACCOUNT ID -->
@@ -430,6 +538,7 @@ input[readonly]{
 
     </label>
 
+
     <input
         type="text"
         id="userUID"
@@ -437,11 +546,11 @@ input[readonly]{
         readonly>
 
 
-    <!-- UPDATE PROFILE -->
+
+    <!-- UPDATE -->
 
     <button
         type="button"
-        class="primary-button"
         id="saveProfileButton">
 
         💾 Update Profile
@@ -457,24 +566,33 @@ input[readonly]{
 
 </div>
 
-<!-- ========================================== -->
-<!-- ACCOUNT & DEVICE INFORMATION -->
-<!-- ========================================== -->
+
+
+<!-- ==========================================
+     ACCOUNT & DEVICE INFO
+========================================== -->
 
 <div class="card">
 
-    <h2>📱 Account & Device Info</h2>
+    <h2>
+        📱 Account & Device Info
+    </h2>
+
 
     <p>
         View your ArthaFlow account and current device information.
     </p>
 
 
+
     <!-- LOGIN STATUS -->
 
     <label for="accountLoginStatus">
+
         🔐 Login Status
+
     </label>
+
 
     <input
         type="text"
@@ -483,11 +601,15 @@ input[readonly]{
         readonly>
 
 
+
     <!-- ACCOUNT CREATED -->
 
     <label for="accountCreated">
+
         📅 Account Created
+
     </label>
+
 
     <input
         type="text"
@@ -496,11 +618,15 @@ input[readonly]{
         readonly>
 
 
+
     <!-- DEVICE -->
 
     <label for="accountDevice">
+
         📱 Device
+
     </label>
+
 
     <input
         type="text"
@@ -509,11 +635,15 @@ input[readonly]{
         readonly>
 
 
+
     <!-- BROWSER -->
 
     <label for="accountBrowser">
+
         🌐 Browser
+
     </label>
+
 
     <input
         type="text"
@@ -522,11 +652,15 @@ input[readonly]{
         readonly>
 
 
+
     <!-- PLATFORM -->
 
     <label for="accountPlatform">
+
         ⚙️ Platform
+
     </label>
+
 
     <input
         type="text"
@@ -535,32 +669,32 @@ input[readonly]{
         readonly>
 
 
-    <p>
+    <p class="small-text">
+
         🔒 This information is used only to display your
         current account and device details.
+
     </p>
 
 </div>
 
-    <!-- ========================================== -->
-<!-- PART 3 : SECURITY + CLOUD SYNC -->
-<!-- ========================================== -->
 
 
-<!-- ========================================== -->
-<!-- SECURITY -->
-<!-- ========================================== -->
+<!-- ==========================================
+     SECURITY
+========================================== -->
 
 <div class="card">
 
-    <h2>🔐 Security</h2>
+    <h2>
+        🔐 Security
+    </h2>
+
 
     <p>
         Protect your ArthaFlow account and app data.
     </p>
 
-
-    <!-- APP PIN -->
 
     <button
         type="button"
@@ -571,8 +705,6 @@ input[readonly]{
     </button>
 
 
-    <!-- LOGOUT -->
-
     <button
         type="button"
         id="logoutBtn">
@@ -582,32 +714,39 @@ input[readonly]{
     </button>
 
 
-    <p>
+    <p class="small-text">
+
         🔒 Your account security is managed through Firebase Authentication.
+
     </p>
 
 </div>
 
 
 
-<!-- ========================================== -->
-<!-- CLOUD SYNC -->
-<!-- ========================================== -->
+<!-- ==========================================
+     CLOUD SYNC
+========================================== -->
 
 <div class="card">
 
-    <h2>☁️ Cloud Sync</h2>
+    <h2>
+        ☁️ Cloud Sync
+    </h2>
+
 
     <p>
         Keep your ArthaFlow data synchronized with your account.
     </p>
 
 
-    <!-- SYNC STATUS -->
 
     <label>
+
         ☁️ Sync Status
+
     </label>
+
 
     <input
         type="text"
@@ -616,11 +755,13 @@ input[readonly]{
         readonly>
 
 
-    <!-- LAST SYNC -->
 
     <label>
+
         🕒 Last Sync
+
     </label>
+
 
     <input
         type="text"
@@ -629,7 +770,6 @@ input[readonly]{
         readonly>
 
 
-    <!-- SYNC NOW -->
 
     <button
         type="button"
@@ -640,7 +780,6 @@ input[readonly]{
     </button>
 
 
-    <!-- RESTORE -->
 
     <button
         type="button"
@@ -651,24 +790,26 @@ input[readonly]{
     </button>
 
 
-    <p>
+    <p class="small-text">
+
         🔒 Your cloud data is linked to your Firebase account.
+
     </p>
 
 </div>
 
-    <!-- ========================================== -->
-<!-- PART 4 : BUDGET + BACKUP + ABOUT -->
-<!-- ========================================== -->
 
 
-<!-- ========================================== -->
-<!-- MONTHLY BUDGET -->
-<!-- ========================================== -->
+<!-- ==========================================
+     MONTHLY BUDGET
+========================================== -->
 
 <div class="card">
 
-    <h2>💰 Monthly Budget</h2>
+    <h2>
+        💰 Monthly Budget
+    </h2>
+
 
     <p>
         Set your monthly spending budget.
@@ -676,8 +817,11 @@ input[readonly]{
 
 
     <label for="monthlyBudget">
+
         💵 Monthly Budget
+
     </label>
+
 
     <input
         type="number"
@@ -697,21 +841,22 @@ input[readonly]{
 
 
 
-<!-- ========================================== -->
-<!-- BACKUP & RESTORE -->
-<!-- ========================================== -->
+<!-- ==========================================
+     BACKUP & RESTORE
+========================================== -->
 
 <div class="card">
 
-    <h2>💾 Backup & Restore</h2>
+    <h2>
+        💾 Backup & Restore
+    </h2>
+
 
     <p>
         Create a backup of your ArthaFlow data
         and restore it whenever required.
     </p>
 
-
-    <!-- BACKUP -->
 
     <button
         type="button"
@@ -722,13 +867,10 @@ input[readonly]{
     </button>
 
 
-    <!-- RESTORE FILE -->
-
     <input
         type="file"
         id="restoreFile"
-        accept=".json"
-        hidden>
+        accept=".json">
 
 
     <button
@@ -743,20 +885,21 @@ input[readonly]{
 
 
 
-<!-- ========================================== -->
-<!-- EXPORT DATA -->
-<!-- ========================================== -->
+<!-- ==========================================
+     EXPORT DATA
+========================================== -->
 
 <div class="card">
 
-    <h2>📄 Export Data</h2>
+    <h2>
+        📄 Export Data
+    </h2>
+
 
     <p>
         Export your financial records.
     </p>
 
-
-    <!-- PDF -->
 
     <button
         type="button"
@@ -766,8 +909,6 @@ input[readonly]{
 
     </button>
 
-
-    <!-- CSV -->
 
     <button
         type="button"
@@ -781,18 +922,23 @@ input[readonly]{
 
 
 
-<!-- ========================================== -->
-<!-- ACCOUNT SUMMARY -->
-<!-- ========================================== -->
+<!-- ==========================================
+     ACCOUNT SUMMARY
+========================================== -->
 
 <div class="card">
 
-    <h2>📊 Account Summary</h2>
+    <h2>
+        📊 Account Summary
+    </h2>
 
 
     <label>
+
         💰 Total Income
+
     </label>
+
 
     <input
         type="text"
@@ -801,9 +947,13 @@ input[readonly]{
         readonly>
 
 
+
     <label>
+
         💸 Total Expense
+
     </label>
+
 
     <input
         type="text"
@@ -812,9 +962,13 @@ input[readonly]{
         readonly>
 
 
+
     <label>
+
         🧾 Total Transactions
+
     </label>
+
 
     <input
         type="text"
@@ -826,52 +980,67 @@ input[readonly]{
 
 
 
-<!-- ========================================== -->
-<!-- ABOUT ARTHAFLOW -->
-<!-- ========================================== -->
+<!-- ==========================================
+     ABOUT ARTHAFLOW
+========================================== -->
 
 <div class="card">
 
-    <h2>ℹ️ About ArthaFlow</h2>
+    <h2>
+        ℹ️ About ArthaFlow
+    </h2>
 
 
     <p>
+
         <b>Application:</b>
         ArthaFlow
+
     </p>
 
 
     <p>
+
         <b>Version:</b>
         1.0
+
     </p>
 
 
     <p>
+
         <b>Purpose:</b>
         Personal Finance Manager
+
     </p>
 
 
     <p>
+
         Track • Save • Invest • Grow
+
     </p>
 
 </div>
 
 
 
-<!-- ========================================== -->
-<!-- DANGER ZONE -->
-<!-- ========================================== -->
+<!-- ==========================================
+     DANGER ZONE
+========================================== -->
 
 <div class="card">
 
-    <h2>⚠️ Danger Zone</h2>
+    <h2>
+        ⚠️ Danger Zone
+    </h2>
+
 
     <p>
+
         Remove locally stored ArthaFlow data
         from this device.
+
     </p>
 
 
@@ -887,17 +1056,21 @@ input[readonly]{
 
 
 
-<!-- ========================================== -->
-<!-- FOOTER -->
-<!-- ========================================== -->
+<!-- ==========================================
+     FOOTER
+========================================== -->
 
 <div class="card">
 
-    <h2>💎 ArthaFlow</h2>
+    <h2>
+        💎 ArthaFlow
+    </h2>
+
 
     <p>
         Smart Finance Manager
     </p>
+
 
     <p>
         © 2026 ArthaFlow
@@ -905,448 +1078,11 @@ input[readonly]{
 
 </div>
 
-<!-- ========================================== -->
-<!-- ARTHAFLOW SETTINGS PROFILE SYSTEM -->
-<!-- ========================================== -->
 
-<script>
 
-document.addEventListener("DOMContentLoaded", function(){
-
-    // ------------------------------------------
-    // Default ArthaFlow Logo
-    // ------------------------------------------
-
-    const defaultLogo = "profile-logo.png";
-
-
-    // ------------------------------------------
-    // Profile Photo
-    // ------------------------------------------
-
-    const profilePhoto =
-        document.getElementById("profilePhoto");
-
-    const savedPhoto =
-        localStorage.getItem("arthaFlowProfilePhoto");
-
-    if(profilePhoto){
-
-        profilePhoto.src =
-            savedPhoto || defaultLogo;
-
-    }
-
-
-    // ------------------------------------------
-    // Change Profile Photo
-    // ------------------------------------------
-
-    const changePhotoButton =
-        document.getElementById("changePhotoButton");
-
-    const photoInput =
-        document.getElementById("profilePhotoInput");
-
-
-    if(changePhotoButton && photoInput){
-
-        changePhotoButton.onclick = function(){
-
-            photoInput.click();
-
-        };
-
-
-        photoInput.onchange = function(){
-
-            const file =
-                photoInput.files[0];
-
-            if(!file) return;
-
-
-            const reader =
-                new FileReader();
-
-
-            reader.onload = function(e){
-
-                const imageData =
-                    e.target.result;
-
-
-                localStorage.setItem(
-                    "arthaFlowProfilePhoto",
-                    imageData
-                );
-
-
-                if(profilePhoto){
-
-                    profilePhoto.src =
-                        imageData;
-
-                }
-
-            };
-
-
-            reader.readAsDataURL(file);
-
-        };
-
-    }
-
-
-    // ------------------------------------------
-    // Saved Name
-    // ------------------------------------------
-
-    const userName =
-        document.getElementById("userName");
-
-
-    const savedName =
-        localStorage.getItem("arthaFlowUserName");
-
-
-    if(userName && savedName){
-
-        userName.value =
-            savedName;
-
-    }
-
-
-    // ------------------------------------------
-    // Save Profile
-    // ------------------------------------------
-
-    const saveButton =
-        document.getElementById(
-            "saveProfileButton"
-        );
-
-
-    if(saveButton){
-
-        saveButton.onclick = function(){
-
-            if(userName){
-
-                const name =
-                    userName.value.trim();
-
-
-                if(name){
-
-                    localStorage.setItem(
-                        "arthaFlowUserName",
-                        name
-                    );
-
-                    alert(
-                        "✅ Profile Updated Successfully"
-                    );
-
-                }else{
-
-                    alert(
-                        "⚠️ Please enter your name."
-                    );
-
-                }
-
-            }
-
-        };
-
-    }
-
-
-    // ------------------------------------------
-    // Firebase Account Information
-    // ------------------------------------------
-
-    if(
-        typeof onAuthStateChanged === "function" &&
-        typeof auth !== "undefined"
-    ){
-
-        onAuthStateChanged(
-            auth,
-            function(user){
-
-                const email =
-                    document.getElementById(
-                        "userEmail"
-                    );
-
-
-                const uid =
-                    document.getElementById(
-                        "userUID"
-                    );
-
-
-                const status =
-                    document.getElementById(
-                        "accountLoginStatus"
-                    );
-
-
-                const created =
-                    document.getElementById(
-                        "accountCreated"
-                    );
-
-
-                const device =
-                    document.getElementById(
-                        "accountDevice"
-                    );
-
-
-                const browser =
-                    document.getElementById(
-                        "accountBrowser"
-                    );
-
-
-                const platform =
-                    document.getElementById(
-                        "accountPlatform"
-                    );
-
-
-                // --------------------------------
-                // LOGGED IN
-                // --------------------------------
-
-                if(user){
-
-                    if(email){
-
-                        email.value =
-                            user.email ||
-                            "Not Available";
-
-                    }
-
-
-                    if(uid){
-
-                        uid.value =
-                            user.uid ||
-                            "Not Available";
-
-                    }
-
-
-                    if(status){
-
-                        status.value =
-                            "🟢 Logged In";
-
-                    }
-
-
-                    if(
-                        created &&
-                        user.metadata &&
-                        user.metadata.creationTime
-                    ){
-
-                        created.value =
-                            new Date(
-                                user.metadata.creationTime
-                            ).toLocaleString();
-
-                    }
-
-
-                    if(device){
-
-                        const ua =
-                            navigator.userAgent;
-
-
-                        if(/Android/i.test(ua)){
-
-                            device.value =
-                                "Android Device";
-
-                        }else if(/iPhone/i.test(ua)){
-
-                            device.value =
-                                "iPhone";
-
-                        }else if(/iPad/i.test(ua)){
-
-                            device.value =
-                                "iPad";
-
-                        }else if(/Windows/i.test(ua)){
-
-                            device.value =
-                                "Windows PC";
-
-                        }else if(/Macintosh/i.test(ua)){
-
-                            device.value =
-                                "Mac";
-
-                        }else if(/Linux/i.test(ua)){
-
-                            device.value =
-                                "Linux Device";
-
-                        }else{
-
-                            device.value =
-                                "Unknown Device";
-
-                        }
-
-                    }
-
-
-                    if(browser){
-
-                        const ua =
-                            navigator.userAgent;
-
-
-                        if(/Edg/i.test(ua)){
-
-                            browser.value =
-                                "Microsoft Edge";
-
-                        }else if(
-                            /OPR|Opera/i.test(ua)
-                        ){
-
-                            browser.value =
-                                "Opera";
-
-                        }else if(
-                            /Chrome/i.test(ua) &&
-                            !/Edg/i.test(ua)
-                        ){
-
-                            browser.value =
-                                "Google Chrome";
-
-                        }else if(/Firefox/i.test(ua)){
-
-                            browser.value =
-                                "Mozilla Firefox";
-
-                        }else if(
-                            /Safari/i.test(ua) &&
-                            !/Chrome/i.test(ua)
-                        ){
-
-                            browser.value =
-                                "Safari";
-
-                        }else{
-
-                            browser.value =
-                                "Unknown Browser";
-
-                        }
-
-                    }
-
-
-                    if(platform){
-
-                        platform.value =
-                            navigator.platform ||
-                            "Not Available";
-
-                    }
-
-
-                    console.log(
-                        "✅ ArthaFlow Settings Loaded"
-                    );
-
-                }
-
-                // --------------------------------
-                // LOGGED OUT
-                // --------------------------------
-
-                else{
-
-                    if(email){
-
-                        email.value =
-                            "Not Logged In";
-
-                    }
-
-
-                    if(uid){
-
-                        uid.value =
-                            "Not Available";
-
-                    }
-
-
-                    if(status){
-
-                        status.value =
-                            "🔴 Logged Out";
-
-                    }
-
-
-                    if(created){
-
-                        created.value =
-                            "Not Available";
-
-                    }
-
-
-                    if(device){
-
-                        device.value =
-                            "Not Available";
-
-                    }
-
-
-                    if(browser){
-
-                        browser.value =
-                            "Not Available";
-
-                    }
-
-
-                    if(platform){
-
-                        platform.value =
-                            "Not Available";
-
-                    }
-
-                }
-
-            }
-        );
-
-    }
-
-});
-
-                        </script>
+<!-- ==========================================
+     END SETTINGS
+========================================== -->
 
 </body>
 
