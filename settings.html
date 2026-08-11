@@ -5,396 +5,23 @@
 
 <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>ArthaFlow - Settings</title>
 
-
-<style>
-
-/* ==========================================
-   RESET
-========================================== */
-
-*{
-    box-sizing:border-box;
-}
-
-
-/* ==========================================
-   BODY
-========================================== */
-
-body{
-
-    margin:0;
-    padding:0;
-
-    font-family:Arial, sans-serif;
-
-    background:#071326;
-
-    color:#222;
-
-}
-
-
-/* ==========================================
-   HEADER
-========================================== */
-
-.settings-header{
-
-    margin:20px 10px 12px;
-
-    padding:18px 10px;
-
-    text-align:center;
-
-    background:linear-gradient(
-        135deg,
-        #26344d,
-        #3e4b63
-    );
-
-    border-radius:16px;
-
-    color:white;
-
-    box-shadow:
-        0 8px 20px rgba(0,0,0,0.25);
-
-}
-
-
-.settings-header h1{
-
-    margin:0;
-
-    font-size:22px;
-
-}
-
-
-.settings-header p{
-
-    margin:7px 0 0;
-
-    font-size:12px;
-
-    opacity:.9;
-
-}
-
-
-/* ==========================================
-   TOP NAVIGATION
-========================================== */
-
-.top-navigation{
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    flex-wrap:wrap;
-
-    gap:8px;
-
-    margin:12px 10px 20px;
-
-}
-
-
-.top-navigation a{
-
-    text-decoration:none;
-
-    background:white;
-
-    color:#2459a6;
-
-    padding:9px 13px;
-
-    border-radius:10px;
-
-    font-size:12px;
-
-    box-shadow:
-        0 3px 8px rgba(0,0,0,.15);
-
-}
-
-
-.top-navigation a:hover{
-
-    background:#eaf2ff;
-
-}
-
-
-/* ==========================================
-   CARD
-========================================== */
-
-.card{
-
-    background:white;
-
-    margin:10px;
-
-    padding:18px;
-
-    border-radius:16px;
-
-    box-shadow:
-        0 5px 18px rgba(0,0,0,.20);
-
-}
-
-
-/* ==========================================
-   CARD TITLE
-========================================== */
-
-.card h2{
-
-    margin:0 0 15px;
-
-    font-size:18px;
-
-    border-bottom:1px solid #e5e5e5;
-
-    padding-bottom:10px;
-
-}
-
-
-/* ==========================================
-   PROFILE PHOTO
-========================================== */
-
-.profile-photo-section{
-
-    text-align:center;
-
-    margin-bottom:18px;
-
-}
-
-
-.profile-photo{
-
-    width:86px;
-
-    height:86px;
-
-    object-fit:cover;
-
-    border-radius:50%;
-
-    border:3px solid #2f73e8;
-
-    box-shadow:
-        0 4px 12px rgba(0,0,0,.20);
-
-    background:#f1f1f1;
-
-}
-
-
-/* ==========================================
-   ALL BUTTONS
-========================================== */
-
-button{
-
-    width:100%;
-
-    border:0;
-
-    border-radius:9px;
-
-    padding:10px;
-
-    margin-top:10px;
-
-    background:#2f73e8;
-
-    color:white;
-
-    font-size:13px;
-
-    cursor:pointer;
-
-    box-shadow:
-        0 4px 10px rgba(47,115,232,.20);
-
-}
-
-
-button:hover{
-
-    background:#2464d1;
-
-}
-
-
-button:active{
-
-    transform:scale(.99);
-
-}
-
-
-/* ==========================================
-   LABEL
-========================================== */
-
-label{
-
-    display:block;
-
-    margin-top:14px;
-
-    margin-bottom:6px;
-
-    font-size:12px;
-
-    color:#333;
-
-}
-
-
-/* ==========================================
-   INPUT
-========================================== */
-
-input{
-
-    width:100%;
-
-    padding:11px;
-
-    border-radius:9px;
-
-    border:1px solid #ddd;
-
-    background:#fff;
-
-    font-size:13px;
-
-    outline:none;
-
-}
-
-
-input:focus{
-
-    border-color:#2f73e8;
-
-    box-shadow:
-        0 0 0 2px rgba(47,115,232,.10);
-
-}
-
-
-input[readonly]{
-
-    background:#f1f3f6;
-
-    color:#4771a8;
-
-}
-
-
-/* ==========================================
-   SMALL TEXT
-========================================== */
-
-.small-text{
-
-    font-size:11px;
-
-    color:#666;
-
-    line-height:1.5;
-
-    margin-top:8px;
-
-}
-
-
-/* ==========================================
-   HIDDEN INPUT
-========================================== */
-
-#profilePhotoInput{
-
-    display:none;
-
-}
-
-
-#restoreFile{
-
-    display:none;
-
-}
-
-
-/* ==========================================
-   PROFILE PHOTO BOX
-========================================== */
-
-.profile-photo-section{
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-}
-
-
-/* ==========================================
-   MOBILE
-========================================== */
-
-@media(max-width:500px){
-
-    .settings-header{
-
-        margin-top:12px;
-
-    }
-
-
-    .top-navigation a{
-
-        padding:8px 10px;
-
-        font-size:11px;
-
-    }
-
-
-    .card{
-
-        margin:8px;
-
-        padding:15px;
-
-    }
-
-}
-
-</style>
+<link rel="stylesheet"
+href="css/style.css">
+
+<link rel="icon"
+type="image/png"
+sizes="32x32"
+href="favicon-32.png">
+
+<link rel="icon"
+type="image/png"
+sizes="64x64"
+href="favicon-64.png">
 
 </head>
 
@@ -402,59 +29,80 @@ input[readonly]{
 <body>
 
 
-<!-- ==========================================
-     SETTINGS HEADER
-========================================== -->
+<!-- ===================================== -->
+<!-- PREMIUM HEADER -->
+<!-- ===================================== -->
 
-<div class="settings-header">
+<header class="top-header">
 
-    <h1>⚙️ Settings</h1>
+    <div class="header-brand">
 
-    <p>
-        Profile • Security • Cloud • Preferences
-    </p>
+        <img
+        src="header-logo.png"
+        alt="ArthaFlow Header Logo"
+        class="header-logo">
 
-</div>
+    </div>
 
 
+    <div class="premium-banner">
 
-<!-- ==========================================
-     TOP NAVIGATION
-========================================== -->
+        <h2>⚙ Settings</h2>
 
-<nav class="top-navigation">
+        <p>
+            Profile • Security • Cloud • Preferences
+        </p>
 
-    <a href="./dashboard.html">
+    </div>
+
+</header>
+
+
+<!-- ===================================== -->
+<!-- NAVIGATION -->
+<!-- ===================================== -->
+
+<nav class="navbar">
+
+    <a href="index.html">
         🏠 Dashboard
     </a>
 
-
-    <a href="./income.html">
+    <a href="income.html">
         💰 Income
     </a>
 
-
-    <a href="./expense.html">
+    <a href="expense.html">
         💸 Expense
     </a>
 
-
-    <a href="./reports.html">
+    <a href="reports.html">
         📊 Reports
     </a>
 
-
-    <a href="./settings.html">
-        ⚙️ Settings
+    <a href="settings.html">
+        ⚙ Settings
     </a>
 
 </nav>
 
 
+<!-- ===================================== -->
+<!-- PAGE HEADING -->
+<!-- ===================================== -->
 
-<!-- ==========================================
-     MY PROFILE
-========================================== -->
+<h1>
+    ⚙ Settings
+</h1>
+
+<p>
+    Manage your ArthaFlow account and preferences
+</p>
+
+
+<!-- ===================================== -->
+<!-- USER PROFILE -->
+<!-- ===================================== -->
 
 <div class="card">
 
@@ -462,227 +110,45 @@ input[readonly]{
         👤 My Profile
     </h2>
 
-
-    <div class="profile-photo-section">
-
-        <img
-            id="profilePhoto"
-            src="profile-logo.png"
-            alt="ArthaFlow Profile"
-            class="profile-photo">
-
-    </div>
-
-
-    <input
-        type="file"
-        id="profilePhotoInput"
-        accept="image/*">
-
-
-    <button
-        type="button"
-        id="changePhotoButton">
-
-        🖼️ Change Profile Photo
-
-    </button>
-
-
-    <p class="small-text">
-
-        Manage your ArthaFlow account information.
-
-    </p>
-
-
-
-    <!-- USER NAME -->
-
-    <label for="userName">
-
-        👤 User Name
-
+    <label>
+        User Name
     </label>
 
-
     <input
-        type="text"
-        id="userName"
-        placeholder="Enter Your Name">
+    type="text"
+    id="userName"
+    placeholder="Enter Your Name">
 
 
-
-    <!-- EMAIL -->
-
-    <label for="userEmail">
-
+    <label>
         📧 Gmail / Email
-
     </label>
 
-
     <input
-        type="email"
-        id="userEmail"
-        placeholder="Loading email..."
-        readonly>
+    type="email"
+    id="userEmail"
+    placeholder="Loading email..."
+    readonly>
 
-
-
-    <!-- ACCOUNT ID -->
-
-    <label for="userUID">
-
-        🆔 Account ID
-
-    </label>
-
-
-    <input
-        type="text"
-        id="userUID"
-        placeholder="Loading Account ID..."
-        readonly>
-
-
-
-    <!-- UPDATE -->
 
     <button
-        type="button"
-        id="saveProfileButton">
+    onclick="saveProfile()">
 
-        💾 Update Profile
+        💾 Update User Name
 
     </button>
-
-
-    <p class="small-text">
-
-        🔒 Your login email and Account ID are managed securely by Firebase.
-
-    </p>
-
-</div>
-
-
-
-<!-- ==========================================
-     ACCOUNT & DEVICE INFO
-========================================== -->
-
-<div class="card">
-
-    <h2>
-        📱 Account & Device Info
-    </h2>
 
 
     <p>
-        View your ArthaFlow account and current device information.
-    </p>
-
-
-
-    <!-- LOGIN STATUS -->
-
-    <label for="accountLoginStatus">
-
-        🔐 Login Status
-
-    </label>
-
-
-    <input
-        type="text"
-        id="accountLoginStatus"
-        value="Checking..."
-        readonly>
-
-
-
-    <!-- ACCOUNT CREATED -->
-
-    <label for="accountCreated">
-
-        📅 Account Created
-
-    </label>
-
-
-    <input
-        type="text"
-        id="accountCreated"
-        value="Loading..."
-        readonly>
-
-
-
-    <!-- DEVICE -->
-
-    <label for="accountDevice">
-
-        📱 Device
-
-    </label>
-
-
-    <input
-        type="text"
-        id="accountDevice"
-        value="Loading..."
-        readonly>
-
-
-
-    <!-- BROWSER -->
-
-    <label for="accountBrowser">
-
-        🌐 Browser
-
-    </label>
-
-
-    <input
-        type="text"
-        id="accountBrowser"
-        value="Loading..."
-        readonly>
-
-
-
-    <!-- PLATFORM -->
-
-    <label for="accountPlatform">
-
-        ⚙️ Platform
-
-    </label>
-
-
-    <input
-        type="text"
-        id="accountPlatform"
-        value="Loading..."
-        readonly>
-
-
-    <p class="small-text">
-
-        🔒 This information is used only to display your
-        current account and device details.
-
+        🔒 Your login email is managed by Firebase.
     </p>
 
 </div>
 
 
-
-<!-- ==========================================
-     SECURITY
-========================================== -->
+<!-- ===================================== -->
+<!-- SECURITY -->
+<!-- ===================================== -->
 
 <div class="card">
 
@@ -690,15 +156,13 @@ input[readonly]{
         🔐 Security
     </h2>
 
-
     <p>
         Protect your ArthaFlow account and app data.
     </p>
 
 
     <button
-        type="button"
-        id="changePinBtn">
+    onclick="location.href='pin-setup.html'">
 
         🔑 Change App PIN
 
@@ -706,27 +170,24 @@ input[readonly]{
 
 
     <button
-        type="button"
-        id="logoutBtn">
+    onclick="logoutUser()">
 
         🚪 Logout
 
     </button>
 
 
-    <p class="small-text">
-
-        🔒 Your account security is managed through Firebase Authentication.
-
+    <p>
+        🔒 Auto Lock:
+        <b>5 Minutes</b>
     </p>
 
 </div>
 
 
-
-<!-- ==========================================
-     CLOUD SYNC
-========================================== -->
+<!-- ===================================== -->
+<!-- CLOUD SYNC -->
+<!-- ===================================== -->
 
 <div class="card">
 
@@ -736,73 +197,48 @@ input[readonly]{
 
 
     <p>
-        Keep your ArthaFlow data synchronized with your account.
+        Keep your ArthaFlow data safely synchronized
+        with your Firebase account.
     </p>
 
 
-
-    <label>
-
-        ☁️ Sync Status
-
-    </label>
-
-
-    <input
-        type="text"
-        id="cloudStatus"
-        value="Checking..."
-        readonly>
+    <p>
+        Status:
+        <b id="cloudStatus">
+            Checking...
+        </b>
+    </p>
 
 
-
-    <label>
-
-        🕒 Last Sync
-
-    </label>
-
-
-    <input
-        type="text"
-        id="lastSync"
-        value="Not synced yet"
-        readonly>
-
+    <p>
+        Last Sync:
+        <b id="lastSync">
+            Not synced yet
+        </b>
+    </p>
 
 
     <button
-        type="button"
-        id="syncNowBtn">
+    onclick="syncNow()">
 
         🔄 Sync Now
 
     </button>
 
 
-
     <button
-        type="button"
-        id="restoreCloudBtn">
+    onclick="loadCloudData()">
 
         ☁️ Restore From Cloud
 
     </button>
 
-
-    <p class="small-text">
-
-        🔒 Your cloud data is linked to your Firebase account.
-
-    </p>
-
 </div>
 
 
-
-<!-- ==========================================
-     MONTHLY BUDGET
-========================================== -->
+<!-- ===================================== -->
+<!-- MONTHLY BUDGET -->
+<!-- ===================================== -->
 
 <div class="card">
 
@@ -811,27 +247,14 @@ input[readonly]{
     </h2>
 
 
-    <p>
-        Set your monthly spending budget.
-    </p>
-
-
-    <label for="monthlyBudget">
-
-        💵 Monthly Budget
-
-    </label>
-
-
     <input
-        type="number"
-        id="monthlyBudget"
-        placeholder="Enter Monthly Budget">
+    type="number"
+    id="monthlyBudget"
+    placeholder="Enter Monthly Budget">
 
 
     <button
-        type="button"
-        id="saveBudgetBtn">
+    onclick="saveBudget()">
 
         💾 Save Budget
 
@@ -840,10 +263,35 @@ input[readonly]{
 </div>
 
 
+<!-- ===================================== -->
+<!-- APPEARANCE -->
+<!-- ===================================== -->
 
-<!-- ==========================================
-     BACKUP & RESTORE
-========================================== -->
+<div class="card">
+
+    <h2>
+        🎨 Appearance
+    </h2>
+
+
+    <p>
+        Customize the appearance of ArthaFlow.
+    </p>
+
+
+    <button
+    onclick="toggleTheme()">
+
+        🌙 Change Theme
+
+    </button>
+
+</div>
+
+
+<!-- ===================================== -->
+<!-- BACKUP & RESTORE -->
+<!-- ===================================== -->
 
 <div class="card">
 
@@ -852,15 +300,8 @@ input[readonly]{
     </h2>
 
 
-    <p>
-        Create a backup of your ArthaFlow data
-        and restore it whenever required.
-    </p>
-
-
     <button
-        type="button"
-        id="backupBtn">
+    onclick="backupData()">
 
         💾 Backup Data
 
@@ -868,14 +309,14 @@ input[readonly]{
 
 
     <input
-        type="file"
-        id="restoreFile"
-        accept=".json">
+    type="file"
+    id="restoreFile"
+    accept=".json"
+    onchange="restoreData(event)">
 
 
     <button
-        type="button"
-        id="restoreBtn">
+    onclick="document.getElementById('restoreFile').click()">
 
         📂 Restore Backup
 
@@ -884,10 +325,9 @@ input[readonly]{
 </div>
 
 
-
-<!-- ==========================================
-     EXPORT DATA
-========================================== -->
+<!-- ===================================== -->
+<!-- EXPORT -->
+<!-- ===================================== -->
 
 <div class="card">
 
@@ -896,14 +336,8 @@ input[readonly]{
     </h2>
 
 
-    <p>
-        Export your financial records.
-    </p>
-
-
     <button
-        type="button"
-        id="exportPdfBtn">
+    onclick="downloadPDF()">
 
         📄 Export PDF
 
@@ -911,8 +345,7 @@ input[readonly]{
 
 
     <button
-        type="button"
-        id="exportCsvBtn">
+    onclick="downloadCSV()">
 
         📊 Export CSV
 
@@ -921,10 +354,9 @@ input[readonly]{
 </div>
 
 
-
-<!-- ==========================================
-     ACCOUNT SUMMARY
-========================================== -->
+<!-- ===================================== -->
+<!-- ACCOUNT SUMMARY -->
+<!-- ===================================== -->
 
 <div class="card">
 
@@ -933,101 +365,35 @@ input[readonly]{
     </h2>
 
 
-    <label>
-
-        💰 Total Income
-
-    </label>
-
-
-    <input
-        type="text"
-        id="profileTotalIncome"
-        value="₹0"
-        readonly>
-
-
-
-    <label>
-
-        💸 Total Expense
-
-    </label>
-
-
-    <input
-        type="text"
-        id="profileTotalExpense"
-        value="₹0"
-        readonly>
-
-
-
-    <label>
-
-        🧾 Total Transactions
-
-    </label>
-
-
-    <input
-        type="text"
-        id="profileTransactions"
-        value="0"
-        readonly>
-
-</div>
-
-
-
-<!-- ==========================================
-     ABOUT ARTHAFLOW
-========================================== -->
-
-<div class="card">
-
-    <h2>
-        ℹ️ About ArthaFlow
-    </h2>
-
-
     <p>
-
-        <b>Application:</b>
-        ArthaFlow
-
+        Total Income:
+        <b id="profileTotalIncome">
+            ₹0
+        </b>
     </p>
 
 
     <p>
-
-        <b>Version:</b>
-        1.0
-
+        Total Expense:
+        <b id="profileTotalExpense">
+            ₹0
+        </b>
     </p>
 
 
     <p>
-
-        <b>Purpose:</b>
-        Personal Finance Manager
-
-    </p>
-
-
-    <p>
-
-        Track • Save • Invest • Grow
-
+        Total Transactions:
+        <b id="profileTransactions">
+            0
+        </b>
     </p>
 
 </div>
 
 
-
-<!-- ==========================================
-     DANGER ZONE
-========================================== -->
+<!-- ===================================== -->
+<!-- DANGER ZONE -->
+<!-- ===================================== -->
 
 <div class="card">
 
@@ -1037,52 +403,692 @@ input[readonly]{
 
 
     <p>
-
-        Remove locally stored ArthaFlow data
+        This will remove local ArthaFlow data
         from this device.
-
     </p>
 
 
     <button
-        type="button"
-        id="resetDataBtn">
+    onclick="resetData()">
 
-        🗑️ Reset Local Data
+        🗑 Reset Local Data
 
     </button>
 
 </div>
 
 
-
-<!-- ==========================================
-     FOOTER
-========================================== -->
+<!-- ===================================== -->
+<!-- ABOUT -->
+<!-- ===================================== -->
 
 <div class="card">
 
     <h2>
-        💎 ArthaFlow
+        ℹ️ About ArthaFlow
     </h2>
 
 
     <p>
-        Smart Finance Manager
+        <b>Version:</b>
+        1.0 Premium
     </p>
+
+
+    <p>
+        <b>Developer:</b>
+        Aditya Aakash
+    </p>
+
+
+    <p>
+        <b>Platform:</b>
+        Personal Finance Manager
+    </p>
+
+
+    <p>
+        Track • Save • Invest • Grow
+    </p>
+
+</div>
+
+
+<!-- ===================================== -->
+<!-- FOOTER -->
+<!-- ===================================== -->
+
+<footer class="footer">
+
+    <h2>
+        💎 ArthaFlow Premium
+    </h2>
+
+
+    <p>
+        Track • Save • Invest • Grow
+    </p>
+
+
+    <hr>
 
 
     <p>
         © 2026 ArthaFlow
     </p>
 
-</div>
+
+    <p>
+        Developed with ❤️ by
+        <b>Aditya Aakash</b>
+    </p>
+
+</footer>
 
 
+<!-- ===================================== -->
+<!-- FIREBASE CORE -->
+<!-- ===================================== -->
 
-<!-- ==========================================
-     END SETTINGS
-========================================== -->
+<script
+type="module"
+src="js/firebase.js">
+</script>
+
+
+<!-- ===================================== -->
+<!-- CLOUD SYNC -->
+<!-- ===================================== -->
+
+<script
+type="module"
+src="js/cloud-sync.js">
+</script>
+
+
+<!-- ===================================== -->
+<!-- MAIN JAVASCRIPT -->
+<!-- ===================================== -->
+
+<script
+src="js/script.js">
+</script>
+
+
+<!-- ===================================== -->
+<!-- SETTINGS CONTROLLER -->
+<!-- ===================================== -->
+
+<script>
+
+window.addEventListener(
+    "load",
+    function(){
+
+        loadLocalProfile();
+
+        loadFirebaseEmail();
+
+        loadAccountSummary();
+
+        updateCloudStatus();
+
+        loadSavedBudget();
+
+    }
+);
+
+
+// ==========================================
+// LOAD LOCAL PROFILE
+// ==========================================
+
+function loadLocalProfile(){
+
+    const nameInput =
+        document.getElementById("userName");
+
+    if(!nameInput){
+
+        return;
+
+    }
+
+    const savedName =
+        localStorage.getItem("userName");
+
+    if(savedName){
+
+        nameInput.value =
+            savedName;
+
+    }
+
+}
+
+
+// ==========================================
+// LOAD FIREBASE EMAIL
+// ==========================================
+
+function loadFirebaseEmail(){
+
+    const emailBox =
+        document.getElementById("userEmail");
+
+    if(!emailBox){
+
+        return;
+
+    }
+
+
+    let attempts = 0;
+
+
+    const timer =
+        setInterval(
+            function(){
+
+                attempts++;
+
+
+                if(
+                    typeof window.getArthaFlowUserEmail ===
+                    "function"
+                ){
+
+                    const email =
+                        window.getArthaFlowUserEmail();
+
+
+                    if(email){
+
+                        emailBox.value =
+                            email;
+
+                        emailBox.placeholder =
+                            "Firebase Email";
+
+                        clearInterval(timer);
+
+                        console.log(
+                            "✅ Firebase Email Loaded:",
+                            email
+                        );
+
+                        return;
+
+                    }
+
+                }
+
+
+                if(attempts >= 50){
+
+                    clearInterval(timer);
+
+                    emailBox.placeholder =
+                        "Firebase email not loaded";
+
+                    console.log(
+                        "⚠️ Firebase email could not be loaded"
+                    );
+
+                }
+
+            },
+            200
+        );
+
+}
+
+
+// ==========================================
+// SAVE PROFILE
+// ==========================================
+
+window.saveProfile =
+async function(){
+
+    const nameInput =
+        document.getElementById("userName");
+
+
+    if(!nameInput){
+
+        return;
+
+    }
+
+
+    const name =
+        nameInput.value.trim();
+
+
+    if(name === ""){
+
+        alert(
+            "Please enter your name"
+        );
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+        "userName",
+        name
+    );
+
+
+    if(
+        typeof window.saveArthaFlowToCloud ===
+        "function"
+    ){
+
+        const result =
+            await window.saveArthaFlowToCloud();
+
+
+        if(result){
+
+            localStorage.setItem(
+                "lastSync",
+                new Date().toISOString()
+            );
+
+
+            updateCloudStatus();
+
+
+            alert(
+                "✅ Profile Updated & Synced"
+            );
+
+        }else{
+
+            alert(
+                "✅ Name Saved Locally\n☁️ Cloud Sync Failed"
+            );
+
+        }
+
+    }else{
+
+        alert(
+            "✅ Profile Saved"
+        );
+
+    }
+
+};
+
+
+// ==========================================
+// SYNC NOW
+// ==========================================
+
+window.syncNow =
+async function(){
+
+    const status =
+        document.getElementById(
+            "cloudStatus"
+        );
+
+
+    if(status){
+
+        status.innerText =
+            "🔄 Syncing...";
+
+    }
+
+
+    if(
+        typeof window.saveArthaFlowToCloud !==
+        "function"
+    ){
+
+        if(status){
+
+            status.innerText =
+                "🔴 Cloud Sync Not Loaded";
+
+        }
+
+
+        alert(
+            "☁️ Cloud Sync is not loaded"
+        );
+
+        return;
+
+    }
+
+
+    const result =
+        await window.saveArthaFlowToCloud();
+
+
+    if(result){
+
+        localStorage.setItem(
+            "lastSync",
+            new Date().toISOString()
+        );
+
+
+        if(status){
+
+            status.innerText =
+                "🟢 Synced";
+
+        }
+
+
+        updateLastSync();
+
+
+        alert(
+            "☁️ Cloud Sync Successful"
+        );
+
+    }else{
+
+        if(status){
+
+            status.innerText =
+                "🔴 Sync Failed";
+
+        }
+
+
+        alert(
+            "❌ Cloud Sync Failed"
+        );
+
+    }
+
+};
+
+
+// ==========================================
+// RESTORE FROM CLOUD
+// ==========================================
+
+window.loadCloudData =
+async function(){
+
+    if(
+        typeof window.loadArthaFlowFromCloud !==
+        "function"
+    ){
+
+        alert(
+            "☁️ Cloud Sync is not loaded"
+        );
+
+        return;
+
+    }
+
+
+    const result =
+        await window.loadArthaFlowFromCloud();
+
+
+    if(result){
+
+        alert(
+            "☁️ Cloud Data Restored Successfully"
+        );
+
+
+        location.reload();
+
+    }else{
+
+        alert(
+            "☁️ No Cloud Data Found"
+        );
+
+    }
+
+};
+
+
+// ==========================================
+// CLOUD STATUS
+// ==========================================
+
+function updateCloudStatus(){
+
+    const status =
+        document.getElementById(
+            "cloudStatus"
+        );
+
+
+    if(!status){
+
+        return;
+
+    }
+
+
+    if(
+        typeof window.saveArthaFlowToCloud ===
+        "function"
+    ){
+
+        status.innerText =
+            "🟢 Cloud Sync Ready";
+
+    }else{
+
+        status.innerText =
+            "🔴 Cloud Sync Not Loaded";
+
+    }
+
+
+    updateLastSync();
+
+}
+
+
+// ==========================================
+// LAST SYNC
+// ==========================================
+
+function updateLastSync(){
+
+    const box =
+        document.getElementById(
+            "lastSync"
+        );
+
+
+    if(!box){
+
+        return;
+
+    }
+
+
+    const last =
+        localStorage.getItem(
+            "lastSync"
+        );
+
+
+    if(!last){
+
+        box.innerText =
+            "Not synced yet";
+
+        return;
+
+    }
+
+
+    const date =
+        new Date(last);
+
+
+    box.innerText =
+        date.toLocaleString();
+
+}
+
+
+// ==========================================
+// ACCOUNT SUMMARY
+// ==========================================
+
+function loadAccountSummary(){
+
+    const income =
+        Number(
+            localStorage.getItem(
+                "totalIncome"
+            )
+        ) || 0;
+
+
+    const expense =
+        Number(
+            localStorage.getItem(
+                "totalExpense"
+            )
+        ) || 0;
+
+
+    let incomeHistory = [];
+
+    let expenseHistory = [];
+
+
+    try{
+
+        incomeHistory =
+            JSON.parse(
+                localStorage.getItem(
+                    "incomeHistory"
+                )
+            ) || [];
+
+    }catch(error){
+
+        incomeHistory = [];
+
+    }
+
+
+    try{
+
+        expenseHistory =
+            JSON.parse(
+                localStorage.getItem(
+                    "expenseHistory"
+                )
+            ) || [];
+
+    }catch(error){
+
+        expenseHistory = [];
+
+    }
+
+
+    const incomeBox =
+        document.getElementById(
+            "profileTotalIncome"
+        );
+
+
+    const expenseBox =
+        document.getElementById(
+            "profileTotalExpense"
+        );
+
+
+    const transactionBox =
+        document.getElementById(
+            "profileTransactions"
+        );
+
+
+    if(incomeBox){
+
+        incomeBox.innerText =
+            "₹" +
+            income.toLocaleString("en-IN");
+
+    }
+
+
+    if(expenseBox){
+
+        expenseBox.innerText =
+            "₹" +
+            expense.toLocaleString("en-IN");
+
+    }
+
+
+    if(transactionBox){
+
+        transactionBox.innerText =
+            incomeHistory.length +
+            expenseHistory.length;
+
+    }
+
+}
+
+
+// ==========================================
+// LOAD SAVED BUDGET
+// ==========================================
+
+function loadSavedBudget(){
+
+    const budgetInput =
+        document.getElementById(
+            "monthlyBudget"
+        );
+
+
+    if(!budgetInput){
+
+        return;
+
+    }
+
+
+    const budget =
+        Number(
+            localStorage.getItem(
+                "monthlyBudget"
+            )
+        ) || 0;
+
+
+    if(budget > 0){
+
+        budgetInput.value =
+            budget;
+
+    }
+
+}
+
+</script>
+
 
 </body>
 
