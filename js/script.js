@@ -50,26 +50,63 @@ function loadBrandLogo(){
 
 }
 
-// ===============================
-// ArthaFlow V1.0
-// Step 9
-// ===============================
+// ==========================================
+// ArthaFlow - USER DATA STORAGE
+// Multi-User Preparation
+// ==========================================
 
-// Total Income
+const currentUserEmail =
+    localStorage.getItem("userEmail") || "guest";
+
+const userKey =
+    currentUserEmail
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, "_");
+
+
+// ==========================================
+// USER-SPECIFIC STORAGE KEYS
+// ==========================================
+
+const incomeKey =
+    "totalIncome_" + userKey;
+
+const expenseKey =
+    "totalExpense_" + userKey;
+
+const incomeHistoryKey =
+    "incomeHistory_" + userKey;
+
+const expenseHistoryKey =
+    "expenseHistory_" + userKey;
+
+
+// ==========================================
+// LOAD USER DATA
+// ==========================================
+
 let totalIncome =
-Number(localStorage.getItem("totalIncome")) || 0;
+    Number(
+        localStorage.getItem(incomeKey)
+    ) || 0;
 
-// Total Expense
+
 let totalExpense =
-Number(localStorage.getItem("totalExpense")) || 0;
+    Number(
+        localStorage.getItem(expenseKey)
+    ) || 0;
 
-// Expense History
-let expenseHistory =
-JSON.parse(localStorage.getItem("expenseHistory")) || [];
 
-// Income History
 let incomeHistory =
-JSON.parse(localStorage.getItem("incomeHistory")) || [];
+    JSON.parse(
+        localStorage.getItem(incomeHistoryKey)
+    ) || [];
+
+
+let expenseHistory =
+    JSON.parse(
+        localStorage.getItem(expenseHistoryKey)
+    ) || [];
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -385,9 +422,9 @@ async function saveIncome(){
 
 
     localStorage.setItem(
-        "totalIncome",
-        totalIncome
-    );
+    incomeTotalKey,
+    totalIncome
+);
 
 
     // ======================================
@@ -408,11 +445,11 @@ async function saveIncome(){
 
 
     localStorage.setItem(
-        "incomeHistory",
-        JSON.stringify(
-            incomeHistory
-        )
-    );
+    incomeHistoryKey,
+    JSON.stringify(
+        incomeHistory
+    )
+);
 
 
     // ======================================
