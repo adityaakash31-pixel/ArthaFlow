@@ -291,7 +291,7 @@ href="favicon-64.png">
 
 
 <!-- ===================================== -->
-<!-- Step 15E JavaScript -->
+<!-- Step 15E JavaScript - FINAL -->
 <!-- ===================================== -->
 
 <script type="module">
@@ -315,54 +315,33 @@ const auth = getAuth();
 
 function getDeviceName(){
 
-    const userAgent =
-        navigator.userAgent;
+    const ua = navigator.userAgent;
 
-
-    if(/Android/i.test(userAgent)){
-
+    if(/Android/i.test(ua)){
         return "Android Device";
-
     }
 
-
-    if(/iPhone/i.test(userAgent)){
-
+    if(/iPhone/i.test(ua)){
         return "iPhone";
-
     }
 
-
-    if(/iPad/i.test(userAgent)){
-
+    if(/iPad/i.test(ua)){
         return "iPad";
-
     }
 
-
-    if(/Windows/i.test(userAgent)){
-
+    if(/Windows/i.test(ua)){
         return "Windows PC";
-
     }
 
-
-    if(/Macintosh/i.test(userAgent)){
-
+    if(/Macintosh/i.test(ua)){
         return "Mac";
-
     }
 
-
-    if(/Linux/i.test(userAgent)){
-
+    if(/Linux/i.test(ua)){
         return "Linux Device";
-
     }
-
 
     return "Unknown Device";
-
 }
 
 
@@ -372,209 +351,166 @@ function getDeviceName(){
 
 function getBrowserName(){
 
-    const userAgent =
-        navigator.userAgent;
+    const ua = navigator.userAgent;
 
-
-    if(
-        /Edg/i.test(userAgent)
-    ){
-
+    if(/Edg/i.test(ua)){
         return "Microsoft Edge";
-
     }
 
-
-    if(
-        /OPR|Opera/i.test(userAgent)
-    ){
-
+    if(/OPR|Opera/i.test(ua)){
         return "Opera";
-
     }
 
-
-    if(
-        /Chrome/i.test(userAgent) &&
-        !/Edg/i.test(userAgent)
-    ){
-
+    if(/Chrome/i.test(ua) && !/Edg/i.test(ua)){
         return "Google Chrome";
-
     }
 
-
-    if(
-        /Firefox/i.test(userAgent)
-    ){
-
+    if(/Firefox/i.test(ua)){
         return "Mozilla Firefox";
-
     }
 
-
-    if(
-        /Safari/i.test(userAgent) &&
-        !/Chrome/i.test(userAgent)
-    ){
-
+    if(/Safari/i.test(ua) && !/Chrome/i.test(ua)){
         return "Safari";
-
     }
-
 
     return "Unknown Browser";
-
 }
 
-<!-- ========================================== -->
-<!-- Step 15E - Account & Device Information -->
-<!-- FINAL -->
-<!-- ========================================== -->
 
-<script type="module">
-
-import {
-    getApp
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-
-import {
-    getAuth,
-    onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
-
-
-const app = getApp();
-const auth = getAuth(app);
-
-
-function loadAccountInformation(user){
-
-    const status =
-        document.getElementById("accountLoginStatus");
-
-    const created =
-        document.getElementById("accountCreated");
-
-    const device =
-        document.getElementById("accountDevice");
-
-    const browser =
-        document.getElementById("accountBrowser");
-
-    const platform =
-        document.getElementById("accountPlatform");
-
-
-    if(user){
-
-        if(status){
-            status.value = "🟢 Logged In";
-        }
-
-
-        if(created){
-
-            if(
-                user.metadata &&
-                user.metadata.creationTime
-            ){
-
-                const date =
-                    new Date(
-                        user.metadata.creationTime
-                    );
-
-                created.value =
-                    date.toLocaleString();
-
-            }else{
-
-                created.value =
-                    "Not Available";
-
-            }
-
-        }
-
-
-        if(device){
-
-            device.value =
-                typeof getDeviceName === "function"
-                ? getDeviceName()
-                : "Unknown Device";
-
-        }
-
-
-        if(browser){
-
-            browser.value =
-                typeof getBrowserName === "function"
-                ? getBrowserName()
-                : "Unknown Browser";
-
-        }
-
-
-        if(platform){
-
-            platform.value =
-                navigator.platform ||
-                "Not Available";
-
-        }
-
-
-        console.log(
-            "✅ Step 15E Account & Device Info Loaded"
-        );
-
-
-    }else{
-
-        if(status){
-            status.value = "🔴 Logged Out";
-        }
-
-        if(created){
-            created.value = "Not Available";
-        }
-
-        if(device){
-            device.value = "Not Available";
-        }
-
-        if(browser){
-            browser.value = "Not Available";
-        }
-
-        if(platform){
-            platform.value = "Not Available";
-        }
-
-    }
-
-}
-
+// ==========================================
+// Load Account & Device Information
+// ==========================================
 
 onAuthStateChanged(
     auth,
     function(user){
 
-        loadAccountInformation(user);
+        const status =
+            document.getElementById(
+                "accountLoginStatus"
+            );
+
+        const created =
+            document.getElementById(
+                "accountCreated"
+            );
+
+        const device =
+            document.getElementById(
+                "accountDevice"
+            );
+
+        const browser =
+            document.getElementById(
+                "accountBrowser"
+            );
+
+        const platform =
+            document.getElementById(
+                "accountPlatform"
+            );
+
+
+        if(user){
+
+            // Login Status
+            if(status){
+                status.value =
+                    "🟢 Logged In";
+            }
+
+
+            // Account Created
+            if(created){
+
+                if(
+                    user.metadata &&
+                    user.metadata.creationTime
+                ){
+
+                    const date =
+                        new Date(
+                            user.metadata.creationTime
+                        );
+
+                    created.value =
+                        date.toLocaleString();
+
+                }else{
+
+                    created.value =
+                        "Not Available";
+
+                }
+            }
+
+
+            // Device
+            if(device){
+                device.value =
+                    getDeviceName();
+            }
+
+
+            // Browser
+            if(browser){
+                browser.value =
+                    getBrowserName();
+            }
+
+
+            // Platform
+            if(platform){
+
+                platform.value =
+                    navigator.platform ||
+                    "Not Available";
+
+            }
+
+
+            console.log(
+                "✅ Step 15E Loaded Successfully"
+            );
+
+        }else{
+
+            if(status){
+                status.value =
+                    "🔴 Logged Out";
+            }
+
+            if(created){
+                created.value =
+                    "Not Available";
+            }
+
+            if(device){
+                device.value =
+                    "Not Available";
+            }
+
+            if(browser){
+                browser.value =
+                    "Not Available";
+            }
+
+            if(platform){
+                platform.value =
+                    "Not Available";
+            }
+
+        }
 
     }
 );
 
 
 console.log(
-    "✅ Step 15E Account & Device System Ready"
+    "✅ ArthaFlow Step 15E Ready"
 );
 
 </script>
-
 
 <!-- ===================================== -->
 <!-- SECURITY -->
