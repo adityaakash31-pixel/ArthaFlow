@@ -270,17 +270,22 @@ document
         );  
   
   
-        /* User Information */  
-  
-        localStorage.setItem(  
-            "userEmail",  
-            user.email || ""  
-        );  
-  
-        localStorage.setItem(  
-            "userName",  
-            user.displayName || ""  
-        );  
+        /* User information */
+
+localStorage.setItem(
+    "userEmail",
+    result.user.email || ""
+);
+
+localStorage.setItem(
+    "userName",
+    result.user.displayName || ""
+);
+
+localStorage.setItem(
+    "firebaseUID",
+    result.user.uid || ""
+);
   
         localStorage.setItem(  
             "userPhoto",  
