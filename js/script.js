@@ -540,10 +540,9 @@ async function deleteIncome(index){
 
 
     localStorage.setItem(
-        "totalIncome",
-        totalIncome
-    );
-
+    incomeTotalKey,
+    totalIncome
+);
 
     // ======================================
     // REMOVE HISTORY
@@ -556,12 +555,11 @@ async function deleteIncome(index){
 
 
     localStorage.setItem(
-        "incomeHistory",
-        JSON.stringify(
-            incomeHistory
-        )
-    );
-
+    incomeHistoryKey,
+    JSON.stringify(
+        incomeHistory
+    )
+);
 
     // ======================================
     // CLOUD SYNC
@@ -633,19 +631,18 @@ async function editIncome(index){
 
 
     localStorage.setItem(
-        "incomeHistory",
-        JSON.stringify(
-            incomeHistory
-        )
-    );
+    incomeHistoryKey,
+    JSON.stringify(
+        incomeHistory
+    )
+);
 
 
     localStorage.setItem(
-        "totalIncome",
-        totalIncome
-    );
-
-
+    incomeTotalKey,
+    totalIncome
+);
+    
     // ======================================
     // CLOUD SYNC
     // ======================================
