@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>ArthaFlow - Create Account</title>
+
+<link rel="stylesheet"
+href="css/style.css">
+
+</head>
+
+
+<body>
+
+<h2>💎 ArthaFlow</h2>
+
+<h3>Create Account</h3>
+
+<p>Create your personal ArthaFlow account</p>
+
+
+<!-- Name -->
+
+<input
+    type="text"
+    id="name"
+    placeholder="Full Name"
+>
+
+
+<br><br>
+
+
+<!-- Email -->
+
+<input
+    type="email"
+    id="email"
+    placeholder="Email"
+>
+
+
+<br><br>
+
+
+<!-- Password -->
+
+<input
+    type="password"
+    id="password"
+    placeholder="Password"
+>
+
+
+<br><br>
+
+
+<!-- Confirm Password -->
+
+<input
+    type="password"
+    id="confirmPassword"
+    placeholder="Confirm Password"
+>
+
+
+<br><br>
+
+
+<button
+    id="createAccountBtn"
+    type="button">
+
+    Create Account
+
+</button>
+
+
+<br><br>
+
+
+<p>
+    Already have an account?
+</p>
+
+
+<button
+    type="button"
+    onclick="window.location.href='login.html'">
+
+    Login
+
+</button>
+
+
+<script type="module">
+
+import {
+    initializeApp
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    updateProfile
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+
+/* ==========================================
+   FIREBASE CONFIG
+========================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyDM8WtiKL5hSSoDH4BoacMUIQ3QVSpjxJI",
+
+    authDomain:
+    "arthaflow-4d670.firebaseapp.com",
+
+    projectId:
+    "arthaflow-4d670",
+
+    storageBucket:
+    "arthaflow-4d670.firebasestorage.app",
+
+    messagingSenderId:
+    "417281404304",
+
+    appId:
+    "1:417281404304:web:a0b9fa5a787ad0426d5715",
+
+    measurementId:
+    "G-785TXW9WTL"
+
+};
+
+
+/* ==========================================
+   FIREBASE INITIALIZE
+========================================== */
+
+const app =
+    initializeApp(firebaseConfig);
+
+
+const auth =
+    getAuth(app);
+
+
+console.log(
+    "✅ ArthaFlow Firebase Auth Ready"
+);
+
+
+/* ==========================================
+   CREATE ACCOUNT
+========================================== */
+
+document
+.getElementById("createAccountBtn")
+.addEventListener(
+    "click",
+    async function(){
+
+        const name =
+            document
+            .getElementById("name")
+            .value
+            .trim();
+
+
+        const email =
+            document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+        const password =
+            document
+            .getElementById("password")
+            .value;
+
+
+        const confirmPassword =
+            document
+            .getElementById("confirmPassword")
+            .value;
+
+
+        /* ======================================
+           VALIDATION
+        ====================================== */
+
+        if(name === ""){
+
+            alert(
+                "Please enter your name"
+            );
+
+            return;
+
+        }
+
+
+        if(email === ""){
+
+            alert(
+                "Please enter your email"
+            );
+
+            return;
+
+        }
+
+
+        if(password === ""){
+
+            alert(
+                "Please enter a password"
+            );
+
+            return;
+
+        }
+
+
+        if(password.length < 6){
+
+            alert(
+                "Password must be at least 6 characters"
+            );
+
+            return;
+
+        }
+
+
+        if(password !== confirmPassword){
+
+            alert(
+                "Passwords do not match"
+            );
+
+            return;
+
+        }
+
+
+        const button =
+            document.getElementById(
+                "createAccountBtn"
+            );
+
+
+        button.disabled = true;
+
+        button.innerText =
+            "Creating Account...";
+
+
+        /* ======================================
+           FIREBASE CREATE USER
+        ====================================== */
+
+        try{
+
+            const result =
+                await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+
+            const user =
+                result.user;
+
+
+            /* ==================================
+               SAVE DISPLAY NAME
+            ================================== */
+
+            await updateProfile(
+                user,
+                {
+                    displayName: name
+                }
+            );
+
+
+            /* ==================================
+               SAVE USER ID
+               MULTI USER FOUNDATION
+            ================================== */
+
+            localStorage.setItem(
+                "firebaseUID",
+                user.uid
+            );
+
+
+            localStorage.setItem(
+                "userEmail",
+                user.email || ""
+            );
+
+
+            localStorage.setItem(
+                "userName",
+                name
+            );
+
+
+            /* ==================================
+               LOGIN STATUS
+            ================================== */
+
+            sessionStorage.setItem(
+                "loggedIn",
+                "true"
+            );
+
+
+            sessionStorage.removeItem(
+                "pinVerified"
+            );
+
+
+            console.log(
+                "✅ ACCOUNT CREATED"
+            );
+
+
+            console.log(
+                "UID:",
+                user.uid
+            );
+
+
+            console.log(
+                "EMAIL:",
+                user.email
+            );
+
+
+            alert(
+                "✅ Account Created Successfully!"
+            );
+
+
+            /* ==================================
+               GO TO SPLASH
+            ================================== */
+
+            window.location.href =
+                "splash.html";
+
+
+        }
+        catch(error){
+
+            console.error(
+                "❌ CREATE ACCOUNT ERROR:",
+                error
+            );
+
+
+            let message =
+                "Account creation failed.";
+
+
+            if(
+                error.code ===
+                "auth/email-already-in-use"
+            ){
+
+                message =
+                    "This email already has an account.";
+
+            }
+
+
+            else if(
+                error.code ===
+                "auth/invalid-email"
+            ){
+
+                message =
+                    "Please enter a valid email.";
+
+            }
+
+
+            else if(
+                error.code ===
+                "auth/weak-password"
+            ){
+
+                message =
+                    "Password is too weak.";
+
+            }
+
+
+            alert(
+                message +
+                "\n\nCode: " +
+                error.code
+            );
+
+
+            button.disabled = false;
+
+            button.innerText =
+                "Create Account";
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>
