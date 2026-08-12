@@ -65,6 +65,15 @@ const userKey =
 
 
 // ==========================================
+// ARTHAFLOW - USER SPECIFIC DATA
+// ==========================================
+
+// Firebase Login से UID
+const userKey =
+    localStorage.getItem("firebaseUID") || "guest";
+
+
+// ==========================================
 // USER-SPECIFIC STORAGE KEYS
 // ==========================================
 
@@ -86,219 +95,311 @@ const expenseHistoryKey =
 // ==========================================
 
 let totalIncome =
-    Number(
-        localStorage.getItem(incomeKey)
-    ) || 0;
-
+    Number(localStorage.getItem(incomeKey)) || 0;
 
 let totalExpense =
-    Number(
-        localStorage.getItem(expenseKey)
-    ) || 0;
-
+    Number(localStorage.getItem(expenseKey)) || 0;
 
 let incomeHistory =
     JSON.parse(
         localStorage.getItem(incomeHistoryKey)
     ) || [];
 
-
 let expenseHistory =
     JSON.parse(
         localStorage.getItem(expenseHistoryKey)
     ) || [];
 
+
+// ==========================================
+// DISPLAY DATA
+// ==========================================
+
 document.addEventListener("DOMContentLoaded", function () {
 
-    loadBrandLogo();
-
-    totalIncome = Number(localStorage.getItem("totalIncome")) || 0;
-    totalExpense = Number(localStorage.getItem("totalExpense")) || 0;
-
-    const incomeBox = document.getElementById("totalIncome");
-    if (incomeBox) {
-        incomeBox.innerText = "₹" + totalIncome;
+    // Logo
+    if (typeof loadBrandLogo === "function") {
+        loadBrandLogo();
     }
 
-    const expenseBox = document.getElementById("totalExpense");
+
+    // ======================================
+    // INCOME
+    // ======================================
+
+    const incomeBox =
+        document.getElementById("totalIncome");
+
+    if (incomeBox) {
+        incomeBox.innerText =
+            "₹" + totalIncome;
+    }
+
+
+    // ======================================
+    // EXPENSE
+    // ======================================
+
+    const expenseBox =
+        document.getElementById("totalExpense");
+
     if (expenseBox) {
-        expenseBox.innerText = "₹" + totalExpense;
+        expenseBox.innerText =
+            "₹" + totalExpense;
+    }
+
+
+    // ======================================
+    // INCOME HISTORY
+    // ======================================
+
+    const list =
+        document.getElementById("incomeList");
+
+    if (list) {
+
+        list.innerHTML = "";
+
+        incomeHistory.forEach(function (item, index) {
+
+            const li =
+                document.createElement("li");
+
+            li.innerHTML =
+                item.category +
+                " - ₹" + item.amount +
+                " | 📅 " + item.date +
+                " | 📝 " + (item.note || "") +
+                ' <button onclick="editIncome(' +
+                index +
+                ')">✏️</button> ' +
+                '<button onclick="deleteIncome(' +
+                index +
+                ')">🗑️</button>';
+
+            list.appendChild(li);
+
+        });
+    }
+
+
+    // ======================================
+    // DASHBOARD INCOME
+    // ======================================
+
+    const dashboardIncome =
+        document.getElementById("dashboardIncome");
+
+    if (dashboardIncome) {
+        dashboardIncome.innerText =
+            "₹" + totalIncome;
+    }
+
+
+    // ======================================
+    // TOTAL ENTRIES
+    // ======================================
+
+    const totalEntries =
+        document.getElementById("totalEntries");
+
+    if (totalEntries) {
+        totalEntries.innerText =
+            incomeHistory.length;
+    }
+
+
+    // ======================================
+    // EXPENSE HISTORY
+    // ======================================
+
+    const expenseList =
+        document.getElementById("expenseList");
+
+    if (expenseList) {
+
+        expenseList.innerHTML = "";
+
+        expenseHistory.forEach(function (item, index) {
+
+            const li =
+                document.createElement("li");
+
+            li.innerHTML =
+                item.category +
+                " - ₹" + item.amount +
+                " | 📅 " + item.date +
+                " | 📝 " + (item.note || "") +
+                ' <button onclick="editExpense(' +
+                index +
+                ')">✏️</button> ' +
+                '<button onclick="deleteExpense(' +
+                index +
+                ')">🗑️</button>';
+
+            expenseList.appendChild(li);
+
+        });
+    }
+
+
+    // ======================================
+    // DASHBOARD EXPENSE
+    // ======================================
+
+    const dashboardExpense =
+        document.getElementById("dashboardExpense");
+
+    if (dashboardExpense) {
+        dashboardExpense.innerText =
+            "₹" + totalExpense;
+    }
+
+
+    // ======================================
+    // DASHBOARD BALANCE
+    // ======================================
+
+    const dashboardBalance =
+        document.getElementById("dashboardBalance");
+
+    if (dashboardBalance) {
+        dashboardBalance.innerText =
+            "₹" + (totalIncome - totalExpense);
+    }
+
+
+    // ======================================
+    // DASHBOARD SAVINGS
+    // ======================================
+
+    const dashboardSavings =
+        document.getElementById("dashboardSavings");
+
+    if (dashboardSavings) {
+        dashboardSavings.innerText =
+            "₹" + (totalIncome - totalExpense);
+    }
+
+
+    // ======================================
+    // INCOME ENTRIES
+    // ======================================
+
+    const incomeEntries =
+        document.getElementById("incomeEntries");
+
+    if (incomeEntries) {
+        incomeEntries.innerText =
+            incomeHistory.length;
+    }
+
+
+    // ======================================
+    // EXPENSE ENTRIES
+    // ======================================
+
+    const expenseEntries =
+        document.getElementById("expenseEntries");
+
+    if (expenseEntries) {
+        expenseEntries.innerText =
+            expenseHistory.length;
+    }
+
+
+    // ======================================
+    // AVERAGE INCOME
+    // ======================================
+
+    const avgIncome =
+        document.getElementById("avgIncome");
+
+    if (avgIncome) {
+
+        const average =
+            incomeHistory.length === 0
+                ? 0
+                : totalIncome /
+                  incomeHistory.length;
+
+        avgIncome.innerText =
+            "₹" + average.toFixed(2);
+    }
+
+
+    // ======================================
+    // AVERAGE EXPENSE
+    // ======================================
+
+    const avgExpense =
+        document.getElementById("avgExpense");
+
+    if (avgExpense) {
+
+        const average =
+            expenseHistory.length === 0
+                ? 0
+                : totalExpense /
+                  expenseHistory.length;
+
+        avgExpense.innerText =
+            "₹" + average.toFixed(2);
+    }
+
+
+    // ======================================
+    // MONTH SUMMARY
+    // ======================================
+
+    const monthIncome =
+        document.getElementById("monthIncome");
+
+    const monthExpense =
+        document.getElementById("monthExpense");
+
+    const monthBalance =
+        document.getElementById("monthBalance");
+
+
+    if (monthIncome) {
+        monthIncome.innerText =
+            "₹" + totalIncome;
+    }
+
+    if (monthExpense) {
+        monthExpense.innerText =
+            "₹" + totalExpense;
+    }
+
+    if (monthBalance) {
+        monthBalance.innerText =
+            "₹" + (totalIncome - totalExpense);
+    }
+
+
+    // ======================================
+    // THEME
+    // ======================================
+
+    if (
+        localStorage.getItem("theme") === "dark"
+    ) {
+
+        document.body.classList.add(
+            "dark-mode"
+        );
+
+        const btn =
+            document.getElementById("themeBtn");
+
+        if (btn) {
+            btn.innerHTML =
+                "☀️ Light Mode";
+        }
     }
 
 });
-
-let list = document.getElementById("incomeList");
-
-if(list){
-
-    list.innerHTML = "";
-
-    incomeHistory.forEach(function(item, index){
-
-        let li = document.createElement("li");
-
-        li.innerHTML =
-item.category +
-" - ₹" + item.amount +
-" | 📅 " + item.date +
-" | 📝 " + item.note +
-' <button onclick="editIncome(' + index + ')">✏️</button> ' +
-' <button onclick="deleteIncome(' + index + ')">🗑️</button>';
-
-        list.appendChild(li);
-
-    });
-
-}
-
-let dashboardIncome =
-document.getElementById("dashboardIncome");
-
-if(dashboardIncome){
-    dashboardIncome.innerText = "₹" + totalIncome;
-}
-
-let totalEntries =
-document.getElementById("totalEntries");
-
-if(totalEntries){
-    totalEntries.innerText = incomeHistory.length;
-}
-
-// Expense Total
-let expenseBox =
-document.getElementById("totalExpense");
-
-if(expenseBox){
-    expenseBox.innerText = "₹" + totalExpense;
-}
-
-// Expense History
-let expenseList =
-document.getElementById("expenseList");
-
-if(expenseList){
-
-    expenseList.innerHTML = "";
-    
-    expenseHistory.forEach(function(item,index){
-
-        let li = document.createElement("li");
-
-        li.innerHTML =
-item.category +
-" - ₹" + item.amount +
-" | 📅 " + item.date +
-" | 📝 " + item.note +
-' <button onclick="editExpense(' + index + ')">✏️</button> ' +
-' <button onclick="deleteExpense(' + index + ')">🗑️</button>';
-        
-        expenseList.appendChild(li);
-
-    });
-
-}
-
-// Dashboard Expense
-let dashboardExpense =
-document.getElementById("dashboardExpense");
-
-if(dashboardExpense){
-    dashboardExpense.innerText = "₹" + totalExpense;
-}
-
-// Dashboard Balance
-let dashboardBalance =
-document.getElementById("dashboardBalance");
-
-if(dashboardBalance){
-    dashboardBalance.innerText =
-    "₹" + (totalIncome - totalExpense);
-}
-
-let dashboardSavings =
-document.getElementById("dashboardSavings");
-
-if(dashboardSavings){
-    dashboardSavings.innerText =
-    "₹" + (totalIncome - totalExpense);
-}
-
-let incomeEntries =
-document.getElementById("incomeEntries");
-
-if(incomeEntries){
-    incomeEntries.innerText =
-    incomeHistory.length;
-}
-
-let expenseEntries =
-document.getElementById("expenseEntries");
-
-if(expenseEntries){
-    expenseEntries.innerText =
-    expenseHistory.length;
-}
-
-let avgIncome =
-document.getElementById("avgIncome");
-
-if(avgIncome){
-
-    let average =
-    incomeHistory.length == 0
-    ? 0
-    : totalIncome / incomeHistory.length;
-
-    avgIncome.innerText =
-    "₹" + average.toFixed(2);
-
-}
-
-let avgExpense =
-document.getElementById("avgExpense");
-
-if(avgExpense){
-
-    let average =
-    expenseHistory.length == 0
-    ? 0
-    : totalExpense / expenseHistory.length;
-
-    avgExpense.innerText =
-    "₹" + average.toFixed(2);
-
-}
-
-let monthIncome =
-document.getElementById("monthIncome");
-
-let monthExpense =
-document.getElementById("monthExpense");
-
-let monthBalance =
-document.getElementById("monthBalance");
-
-if(monthIncome){
-    monthIncome.innerText = "₹" + totalIncome;
-}
-
-if(monthExpense){
-    monthExpense.innerText = "₹" + totalExpense;
-}
-
-if(monthBalance){
-    monthBalance.innerText =
-    "₹" + (totalIncome - totalExpense);
-}
-
-if(localStorage.getItem("theme")=="dark"){
-    document.body.classList.add("dark-mode");
-    let btn=document.getElementById("themeBtn");
-    if(btn){
-        btn.innerHTML="☀️ Light Mode";
-    }
-}
 
 // ==========================================
 // ArthaFlow Income Module
