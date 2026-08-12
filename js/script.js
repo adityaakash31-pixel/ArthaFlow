@@ -2634,17 +2634,41 @@ logo.src = "logo.png";
 
 logo.onload = function(){
 
-pdf.addImage(logo,"PNG",15,10,25,25);
+    if(typeof pdf === "undefined"){
+        console.error("❌ PDF object is not ready");
+        return;
+    }
 
-// ===============================
-// Heading
-// ===============================
+    pdf.addImage(
+        logo,
+        "PNG",
+        15,
+        10,
+        25,
+        25
+    );
 
-pdf.setFontSize(20);
-pdf.text("ArthaFlow Financial Report",50,20);
+    // ===============================
+    // Heading
+    // ===============================
 
-pdf.setFontSize(11);
-pdf.text("Smart Finance Manager",50,28);
+    pdf.setFontSize(20);
+
+    pdf.text(
+        "ArthaFlow Financial Report",
+        50,
+        20
+    );
+
+    pdf.setFontSize(11);
+
+    pdf.text(
+        "Smart Finance Manager",
+        50,
+        28
+    );
+
+};
 
 // ===============================
 // Report
