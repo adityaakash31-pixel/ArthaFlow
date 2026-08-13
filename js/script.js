@@ -934,16 +934,14 @@ async function saveExpense(){
     // Save LocalStorage
 
     localStorage.setItem(
-        "expenseHistory",
-        JSON.stringify(expenseHistory)
-    );
+    expenseHistoryKey,
+    JSON.stringify(expenseHistory)
+);
 
-
-    localStorage.setItem(
-        "totalExpense",
-        totalExpense
-    );
-
+localStorage.setItem(
+    expenseKey,
+    totalExpense
+);
 
     // ☁️ Firebase Cloud Sync
 
@@ -1012,15 +1010,15 @@ async function deleteExpense(index){
     // Save LocalStorage
 
     localStorage.setItem(
-        "totalExpense",
-        totalExpense
-    );
+    expenseKey,
+    totalExpense
+);
 
 
     localStorage.setItem(
-        "expenseHistory",
-        JSON.stringify(expenseHistory)
-    );
+    "expenseHistory",
+    JSON.stringify(expenseHistory)
+);
 
 
     // ☁️ Firebase Cloud Sync
@@ -1085,16 +1083,14 @@ async function editExpense(index){
     // Save LocalStorage
 
     localStorage.setItem(
-        "expenseHistory",
-        JSON.stringify(expenseHistory)
-    );
-
+    expenseHistoryKey,
+    JSON.stringify(expenseHistory)
+);
 
     localStorage.setItem(
-        "totalExpense",
-        totalExpense
-    );
-
+    expenseKey,
+    totalExpense
+);
 
     // ☁️ Firebase Cloud Sync
 
