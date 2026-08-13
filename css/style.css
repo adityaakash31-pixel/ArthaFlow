@@ -2546,32 +2546,157 @@ margin:15px 0;
 
 }
 
+/* ==========================================
+   PRINT STYLE - ARTHAFLOW
+   Full Color + Logo + Clean Report
+   ========================================== */
+
 @media print {
 
-body *{
-visibility:hidden;
-}
+    /* Full colour printing */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
 
-#invoicePreview,
-#invoicePreview *{
-visibility:visible;
-}
+    html,
+    body {
+        background: #ffffff !important;
+        color: #111111 !important;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
 
-#invoicePreview{
-position:absolute;
-left:0;
-top:0;
-width:100%;
-padding:20px;
-background:#fff;
-}
+    /* ==============================
+       HIDE UNNECESSARY ITEMS
+       ============================== */
 
-.top-header,
-.navbar,
-.footer,
-button{
-display:none !important;
-}
+    .navbar,
+    .footer,
+    button,
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select {
+        display: none !important;
+    }
+
+    /* Hide Add Income / Add Expense card */
+    .card:has(#category),
+    .card:has(#expenseCategory) {
+        display: none !important;
+    }
+
+    /* ==============================
+       HEADER + LOGO
+       ============================== */
+
+    .top-header {
+        display: flex !important;
+        visibility: visible !important;
+        width: 100% !important;
+        margin-bottom: 20px !important;
+        padding: 15px !important;
+        background: linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5
+        ) !important;
+
+        color: white !important;
+
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .header-brand,
+    .header-logo,
+    .premium-banner {
+        visibility: visible !important;
+    }
+
+    .header-logo {
+        max-width: 120px !important;
+        max-height: 70px !important;
+    }
+
+    /* ==============================
+       PAGE CONTENT
+       ============================== */
+
+    h1,
+    h2,
+    p,
+    .card,
+    ul,
+    li,
+    canvas {
+        visibility: visible !important;
+    }
+
+    /* ==============================
+       CARDS
+       ============================== */
+
+    .card {
+        background: #ffffff !important;
+        color: #111111 !important;
+
+        border: 1px solid #dddddd !important;
+
+        box-shadow: none !important;
+
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    /* ==============================
+       HISTORY
+       ============================== */
+
+    #incomeList,
+    #expenseList {
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    #incomeList li,
+    #expenseList li {
+        display: block !important;
+        visibility: visible !important;
+
+        color: #111111 !important;
+
+        border-bottom: 1px solid #ddd !important;
+
+        padding: 8px !important;
+    }
+
+    /* Hide Edit/Delete buttons inside history */
+    #incomeList button,
+    #expenseList button {
+        display: none !important;
+    }
+
+    /* ==============================
+       CHART
+       ============================== */
+
+    #incomeChart,
+    #expenseChart {
+        max-width: 100% !important;
+        height: 280px !important;
+    }
+
+    /* ==============================
+       PAGE SIZE
+       ============================== */
+
+    @page {
+        size: A4;
+        margin: 12mm;
+    }
 
 }
 
