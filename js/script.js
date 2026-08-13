@@ -10570,3 +10570,544 @@ document.addEventListener(
 
     }
 );
+
+// ==========================================
+// ARTHAFLOW QUICK ACTIONS
+// Income + Expense
+// ==========================================
+
+
+// ==========================================
+// EXPORT CSV
+// ==========================================
+
+function downloadCSV(){
+
+    try{
+
+        const income =
+            JSON.parse(
+                localStorage.getItem("incomeHistory")
+            ) || [];
+
+        const expense =
+            JSON.parse(
+                localStorage.getItem("expenseHistory")
+            ) || [];
+
+
+        let rows = [];
+
+        rows.push([
+            "Type",
+            "Category",
+            "Amount",
+            "Date",
+            "Note"
+        ]);
+
+
+        // Income
+
+        income.forEach(function(item){
+
+            rows.push([
+                "Income",
+                item.category || "",
+                item.amount || 0,
+                item.date || "",
+                item.note || ""
+            ]);
+
+        });
+
+
+        // Expense
+
+        expense.forEach(function(item){
+
+            rows.push([
+                "Expense",
+                item.category || "",
+                item.amount || 0,
+                item.date || "",
+                item.note || ""
+            ]);
+
+        });
+
+
+        const csv =
+            rows.map(function(row){
+
+                return row.map(function(value){
+
+                    return '"' +
+                        String(value)
+                        .replace(/"/g,'""') +
+                        '"';
+
+                }).join(",");
+
+            }).join("\n");
+
+
+        const blob =
+            new Blob(
+                [csv],
+                {
+                    type:
+                    "text/csv;charset=utf-8;"
+                }
+            );
+
+
+        const url =
+            URL.createObjectURL(blob);
+
+
+        const link =
+            document.createElement("a");
+
+
+        link.href = url;
+
+        link.download =
+            "ArthaFlow-Transactions.csv";
+
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+
+        URL.revokeObjectURL(url);
+
+
+        console.log(
+            "✅ CSV Exported"
+        );
+
+    }catch(error){
+
+        console.error(
+            "❌ CSV Export Error:",
+            error
+        );
+
+        alert(
+            "CSV export failed."
+        );
+
+    }
+
+}
+
+
+
+// ==========================================
+// EXPORT PDF
+// ==========================================
+
+function downloadPDF(){
+
+    try{
+
+        const income =
+            Number(
+                localStorage.getItem(
+                    "totalIncome"
+                )
+            ) || 0;
+
+
+        const expense =
+            Number(
+                localStorage.getItem(
+                    "totalExpense"
+                )
+            ) || 0;
+
+
+        const incomeHistory =
+            JSON.parse(
+                localStorage.getItem(
+                    "incomeHistory"
+                )
+            ) || [];
+
+
+        const expenseHistory =
+            JSON.parse(
+                localStorage.getItem(
+                    "expenseHistory"
+                )
+            ) || [];
+
+
+        const balance =
+            income - expense;
+
+
+        let html = `
+
+        <!DOCTYPE html>
+
+        <html>
+
+        <head>
+
+        <title>
+        ArthaFlow Financial Report
+        </title>
+
+        <style>
+
+        body{
+            font-family:Arial,sans-serif;
+            padding:30px;
+            color:#111827;
+        }
+
+        h1{
+            color:#2563EB;
+        }
+
+        .summary{
+            padding:15px;
+            border:1px solid #ddd;
+            margin-bottom:25px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:20px;
+        }
+
+        th,td{
+            border:1px solid #ddd;
+            padding:8px;
+            text-align:left;
+        }
+
+        th{
+            background:#2563EB;
+            color:white;
+        }
+
+        .income{
+            color:green;
+        }
+
+        .expense{
+            color:red;
+        }
+
+        </style>
+
+        </head>
+
+        <body>
+
+        <h1>💎 ArthaFlow Premium</h1>
+
+        <h2>Financial Report</h2>
+
+        <div class="summary">
+
+        <p>
+        <b>Total Income:</b>
+        ₹${income}
+        </p>
+
+        <p>
+        <b>Total Expense:</b>
+        ₹${expense}
+        </p>
+
+        <p>
+        <b>Current Balance:</b>
+        ₹${balance}
+        </p>
+
+        <p>
+        <b>Total Transactions:</b>
+        ${incomeHistory.length + expenseHistory.length}
+        </p>
+
+        </div>
+
+        <h2>Transactions</h2>
+
+        <table>
+
+        <tr>
+        <th>Type</th>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>Date</th>
+        <th>Note</th>
+        </tr>
+
+        `;
+
+
+        incomeHistory.forEach(function(item){
+
+            html += `
+
+            <tr>
+
+            <td class="income">
+            Income
+            </td>
+
+            <td>
+            ${item.category || ""}
+            </td>
+
+            <td>
+            ₹${item.amount || 0}
+            </td>
+
+            <td>
+            ${item.date || ""}
+            </td>
+
+            <td>
+            ${item.note || ""}
+            </td>
+
+            </tr>
+
+            `;
+
+        });
+
+
+        expenseHistory.forEach(function(item){
+
+            html += `
+
+            <tr>
+
+            <td class="expense">
+            Expense
+            </td>
+
+            <td>
+            ${item.category || ""}
+            </td>
+
+            <td>
+            ₹${item.amount || 0}
+            </td>
+
+            <td>
+            ${item.date || ""}
+            </td>
+
+            <td>
+            ${item.note || ""}
+            </td>
+
+            </tr>
+
+            `;
+
+        });
+
+
+        html += `
+
+        </table>
+
+        <br><br>
+
+        <center>
+
+        <b>
+        Developed with ❤️ by Aditya Aakash
+        </b>
+
+        <br>
+
+        © 2026 ArthaFlow
+
+        </center>
+
+        </body>
+
+        </html>
+
+        `;
+
+
+        const win =
+            window.open(
+                "",
+                "_blank"
+            );
+
+
+        if(!win){
+
+            alert(
+                "Please allow pop-ups for ArthaFlow."
+            );
+
+            return;
+
+        }
+
+
+        win.document.write(html);
+
+        win.document.close();
+
+        win.focus();
+
+        setTimeout(function(){
+
+            win.print();
+
+        },500);
+
+
+    }catch(error){
+
+        console.error(
+            "❌ PDF Error:",
+            error
+        );
+
+        alert(
+            "PDF export failed."
+        );
+
+    }
+
+}
+
+
+
+// ==========================================
+// CLEAR INCOME HISTORY
+// ==========================================
+
+async function clearIncomeHistory(){
+
+    if(
+        !confirm(
+            "⚠️ Delete ALL income history?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    localStorage.removeItem(
+        "incomeHistory"
+    );
+
+
+    localStorage.setItem(
+        "totalIncome",
+        "0"
+    );
+
+
+    if(
+        typeof window.saveArthaFlowToCloud ===
+        "function"
+    ){
+
+        await window.saveArthaFlowToCloud();
+
+    }
+
+
+    alert(
+        "✅ Income history cleared."
+    );
+
+
+    location.reload();
+
+}
+
+
+
+// ==========================================
+// CLEAR EXPENSE HISTORY
+// ==========================================
+
+async function clearExpenseHistory(){
+
+    if(
+        !confirm(
+            "⚠️ Delete ALL expense history?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    localStorage.removeItem(
+        "expenseHistory"
+    );
+
+
+    localStorage.setItem(
+        "totalExpense",
+        "0"
+    );
+
+
+    if(
+        typeof window.saveArthaFlowToCloud ===
+        "function"
+    ){
+
+        await window.saveArthaFlowToCloud();
+
+    }
+
+
+    alert(
+        "✅ Expense history cleared."
+    );
+
+
+    location.reload();
+
+}
+
+
+
+// ==========================================
+// MAKE FUNCTIONS AVAILABLE TO HTML
+// ==========================================
+
+window.downloadPDF =
+    downloadPDF;
+
+window.downloadCSV =
+    downloadCSV;
+
+window.clearIncomeHistory =
+    clearIncomeHistory;
+
+window.clearExpenseHistory =
+    clearExpenseHistory;
+
+
+console.log(
+    "✅ ArthaFlow Quick Actions Ready"
+);
