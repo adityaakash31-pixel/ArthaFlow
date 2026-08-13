@@ -1,6 +1,6 @@
 // ==========================================
 // ArthaFlow Cloud Sync
-// Phase 11A - Firestore Cloud Sync
+// MULTI-USER FIRESTORE VERSION
 // ==========================================
 
 import {
@@ -21,42 +21,53 @@ import {
 
 
 // ==========================================
-// Firebase App
+// FIREBASE
 // ==========================================
 
 const app = getApp();
-
 const auth = getAuth(app);
-
 const db = getFirestore(app);
 
 console.log("✅ ArthaFlow Firestore Ready");
 
 
 // ==========================================
-// Auth State
+// CURRENT USER
 // ==========================================
 
 let currentUser = null;
-
 let authReadyResolve;
 
-const authReady = new Promise(function(resolve){
-
+const authReady = new Promise(function(resolve) {
     authReadyResolve = resolve;
-
 });
 
 
-onAuthStateChanged(auth, function(user){
+// ==========================================
+// AUTH STATE
+// ==========================================
+
+onAuthStateChanged(auth, function(user) {
 
     currentUser = user;
 
-    if(user){
+    if (user) {
 
         console.log(
             "☁️ Cloud User:",
             user.email
+        );
+
+        // Save UID for other ArthaFlow scripts
+        localStorage.setItem(
+            "firebaseUID",
+            user.uid
+        );
+
+        // Save email
+        localStorage.setItem(
+            "userEmail",
+            user.email || ""
         );
 
         window.dispatchEvent(
@@ -64,13 +75,14 @@ onAuthStateChanged(auth, function(user){
                 "arthaFlowAuthReady",
                 {
                     detail: {
+                        uid: user.uid,
                         email: user.email || ""
                     }
                 }
             )
         );
 
-    }else{
+    } else {
 
         console.log(
             "☁️ No Firebase user logged in"
@@ -84,46 +96,102 @@ onAuthStateChanged(auth, function(user){
 
 
 // ==========================================
-// Collect ArthaFlow Data
+// GET USER STORAGE KEY
 // ==========================================
 
-function getArthaFlowData(){
+function getUserKey(uid) {
+
+    return uid || "guest";
+
+}
+
+
+// ==========================================
+// COLLECT USER-SPECIFIC DATA
+// ==========================================
+
+function getArthaFlowData(uid) {
+
+    const userKey =
+        getUserKey(uid);
+
+
+    const incomeKey =
+        "totalIncome_" + userKey;
+
+    const expenseKey =
+        "totalExpense_" + userKey;
+
+    const incomeHistoryKey =
+        "incomeHistory_" + userKey;
+
+    const expenseHistoryKey =
+        "expenseHistory_" + userKey;
+
 
     return {
 
         totalIncome:
             Number(
-                localStorage.getItem("totalIncome")
+                localStorage.getItem(
+                    incomeKey
+                )
             ) || 0,
+
 
         totalExpense:
             Number(
-                localStorage.getItem("totalExpense")
+                localStorage.getItem(
+                    expenseKey
+                )
             ) || 0,
+
 
         incomeHistory:
             JSON.parse(
-                localStorage.getItem("incomeHistory")
+                localStorage.getItem(
+                    incomeHistoryKey
+                )
             ) || [],
+
 
         expenseHistory:
             JSON.parse(
-                localStorage.getItem("expenseHistory")
+                localStorage.getItem(
+                    expenseHistoryKey
+                )
             ) || [],
 
+
         userName:
-            localStorage.getItem("userName") || "",
+            localStorage.getItem(
+                "userName"
+            ) || "",
+
 
         monthlyBudget:
             Number(
-                localStorage.getItem("monthlyBudget")
+                localStorage.getItem(
+                    "monthlyBudget_" + userKey
+                )
             ) || 0,
 
+
         theme:
-            localStorage.getItem("theme") || "light",
+            localStorage.getItem(
+                "theme_" + userKey
+            ) || "light",
+
 
         userEmail:
-            localStorage.getItem("userEmail") || "",
+            currentUser
+                ? currentUser.email || ""
+                : "",
+
+
+        uid:
+            uid,
+
 
         updatedAt:
             new Date().toISOString()
@@ -134,16 +202,18 @@ function getArthaFlowData(){
 
 
 // ==========================================
-// SAVE DATA TO FIRESTORE
+// SAVE TO FIRESTORE
 // ==========================================
 
-async function saveArthaFlowToCloud(){
+async function saveArthaFlowToCloud() {
 
-    try{
+    try {
 
-        const user = await authReady;
+        const user =
+            await authReady;
 
-        if(!user){
+
+        if (!user) {
 
             console.log(
                 "☁️ Cloud Save skipped: User not logged in"
@@ -155,7 +225,9 @@ async function saveArthaFlowToCloud(){
 
 
         const data =
-            getArthaFlowData();
+            getArthaFlowData(
+                user.uid
+            );
 
 
         const userRef =
@@ -170,7 +242,7 @@ async function saveArthaFlowToCloud(){
             userRef,
             data,
             {
-                merge:true
+                merge: true
             }
         );
 
@@ -182,7 +254,7 @@ async function saveArthaFlowToCloud(){
         return true;
 
 
-    }catch(error){
+    } catch (error) {
 
         console.error(
             "❌ Cloud Save Error:",
@@ -197,16 +269,18 @@ async function saveArthaFlowToCloud(){
 
 
 // ==========================================
-// LOAD DATA FROM FIRESTORE
+// LOAD FROM FIRESTORE
 // ==========================================
 
-async function loadArthaFlowFromCloud(){
+async function loadArthaFlowFromCloud() {
 
-    try{
+    try {
 
-        const user = await authReady;
+        const user =
+            await authReady;
 
-        if(!user){
+
+        if (!user) {
 
             console.log(
                 "☁️ Cloud Load skipped: User not logged in"
@@ -215,6 +289,10 @@ async function loadArthaFlowFromCloud(){
             return false;
 
         }
+
+
+        const userKey =
+            user.uid;
 
 
         const userRef =
@@ -226,13 +304,15 @@ async function loadArthaFlowFromCloud(){
 
 
         const snapshot =
-            await getDoc(userRef);
+            await getDoc(
+                userRef
+            );
 
 
-        if(!snapshot.exists()){
+        if (!snapshot.exists()) {
 
             console.log(
-                "☁️ No cloud data found"
+                "☁️ No cloud data found for this user"
             );
 
             return false;
@@ -244,30 +324,71 @@ async function loadArthaFlowFromCloud(){
             snapshot.data();
 
 
-        if(data.totalIncome !== undefined){
+        // ======================================
+        // USER-SPECIFIC KEYS
+        // ======================================
+
+        const incomeKey =
+            "totalIncome_" + userKey;
+
+        const expenseKey =
+            "totalExpense_" + userKey;
+
+        const incomeHistoryKey =
+            "incomeHistory_" + userKey;
+
+        const expenseHistoryKey =
+            "expenseHistory_" + userKey;
+
+        const budgetKey =
+            "monthlyBudget_" + userKey;
+
+        const themeKey =
+            "theme_" + userKey;
+
+
+        // ======================================
+        // INCOME
+        // ======================================
+
+        if (
+            data.totalIncome !== undefined
+        ) {
 
             localStorage.setItem(
-                "totalIncome",
+                incomeKey,
                 data.totalIncome
             );
 
         }
 
 
-        if(data.totalExpense !== undefined){
+        // ======================================
+        // EXPENSE
+        // ======================================
+
+        if (
+            data.totalExpense !== undefined
+        ) {
 
             localStorage.setItem(
-                "totalExpense",
+                expenseKey,
                 data.totalExpense
             );
 
         }
 
 
-        if(data.incomeHistory !== undefined){
+        // ======================================
+        // INCOME HISTORY
+        // ======================================
+
+        if (
+            data.incomeHistory !== undefined
+        ) {
 
             localStorage.setItem(
-                "incomeHistory",
+                incomeHistoryKey,
                 JSON.stringify(
                     data.incomeHistory
                 )
@@ -276,10 +397,16 @@ async function loadArthaFlowFromCloud(){
         }
 
 
-        if(data.expenseHistory !== undefined){
+        // ======================================
+        // EXPENSE HISTORY
+        // ======================================
+
+        if (
+            data.expenseHistory !== undefined
+        ) {
 
             localStorage.setItem(
-                "expenseHistory",
+                expenseHistoryKey,
                 JSON.stringify(
                     data.expenseHistory
                 )
@@ -288,7 +415,13 @@ async function loadArthaFlowFromCloud(){
         }
 
 
-        if(data.userName !== undefined){
+        // ======================================
+        // USER NAME
+        // ======================================
+
+        if (
+            data.userName !== undefined
+        ) {
 
             localStorage.setItem(
                 "userName",
@@ -298,27 +431,45 @@ async function loadArthaFlowFromCloud(){
         }
 
 
-        if(data.monthlyBudget !== undefined){
+        // ======================================
+        // MONTHLY BUDGET
+        // ======================================
+
+        if (
+            data.monthlyBudget !== undefined
+        ) {
 
             localStorage.setItem(
-                "monthlyBudget",
+                budgetKey,
                 data.monthlyBudget
             );
 
         }
 
 
-        if(data.theme !== undefined){
+        // ======================================
+        // THEME
+        // ======================================
+
+        if (
+            data.theme !== undefined
+        ) {
 
             localStorage.setItem(
-                "theme",
+                themeKey,
                 data.theme
             );
 
         }
 
 
-        if(data.userEmail !== undefined){
+        // ======================================
+        // EMAIL
+        // ======================================
+
+        if (
+            data.userEmail !== undefined
+        ) {
 
             localStorage.setItem(
                 "userEmail",
@@ -335,7 +486,7 @@ async function loadArthaFlowFromCloud(){
         return true;
 
 
-    }catch(error){
+    } catch (error) {
 
         console.error(
             "❌ Cloud Load Error:",
@@ -350,43 +501,52 @@ async function loadArthaFlowFromCloud(){
 
 
 // ==========================================
-// Make Functions Available
+// GLOBAL FUNCTIONS
 // ==========================================
 
 window.saveArthaFlowToCloud =
     saveArthaFlowToCloud;
 
+
 window.loadArthaFlowFromCloud =
     loadArthaFlowFromCloud;
 
-// ==========================================
-// Profile Email Access
-// ==========================================
-
-window.getArthaFlowUserEmail = function(){
-
-    if(currentUser){
-
-        return currentUser.email || "";
-
-    }
-
-    return "";
-
-};
 
 // ==========================================
-// Firebase Account ID / UID
+// GET USER EMAIL
 // ==========================================
 
-window.getArthaFlowUserUID = function(){
+window.getArthaFlowUserEmail =
+    function() {
 
-    if(currentUser){
+        if (currentUser) {
 
-        return currentUser.uid || "";
+            return (
+                currentUser.email || ""
+            );
 
-    }
+        }
 
-    return "";
+        return "";
 
-};
+    };
+
+
+// ==========================================
+// GET USER UID
+// ==========================================
+
+window.getArthaFlowUserUID =
+    function() {
+
+        if (currentUser) {
+
+            return (
+                currentUser.uid || ""
+            );
+
+        }
+
+        return "";
+
+    };
