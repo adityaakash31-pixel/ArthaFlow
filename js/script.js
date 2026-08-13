@@ -832,6 +832,59 @@ window.searchIncome =
 
 
 // ==========================================
+// CLEAR INCOME HISTORY
+// ==========================================
+
+async function clearIncomeHistory(){
+
+    if(
+        !confirm(
+            "Are you sure you want to clear all income history?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    // Reset Income Data
+    incomeHistory = [];
+
+    totalIncome = 0;
+
+
+    // Save user-specific data
+    localStorage.setItem(
+        incomeHistoryKey,
+        JSON.stringify(incomeHistory)
+    );
+
+    localStorage.setItem(
+        incomeTotalKey,
+        "0"
+    );
+
+
+    // Cloud Sync
+    await syncToCloud();
+
+
+    alert(
+        "Income history cleared successfully!"
+    );
+
+
+    location.reload();
+
+}
+
+
+// Make available to HTML
+window.clearIncomeHistory =
+    clearIncomeHistory;
+
+// ==========================================
 // ArthaFlow Expense Cloud Sync
 // ==========================================
 
@@ -1100,6 +1153,59 @@ async function editExpense(index){
     location.reload();
 
 }
+
+// ==========================================
+// CLEAR EXPENSE HISTORY
+// ==========================================
+
+async function clearExpenseHistory(){
+
+    if(
+        !confirm(
+            "Are you sure you want to clear all expense history?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    // Reset Expense Data
+    expenseHistory = [];
+
+    totalExpense = 0;
+
+
+    // Save user-specific data
+    localStorage.setItem(
+        expenseHistoryKey,
+        JSON.stringify(expenseHistory)
+    );
+
+    localStorage.setItem(
+        expenseTotalKey,
+        "0"
+    );
+
+
+    // Cloud Sync
+    await syncToCloud();
+
+
+    alert(
+        "Expense history cleared successfully!"
+    );
+
+
+    location.reload();
+
+}
+
+
+// Make available to HTML
+window.clearExpenseHistory =
+    clearExpenseHistory;
 
 // ===============================
 // Reports
