@@ -52,7 +52,7 @@ function loadBrandLogo(){
 
 // ==========================================
 // ArthaFlow - USER DATA STORAGE
-// Multi-User Preparation
+// Multi-User
 // ==========================================
 
 const currentUserEmail =
@@ -62,16 +62,6 @@ const userKey =
     currentUserEmail
         .toLowerCase()
         .replace(/[^a-z0-9]/g, "_");
-
-
-// ==========================================
-// ARTHAFLOW - USER SPECIFIC DATA
-// ==========================================
-
-// Firebase Login से UID
-const userKey =
-    localStorage.getItem("firebaseUID") || "guest";
-
 
 // ==========================================
 // USER-SPECIFIC STORAGE KEYS
