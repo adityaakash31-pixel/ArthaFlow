@@ -513,7 +513,7 @@ async function saveIncome(){
 
 
     localStorage.setItem(
-    incomeTotalKey,
+    incomeKey,
     totalIncome
 );
 
@@ -631,7 +631,7 @@ async function deleteIncome(index){
 
 
     localStorage.setItem(
-    incomeTotalKey,
+    incomeKey,
     totalIncome
 );
 
@@ -730,7 +730,7 @@ async function editIncome(index){
 
 
     localStorage.setItem(
-    incomeTotalKey,
+    incomeKey,
     totalIncome
 );
     
