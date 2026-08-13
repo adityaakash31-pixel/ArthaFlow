@@ -2596,3 +2596,13 @@ display:none !important;
     background:#ffffff;
     box-shadow:0 6px 18px rgba(0,0,0,0.20);
 }
+
+/* ==========================================
+   INCOME CHART
+========================================== */
+
+#incomeChart {
+    width: 100% !important;
+    height: 320px !important;
+    max-height: 320px;
+}
