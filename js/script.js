@@ -10368,3 +10368,205 @@ async function logoutUser(){
     }
 
 }
+
+// ==========================================
+// ARTHAFLOW - INCOME & EXPENSE CHARTS
+// ==========================================
+
+function loadIncomeChart() {
+
+    const canvas = document.getElementById("incomeChart");
+
+    if (!canvas) return;
+
+    if (typeof Chart === "undefined") {
+        console.error("❌ Chart.js not loaded");
+        return;
+    }
+
+    // Category-wise income
+    const categoryData = {};
+
+    incomeHistory.forEach(function(item) {
+
+        const category = item.category || "Other";
+        const amount = Number(item.amount) || 0;
+
+        if (!categoryData[category]) {
+            categoryData[category] = 0;
+        }
+
+        categoryData[category] += amount;
+    });
+
+
+    const labels = Object.keys(categoryData);
+    const values = Object.values(categoryData);
+
+
+    // Existing chart destroy
+    if (window.incomeChartInstance) {
+        window.incomeChartInstance.destroy();
+    }
+
+
+    window.incomeChartInstance = new Chart(
+        canvas,
+        {
+            type: "bar",
+
+            data: {
+                labels: labels,
+
+                datasets: [{
+                    label: "Income",
+
+                    data: values,
+
+                    borderWidth: 1
+                }]
+            },
+
+            options: {
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                },
+
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        }
+    );
+
+}
+
+
+// ==========================================
+// EXPENSE CHART
+// ==========================================
+
+function loadExpenseChart() {
+
+    const canvas =
+        document.getElementById("expenseChart");
+
+    if (!canvas) return;
+
+    if (typeof Chart === "undefined") {
+        console.error("❌ Chart.js not loaded");
+        return;
+    }
+
+
+    const categoryData = {};
+
+
+    expenseHistory.forEach(function(item) {
+
+        const category =
+            item.category || "Other";
+
+        const amount =
+            Number(item.amount) || 0;
+
+
+        if (!categoryData[category]) {
+            categoryData[category] = 0;
+        }
+
+
+        categoryData[category] += amount;
+
+    });
+
+
+    const labels =
+        Object.keys(categoryData);
+
+    const values =
+        Object.values(categoryData);
+
+
+    if (window.expenseChartInstance) {
+        window.expenseChartInstance.destroy();
+    }
+
+
+    window.expenseChartInstance =
+        new Chart(
+            canvas,
+            {
+                type: "bar",
+
+                data: {
+
+                    labels: labels,
+
+                    datasets: [{
+
+                        label: "Expense",
+
+                        data: values,
+
+                        borderWidth: 1
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+
+                        legend: {
+                            display: true
+                        }
+
+                    },
+
+                    scales: {
+
+                        y: {
+                            beginAtZero: true
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+// ==========================================
+// LOAD CHARTS AFTER PAGE LOAD
+// ==========================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        setTimeout(function() {
+
+            loadIncomeChart();
+            loadExpenseChart();
+
+        }, 500);
+
+    }
+);
