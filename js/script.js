@@ -1456,7 +1456,7 @@ function searchExpense(){
 
 }
 
-function exportCSV() {
+function downloadCSV() {
 
     let csv = "Type,Category,Amount,Date,Note\n";
 
