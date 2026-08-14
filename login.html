@@ -21,6 +21,12 @@ type="button">
 Login
 </button>
 
+  <p>
+    <a href="#" id="forgotPassword">
+        🔐 Forgot Password?
+    </a>
+  </p>
+
   <br><br>
 
 <p>
@@ -49,10 +55,11 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";  
   
 import {  
-    getAuth,  
-    signInWithEmailAndPassword,  
-    GoogleAuthProvider,  
-    signInWithPopup  
+    getAuth,
+signInWithEmailAndPassword,
+sendPasswordResetEmail,
+GoogleAuthProvider,
+signInWithPopup
 }  
 from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";  
   
@@ -348,6 +355,69 @@ localStorage.setItem(
     }  
   
 });  
+
+  /* ===============================
+   Forgot Password
+   =============================== */
+
+document
+.getElementById("forgotPassword")
+.addEventListener("click", async function(event){
+
+    event.preventDefault();
+
+    const email =
+        document
+        .getElementById("email")
+        .value
+        .trim();
+
+    if(!email){
+
+        alert(
+            "पहले अपना Email डालिए।"
+        );
+
+        document
+        .getElementById("email")
+        .focus();
+
+        return;
+
+    }
+
+    try{
+
+        await sendPasswordResetEmail(
+            auth,
+            email
+        );
+
+        alert(
+            "✅ Password reset email भेज दिया गया है।\n\n" +
+            "अपना email inbox और Spam folder check करें।"
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "FORGOT PASSWORD ERROR:",
+            error
+        );
+
+        alert(
+            "Password reset failed.\n\n" +
+            "Code: " +
+            error.code +
+            "\n\n" +
+            error.message
+        );
+
+    }
+
+});
   
 </script> 
 </body> 
