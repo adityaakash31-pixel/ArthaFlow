@@ -1369,26 +1369,66 @@ function updateLastSync(){
 
 
 // ==========================================
-// ACCOUNT SUMMARY
+// ACCOUNT SUMMARY - USER SAFE
 // ==========================================
 
 function loadAccountSummary(){
 
+    const uid =
+        localStorage.getItem("firebaseUID");
+
+    if(!uid){
+
+        console.warn(
+            "Firebase UID not found."
+        );
+
+        return;
+    }
+
+
+    // User-specific keys
+
+    const incomeKey =
+        "totalIncome_" + uid;
+
+    const expenseKey =
+        "totalExpense_" + uid;
+
+    const incomeHistoryKey =
+        "incomeHistory_" + uid;
+
+    const expenseHistoryKey =
+        "expenseHistory_" + uid;
+
+
+    // ======================================
+    // TOTAL INCOME
+    // ======================================
+
     const income =
         Number(
             localStorage.getItem(
-                "totalIncome"
+                incomeKey
             )
         ) || 0;
 
+
+    // ======================================
+    // TOTAL EXPENSE
+    // ======================================
 
     const expense =
         Number(
             localStorage.getItem(
-                "totalExpense"
+                expenseKey
             )
         ) || 0;
 
+
+    // ======================================
+    // HISTORY
+    // ======================================
 
     let incomeHistory = [];
 
@@ -1400,7 +1440,7 @@ function loadAccountSummary(){
         incomeHistory =
             JSON.parse(
                 localStorage.getItem(
-                    "incomeHistory"
+                    incomeHistoryKey
                 )
             ) || [];
 
@@ -1416,7 +1456,7 @@ function loadAccountSummary(){
         expenseHistory =
             JSON.parse(
                 localStorage.getItem(
-                    "expenseHistory"
+                    expenseHistoryKey
                 )
             ) || [];
 
@@ -1426,6 +1466,10 @@ function loadAccountSummary(){
 
     }
 
+
+    // ======================================
+    // SETTINGS ACCOUNT SUMMARY
+    // ======================================
 
     const incomeBox =
         document.getElementById(
@@ -1472,7 +1516,6 @@ function loadAccountSummary(){
     }
 
 }
-
 
 // ==========================================
 // LOAD SAVED BUDGET
