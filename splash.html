@@ -112,15 +112,29 @@ class="splash-logo">
 
 setTimeout(function(){
 
-if(localStorage.getItem("appPin")){
+    const email =
+        localStorage.getItem("userEmail") || "guest";
 
-window.location.href="pin-lock.html";
+    const userKey =
+        email
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, "_");
 
-}else{
+    const userPinKey =
+        "appPin_" + userKey;
 
-window.location.href="pin-setup.html";
 
-}
+    if(localStorage.getItem(userPinKey)){
+
+        window.location.href =
+            "pin-lock.html";
+
+    }else{
+
+        window.location.href =
+            "pin-setup.html";
+
+    }
 
 },3000);
 
