@@ -2766,3 +2766,260 @@ margin:15px 0;
     }
 
 }
+
+/* ==========================================
+   ARTHAFLOW FINAL THEME FIX — STEP 1
+   Light + Dark Mode Readability
+========================================== */
+
+/* ---------- LIGHT MODE ---------- */
+
+:root{
+    --background:#F5F7FB;
+    --card:#FFFFFF;
+    --text:#0F172A;
+    --text-light:#64748B;
+    --border:#E2E8F0;
+    --input-bg:#FFFFFF;
+    --table-bg:#FFFFFF;
+    --table-text:#0F172A;
+}
+
+
+/* Main page */
+
+body{
+    background:var(--background);
+    color:var(--text);
+}
+
+
+/* Cards */
+
+.card,
+.profile-card,
+.summary-card,
+.stat-card,
+.settings-card,
+.report-card,
+.dashboard-card{
+    color:var(--text);
+}
+
+
+/* Headings */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+    color:var(--text);
+}
+
+
+/* Normal text */
+
+p,
+span,
+label,
+small{
+    color:var(--text);
+}
+
+
+/* Secondary text */
+
+.text-muted,
+.muted,
+.subtitle,
+.description{
+    color:var(--text-light);
+}
+
+
+/* Inputs */
+
+input,
+select,
+textarea{
+    background:var(--input-bg);
+    color:var(--text);
+    border-color:var(--border);
+}
+
+
+/* Input placeholder */
+
+input::placeholder,
+textarea::placeholder{
+    color:#94A3B8;
+}
+
+
+/* Tables */
+
+table{
+    background:var(--table-bg);
+    color:var(--table-text);
+}
+
+table th{
+    color:inherit;
+}
+
+table td{
+    color:inherit;
+    border-color:var(--border);
+}
+
+
+/* ---------- DARK MODE ---------- */
+
+.dark-mode{
+    --background:#0B1220;
+    --card:#111827;
+    --text:#F8FAFC;
+    --text-light:#CBD5E1;
+    --border:#334155;
+    --input-bg:#1E293B;
+    --table-bg:#111827;
+    --table-text:#F8FAFC;
+
+    background:var(--background);
+    color:var(--text);
+}
+
+
+/* Dark cards */
+
+.dark-mode .card,
+.dark-mode .profile-card,
+.dark-mode .summary-card,
+.dark-mode .stat-card,
+.dark-mode .settings-card,
+.dark-mode .report-card,
+.dark-mode .dashboard-card{
+    background:var(--card);
+    color:var(--text);
+    border-color:var(--border);
+}
+
+
+/* Dark headings */
+
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6{
+    color:var(--text);
+}
+
+
+/* Dark normal text */
+
+.dark-mode p,
+.dark-mode span,
+.dark-mode label,
+.dark-mode small{
+    color:var(--text);
+}
+
+
+/* Dark secondary text */
+
+.dark-mode .text-muted,
+.dark-mode .muted,
+.dark-mode .subtitle,
+.dark-mode .description{
+    color:var(--text-light);
+}
+
+
+/* Dark inputs */
+
+.dark-mode input,
+.dark-mode select,
+.dark-mode textarea{
+    background:var(--input-bg);
+    color:var(--text);
+    border-color:var(--border);
+}
+
+
+/* Dark placeholders */
+
+.dark-mode input::placeholder,
+.dark-mode textarea::placeholder{
+    color:#94A3B8;
+}
+
+
+/* Dark tables */
+
+.dark-mode table{
+    background:var(--table-bg);
+    color:var(--table-text);
+}
+
+.dark-mode table th,
+.dark-mode table td{
+    color:var(--table-text);
+    border-color:var(--border);
+}
+
+
+/* Dark navbar */
+
+.dark-mode .navbar a{
+    color:#F8FAFC;
+}
+
+
+/* Links */
+
+a{
+    color:#2563EB;
+}
+
+.dark-mode a{
+    color:#60A5FA;
+}
+
+
+/* Buttons */
+
+button{
+    color:#FFFFFF;
+}
+
+
+/* Disabled buttons */
+
+button:disabled{
+    opacity:.6;
+}
+
+
+/* ==========================================
+   Prevent common light/dark text clashes
+========================================== */
+
+.dark-mode .white-text{
+    color:#FFFFFF !important;
+}
+
+.dark-mode .black-text{
+    color:#F8FAFC !important;
+}
+
+.dark-mode .text-dark{
+    color:#F8FAFC !important;
+}
+
+.dark-mode .text-light{
+    color:#CBD5E1 !important;
+}
