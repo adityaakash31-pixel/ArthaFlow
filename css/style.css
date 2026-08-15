@@ -3157,3 +3157,397 @@ button:disabled{
     }
 
 }
+
+/* =========================================================
+   ARTHAFLOW FINAL THEME SYSTEM
+   STEP 3 — LIGHT + DARK MODE CONTRAST FIX
+========================================================= */
+
+
+/* =========================================================
+   LIGHT MODE
+========================================================= */
+
+body:not(.dark-mode){
+
+    background:#F4F7FC !important;
+
+    color:#0F172A !important;
+
+}
+
+
+/* Main cards */
+
+body:not(.dark-mode) .card{
+
+    background:#FFFFFF !important;
+
+    color:#0F172A !important;
+
+    border:1px solid #E2E8F0 !important;
+
+    box-shadow:
+        0 10px 30px rgba(15,23,42,.08);
+
+}
+
+
+/* Card headings */
+
+body:not(.dark-mode) .card h2{
+
+    color:#0F172A !important;
+
+}
+
+
+/* Card sub headings */
+
+body:not(.dark-mode) .card h3{
+
+    color:#334155 !important;
+
+}
+
+
+/* Card paragraphs */
+
+body:not(.dark-mode) .card p{
+
+    color:#475569 !important;
+
+}
+
+
+/* Navbar */
+
+body:not(.dark-mode) .navbar a{
+
+    background:#FFFFFF !important;
+
+    color:#1D4ED8 !important;
+
+    border:1px solid #E2E8F0 !important;
+
+    box-shadow:
+        0 5px 15px rgba(15,23,42,.08);
+
+}
+
+
+/* Navbar hover */
+
+body:not(.dark-mode) .navbar a:hover{
+
+    background:#2563EB !important;
+
+    color:#FFFFFF !important;
+
+}
+
+
+/* Theme button */
+
+body:not(.dark-mode) #themeBtn{
+
+    background:#FFFFFF !important;
+
+    color:#1D4ED8 !important;
+
+    border:1px solid #D7E0EF !important;
+
+}
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+body.dark-mode{
+
+    background:#080F1D !important;
+
+    color:#F8FAFC !important;
+
+}
+
+
+/* Dark cards */
+
+body.dark-mode .card{
+
+    background:#111827 !important;
+
+    color:#F8FAFC !important;
+
+    border:1px solid #263449 !important;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.28);
+
+}
+
+
+/* Dark headings */
+
+body.dark-mode .card h2{
+
+    color:#60A5FA !important;
+
+}
+
+
+/* Dark sub headings */
+
+body.dark-mode .card h3{
+
+    color:#E2E8F0 !important;
+
+}
+
+
+/* Dark paragraphs */
+
+body.dark-mode .card p{
+
+    color:#CBD5E1 !important;
+
+}
+
+
+/* Dark navbar */
+
+body.dark-mode .navbar a{
+
+    background:#182235 !important;
+
+    color:#F8FAFC !important;
+
+    border:1px solid #2B3A52 !important;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.25);
+
+}
+
+
+/* Dark navbar hover */
+
+body.dark-mode .navbar a:hover{
+
+    background:#2563EB !important;
+
+    color:#FFFFFF !important;
+
+}
+
+
+/* Dark theme button */
+
+body.dark-mode #themeBtn{
+
+    background:#2563EB !important;
+
+    color:#FFFFFF !important;
+
+    border:1px solid #3B82F6 !important;
+
+}
+
+
+/* =========================================================
+   INPUT / SELECT / TEXTAREA
+========================================================= */
+
+
+/* Light */
+
+body:not(.dark-mode) input,
+body:not(.dark-mode) select,
+body:not(.dark-mode) textarea{
+
+    background:#FFFFFF !important;
+
+    color:#0F172A !important;
+
+    border:1px solid #CBD5E1 !important;
+
+}
+
+
+/* Light placeholder */
+
+body:not(.dark-mode) input::placeholder,
+body:not(.dark-mode) textarea::placeholder{
+
+    color:#94A3B8 !important;
+
+}
+
+
+/* Dark */
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea{
+
+    background:#1E293B !important;
+
+    color:#F8FAFC !important;
+
+    border:1px solid #475569 !important;
+
+}
+
+
+/* Dark placeholder */
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder{
+
+    color:#94A3B8 !important;
+
+}
+
+
+/* =========================================================
+   TABLES
+========================================================= */
+
+
+/* Light table */
+
+body:not(.dark-mode) table{
+
+    background:#FFFFFF !important;
+
+    color:#0F172A !important;
+
+    border-color:#E2E8F0 !important;
+
+}
+
+
+/* Dark table */
+
+body.dark-mode table{
+
+    background:#111827 !important;
+
+    color:#F8FAFC !important;
+
+    border-color:#334155 !important;
+
+}
+
+
+/* Dark table cells */
+
+body.dark-mode table td,
+body.dark-mode table th{
+
+    color:#F8FAFC !important;
+
+    border-color:#334155 !important;
+
+}
+
+
+/* Light table cells */
+
+body:not(.dark-mode) table td,
+body:not(.dark-mode) table th{
+
+    color:#0F172A !important;
+
+    border-color:#E2E8F0 !important;
+
+}
+
+
+/* =========================================================
+   GENERAL TEXT SAFETY
+========================================================= */
+
+
+/* Light mode */
+
+body:not(.dark-mode) .text-light{
+
+    color:#64748B !important;
+
+}
+
+
+/* Dark mode */
+
+body.dark-mode .text-light{
+
+    color:#CBD5E1 !important;
+
+}
+
+
+/* =========================================================
+   DASHBOARD CARD TITLES
+========================================================= */
+
+body:not(.dark-mode) .card strong{
+
+    color:#0F172A !important;
+
+}
+
+body.dark-mode .card strong{
+
+    color:#F8FAFC !important;
+
+}
+
+
+/* =========================================================
+   LINKS
+========================================================= */
+
+body:not(.dark-mode) a{
+
+    color:#2563EB;
+
+}
+
+
+body.dark-mode a{
+
+    color:#60A5FA;
+
+}
+
+
+/* =========================================================
+   MOBILE THEME
+========================================================= */
+
+@media(max-width:768px){
+
+    body{
+
+        padding:10px !important;
+
+    }
+
+    body:not(.dark-mode) .card{
+
+        box-shadow:
+            0 7px 22px rgba(15,23,42,.07);
+
+    }
+
+    body.dark-mode .card{
+
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.30);
+
+    }
+
+}
