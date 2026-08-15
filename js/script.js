@@ -3237,35 +3237,84 @@ async function savePin(){
 
 
 // ===============================
-// PIN Verification
+// PIN Verification - User Specific
 // ===============================
 
 async function verifyPin(){
 
-    let pin = document.getElementById("enterPin").value;
+    const pin =
+        document.getElementById("enterPin").value;
 
-    let savedPin = localStorage.getItem("appPin");
+
+    // ==================================
+    // CURRENT USER
+    // ==================================
+
+    const email =
+        localStorage.getItem("userEmail") || "guest";
+
+
+    const userKey =
+        email
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, "_");
+
+
+    // ==================================
+    // USER-SPECIFIC PIN KEY
+    // ==================================
+
+    const userPinKey =
+        "appPin_" + userKey;
+
+
+    const savedPin =
+        localStorage.getItem(userPinKey);
+
+
+    // ==================================
+    // VERIFY PIN
+    // ==================================
 
     if(pin === savedPin){
 
-        sessionStorage.setItem("pinVerified","true");
+        sessionStorage.setItem(
+            "pinVerified",
+            "true"
+        );
+
 
         // ☁️ Load Data From Firestore
-        if(typeof window.loadArthaFlowFromCloud === "function"){
+
+        if(
+            typeof window.loadArthaFlowFromCloud ===
+            "function"
+        ){
 
             await window.loadArthaFlowFromCloud();
 
-            console.log("☁️ Cloud Data Loaded After PIN");
+            console.log(
+                "☁️ Cloud Data Loaded After PIN"
+            );
 
         }
 
-        alert("PIN Verified Successfully");
 
-        location.replace("index.html");
+        alert(
+            "PIN Verified Successfully"
+        );
+
+
+        location.replace(
+            "index.html"
+        );
+
 
     }else{
 
-        alert("Wrong PIN");
+        alert(
+            "Wrong PIN"
+        );
 
     }
 
