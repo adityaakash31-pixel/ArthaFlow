@@ -3023,3 +3023,137 @@ button:disabled{
 .dark-mode .text-light{
     color:#CBD5E1 !important;
 }
+
+/* ==========================================
+   ARTHAFLOW FINAL PREMIUM HEADER
+   STEP 2 — LOGO
+========================================== */
+
+/* Main Header */
+
+.top-header{
+    padding:28px 20px 30px !important;
+    border-radius:28px !important;
+    position:relative;
+    overflow:hidden;
+}
+
+
+/* Logo container */
+
+.header-brand{
+    width:100%;
+    display:flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+    margin-bottom:18px !important;
+    position:relative;
+    z-index:5;
+}
+
+
+/* Main ArthaFlow Logo */
+
+.header-logo{
+    width:min(420px, 82vw) !important;
+    max-width:420px !important;
+    height:auto !important;
+    max-height:none !important;
+    object-fit:contain !important;
+    display:block !important;
+
+    filter:
+        drop-shadow(0 8px 18px rgba(0,0,0,.28));
+
+    transition:
+        transform .25s ease,
+        filter .25s ease;
+}
+
+
+/* Small hover effect */
+
+.header-logo:hover{
+    transform:scale(1.03);
+    filter:
+        drop-shadow(0 12px 25px rgba(37,99,235,.35));
+}
+
+
+/* Header title */
+
+.top-header h1{
+    font-size:34px !important;
+    font-weight:800 !important;
+    letter-spacing:.3px;
+    position:relative;
+    z-index:5;
+}
+
+
+/* Header subtitle */
+
+.top-header p{
+    font-size:15px !important;
+    position:relative;
+    z-index:5;
+}
+
+
+/* Premium glass banner */
+
+.premium-banner{
+    position:relative;
+    z-index:5;
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+}
+
+
+/* ==========================================
+   MOBILE LOGO
+========================================== */
+
+@media(max-width:768px){
+
+    .top-header{
+        padding:22px 14px 25px !important;
+        border-radius:24px !important;
+    }
+
+    .header-brand{
+        margin-bottom:14px !important;
+    }
+
+    .header-logo{
+        width:min(330px, 82vw) !important;
+        max-width:330px !important;
+    }
+
+    .top-header h1{
+        font-size:28px !important;
+    }
+
+    .top-header p{
+        font-size:14px !important;
+    }
+
+}
+
+
+/* ==========================================
+   VERY SMALL MOBILE
+========================================== */
+
+@media(max-width:380px){
+
+    .header-logo{
+        width:280px !important;
+        max-width:78vw !important;
+    }
+
+    .top-header h1{
+        font-size:25px !important;
+    }
+
+}
