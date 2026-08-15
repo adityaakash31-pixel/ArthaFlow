@@ -10891,26 +10891,28 @@ document.addEventListener(
 
 
 // ==========================================
-// EXPORT CSV
+// EXPORT CSV - MULTI USER SAFE
 // ==========================================
 
 function downloadCSV(){
 
     try{
 
-        const income =
+        const incomeHistory =
             JSON.parse(
-                localStorage.getItem("incomeHistory")
+                localStorage.getItem(incomeHistoryKey)
             ) || [];
 
-        const expense =
+        const expenseHistory =
             JSON.parse(
-                localStorage.getItem("expenseHistory")
+                localStorage.getItem(expenseHistoryKey)
             ) || [];
 
 
         let rows = [];
 
+
+        // Header
         rows.push([
             "Type",
             "Category",
@@ -10921,8 +10923,7 @@ function downloadCSV(){
 
 
         // Income
-
-        income.forEach(function(item){
+        incomeHistory.forEach(function(item){
 
             rows.push([
                 "Income",
@@ -10936,8 +10937,7 @@ function downloadCSV(){
 
 
         // Expense
-
-        expense.forEach(function(item){
+        expenseHistory.forEach(function(item){
 
             rows.push([
                 "Expense",
@@ -10950,6 +10950,7 @@ function downloadCSV(){
         });
 
 
+        // CSV convert
         const csv =
             rows.map(function(row){
 
@@ -10999,8 +11000,9 @@ function downloadCSV(){
 
 
         console.log(
-            "✅ CSV Exported"
+            "✅ CSV Exported Successfully"
         );
+
 
     }catch(error){
 
