@@ -3153,34 +3153,85 @@ card.style.transform="scale(1)";
 });
 
 // ===============================
-// App PIN Setup
+// App PIN Setup - User Specific
 // ===============================
 
 async function savePin(){
 
-    let pin = document.getElementById("newPin").value;
+    const pin =
+        document.getElementById("newPin").value;
 
-    if(pin.length != 4 && pin.length != 6){
-        alert("Please Enter 4 or 6 Digit PIN");
+    if(pin.length !== 4 && pin.length !== 6){
+
+        alert(
+            "Please Enter 4 or 6 Digit PIN"
+        );
+
         return;
     }
 
-    localStorage.setItem("appPin", pin);
 
-    sessionStorage.setItem("pinVerified","true");
+    // ==================================
+    // CURRENT USER
+    // ==================================
+
+    const email =
+        localStorage.getItem("userEmail") || "guest";
+
+
+    const userKey =
+        email
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, "_");
+
+
+    // ==================================
+    // USER-SPECIFIC PIN KEY
+    // ==================================
+
+    const userPinKey =
+        "appPin_" + userKey;
+
+
+    // ==================================
+    // SAVE PIN
+    // ==================================
+
+    localStorage.setItem(
+        userPinKey,
+        pin
+    );
+
+
+    sessionStorage.setItem(
+        "pinVerified",
+        "true"
+    );
+
 
     // ☁️ Load Cloud Data
-    if(typeof window.loadArthaFlowFromCloud === "function"){
+
+    if(
+        typeof window.loadArthaFlowFromCloud ===
+        "function"
+    ){
 
         await window.loadArthaFlowFromCloud();
 
-        console.log("☁️ Cloud Data Loaded");
+        console.log(
+            "☁️ Cloud Data Loaded"
+        );
 
     }
 
-    alert("PIN Saved Successfully");
 
-    window.location.href = "index.html";
+    alert(
+        "PIN Saved Successfully"
+    );
+
+
+    window.location.href =
+        "index.html";
 
 }
 
