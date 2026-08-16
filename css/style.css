@@ -3924,3 +3924,30 @@ body.dark-mode a{
     }
 
 }
+
+/* PIN PAGE - FORCE DARK THEME */
+
+.pin-page .pin-card{
+    background:#111d31 !important;
+    color:#ffffff !important;
+}
+
+.pin-page .pin-card h1,
+.pin-page .pin-card h2,
+.pin-page .pin-card p{
+    color:#ffffff !important;
+}
+
+.pin-page #newPin{
+    background:#1e2d43 !important;
+    color:#ffffff !important;
+    border:1px solid #475569 !important;
+}
+
+.pin-page #newPin::placeholder{
+    color:#94a3b8 !important;
+}
+
+.pin-page .pin-footer{
+    color:#94a3b8 !important;
+}
