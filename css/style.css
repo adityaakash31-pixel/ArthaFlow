@@ -3951,3 +3951,348 @@ body.dark-mode a{
 .pin-page .pin-footer{
     color:#94a3b8 !important;
 }
+
+/* =========================================================
+   ARTHAFLOW DASHBOARD - FINAL UI POLISH
+   Step 6A
+   ========================================================= */
+
+/* ---------- MAIN THEME ---------- */
+
+body{
+    background:#F4F7FB;
+    color:#0F172A;
+    min-height:100vh;
+}
+
+/* ---------- BIG ARTHAFLOW LOGO ---------- */
+
+.header-brand{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.header-logo{
+    width:280px !important;
+    max-width:90vw !important;
+    height:auto !important;
+    max-height:150px;
+    object-fit:contain;
+    display:block;
+    filter:drop-shadow(0 10px 22px rgba(0,0,0,.25));
+}
+
+/* ---------- HEADER ---------- */
+
+.top-header{
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(59,130,246,.35),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(139,92,246,.30),
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            #0F172A,
+            #172554,
+            #1E1B4B
+        ) !important;
+
+    border:1px solid rgba(255,255,255,.14);
+    box-shadow:0 20px 50px rgba(15,23,42,.22);
+}
+
+/* ---------- PREMIUM BANNER ---------- */
+
+.premium-banner{
+    background:rgba(255,255,255,.10) !important;
+    border:1px solid rgba(255,255,255,.18);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08),
+        0 12px 30px rgba(0,0,0,.12);
+}
+
+/* ---------- NAVIGATION ---------- */
+
+.navbar a,
+#themeBtn{
+    background:#FFFFFF !important;
+    color:#0F172A !important;
+    border:1px solid #E2E8F0;
+}
+
+.navbar a:hover,
+#themeBtn:hover{
+    background:#2563EB !important;
+    color:#FFFFFF !important;
+    border-color:#2563EB;
+}
+
+/* ---------- CARDS ---------- */
+
+.card{
+    background:#FFFFFF !important;
+    color:#0F172A !important;
+
+    border:1px solid #E2E8F0 !important;
+
+    box-shadow:
+        0 8px 30px rgba(15,23,42,.07);
+
+    border-radius:22px;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:
+        0 18px 40px rgba(37,99,235,.13);
+}
+
+.card h2{
+    color:#0F172A !important;
+}
+
+.card h3{
+    color:#334155 !important;
+}
+
+.card p{
+    color:#475569 !important;
+}
+
+/* ---------- SUMMARY ---------- */
+
+.summary-box h3,
+.summary-box h2{
+    color:#FFFFFF !important;
+}
+
+/* ---------- QUICK ACTION / TOOL BUTTONS ---------- */
+
+.dashboard-grid > .card .dashboard-grid button{
+    min-height:54px;
+}
+
+.dashboard-grid button{
+    border-radius:15px;
+    font-weight:700;
+}
+
+/* ---------- MONTHLY SUMMARY ---------- */
+
+.card b{
+    color:#2563EB;
+}
+
+/* ---------- NOTIFICATION ---------- */
+
+#notificationBox{
+    color:#92400E !important;
+    background:#FFF7ED !important;
+    border-left:6px solid #F59E0B !important;
+}
+
+/* ---------- FOOTER ---------- */
+
+.footer{
+    background:
+        linear-gradient(
+            135deg,
+            #1D4ED8,
+            #4338CA,
+            #6D28D9
+        ) !important;
+
+    color:#FFFFFF !important;
+}
+
+.footer h2,
+.footer p,
+.footer span,
+.footer b{
+    color:#FFFFFF !important;
+}
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+body.dark-mode{
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(37,99,235,.12),
+            transparent 30%
+        ),
+        #020617 !important;
+
+    color:#F8FAFC !important;
+}
+
+/* Header remains premium */
+
+body.dark-mode .top-header{
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(59,130,246,.25),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(139,92,246,.22),
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            #020617,
+            #0F172A,
+            #172554
+        ) !important;
+}
+
+/* Navigation */
+
+body.dark-mode .navbar a,
+body.dark-mode #themeBtn{
+    background:#111827 !important;
+    color:#F8FAFC !important;
+    border-color:#334155 !important;
+}
+
+body.dark-mode .navbar a:hover,
+body.dark-mode #themeBtn:hover{
+    background:#2563EB !important;
+    color:#FFFFFF !important;
+}
+
+/* Cards */
+
+body.dark-mode .card{
+    background:#111827 !important;
+    color:#F8FAFC !important;
+    border-color:#263449 !important;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.28);
+}
+
+body.dark-mode .card h2{
+    color:#F8FAFC !important;
+}
+
+body.dark-mode .card h3{
+    color:#E2E8F0 !important;
+}
+
+body.dark-mode .card p{
+    color:#CBD5E1 !important;
+}
+
+/* Monthly values */
+
+body.dark-mode .card b{
+    color:#60A5FA !important;
+}
+
+/* Notification */
+
+body.dark-mode #notificationBox{
+    background:#422006 !important;
+    color:#FDE68A !important;
+    border-left-color:#F59E0B !important;
+}
+
+/* Footer */
+
+body.dark-mode .footer{
+    background:
+        linear-gradient(
+            135deg,
+            #172554,
+            #312E81,
+            #4C1D95
+        ) !important;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media(max-width:768px){
+
+    body{
+        padding:10px !important;
+    }
+
+    .top-header{
+        padding:22px 15px !important;
+        border-radius:22px;
+    }
+
+    .header-logo{
+        width:210px !important;
+        max-height:120px;
+    }
+
+    .premium-banner{
+        padding:16px !important;
+    }
+
+    .premium-banner h2{
+        font-size:21px !important;
+    }
+
+    .premium-banner p{
+        font-size:13px !important;
+    }
+
+    .header-bottom h3{
+        font-size:18px;
+    }
+
+    .header-bottom p{
+        font-size:13px;
+    }
+
+    .card{
+        padding:18px !important;
+        border-radius:19px !important;
+    }
+
+    .summary-box{
+        padding:20px !important;
+    }
+
+    .summary-box h2{
+        font-size:27px !important;
+    }
+
+    .navbar{
+        gap:9px !important;
+    }
+
+}
+
+/* ---------- EXTRA SMALL PHONES ---------- */
+
+@media(max-width:380px){
+
+    .header-logo{
+        width:180px !important;
+    }
+
+    .card{
+        padding:15px !important;
+    }
+
+    .premium-banner h2{
+        font-size:19px !important;
+    }
+
+}
