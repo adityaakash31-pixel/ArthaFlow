@@ -17,21 +17,47 @@ href="css/style.css">
 
 <body>
 
-<div class="card">
+<div class="pin-page">
 
-<h2>🔐 Enter App PIN</h2>
+    <div class="pin-card">
 
-<input
-type="password"
-id="enterPin"
-maxlength="6"
-placeholder="Enter PIN">
+        <img
+            src="logo.png"
+            alt="ArthaFlow"
+            class="pin-logo"
+            onerror="this.style.display='none'"
+        >
 
-<button onclick="verifyPin()">
+        <h1>ArthaFlow</h1>
 
-Unlock
+        <h2>🔐 Enter App PIN</h2>
 
-</button>
+        <p>
+            अपना PIN डालकर ArthaFlow को unlock करें।
+        </p>
+
+        <input
+            type="password"
+            id="enterPin"
+            maxlength="6"
+            inputmode="numeric"
+            placeholder="Enter PIN"
+            autocomplete="off"
+        >
+
+        <button
+            type="button"
+            onclick="verifyPin()">
+
+            🔓 Unlock
+
+        </button>
+
+        <div class="pin-footer">
+            Secure access to your ArthaFlow account
+        </div>
+
+    </div>
 
 </div>
 
