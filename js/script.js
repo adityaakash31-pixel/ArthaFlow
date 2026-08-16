@@ -2835,19 +2835,13 @@ body{
 
 
 .logo{
-
-    width:115px;
-
-    height:75px;
-
+    width:180px;
+    height:95px;
     object-fit:contain;
-
     background:#FFFFFF;
-
-    border-radius:14px;
-
-    padding:8px;
-
+    border-radius:16px;
+    padding:10px;
+    margin-bottom:10px;
 }
 
 
