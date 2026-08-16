@@ -2670,7 +2670,1021 @@ location.reload();
 
 }
 
+// ==========================================
+// ARTHAFLOW — FINAL PREMIUM PDF EXPORT
+// STEP 4
+// ==========================================
 
+function downloadPDF(){
+
+    try{
+
+        const income =
+            Number(localStorage.getItem(incomeKey)) || 0;
+
+        const expense =
+            Number(localStorage.getItem(expenseKey)) || 0;
+
+        const incomeHistory =
+            JSON.parse(
+                localStorage.getItem(incomeHistoryKey)
+            ) || [];
+
+        const expenseHistory =
+            JSON.parse(
+                localStorage.getItem(expenseHistoryKey)
+            ) || [];
+
+        const balance =
+            income - expense;
+
+        const totalTransactions =
+            incomeHistory.length +
+            expenseHistory.length;
+
+
+        /* ======================================
+           CATEGORY WISE EXPENSE
+        ====================================== */
+
+        const categorySummary = {};
+
+        expenseHistory.forEach(item => {
+
+            const category =
+                item.category ||
+                "Other";
+
+            if(!categorySummary[category]){
+
+                categorySummary[category] = 0;
+
+            }
+
+            categorySummary[category] +=
+                Number(item.amount) || 0;
+
+        });
+
+
+        /* ======================================
+           REPORT HTML
+        ====================================== */
+
+        let html = `
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+ArthaFlow Financial Report
+</title>
+
+
+<style>
+
+/* =========================================
+   PAGE
+========================================= */
+
+@page{
+
+    size:A4;
+
+    margin:12mm;
+
+}
+
+
+*{
+
+    box-sizing:border-box;
+
+}
+
+
+body{
+
+    margin:0;
+
+    padding:0;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:#F1F5F9;
+
+    color:#0F172A;
+
+}
+
+
+/* =========================================
+   MAIN REPORT
+========================================= */
+
+.report{
+
+    background:#FFFFFF;
+
+    max-width:900px;
+
+    margin:auto;
+
+    padding:28px;
+
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.header{
+
+    background:
+        linear-gradient(
+            135deg,
+            #0F172A,
+            #1D4ED8,
+            #2563EB
+        );
+
+    color:#FFFFFF;
+
+    border-radius:22px;
+
+    padding:25px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:25px;
+
+}
+
+
+.logo{
+
+    width:115px;
+
+    height:75px;
+
+    object-fit:contain;
+
+    background:#FFFFFF;
+
+    border-radius:14px;
+
+    padding:8px;
+
+}
+
+
+.brand{
+
+    text-align:right;
+
+}
+
+
+.brand h1{
+
+    margin:0;
+
+    font-size:27px;
+
+    font-weight:800;
+
+}
+
+
+.brand p{
+
+    margin:6px 0 0;
+
+    font-size:13px;
+
+    opacity:.9;
+
+}
+
+
+/* =========================================
+   REPORT TITLE
+========================================= */
+
+.report-title{
+
+    margin-bottom:20px;
+
+}
+
+
+.report-title h2{
+
+    margin:0;
+
+    color:#0F172A;
+
+    font-size:22px;
+
+}
+
+
+.report-title p{
+
+    margin:5px 0 0;
+
+    color:#64748B;
+
+    font-size:12px;
+
+}
+
+
+/* =========================================
+   SUMMARY GRID
+========================================= */
+
+.summary{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:12px;
+
+    margin-bottom:28px;
+
+}
+
+
+.summary-box{
+
+    border-radius:16px;
+
+    padding:16px;
+
+    color:#FFFFFF;
+
+    min-height:95px;
+
+}
+
+
+.summary-box h4{
+
+    margin:0 0 9px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+.summary-box h2{
+
+    margin:0;
+
+    font-size:21px;
+
+}
+
+
+.income{
+
+    background:
+        linear-gradient(
+            135deg,
+            #16A34A,
+            #22C55E
+        );
+
+}
+
+
+.expense{
+
+    background:
+        linear-gradient(
+            135deg,
+            #DC2626,
+            #EF4444
+        );
+
+}
+
+
+.balance{
+
+    background:
+        linear-gradient(
+            135deg,
+            #1D4ED8,
+            #3B82F6
+        );
+
+}
+
+
+.transactions{
+
+    background:
+        linear-gradient(
+            135deg,
+            #6D28D9,
+            #8B5CF6
+        );
+
+}
+
+
+/* =========================================
+   SECTION TITLE
+========================================= */
+
+.section-title{
+
+    font-size:18px;
+
+    font-weight:800;
+
+    color:#1D4ED8;
+
+    border-left:
+        5px solid #2563EB;
+
+    padding-left:10px;
+
+    margin:
+        25px 0 12px;
+
+}
+
+
+/* =========================================
+   TRANSACTION TABLE
+========================================= */
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-bottom:20px;
+
+    font-size:11px;
+
+}
+
+
+thead{
+
+    background:
+        linear-gradient(
+            90deg,
+            #1D4ED8,
+            #2563EB
+        );
+
+    color:#FFFFFF;
+
+}
+
+
+th{
+
+    padding:10px 7px;
+
+    text-align:left;
+
+    font-weight:700;
+
+}
+
+
+td{
+
+    padding:9px 7px;
+
+    border-bottom:
+        1px solid #E2E8F0;
+
+    color:#334155;
+
+}
+
+
+tbody tr:nth-child(even){
+
+    background:#F8FAFC;
+
+}
+
+
+.income-text{
+
+    color:#16A34A;
+
+    font-weight:700;
+
+}
+
+
+.expense-text{
+
+    color:#DC2626;
+
+    font-weight:700;
+
+}
+
+
+/* =========================================
+   CATEGORY SUMMARY
+========================================= */
+
+.category-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:10px;
+
+}
+
+
+.category-card{
+
+    border:
+        1px solid #E2E8F0;
+
+    border-radius:13px;
+
+    padding:12px 15px;
+
+    background:#F8FAFC;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+
+.category-name{
+
+    font-weight:700;
+
+    color:#334155;
+
+}
+
+
+.category-amount{
+
+    color:#DC2626;
+
+    font-weight:800;
+
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.empty{
+
+    text-align:center;
+
+    padding:18px;
+
+    color:#94A3B8;
+
+    background:#F8FAFC;
+
+    border-radius:12px;
+
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.footer{
+
+    margin-top:30px;
+
+    padding-top:18px;
+
+    border-top:
+        2px solid #E2E8F0;
+
+    text-align:center;
+
+    color:#64748B;
+
+    font-size:11px;
+
+}
+
+
+.footer strong{
+
+    color:#2563EB;
+
+}
+
+
+.footer .brand-line{
+
+    font-size:13px;
+
+    font-weight:800;
+
+    color:#1D4ED8;
+
+    margin-bottom:5px;
+
+}
+
+
+/* =========================================
+   PRINT
+========================================= */
+
+@media print{
+
+    body{
+
+        background:#FFFFFF;
+
+    }
+
+    .report{
+
+        max-width:none;
+
+        padding:0;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="report">
+
+
+<!-- =====================================
+     HEADER
+===================================== -->
+
+<div class="header">
+
+    <img
+        src="pdf-logo.png"
+        class="logo"
+        onerror="this.style.display='none'"
+    >
+
+    <div class="brand">
+
+        <h1>
+            ArthaFlow Premium
+        </h1>
+
+        <p>
+            Smart Finance Manager
+        </p>
+
+        <p>
+            Track • Save • Invest • Grow
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     TITLE
+===================================== -->
+
+<div class="report-title">
+
+    <h2>
+        📊 Financial Report
+    </h2>
+
+    <p>
+        Generated on:
+        ${new Date().toLocaleString()}
+    </p>
+
+</div>
+
+
+<!-- =====================================
+     SUMMARY
+===================================== -->
+
+<div class="summary">
+
+
+    <div class="summary-box income">
+
+        <h4>
+            💰 TOTAL INCOME
+        </h4>
+
+        <h2>
+            ₹${income.toLocaleString("en-IN")}
+        </h2>
+
+    </div>
+
+
+    <div class="summary-box expense">
+
+        <h4>
+            💸 TOTAL EXPENSE
+        </h4>
+
+        <h2>
+            ₹${expense.toLocaleString("en-IN")}
+        </h2>
+
+    </div>
+
+
+    <div class="summary-box balance">
+
+        <h4>
+            💵 CURRENT BALANCE
+        </h4>
+
+        <h2>
+            ₹${balance.toLocaleString("en-IN")}
+        </h2>
+
+    </div>
+
+
+    <div class="summary-box transactions">
+
+        <h4>
+            📊 TRANSACTIONS
+        </h4>
+
+        <h2>
+            ${totalTransactions}
+        </h2>
+
+    </div>
+
+
+</div>
+
+
+<!-- =====================================
+     TRANSACTION HISTORY
+===================================== -->
+
+<div class="section-title">
+
+    📋 Transaction History
+
+</div>
+
+
+<table>
+
+<thead>
+
+<tr>
+
+    <th>Type</th>
+
+    <th>Category</th>
+
+    <th>Amount</th>
+
+    <th>Date</th>
+
+    <th>Note</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+`;
+
+
+        /* ======================================
+           INCOME
+        ====================================== */
+
+        incomeHistory.forEach(item => {
+
+            html += `
+
+<tr>
+
+    <td class="income-text">
+        Income
+    </td>
+
+    <td>
+        ${item.category || "-"}
+    </td>
+
+    <td class="income-text">
+        ₹${Number(item.amount || 0).toLocaleString("en-IN")}
+    </td>
+
+    <td>
+        ${item.date || "-"}
+    </td>
+
+    <td>
+        ${item.note || "-"}
+    </td>
+
+</tr>
+
+`;
+
+        });
+
+
+        /* ======================================
+           EXPENSE
+        ====================================== */
+
+        expenseHistory.forEach(item => {
+
+            html += `
+
+<tr>
+
+    <td class="expense-text">
+        Expense
+    </td>
+
+    <td>
+        ${item.category || "-"}
+    </td>
+
+    <td class="expense-text">
+        ₹${Number(item.amount || 0).toLocaleString("en-IN")}
+    </td>
+
+    <td>
+        ${item.date || "-"}
+    </td>
+
+    <td>
+        ${item.note || "-"}
+    </td>
+
+</tr>
+
+`;
+
+        });
+
+
+        if(
+            incomeHistory.length === 0 &&
+            expenseHistory.length === 0
+        ){
+
+            html += `
+
+<tr>
+
+<td colspan="5">
+
+<div class="empty">
+
+No transactions available.
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+        }
+
+
+        html += `
+
+</tbody>
+
+</table>
+
+
+<!-- =====================================
+     CATEGORY SUMMARY
+===================================== -->
+
+<div class="section-title">
+
+    📁 Category Wise Expense
+
+</div>
+
+
+<div class="category-grid">
+
+`;
+
+
+        const categories =
+            Object.keys(categorySummary);
+
+
+        if(categories.length === 0){
+
+            html += `
+
+<div class="empty">
+
+No expense categories available.
+
+</div>
+
+`;
+
+        }else{
+
+            categories.forEach(category => {
+
+                html += `
+
+<div class="category-card">
+
+    <span class="category-name">
+
+        ${category}
+
+    </span>
+
+    <span class="category-amount">
+
+        ₹${categorySummary[category]
+            .toLocaleString("en-IN")}
+
+    </span>
+
+</div>
+
+`;
+
+            });
+
+        }
+
+
+        html += `
+
+</div>
+
+
+<!-- =====================================
+     FOOTER
+===================================== -->
+
+<div class="footer">
+
+    <div class="brand-line">
+        💎 ArthaFlow Premium
+    </div>
+
+    <div>
+        Smart Finance Manager
+    </div>
+
+    <br>
+
+    <div>
+        Generated securely from your ArthaFlow account.
+    </div>
+
+    <div>
+        Developed with ❤️ by
+        <strong>Aditya Aakash</strong>
+    </div>
+
+    <div>
+        © 2026 ArthaFlow
+    </div>
+
+</div>
+
+
+</div>
+
+
+</body>
+
+</html>
+
+`;
+
+
+        /* ======================================
+           OPEN PDF / PRINT WINDOW
+        ====================================== */
+
+        const win =
+            window.open(
+                "",
+                "_blank"
+            );
+
+
+        if(!win){
+
+            alert(
+                "Please allow pop-ups for ArthaFlow."
+            );
+
+            return;
+
+        }
+
+
+        win.document.open();
+
+        win.document.write(html);
+
+        win.document.close();
+
+
+        win.onload = function(){
+
+            win.focus();
+
+            setTimeout(
+                function(){
+
+                    win.print();
+
+                },
+                700
+            );
+
+        };
+
+
+    }catch(error){
+
+        console.error(
+            "❌ ArthaFlow PDF Error:",
+            error
+        );
+
+        alert(
+            "PDF export failed.\n\n" +
+            error.message
+        );
+
+    }
+
+}
 
 
 // ===============================
