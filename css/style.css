@@ -4296,3 +4296,127 @@ body.dark-mode .footer{
     }
 
 }
+
+/* ==========================================
+   ARTHAFLOW FINAL READABILITY FIX
+   LIGHT + DARK MODE
+   ========================================== */
+
+/* ---------- LIGHT MODE ---------- */
+
+body:not(.dark-mode) .top-header h1,
+body:not(.dark-mode) .top-header h2,
+body:not(.dark-mode) .top-header h3,
+body:not(.dark-mode) .top-header p,
+body:not(.dark-mode) .header-bottom,
+body:not(.dark-mode) #welcomeUser,
+body:not(.dark-mode) #dailyQuote {
+    color:#0F172A !important;
+}
+
+/* Header background */
+body:not(.dark-mode) .top-header {
+    background:linear-gradient(
+        135deg,
+        #FFFFFF,
+        #EEF4FF
+    ) !important;
+}
+
+/* Premium banner */
+body:not(.dark-mode) .premium-banner {
+    background:rgba(37,99,235,.08) !important;
+    border:1px solid rgba(37,99,235,.18) !important;
+}
+
+body:not(.dark-mode) .premium-banner h2 {
+    color:#0F172A !important;
+}
+
+body:not(.dark-mode) .premium-banner p {
+    color:#475569 !important;
+}
+
+body:not(.dark-mode) #welcomeUser {
+    color:#0F172A !important;
+    font-weight:800 !important;
+}
+
+body:not(.dark-mode) #dailyQuote {
+    color:#475569 !important;
+}
+
+
+/* ---------- DARK MODE ---------- */
+
+body.dark-mode .top-header h1,
+body.dark-mode .top-header h2,
+body.dark-mode .top-header h3,
+body.dark-mode .top-header p,
+body.dark-mode .header-bottom,
+body.dark-mode #welcomeUser,
+body.dark-mode #dailyQuote {
+    color:#F8FAFC !important;
+}
+
+body.dark-mode .premium-banner h2 {
+    color:#F8FAFC !important;
+}
+
+body.dark-mode .premium-banner p {
+    color:#CBD5E1 !important;
+}
+
+body.dark-mode #welcomeUser {
+    color:#FFFFFF !important;
+    font-weight:800 !important;
+}
+
+body.dark-mode #dailyQuote {
+    color:#CBD5E1 !important;
+}
+
+
+/* ---------- SUMMARY CARDS ---------- */
+
+/* Keep the colored cards readable in BOTH modes */
+.summary-box h2,
+.summary-box h3 {
+    color:#FFFFFF !important;
+}
+
+
+/* ---------- CARD TEXT ---------- */
+
+body:not(.dark-mode) .card h2 {
+    color:#0F172A !important;
+}
+
+body:not(.dark-mode) .card h3,
+body:not(.dark-mode) .card p {
+    color:#334155 !important;
+}
+
+body.dark-mode .card h2,
+body.dark-mode .card h3,
+body.dark-mode .card p {
+    color:#F8FAFC !important;
+}
+
+
+/* ---------- FOOTER ---------- */
+
+body:not(.dark-mode) .footer {
+    color:#0F172A !important;
+}
+
+body:not(.dark-mode) .footer p,
+body:not(.dark-mode) .footer span {
+    color:#334155 !important;
+}
+
+body.dark-mode .footer,
+body.dark-mode .footer p,
+body.dark-mode .footer span {
+    color:#F8FAFC !important;
+}
