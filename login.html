@@ -1,53 +1,115 @@
 <!DOCTYPE html>  <html lang="en">  <head>  <meta charset="UTF-8">  <meta name="viewport"  
 content="width=device-width, initial-scale=1.0">
 
-<title>ArthaFlow Login</title>  </head>  <body>  <h2>ArthaFlow Login</h2>  <input  
-type="email"  
-id="email"  
-placeholder="Email">
+<title>ArthaFlow Login</title>  </head>  <body>  <div class="login-page">
 
-<br><br>
+    <div class="login-card">
 
-<input  
-type="password"  
-id="password"  
-placeholder="Password">
+        <div class="brand">
 
-<br><br>
+            <img
+                src="logo.png"
+                alt="ArthaFlow"
+                class="brand-logo"
+                onerror="this.style.display='none'"
+            >
 
-<button  
-id="loginBtn"  
-type="button">
-Login
-</button>
+            <h1>ArthaFlow</h1>
 
-  <p>
-    <a href="#" id="forgotPassword">
-        🔐 Forgot Password?
-    </a>
-  </p>
+            <p>Smart Finance Manager</p>
 
-  <br><br>
+        </div>
 
-<p>
-    Don't have an account?
-</p>
+        <div class="welcome">
 
-<button
-    type="button"
-    onclick="window.location.href='create-account.html'">
+            <h2>Welcome Back 👋</h2>
 
-    📝 Create Account
+            <p>Login to manage your finances</p>
 
-</button>
+        </div>
 
-<br><br>
+        <div class="input-group">
 
-<hr>  <p>OR</p>  <button  
-id="googleLoginBtn"  
-type="button">
-🔵 Continue with Google
-</button>
+            <label>Email Address</label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+            >
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Password</label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+            >
+
+        </div>
+
+        <div class="forgot-row">
+
+            <a href="#" id="forgotPassword">
+                🔐 Forgot Password?
+            </a>
+
+        </div>
+
+        <button
+            id="loginBtn"
+            type="button"
+            class="primary-btn">
+
+            🔐 Login
+
+        </button>
+
+        <div class="divider">
+            <span>OR</span>
+        </div>
+
+        <button
+            id="googleLoginBtn"
+            type="button"
+            class="google-btn">
+
+            🔵 Continue with Google
+
+        </button>
+
+        <div class="create-section">
+
+            <p>Don't have an account?</p>
+
+            <button
+                type="button"
+                class="create-btn"
+                onclick="window.location.href='create-account.html'">
+
+                📝 Create Account
+
+            </button>
+
+        </div>
+
+        <div class="login-footer">
+
+            <span>💎 ArthaFlow Premium</span>
+
+            <small>Track • Save • Invest • Grow</small>
+
+        </div>
+
+    </div>
+
+</div>
 
 <script type="module">  
   
