@@ -17,19 +17,47 @@ href="style.css">
 
 <body>
 
-<div class="card">
+<div class="pin-page">
 
-<h2>🔐 Create App PIN</h2>
+    <div class="pin-card">
 
-<input
-type="password"
-id="newPin"
-maxlength="6"
-placeholder="Enter 4 or 6 Digit PIN">
+        <img
+            src="logo.png"
+            alt="ArthaFlow"
+            class="pin-logo"
+            onerror="this.style.display='none'"
+        >
 
-<button onclick="savePin()">
-Save PIN
-</button>
+        <h1>ArthaFlow</h1>
+
+        <h2>🔐 Create App PIN</h2>
+
+        <p>
+            अपने ArthaFlow account को सुरक्षित रखने के लिए
+            एक 4 या 6 digit PIN बनाइए।
+        </p>
+
+        <input
+            type="password"
+            id="newPin"
+            maxlength="6"
+            inputmode="numeric"
+            placeholder="Enter 4 or 6 Digit PIN"
+        >
+
+        <button
+            type="button"
+            onclick="savePin()">
+
+            🔐 Save PIN
+
+        </button>
+
+        <div class="pin-footer">
+            Your data. Your privacy. Your control.
+        </div>
+
+    </div>
 
 </div>
 
