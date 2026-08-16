@@ -3,15 +3,23 @@
   "short_name": "ArthaFlow",
   "description": "Personal Finance Management App",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#1e3a8a",
   "orientation": "portrait",
   "icons": [
-  {
-    "src": "app-icon.png",
-    "sizes": "1024x1024",
-    "type": "image/png"
-  }
+    {
+      "src": "app-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "app-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }
