@@ -966,17 +966,19 @@ async function saveExpense(){
 
     // Add Expense History
 
-    expenseHistory.push({
+expenseHistory.push({
 
-        category: category,
+    category: category,
 
-        amount: amount,
+    amount: amount,
 
-        date: date,
+    date: date,
 
-        note: note
+    note: note,
 
-    });
+    space: "Personal"
+
+});
 
 
     // Update Total Expense
