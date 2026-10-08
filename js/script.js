@@ -924,6 +924,11 @@ async function saveExpense(){
         .value
         .trim();
 
+    let space =
+    document
+    .getElementById("expenseSpace")
+    .value;
+
 
     let amount =
         Number(
