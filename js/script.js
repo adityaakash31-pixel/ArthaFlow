@@ -11892,3 +11892,90 @@ function addExpenseSpace(){
     );
 
 }
+
+// ==========================================
+// LOAD EXPENSE SPACES
+// ==========================================
+
+function loadExpenseSpaces(){
+
+    let select =
+        document.getElementById(
+            "expenseSpace"
+        );
+
+
+    if(!select){
+
+        return;
+
+    }
+
+
+    let spaces =
+        JSON.parse(
+            localStorage.getItem(
+                "expenseSpaces"
+            )
+        ) || [
+            "Personal",
+            "Public"
+        ];
+
+
+    select.innerHTML = "";
+
+
+    spaces.forEach(function(space){
+
+        let option =
+            document.createElement(
+                "option"
+            );
+
+
+        option.value =
+            space;
+
+
+        if(space === "Personal"){
+
+            option.textContent =
+                "👤 " + space;
+
+        }
+        else if(space === "Public"){
+
+            option.textContent =
+                "🌐 " + space;
+
+        }
+        else{
+
+            option.textContent =
+                "📁 " + space;
+
+        }
+
+
+        select.appendChild(
+            option
+        );
+
+    });
+
+}
+
+
+// ==========================================
+// LOAD SPACES WHEN PAGE OPENS
+// ==========================================
+
+window.addEventListener(
+    "load",
+    function(){
+
+        loadExpenseSpaces();
+
+    }
+);
