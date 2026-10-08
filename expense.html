@@ -296,6 +296,41 @@ onchange="filterExpense()">
 
 <ul id="expenseList"></ul>
 
+    <!-- ============================= -->
+<!-- Category Analysis -->
+<!-- ============================= -->
+
+<div class="card">
+
+    <h2>
+        🔎 Category Analysis
+    </h2>
+
+    <label>
+        Select Category
+    </label>
+
+    <select
+        id="expenseCategoryAnalysis"
+        onchange="showCategoryAnalysis()">
+
+        <option value="all">
+            📊 All Categories
+        </option>
+
+    </select>
+
+
+    <div id="categoryAnalysisResult">
+
+        <p>
+            Select a category to view details.
+        </p>
+
+    </div>
+
+</div>
+
 
 <!-- ============================= -->
 <!-- Monthly Expense Summary -->
