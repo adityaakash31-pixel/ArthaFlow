@@ -11985,3 +11985,87 @@ window.addEventListener(
 
     }
 );
+
+// ==========================================
+// LOAD SPACE FILTER
+// ==========================================
+
+function loadExpenseSpaceFilter(){
+
+    let select =
+        document.getElementById(
+            "expenseSpaceFilter"
+        );
+
+    if(!select){
+        return;
+    }
+
+    let spaces =
+        JSON.parse(
+            localStorage.getItem(
+                "expenseSpaces"
+            )
+        ) || [
+            "Personal",
+            "Public"
+        ];
+
+    select.innerHTML = "";
+
+    // All Spaces
+    let allOption =
+        document.createElement("option");
+
+    allOption.value = "all";
+    allOption.textContent = "📊 All Spaces";
+
+    select.appendChild(allOption);
+
+
+    // All saved Spaces
+    spaces.forEach(function(space){
+
+        let option =
+            document.createElement("option");
+
+        option.value = space;
+
+        if(space === "Personal"){
+
+            option.textContent =
+                "👤 " + space;
+
+        }
+        else if(space === "Public"){
+
+            option.textContent =
+                "🌐 " + space;
+
+        }
+        else{
+
+            option.textContent =
+                "📁 " + space;
+
+        }
+
+        select.appendChild(option);
+
+    });
+
+}
+
+
+// ==========================================
+// LOAD SPACE FILTER ON PAGE LOAD
+// ==========================================
+
+window.addEventListener(
+    "load",
+    function(){
+
+        loadExpenseSpaceFilter();
+
+    }
+);
