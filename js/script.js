@@ -12069,3 +12069,72 @@ window.addEventListener(
 
     }
 );
+
+// ==========================================
+// FILTER EXPENSE BY SPACE
+// ==========================================
+
+function filterExpenseBySpace(){
+
+    let selectedSpace =
+        document.getElementById(
+            "expenseSpaceFilter"
+        ).value;
+
+
+    const expenseList =
+        document.getElementById(
+            "expenseList"
+        );
+
+
+    if(!expenseList){
+
+        return;
+
+    }
+
+
+    expenseList.innerHTML = "";
+
+
+    expenseHistory.forEach(function(item, index){
+
+        let itemSpace =
+            item.space || "Personal";
+
+
+        // Skip expenses from other spaces
+        if(
+            selectedSpace !== "all" &&
+            itemSpace !== selectedSpace
+        ){
+
+            return;
+
+        }
+
+
+        const li =
+            document.createElement("li");
+
+
+        li.innerHTML =
+            item.category +
+            " - ₹" + item.amount +
+            " | 📁 " + itemSpace +
+            " | 📅 " + item.date +
+            " | 📝 " + (item.note || "") +
+            ' <button onclick="editExpense(' +
+            index +
+            ')">✏️</button> ' +
+            '<button onclick="deleteExpense(' +
+            index +
+            ')">🗑️</button>';
+
+
+        expenseList.appendChild(li);
+
+    });
+
+}
