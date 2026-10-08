@@ -11789,3 +11789,106 @@ window.clearExpenseHistory =
 console.log(
     "✅ ArthaFlow Quick Actions Ready"
 );
+
+// ==========================================
+// ADD EXPENSE SPACE
+// ==========================================
+
+function addExpenseSpace(){
+
+    let spaceName =
+        prompt(
+            "Enter Space Name",
+            "Room Expenses"
+        );
+
+
+    if(spaceName == null){
+
+        return;
+
+    }
+
+
+    spaceName =
+        spaceName.trim();
+
+
+    if(spaceName === ""){
+
+        alert(
+            "Enter Space Name"
+        );
+
+        return;
+
+    }
+
+
+    let spaces =
+        JSON.parse(
+            localStorage.getItem(
+                "expenseSpaces"
+            )
+        ) || [
+            "Personal",
+            "Public"
+        ];
+
+
+    if(
+        spaces.includes(spaceName)
+    ){
+
+        alert(
+            "This Space already exists"
+        );
+
+        return;
+
+    }
+
+
+    spaces.push(spaceName);
+
+
+    localStorage.setItem(
+        "expenseSpaces",
+        JSON.stringify(spaces)
+    );
+
+
+    let select =
+        document.getElementById(
+            "expenseSpace"
+        );
+
+
+    let option =
+        document.createElement(
+            "option"
+        );
+
+
+    option.value =
+        spaceName;
+
+
+    option.textContent =
+        "📁 " + spaceName;
+
+
+    select.appendChild(
+        option
+    );
+
+
+    select.value =
+        spaceName;
+
+
+    alert(
+        "Space Added Successfully!"
+    );
+
+}
