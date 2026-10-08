@@ -200,37 +200,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ======================================
-    // EXPENSE HISTORY
-    // ======================================
+// EXPENSE HISTORY
+// ======================================
 
-    const expenseList =
-        document.getElementById("expenseList");
+const expenseList =
+    document.getElementById("expenseList");
 
-    if (expenseList) {
+if (expenseList) {
 
-        expenseList.innerHTML = "";
+    expenseList.innerHTML = "";
 
-        expenseHistory.forEach(function (item, index) {
+    expenseHistory.forEach(function (item, index) {
 
-            const li =
-                document.createElement("li");
+        const li =
+            document.createElement("li");
 
-            li.innerHTML =
-                item.category +
-                " - ₹" + item.amount +
-                " | 📅 " + item.date +
-                " | 📝 " + (item.note || "") +
-                ' <button onclick="editExpense(' +
-                index +
-                ')">✏️</button> ' +
-                '<button onclick="deleteExpense(' +
-                index +
-                ')">🗑️</button>';
+        li.innerHTML =
+            item.category +
+            " - ₹" + item.amount +
+            " | 📁 " + (item.space || "Personal") +
+            " | 📅 " + item.date +
+            " | 📝 " + (item.note || "") +
+            ' <button onclick="editExpense(' +
+            index +
+            ')">✏️</button> ' +
+            '<button onclick="deleteExpense(' +
+            index +
+            ')">🗑️</button>';
 
-            expenseList.appendChild(li);
+        expenseList.appendChild(li);
 
-        });
-    }
+    });
+}
 
 
     // ======================================
