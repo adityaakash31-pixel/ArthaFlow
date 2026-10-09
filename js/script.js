@@ -12192,3 +12192,90 @@ window.addEventListener("load", function() {
     loadExpenseCategories();
 
 });
+
+// ==========================================
+// SHOW CATEGORY ANALYSIS
+// ==========================================
+
+function showCategoryAnalysis() {
+
+    const select = document.getElementById(
+        "expenseCategoryAnalysis"
+    );
+
+    const result = document.getElementById(
+        "categoryAnalysisResult"
+    );
+
+    if (!select || !result) {
+        return;
+    }
+
+    const selectedCategory = select.value;
+
+    let transactions = expenseHistory.filter(function(item) {
+
+        if (selectedCategory === "all") {
+            return true;
+        }
+
+        return item.category === selectedCategory;
+
+    });
+
+    if (transactions.length === 0) {
+
+        result.innerHTML = "<p>No expenses found.</p>";
+        return;
+
+    }
+
+    let total = 0;
+    const spaceTotals = {};
+
+    let html = "";
+
+    transactions.forEach(function(item) {
+
+        const amount = Number(item.amount) || 0;
+        const space = item.space || "Personal";
+
+        total += amount;
+
+        spaceTotals[space] =
+            (spaceTotals[space] || 0) + amount;
+
+        html += `
+            <div class="card">
+                <h3>${item.category}</h3>
+                <p>📅 Date: ${item.date || "No date"}</p>
+                <p>💰 Amount: ₹${amount.toFixed(2)}</p>
+                <p>📁 Space: ${space}</p>
+                <p>📝 Note: ${item.note || "-"}</p>
+            </div>
+        `;
+
+    });
+
+    let summaryHTML = `
+        <h3>💰 Total Spent: ₹${total.toFixed(2)}</h3>
+        <h3>📊 Space-wise Total</h3>
+    `;
+
+    Object.keys(spaceTotals).forEach(function(space) {
+
+        summaryHTML += `
+            <p>
+                📁 ${space}:
+                <strong>₹${spaceTotals[space].toFixed(2)}</strong>
+            </p>
+        `;
+
+    });
+
+    result.innerHTML = summaryHTML + `
+        <h3>📋 Transactions (${transactions.length})</h3>
+        ${html}
+    `;
+
+}
