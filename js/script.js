@@ -12138,3 +12138,57 @@ function filterExpenseBySpace(){
     });
 
 }
+
+// ==========================================
+// LOAD EXPENSE CATEGORIES
+// ==========================================
+
+function loadExpenseCategories() {
+
+    const select = document.getElementById(
+        "expenseCategoryAnalysis"
+    );
+
+    if (!select) {
+        return;
+    }
+
+    const categories = [
+        ...new Set(
+            expenseHistory
+                .map(item => item.category)
+                .filter(category => category)
+        )
+    ].sort();
+
+    select.innerHTML = "";
+
+    const allOption = document.createElement("option");
+    allOption.value = "all";
+    allOption.textContent = "📊 All Categories";
+
+    select.appendChild(allOption);
+
+    categories.forEach(function(category) {
+
+        const option = document.createElement("option");
+
+        option.value = category;
+        option.textContent = category;
+
+        select.appendChild(option);
+
+    });
+
+}
+
+
+// ==========================================
+// CATEGORY ANALYSIS ON PAGE LOAD
+// ==========================================
+
+window.addEventListener("load", function() {
+
+    loadExpenseCategories();
+
+});
