@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1e3a8a">
+
+    <title>ArthaFlow - Teaching Income</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 16px;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #1e3a8a;
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+            font-size: 23px;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .summary-card,
+        .card {
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #0000000d;
+            margin-bottom: 14px;
+        }
+
+        .summary-card h3 {
+            margin: 0 0 10px;
+            font-size: 14px;
+        }
+
+        .summary-card p {
+            margin: 0;
+            font-size: 21px;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        .card h2 {
+            font-size: 19px;
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin: 12px 0 6px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+        }
+
+        button,
+        .button-link {
+            display: inline-block;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 14px;
+            background: #1e3a8a;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+
+        .secondary {
+            background: #475569;
+        }
+
+        .record {
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+            overflow-wrap: anywhere;
+        }
+
+        .record:last-child {
+            border-bottom: none;
+        }
+
+        .record button {
+            margin-right: 6px;
+        }
+
+        .total-box {
+            background: #eff6ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 14px;
+            font-weight: bold;
+        }
+
+        .muted {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .section-nav {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            margin-bottom: 16px;
+        }
+
+        .section-nav button {
+            flex-shrink: 0;
+            margin: 0;
+        }
+
+        @media (max-width: 360px) {
+            body {
+                padding: 10px;
+            }
+
+            .summary-card {
+                padding: 12px;
+            }
+
+            .summary-card p {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>📚 Teaching Income Manager</h1>
+    <p>Teaching Earnings • Salary • Copy Checking</p>
+</header>
+
+<div class="summary-grid">
+
+    <div class="summary-card">
+        <h3>📚 Teaching Earnings</h3>
+        <p id="teachingTotal">₹0</p>
+    </div>
+
+    <div class="summary-card">
+        <h3>📝 Copy Checking</h3>
+        <p id="copyTotal">₹0</p>
+    </div>
+
+    <div class="summary-card">
+        <h3>💰 Salary Received</h3>
+        <p id="salaryReceivedTotal">₹0</p>
+    </div>
+
+    <div class="summary-card">
+        <h3>🟠 Total Dues</h3>
+        <p id="totalDues">₹0</p>
+    </div>
+
+</div>
+
+<div class="card">
+    <h2>💼 Monthly Salary Setup</h2>
+
+    <label for="monthlySalary">मासिक तय सैलरी (₹)</label>
+    <input
+        type="number"
+        id="monthlySalary"
+        min="0"
+        step="0.01"
+        placeholder="जैसे 20000"
+    >
+
+    <button type="button" onclick="saveSalarySetup()">
+        Save Salary Setup
+    </button>
+
+    <p class="muted">
+        सैलरी की प्राप्ति और बकाया का हिसाब अगले सेक्शन में दर्ज होगा।
+    </p>
+</div>
+
+<div class="section-nav">
+    <button type="button" onclick="showSection('teachingSection')">
+        📚 Teaching
+    </button>
+
+    <button type="button" onclick="showSection('salarySection')">
+        💼 Salary
+    </button>
+
+    <button type="button" onclick="showSection('copySection')">
+        📝 Copy Checking
+    </button>
+
+    <button type="button" onclick="showSection('historySection')">
+        📋 History
+    </button>
+</div>
+
+<!-- TEACHING EARNINGS -->
+
+<section id="teachingSection" class="card">
+
+    <h2>📚 Add Teaching Record</h2>
+
+    <form id="teachingForm">
+
+        <label for="teachingDate">तारीख</label>
+        <input type="date" id="teachingDate" required>
+
+        <label for="teachingType">क्लास का प्रकार</label>
+        <select id="teachingType" required>
+            <option value="150">सामान्य बेल — ₹150</option>
+            <option value="200">एक घंटे वाली विशेष क्लास — ₹200</option>
+            <option value="custom">अन्य रेट</option>
+        </select>
+
+        <label for="teachingCount">बेल / पीरियड की संख्या</label>
+        <input
+            type="number"
+            id="teachingCount"
+            min="1"
+            step="1"
+            value="1"
+            required
+        >
+
+        <label for="teachingRate">प्रति बेल / पीरियड रकम (₹)</label>
+        <input
+            type="number"
+            id="teachingRate"
+            min="0"
+            step="0.01"
+            value="150"
+            required
+        >
+
+        <label for="teachingBatch">बैच / क्लास का नाम</label>
+        <input
+            type="text"
+            id="teachingBatch"
+            placeholder="जैसे Class 10"
+        >
+
+        <label for="teachingTiming">टाइमिंग</label>
+        <select id="teachingTiming">
+            <option value="">टाइमिंग नहीं बतानी</option>
+            <option value="सुबह 6 से 9">सुबह 6 से 9</option>
+            <option value="शाम 3 से 6">शाम 3 से 6</option>
+            <option value="अन्य">अन्य टाइमिंग</option>
+        </select>
+
+        <div id="customTimingBox" class="hidden">
+            <label for="customTiming">अपनी टाइमिंग लिखें</label>
+            <input
+                type="text"
+                id="customTiming"
+                placeholder="जैसे सुबह 9 से 10"
+            >
+        </div>
+
+        <label for="teachingNote">नोट (वैकल्पिक)</label>
+        <textarea
+            id="teachingNote"
+            rows="2"
+            placeholder="कोई अतिरिक्त जानकारी"
+        ></textarea>
+
+        <div class="total-box">
+            इस एंट्री की कमाई:
+            <span id="teachingCalculation">₹150</span>
+        </div>
+
+        <button type="submit">➕ Save Teaching Record</button>
+
+    </form>
+
+</section>
+
+<!-- SALARY -->
+
+<section id="salarySection" class="card hidden">
+
+    <h2>💼 Salary Payment</h2>
+
+    <label for="salaryMonth">किस महीने की सैलरी?</label>
+    <input type="month" id="salaryMonth" required>
+
+    <label for="salaryPaymentDate">पैसा मिलने की तारीख</label>
+    <input type="date" id="salaryPaymentDate">
+
+    <label for="salaryPaymentAmount">कितनी सैलरी मिली? (₹)</label>
+    <input
+        type="number"
+        id="salaryPaymentAmount"
+        min="0"
+        step="0.01"
+        placeholder="जैसे 10000"
+    >
+
+    <label for="salaryNote">नोट (वैकल्पिक)</label>
+    <input
+        type="text"
+        id="salaryNote"
+        placeholder="जैसे पहली किस्त"
+    >
+
+    <button type="button" onclick="addSalaryPayment()">
+        ➕ Save Salary Payment
+    </button>
+
+    <div class="total-box">
+        इस महीने की तय सैलरी:
+        <span id="salaryExpected">₹0</span>
+        <br><br>
+        इस महीने प्राप्त:
+        <span id="salaryMonthReceived">₹0</span>
+        <br><br>
+        इस महीने बकाया:
+        <span id="salaryMonthDues">₹0</span>
+    </div>
+
+    <h3>📋 Salary Payment History</h3>
+    <div id="salaryHistory"></div>
+
+</section>
+
+<!-- COPY CHECKING -->
+
+<section id="copySection" class="card hidden">
+
+    <h2>📝 Copy Checking Record</h2>
+
+    <form id="copyForm">
+
+        <label for="copyDate">कॉपी चेक करने की तारीख</label>
+        <input type="date" id="copyDate" required>
+
+        <label for="copyClass">क्लास</label>
+        <input
+            type="text"
+            id="copyClass"
+            placeholder="जैसे Class 10"
+        >
+
+        <label for="copyCount">कितनी क्लास की कॉपी चेक की?</label>
+        <input
+            type="number"
+            id="copyCount"
+            min="1"
+            step="1"
+            value="1"
+            required
+        >
+
+        <label for="copyRate">प्रति क्लास रकम (₹)</label>
+        <input
+            type="number"
+            id="copyRate"
+            min="0"
+            step="0.01"
+            value="225"
+            required
+        >
+
+        <label for="copyNote">नोट (वैकल्पिक)</label>
+        <textarea
+            id="copyNote"
+            rows="2"
+            placeholder="कोई अतिरिक्त जानकारी"
+        ></textarea>
+
+        <div class="total-box">
+            इस एंट्री की कमाई:
+            <span id="copyCalculation">₹225</span>
+        </div>
+
+        <button type="submit">➕ Save Copy Checking</button>
+
+    </form>
+
+    <h3>📊 इस महीने का हिसाब</h3>
+    <p>कुल क्लास: <strong id="copyMonthCount">0</strong></p>
+    <p>कुल कमाई: <strong id="copyMonthTotal">₹0</strong></p>
+
+</section>
+
+<!-- HISTORY AND SEARCH -->
+
+<section id="historySection" class="card hidden">
+
+    <h2>📋 Complete History</h2>
+
+    <label for="historyType">रिकॉर्ड का प्रकार</label>
+    <select id="historyType">
+        <option value="all">सभी रिकॉर्ड</option>
+        <option value="teaching">Teaching</option>
+        <option value="copy">Copy Checking</option>
+        <option value="salary">Salary Payments</option>
+    </select>
+
+    <label for="historySearch">तारीख / बैच / नोट से खोजें</label>
+    <input
+        type="search"
+        id="historySearch"
+        placeholder="Search..."
+    >
+
+    <button type="button" onclick="renderHistory()">
+        🔎 Search
+    </button>
+
+    <div id="completeHistory"></div>
+
+</section>
+
+<p>
+    <a href="./index.html" class="button-link secondary">
+        ← Back to Dashboard
+    </a>
+</p>
+
+<script src="./js/teaching-income.js"></script>
+
+</body>
+  </html>
