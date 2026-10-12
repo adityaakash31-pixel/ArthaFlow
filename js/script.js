@@ -12133,9 +12133,14 @@ function filterExpenseBySpace(){
             ')">🗑️</button>';
 
 
-        expenseList.appendChild(li);
+                expenseList.appendChild(li);
 
     });
+
+    // Update Selected Space Summary
+    if(typeof loadSpaceExpenseSummary === "function"){
+        loadSpaceExpenseSummary();
+    }
 
 }
 
@@ -12279,3 +12284,136 @@ function showCategoryAnalysis() {
     `;
 
 }
+
+// ==========================================
+// SPACE-WISE EXPENSE SUMMARY
+// ==========================================
+
+function loadSpaceExpenseSummary() {
+
+    const overallElement =
+        document.getElementById("overallExpenseAmount");
+
+    const spaceSummaryElement =
+        document.getElementById("spaceExpenseSummary");
+
+    const selectedSpaceElement =
+        document.getElementById("selectedSpaceName");
+
+    const selectedAmountElement =
+        document.getElementById("selectedSpaceAmount");
+
+    if (
+        !overallElement ||
+        !spaceSummaryElement ||
+        !selectedSpaceElement ||
+        !selectedAmountElement
+    ) {
+        return;
+    }
+
+    // Get all expenses safely
+    const records = Array.isArray(expenseHistory)
+        ? expenseHistory
+        : [];
+
+    let overallTotal = 0;
+    const spaceTotals = {};
+
+    records.forEach(function(item) {
+
+        const amount = Number(item.amount) || 0;
+        const space = item.space || "Personal";
+
+        overallTotal += amount;
+
+        spaceTotals[space] =
+            (spaceTotals[space] || 0) + amount;
+
+    });
+
+    // Show overall expense
+    overallElement.textContent =
+        "₹" + overallTotal.toFixed(2);
+
+    // Include spaces that have no expenses yet
+    let savedSpaces = [];
+
+    try {
+
+        savedSpaces = JSON.parse(
+            localStorage.getItem("expenseSpaces")
+        ) || [];
+
+    } catch(error) {
+
+        savedSpaces = [];
+
+    }
+
+    const allSpaces = [
+        ...new Set([
+            "Personal",
+            "Public",
+            ...savedSpaces,
+            ...Object.keys(spaceTotals)
+        ])
+    ];
+
+    // Show totals for every Space
+    spaceSummaryElement.innerHTML = "";
+
+    allSpaces.forEach(function(space) {
+
+        const amount = spaceTotals[space] || 0;
+
+        const row = document.createElement("p");
+
+        const name = document.createElement("span");
+        name.textContent = "📁 " + space + ": ";
+
+        const value = document.createElement("strong");
+        value.textContent = "₹" + amount.toFixed(2);
+
+        row.appendChild(name);
+        row.appendChild(value);
+
+        spaceSummaryElement.appendChild(row);
+
+    });
+
+    // Read currently selected Space
+    const filterElement =
+        document.getElementById("expenseSpaceFilter");
+
+    const selectedSpace = filterElement
+        ? filterElement.value
+        : "all";
+
+    if (selectedSpace === "all") {
+
+        selectedSpaceElement.textContent = "All Spaces";
+        selectedAmountElement.textContent =
+            "₹" + overallTotal.toFixed(2);
+
+    } else {
+
+        selectedSpaceElement.textContent = selectedSpace;
+
+        selectedAmountElement.textContent =
+            "₹" + (spaceTotals[selectedSpace] || 0).toFixed(2);
+
+    }
+
+}
+
+
+// ==========================================
+// INITIALIZE SPACE SUMMARY
+// ==========================================
+
+window.addEventListener("load", function() {
+
+    loadSpaceExpenseSummary();
+
+});
