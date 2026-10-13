@@ -722,6 +722,7 @@ function editTeachingRecord(id) {
     editingTeachingId = item.id;
 
     document.getElementById("teachingDate").value = item.date;
+
     document.getElementById("teachingType").value =
         item.classType === "custom" ? "custom" : String(item.rate);
 
@@ -733,8 +734,10 @@ function editTeachingRecord(id) {
     document.getElementById("teachingBatch").value = item.batch || "";
 
     const timingSelect = document.getElementById("teachingTiming");
-    const knownTimings = Array.from(timingSelect.options)
-        .map(option => option.value);
+
+    const knownTimings = Array.from(timingSelect.options).map(
+        option => option.value
+    );
 
     if (knownTimings.includes(item.timing || "")) {
         timingSelect.value = item.timing || "";
@@ -753,4 +756,180 @@ function editTeachingRecord(id) {
 
     document.querySelector(
         "#teachingForm button[type='submit']"
-    
+    ).textContent = "💾 Update Teaching Record";
+
+    calculateTeachingAmount();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+// ==========================================
+// EDIT COPY CHECKING
+// ==========================================
+
+function editCopyRecord(id) {
+    const item = teachingRecords.find(
+        record => record.id === id && record.type === "copy"
+    );
+
+    if (!item) return;
+
+    showSection("copySection");
+
+    editingCopyId = item.id;
+
+    document.getElementById("copyDate").value = item.date;
+    document.getElementById("copyClass").value = item.className || "";
+    document.getElementById("copyCount").value = item.count;
+    document.getElementById("copyRate").value = item.rate;
+    document.getElementById("copyNote").value = item.note || "";
+
+    document.querySelector(
+        "#copyForm button[type='submit']"
+    ).textContent = "💾 Update Copy Checking";
+
+    calculateCopyAmount();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+// ==========================================
+// DELETE TEACHING / COPY RECORD
+// ==========================================
+
+function deleteTeachingRecord(id) {
+    const item = teachingRecords.find(
+        record => record.id === id
+    );
+
+    if (!item) return;
+
+    if (!confirm("क्या आप यह रिकॉर्ड हटाना चाहते हैं?")) {
+        return;
+    }
+
+    teachingRecords = teachingRecords.filter(
+        record => record.id !== id
+    );
+
+    saveTeachingData();
+    refreshAll();
+
+    alert("रिकॉर्ड डिलीट हो गया!");
+}
+
+
+// ==========================================
+// REFRESH ALL DATA
+// ==========================================
+
+function refreshAll() {
+    updateDashboardSummary();
+    updateSalarySummary();
+    updateCopySummary();
+    renderSalaryHistory();
+    renderHistory();
+}
+
+
+// ==========================================
+// INITIALIZATION
+// ==========================================
+
+function initializeTeachingIncome() {
+    document.getElementById("teachingDate").value = todayDate();
+    document.getElementById("copyDate").value = todayDate();
+    document.getElementById("salaryPaymentDate").value = todayDate();
+
+    document.getElementById("salaryMonth").value =
+        todayDate().slice(0, 7);
+
+    document.getElementById("monthlySalary").value = monthlySalary;
+
+    document.getElementById("teachingForm").addEventListener(
+        "submit",
+        handleTeachingSubmit
+    );
+
+    document.getElementById("copyForm").addEventListener(
+        "submit",
+        handleCopySubmit
+    );
+
+    document.getElementById("teachingType").addEventListener(
+        "change",
+        updateTeachingRate
+    );
+
+    document.getElementById("teachingCount").addEventListener(
+        "input",
+        calculateTeachingAmount
+    );
+
+    document.getElementById("teachingRate").addEventListener(
+        "input",
+        calculateTeachingAmount
+    );
+
+    document.getElementById("teachingTiming").addEventListener(
+        "change",
+        updateTeachingTiming
+    );
+
+    document.getElementById("copyCount").addEventListener(
+        "input",
+        calculateCopyAmount
+    );
+
+    document.getElementById("copyRate").addEventListener(
+        "input",
+        calculateCopyAmount
+    );
+
+    document.getElementById("salaryMonth").addEventListener(
+        "change",
+        function() {
+            renderSalaryHistory();
+            updateSalarySummary();
+        }
+    );
+
+    document.getElementById("historyType").addEventListener(
+        "change",
+        renderHistory
+    );
+
+    document.getElementById("historySearch").addEventListener(
+        "input",
+        renderHistory
+    );
+
+    updateTeachingRate();
+    calculateTeachingAmount();
+    calculateCopyAmount();
+    updateTeachingTiming();
+
+    refreshAll();
+}
+
+
+// ==========================================
+// START APP
+// ==========================================
+
+if (document.readyState === "loading") {
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeTeachingIncome
+    );
+} else {
+    initializeTeachingIncome();
+}
