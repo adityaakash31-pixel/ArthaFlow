@@ -203,13 +203,14 @@
 <div class="card">
     <h2>💼 Monthly Salary Setup</h2>
 
-    <label for="monthlySalary">मासिक तय सैलरी (₹)</label>
+    <label for="monthlySalary">Fixed Monthly Salary (₹)</label>
+
     <input
         type="number"
         id="monthlySalary"
         min="0"
         step="0.01"
-        placeholder="जैसे 20000"
+        placeholder="e.g. 20000"
     >
 
     <button type="button" onclick="saveSalarySetup()">
@@ -217,11 +218,12 @@
     </button>
 
     <p class="muted">
-        सैलरी की प्राप्ति और बकाया का हिसाब अगले सेक्शन में दर्ज होगा।
+        Track salary payments and outstanding dues in the Salary section.
     </p>
 </div>
 
 <div class="section-nav">
+
     <button type="button" onclick="showSection('teachingSection')">
         📚 Teaching
     </button>
@@ -237,6 +239,7 @@
     <button type="button" onclick="showSection('historySection')">
         📋 History
     </button>
+
 </div>
 
 <!-- TEACHING EARNINGS -->
@@ -247,17 +250,22 @@
 
     <form id="teachingForm">
 
-        <label for="teachingDate">तारीख</label>
+        <label for="teachingDate">Date</label>
+
         <input type="date" id="teachingDate" required>
 
-        <label for="teachingType">क्लास का प्रकार</label>
+        <label for="teachingType">Class Type</label>
+
         <select id="teachingType" required>
-            <option value="150">सामान्य बेल — ₹150</option>
-            <option value="200">एक घंटे वाली विशेष क्लास — ₹200</option>
-            <option value="custom">अन्य रेट</option>
+            <option value="150">Regular Bell — ₹150</option>
+            <option value="200">Special 1-Hour Class — ₹200</option>
+            <option value="custom">Custom Rate</option>
         </select>
 
-        <label for="teachingCount">बेल / पीरियड की संख्या</label>
+        <label for="teachingCount">
+            Number of Bells / Periods
+        </label>
+
         <input
             type="number"
             id="teachingCount"
@@ -267,7 +275,10 @@
             required
         >
 
-        <label for="teachingRate">प्रति बेल / पीरियड रकम (₹)</label>
+        <label for="teachingRate">
+            Rate per Bell / Period (₹)
+        </label>
+
         <input
             type="number"
             id="teachingRate"
@@ -277,39 +288,45 @@
             required
         >
 
-        <label for="teachingBatch">बैच / क्लास का नाम</label>
+        <label for="teachingBatch">Batch / Class Name</label>
+
         <input
             type="text"
             id="teachingBatch"
-            placeholder="जैसे Class 10"
+            placeholder="e.g. Class 10"
         >
 
-        <label for="teachingTiming">टाइमिंग</label>
+        <label for="teachingTiming">Timing</label>
+
         <select id="teachingTiming">
-            <option value="">टाइमिंग नहीं बतानी</option>
-            <option value="सुबह 6 से 9">सुबह 6 से 9</option>
-            <option value="शाम 3 से 6">शाम 3 से 6</option>
-            <option value="अन्य">अन्य टाइमिंग</option>
+            <option value="">Not Specified</option>
+            <option value="सुबह 6 से 9">Morning (6 AM – 9 AM)</option>
+            <option value="शाम 3 से 6">Evening (3 PM – 6 PM)</option>
+            <option value="अन्य">Other Timing</option>
         </select>
 
         <div id="customTimingBox" class="hidden">
-            <label for="customTiming">अपनी टाइमिंग लिखें</label>
+
+            <label for="customTiming">Enter Custom Timing</label>
+
             <input
                 type="text"
                 id="customTiming"
-                placeholder="जैसे सुबह 9 से 10"
+                placeholder="e.g. 9 AM – 10 AM"
             >
+
         </div>
 
-        <label for="teachingNote">नोट (वैकल्पिक)</label>
+        <label for="teachingNote">Notes (Optional)</label>
+
         <textarea
             id="teachingNote"
             rows="2"
-            placeholder="कोई अतिरिक्त जानकारी"
+            placeholder="Any additional details"
         ></textarea>
 
         <div class="total-box">
-            इस एंट्री की कमाई:
+            Earnings for This Entry:
             <span id="teachingCalculation">₹150</span>
         </div>
 
@@ -325,26 +342,30 @@
 
     <h2>💼 Salary Payment</h2>
 
-    <label for="salaryMonth">किस महीने की सैलरी?</label>
+    <label for="salaryMonth">Salary Month</label>
+
     <input type="month" id="salaryMonth" required>
 
-    <label for="salaryPaymentDate">पैसा मिलने की तारीख</label>
+    <label for="salaryPaymentDate">Payment Date</label>
+
     <input type="date" id="salaryPaymentDate">
 
-    <label for="salaryPaymentAmount">कितनी सैलरी मिली? (₹)</label>
+    <label for="salaryPaymentAmount">Amount Received (₹)</label>
+
     <input
         type="number"
         id="salaryPaymentAmount"
         min="0"
         step="0.01"
-        placeholder="जैसे 10000"
+        placeholder="e.g. 10000"
     >
 
-    <label for="salaryNote">नोट (वैकल्पिक)</label>
+    <label for="salaryNote">Notes (Optional)</label>
+
     <input
         type="text"
         id="salaryNote"
-        placeholder="जैसे पहली किस्त"
+        placeholder="e.g. First installment"
     >
 
     <button type="button" onclick="addSalaryPayment()">
@@ -352,17 +373,24 @@
     </button>
 
     <div class="total-box">
-        इस महीने की तय सैलरी:
+
+        Expected Salary This Month:
         <span id="salaryExpected">₹0</span>
+
         <br><br>
-        इस महीने प्राप्त:
+
+        Received This Month:
         <span id="salaryMonthReceived">₹0</span>
+
         <br><br>
-        इस महीने बकाया:
+
+        Outstanding This Month:
         <span id="salaryMonthDues">₹0</span>
+
     </div>
 
     <h3>📋 Salary Payment History</h3>
+
     <div id="salaryHistory"></div>
 
 </section>
@@ -375,17 +403,20 @@
 
     <form id="copyForm">
 
-        <label for="copyDate">कॉपी चेक करने की तारीख</label>
+        <label for="copyDate">Copy Checking Date</label>
+
         <input type="date" id="copyDate" required>
 
-        <label for="copyClass">क्लास</label>
+        <label for="copyClass">Class</label>
+
         <input
             type="text"
             id="copyClass"
-            placeholder="जैसे Class 10"
+            placeholder="e.g. Class 10"
         >
 
-        <label for="copyCount">कितनी क्लास की कॉपी चेक की?</label>
+        <label for="copyCount">Number of Classes Checked</label>
+
         <input
             type="number"
             id="copyCount"
@@ -395,7 +426,8 @@
             required
         >
 
-        <label for="copyRate">प्रति क्लास रकम (₹)</label>
+        <label for="copyRate">Rate per Class (₹)</label>
+
         <input
             type="number"
             id="copyRate"
@@ -405,15 +437,16 @@
             required
         >
 
-        <label for="copyNote">नोट (वैकल्पिक)</label>
+        <label for="copyNote">Notes (Optional)</label>
+
         <textarea
             id="copyNote"
             rows="2"
-            placeholder="कोई अतिरिक्त जानकारी"
+            placeholder="Any additional details"
         ></textarea>
 
         <div class="total-box">
-            इस एंट्री की कमाई:
+            Earnings for This Entry:
             <span id="copyCalculation">₹225</span>
         </div>
 
@@ -421,9 +454,17 @@
 
     </form>
 
-    <h3>📊 इस महीने का हिसाब</h3>
-    <p>कुल क्लास: <strong id="copyMonthCount">0</strong></p>
-    <p>कुल कमाई: <strong id="copyMonthTotal">₹0</strong></p>
+    <h3>📊 This Month's Summary</h3>
+
+    <p>
+        Total Classes:
+        <strong id="copyMonthCount">0</strong>
+    </p>
+
+    <p>
+        Total Earnings:
+        <strong id="copyMonthTotal">₹0</strong>
+    </p>
 
 </section>
 
@@ -433,15 +474,19 @@
 
     <h2>📋 Complete History</h2>
 
-    <label for="historyType">रिकॉर्ड का प्रकार</label>
+    <label for="historyType">Record Type</label>
+
     <select id="historyType">
-        <option value="all">सभी रिकॉर्ड</option>
+        <option value="all">All Records</option>
         <option value="teaching">Teaching</option>
         <option value="copy">Copy Checking</option>
         <option value="salary">Salary Payments</option>
     </select>
 
-    <label for="historySearch">तारीख / बैच / नोट से खोजें</label>
+    <label for="historySearch">
+        Search by Date / Batch / Notes
+    </label>
+
     <input
         type="search"
         id="historySearch"
@@ -465,4 +510,4 @@
 <script src="./js/teaching-income.js"></script>
 
 </body>
-  </html>
+</html>
