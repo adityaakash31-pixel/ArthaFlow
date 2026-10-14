@@ -166,6 +166,48 @@
                 font-size: 18px;
             }
         }
+
+        .salary-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.salary-summary-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.salary-summary-card:first-child {
+    grid-column: 1 / -1;
+}
+
+.salary-summary-label {
+    color: #64748b;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.salary-summary-value {
+    color: #1e3a8a;
+    font-size: 23px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 360px) {
+    .salary-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .salary-summary-card:first-child {
+        grid-column: auto;
+    }
+}
     </style>
 </head>
 
@@ -372,20 +414,22 @@
         ➕ Save Salary Payment
     </button>
 
-    <div class="total-box">
+    <div class="salary-summary-grid">
 
-        Expected Salary This Month:
-        <span id="salaryExpected">₹0</span>
+    <div class="salary-summary-card">
+        <div class="salary-summary-label">Total Due</div>
+        <div class="salary-summary-value" id="salaryExpected">₹0</div>
+    </div>
 
-        <br><br>
+    <div class="salary-summary-card">
+        <div class="salary-summary-label">Amount Received</div>
+        <div class="salary-summary-value" id="salaryMonthReceived">₹0</div>
+    </div>
 
-        Received This Month:
-        <span id="salaryMonthReceived">₹0</span>
-
-        <br><br>
-
-        Outstanding This Month:
-        <span id="salaryMonthDues">₹0</span>
+    <div class="salary-summary-card">
+        <div class="salary-summary-label">Remaining Dues</div>
+        <div class="salary-summary-value" id="salaryMonthDues">₹0</div>
+    </div>
 
     </div>
 
