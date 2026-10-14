@@ -1736,7 +1736,6 @@
     initializeTeachingIncome();
   }
 
-  /* =========================================================
-     END OF PART 3
-     Close the IIFE started in Part 1.
-     =====
+    // END OF PART 3
+  // Close the IIFE started in Part 1.
+  })();
