@@ -1738,4 +1738,37 @@
 
     // END OF PART 3
   // Close the IIFE started in Part 1.
+
+     // FIX: Navigation between sections
+  window.showSection = function (sectionId) {
+    const sectionIds = [
+      "teachingSection",
+      "salarySection",
+      "copySection",
+      "historySection"
+    ];
+
+    sectionIds.forEach(function (id) {
+      const section = document.getElementById(id);
+
+      if (section) {
+        section.style.display =
+          id === sectionId ? "block" : "none";
+      }
+    });
+
+    const selectedSection =
+      document.getElementById(sectionId);
+
+    if (selectedSection) {
+      selectedSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    } else {
+      console.error(
+        "Section not found: " + sectionId
+      );
+    }
+  };
   })();
