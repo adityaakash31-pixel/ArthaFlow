@@ -1,935 +1,526 @@
-// ==========================================
-// ARTHAFLOW - TEACHING INCOME MANAGER
-// ==========================================
+(() => {
+    "use strict";
 
-const TEACHING_STORAGE_KEY = "arthaflow_teaching_records";
-const SALARY_STORAGE_KEY = "arthaflow_salary_records";
-const SALARY_SETUP_KEY = "arthaflow_monthly_salary";
+    const KEYS = {
+        teaching: "arthaflow_teaching_records",
+        copy: "arthaflow_copy_records",
+        salary: "arthaflow_salary_records",
+        monthlySalary: "arthaflow_monthly_salary"
+    };
 
-// ==========================================
-// DATA
-// ==========================================
+    const $ = id => document.getElementById(id);
 
-function readTeachingData(key) {
-    try {
-        const data = JSON.parse(localStorage.getItem(key));
-        return Array.isArray(data) ? data : [];
-    } catch (error) {
-        return [];
-    }
-}
-
-let teachingRecords = readTeachingData(TEACHING_STORAGE_KEY);
-let salaryRecords = readTeachingData(SALARY_STORAGE_KEY);
-
-let monthlySalary = Number(
-    localStorage.getItem(SALARY_SETUP_KEY)
-) || 0;
-
-let editingTeachingId = null;
-let editingCopyId = null;
-
-// ==========================================
-// HELPERS
-// ==========================================
-
-function todayDate() {
-    const now = new Date();
-    const localDate = new Date(
-        now.getTime() - now.getTimezoneOffset() * 60000
-    );
-
-    return localDate.toISOString().slice(0, 10);
-}
-
-function money(amount) {
-    return "₹" + (Number(amount) || 0).toLocaleString(
-        "en-IN",
-        {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }
-    );
-}
-
-function saveTeachingData() {
-    localStorage.setItem(
-        TEACHING_STORAGE_KEY,
-        JSON.stringify(teachingRecords)
-    );
-
-    localStorage.setItem(
-        SALARY_STORAGE_KEY,
-        JSON.stringify(salaryRecords)
-    );
-}
-
-function makeId() {
-    return Date.now().toString(36) +
-        Math.random().toString(36).slice(2, 9);
-}
-
-function getSelectedMonth() {
-    return document.getElementById("salaryMonth").value ||
-        todayDate().slice(0, 7);
-}
-
-// ==========================================
-// NAVIGATION
-// ==========================================
-
-function showSection(sectionId) {
-    const sections = [
-        "teachingSection",
-        "salarySection",
-        "copySection",
-        "historySection"
-    ];
-
-    sections.forEach(function(id) {
-        const section = document.getElementById(id);
-
-        if (section) {
-            section.classList.toggle(
-                "hidden",
-                id !== sectionId
-            );
-        }
+    const money = value => "₹" + (Number(value) || 0).toLocaleString("en-IN", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
     });
 
-    if (sectionId === "salarySection") {
+    const today = () => {
+        const d = new Date();
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    };
+
+    const currentMonth = () => today().slice(0, 7);
+
+    const newId = () =>
+        `${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+
+    const read = key => {
+        try {
+            const data = JSON.parse(localStorage.getItem(key) || "[]");
+            return Array.isArray(data) ? data : [];
+        } catch {
+            return [];
+        }
+    };
+
+    const write = (key, data) => {
+        localStorage.setItem(key, JSON.stringify(data));
+    };
+
+    const monthOf = date => String(date || "").slice(0, 7);
+
+    const escapeHTML = value =>
+        String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[char]);
+
+    let teaching = read(KEYS.teaching);
+    let copies = read(KEYS.copy);
+    let salaries = read(KEYS.salary);
+
+    let monthlySalary =
+        Number(localStorage.getItem(KEYS.monthlySalary)) || 0;
+
+    function persist() {
+        write(KEYS.teaching, teaching);
+        write(KEYS.copy, copies);
+        write(KEYS.salary, salaries);
+    }
+
+    function setText(id, value) {
+        const element = $(id);
+        if (element) element.textContent = value;
+    }
+
+    function setHTML(id, value) {
+        const element = $(id);
+        if (element) element.innerHTML = value;
+    }
+
+    function recordsForMonth(records, month) {
+        return records.filter(record => monthOf(record.date) === month);
+    }
+
+    function salaryPaymentMonth(record) {
+        return record.month || monthOf(record.date);
+    }
+
+    function paymentsForMonth(month) {
+        return salaries.filter(record => salaryPaymentMonth(record) === month);
+    }
+
+    function totalOf(records, field = "total") {
+        return records.reduce(
+            (sum, record) => sum + (Number(record[field]) || 0),
+            0
+        );
+    }
+
+    function monthName(month) {
+        if (!/^\d{4}-\d{2}$/.test(month)) return month || "Unknown Month";
+
+        const [year, number] = month.split("-").map(Number);
+
+        return new Date(year, number - 1, 1).toLocaleDateString("en-IN", {
+            month: "long",
+            year: "numeric"
+        });
+    }
+
+    function getMonthFinancials(month) {
+        const copyEarnings = totalOf(recordsForMonth(copies, month));
+        const payments = totalOf(paymentsForMonth(month), "amount");
+
+        const expectedSalary = monthlySalary;
+        const totalDueBeforePayment = expectedSalary + copyEarnings;
+
+        return {
+            month,
+            expectedSalary,
+            teachingBreakdown: totalOf(recordsForMonth(teaching, month)),
+            copyEarnings,
+            payments,
+            totalDueBeforePayment
+        };
+    }
+
+    function calculateMonthlyLedger(targetMonth) {
+        const allMonths = new Set([
+            targetMonth,
+            ...teaching.map(record => monthOf(record.date)),
+            ...copies.map(record => monthOf(record.date)),
+            ...salaries.map(record => salaryPaymentMonth(record))
+        ]);
+
+        const validMonths = [...allMonths]
+            .filter(month => /^\d{4}-\d{2}$/.test(month))
+            .sort();
+
+        if (!validMonths.length) {
+            return {
+                expectedSalary: monthlySalary,
+                teachingBreakdown: 0,
+                copyEarnings: 0,
+                payments: 0,
+                openingDues: 0,
+                totalDue: monthlySalary,
+                closingDues: monthlySalary,
+                credit: 0,
+                paymentPercent: 0
+            };
+        }
+
+        const firstMonth = validMonths[0];
+        const [startYear, startMonth] = firstMonth.split("-").map(Number);
+        const [endYear, endMonth] = targetMonth.split("-").map(Number);
+
+        let openingDues = 0;
+        let result = null;
+
+        const monthCount =
+            (endYear - startYear) * 12 + endMonth - startMonth;
+
+        for (let index = 0; index <= monthCount; index++) {
+            const date = new Date(startYear, startMonth - 1 + index, 1);
+
+            const month =
+                `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+
+            const data = getMonthFinancials(month);
+            const totalDue = openingDues + data.totalDueBeforePayment;
+            const closingDues = totalDue - data.payments;
+
+            result = {
+                ...data,
+                openingDues,
+                totalDue,
+                closingDues: Math.max(0, closingDues),
+                credit: Math.max(0, -closingDues),
+                paymentPercent: totalDue > 0
+                    ? data.payments / totalDue * 100
+                    : 0
+            };
+
+            openingDues = result.closingDues;
+        }
+
+        return result;
+                }
+
+     function refreshSummary() {
+        const month = currentMonth();
+
+        setText(
+            "teachingTotal",
+            money(totalOf(recordsForMonth(teaching, month)))
+        );
+
+        setText(
+            "copyTotal",
+            money(totalOf(recordsForMonth(copies, month)))
+        );
+
+        const ledger = calculateMonthlyLedger(month);
+
+        setText("salaryReceivedTotal", money(ledger.payments));
+        setText("totalDues", money(ledger.closingDues));
+
+        if ($("monthlySalary")) {
+            $("monthlySalary").value = monthlySalary || "";
+        }
+
+        if ($("copyMonthCount")) {
+            setText(
+                "copyMonthCount",
+                recordsForMonth(copies, month).reduce(
+                    (sum, record) => sum + (Number(record.count) || 0),
+                    0
+                )
+            );
+        }
+
+        setText("copyMonthTotal", money(ledger.copyEarnings));
+
+        refreshSalarySection();
+    }
+
+    function refreshSalarySection() {
+        const month = $("salaryMonth")?.value || currentMonth();
+        const ledger = calculateMonthlyLedger(month);
+
+        setText("salaryExpected", money(ledger.expectedSalary));
+        setText("salaryMonthReceived", money(ledger.payments));
+        setText("salaryMonthDues", money(ledger.closingDues));
+
         renderSalaryHistory();
-        updateSalarySummary();
     }
 
-    if (sectionId === "copySection") {
-        updateCopySummary();
+    function showSection(sectionId) {
+        document.querySelectorAll("body > section").forEach(section => {
+            section.classList.toggle("hidden", section.id !== sectionId);
+        });
     }
 
-    if (sectionId === "historySection") {
+    window.showSection = showSection;
+
+    window.saveSalarySetup = function () {
+        monthlySalary = Math.max(
+            0,
+            Number($("monthlySalary").value) || 0
+        );
+
+        localStorage.setItem(KEYS.monthlySalary, String(monthlySalary));
+
+        refreshSummary();
         renderHistory();
-    }
-}
 
-// ==========================================
-// SALARY SETUP
-// ==========================================
+        alert("Monthly salary setup saved.");
+    };
 
-function saveSalarySetup() {
-    const input = document.getElementById("monthlySalary");
-    const value = Number(input.value);
+    function updateTeachingCalculation() {
+        const count = Number($("teachingCount").value) || 0;
+        const rate = Number($("teachingRate").value) || 0;
 
-    if (input.value.trim() === "" || !Number.isFinite(value) || value < 0) {
-        alert("कृपया सही मासिक सैलरी दर्ज करें।");
-        return;
+        setText("teachingCalculation", money(count * rate));
     }
 
-    monthlySalary = value;
+    function updateCopyCalculation() {
+        const count = Number($("copyCount").value) || 0;
+        const rate = Number($("copyRate").value) || 0;
 
-    localStorage.setItem(
-        SALARY_SETUP_KEY,
-        String(monthlySalary)
-    );
-
-    updateSalarySummary();
-    updateDashboardSummary();
-
-    alert("Monthly Salary Setup सेव हो गया!");
-}
-
-// ==========================================
-// TEACHING RATE
-// ==========================================
-
-function updateTeachingRate() {
-    const type = document.getElementById("teachingType").value;
-    const rateInput = document.getElementById("teachingRate");
-
-    if (type === "custom") {
-        rateInput.value = "";
-        rateInput.readOnly = false;
-    } else {
-        rateInput.value = type;
-        rateInput.readOnly = true;
+        setText("copyCalculation", money(count * rate));
     }
 
-    calculateTeachingAmount();
-}
+    function recordCard(type, record) {
+        let title = "";
+        let amount = 0;
+        let details = "";
 
-function calculateTeachingAmount() {
-    const count = Number(
-        document.getElementById("teachingCount").value
-    ) || 0;
+        if (type === "teaching") {
+            title = `Teaching — ${record.className || record.batch || "Class not specified"}`;
+            amount = record.total;
+            details = [
+                record.date,
+                record.timing || "Timing not specified",
+                `${record.count} period(s) × ${money(record.rate)}`,
+                record.note || ""
+            ].filter(Boolean).join(" • ");
+        } else if (type === "copy") {
+            title = `Copy Checking — ${record.className || "Class not specified"}`;
+            amount = record.total;
+            details = [
+                record.date,
+                `${record.count} class(es) × ${money(record.rate)}`,
+                record.note || ""
+            ].filter(Boolean).join(" • ");
+        } else {
+            title = `Salary Payment — ${monthName(salaryPaymentMonth(record))}`;
+            amount = record.amount;
+            details = [
+                `Payment Date: ${record.date || "Not specified"}`,
+                record.note || ""
+            ].filter(Boolean).join(" • ");
+        }
 
-    const rate = Number(
-        document.getElementById("teachingRate").value
-    ) || 0;
-
-    document.getElementById("teachingCalculation").textContent =
-        money(count * rate);
-}
-
-function updateTeachingTiming() {
-    const timing = document.getElementById("teachingTiming").value;
-
-    document.getElementById("customTimingBox")
-        .classList.toggle("hidden", timing !== "अन्य");
-}
-
-// ==========================================
-// ADD / EDIT TEACHING RECORD
-// ==========================================
-
-function resetTeachingForm() {
-    document.getElementById("teachingForm").reset();
-
-    document.getElementById("teachingDate").value = todayDate();
-
-    document.getElementById("teachingType").value = "150";
-    document.getElementById("teachingRate").value = "150";
-    document.getElementById("teachingRate").readOnly = true;
-    document.getElementById("teachingCount").value = "1";
-
-    document.getElementById("customTimingBox")
-        .classList.add("hidden");
-
-    editingTeachingId = null;
-
-    const button = document.querySelector(
-        "#teachingForm button[type='submit']"
-    );
-
-    button.textContent = "➕ Save Teaching Record";
-
-    calculateTeachingAmount();
-}
-
-function handleTeachingSubmit(event) {
-    event.preventDefault();
-
-    const date = document.getElementById("teachingDate").value;
-    const type = document.getElementById("teachingType").value;
-    const count = Number(
-        document.getElementById("teachingCount").value
-    );
-    const rate = Number(
-        document.getElementById("teachingRate").value
-    );
-
-    if (
-        !date ||
-        !Number.isInteger(count) ||
-        count <= 0 ||
-        !Number.isFinite(rate) ||
-        rate < 0
-    ) {
-        alert("कृपया तारीख, बेल और रेट सही दर्ज करें।");
-        return;
+        return `
+            <div class="record">
+                <strong>${escapeHTML(title)}</strong>
+                <div>${escapeHTML(details)}</div>
+                <strong>${money(amount)}</strong>
+            </div>
+        `;
     }
 
-    let timing = document.getElementById("teachingTiming").value;
+    function renderSalaryHistory() {
+        const month = $("salaryMonth")?.value || currentMonth();
+        const records = paymentsForMonth(month)
+            .slice()
+            .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
 
-    if (timing === "अन्य") {
-        timing = document.getElementById("customTiming").value.trim();
-
-        if (!timing) {
-            alert("कृपया अपनी टाइमिंग दर्ज करें।");
+        if (!records.length) {
+            setHTML("salaryHistory", '<p class="muted">No payments recorded for this month.</p>');
             return;
         }
+
+        setHTML(
+            "salaryHistory",
+            records.map(record => recordCard("salary", record)).join("")
+        );
     }
 
-    const record = {
-        id: editingTeachingId || makeId(),
-        type: "teaching",
-        date: date,
-        classType: type === "custom" ? "custom" : "standard",
-        count: count,
-        rate: rate,
-        amount: count * rate,
-        batch: document.getElementById("teachingBatch").value.trim(),
-        timing: timing,
-        note: document.getElementById("teachingNote").value.trim()
+    window.addSalaryPayment = function () {
+        const month = $("salaryMonth").value;
+        const date = $("salaryPaymentDate").value || today();
+        const amount = Number($("salaryPaymentAmount").value);
+
+        if (!month) {
+            alert("Please select the salary month.");
+            return;
+        }
+
+        if (!Number.isFinite(amount) || amount <= 0) {
+            alert("Please enter a valid payment amount.");
+            return;
+        }
+
+        salaries.push({
+            id: newId(),
+            month,
+            date,
+            amount,
+            note: $("salaryNote").value.trim()
+        });
+
+        persist();
+
+        $("salaryPaymentAmount").value = "";
+        $("salaryNote").value = "";
+
+        refreshSummary();
+        renderHistory();
+
+        alert("Salary payment saved.");
     };
 
-    if (editingTeachingId) {
-        const index = teachingRecords.findIndex(
-            item => item.id === editingTeachingId
+     function renderHistory() {
+        const filter = $("historyType")?.value || "all";
+        const query = ($("historySearch")?.value || "").trim().toLowerCase();
+
+        let items = [];
+
+        if (filter === "all" || filter === "teaching") {
+            items.push(...teaching.map(record => ({
+                type: "teaching",
+                record
+            })));
+        }
+
+        if (filter === "all" || filter === "copy") {
+            items.push(...copies.map(record => ({
+                type: "copy",
+                record
+            })));
+        }
+
+        if (filter === "all" || filter === "salary") {
+            items.push(...salaries.map(record => ({
+                type: "salary",
+                record
+            })));
+        }
+
+        items = items.filter(item => {
+            const record = item.record;
+
+            const searchable = [
+                record.date,
+                record.month,
+                record.className,
+                record.batch,
+                record.timing,
+                record.note,
+                record.count,
+                record.rate,
+                record.amount,
+                record.total,
+                item.type
+            ].join(" ").toLowerCase();
+
+            return searchable.includes(query);
+        });
+
+        items.sort((a, b) => {
+            const dateA = a.record.date || "";
+            const dateB = b.record.date || "";
+            return dateB.localeCompare(dateA);
+        });
+
+        if (!items.length) {
+            setHTML("completeHistory", '<p class="muted">No matching records found.</p>');
+            return;
+        }
+
+        setHTML(
+            "completeHistory",
+            items.map(item => recordCard(item.type, item.record)).join("")
         );
+    }
 
-        if (index !== -1) {
-            teachingRecords[index] = record;
+    $("teachingType").addEventListener("change", () => {
+        if ($("teachingType").value !== "custom") {
+            $("teachingRate").value = $("teachingType").value;
         }
-    } else {
-        teachingRecords.push(record);
-    }
 
-    saveTeachingData();
-    resetTeachingForm();
-    refreshAll();
-
-    alert("Teaching Record सेव हो गया!");
-}
-
-// ==========================================
-// COPY CHECKING CALCULATOR
-// ==========================================
-
-function calculateCopyAmount() {
-    const count = Number(
-        document.getElementById("copyCount").value
-    ) || 0;
-
-    const rate = Number(
-        document.getElementById("copyRate").value
-    ) || 0;
-
-    document.getElementById("copyCalculation").textContent =
-        money(count * rate);
-}
-
-// ==========================================
-// ADD / EDIT COPY CHECKING
-// ==========================================
-
-function resetCopyForm() {
-    document.getElementById("copyForm").reset();
-
-    document.getElementById("copyDate").value = todayDate();
-    document.getElementById("copyCount").value = "1";
-    document.getElementById("copyRate").value = "225";
-
-    editingCopyId = null;
-
-    const button = document.querySelector(
-        "#copyForm button[type='submit']"
-    );
-
-    button.textContent = "➕ Save Copy Checking";
-
-    calculateCopyAmount();
-}
-
-function handleCopySubmit(event) {
-    event.preventDefault();
-
-    const date = document.getElementById("copyDate").value;
-    const count = Number(
-        document.getElementById("copyCount").value
-    );
-    const rate = Number(
-        document.getElementById("copyRate").value
-    );
-
-    if (
-        !date ||
-        !Number.isInteger(count) ||
-        count <= 0 ||
-        !Number.isFinite(rate) ||
-        rate < 0
-    ) {
-        alert("कृपया तारीख, क्लास की संख्या और रेट सही दर्ज करें।");
-        return;
-    }
-
-    const record = {
-        id: editingCopyId || makeId(),
-        type: "copy",
-        date: date,
-        className: document.getElementById("copyClass").value.trim(),
-        count: count,
-        rate: rate,
-        amount: count * rate,
-        note: document.getElementById("copyNote").value.trim()
-    };
-
-    if (editingCopyId) {
-        const index = teachingRecords.findIndex(
-            item => item.id === editingCopyId
-        );
-
-        if (index !== -1) {
-            teachingRecords[index] = record;
-        }
-    } else {
-        teachingRecords.push(record);
-    }
-
-    saveTeachingData();
-    resetCopyForm();
-    refreshAll();
-
-    alert("Copy Checking Record सेव हो गया!");
-}
-
-// ==========================================
-// SALARY PAYMENT
-// ==========================================
-
-function addSalaryPayment() {
-    const month = document.getElementById("salaryMonth").value;
-
-    const date = document.getElementById("salaryPaymentDate").value;
-
-    const amountInput = document.getElementById(
-        "salaryPaymentAmount"
-    );
-
-    const amount = Number(amountInput.value);
-
-    if (!month) {
-        alert("कृपया सैलरी का महीना चुनें।");
-        return;
-    }
-
-    if (
-        !date ||
-        amountInput.value.trim() === "" ||
-        !Number.isFinite(amount) ||
-        amount <= 0
-    ) {
-        alert("कृपया भुगतान की तारीख और रकम सही दर्ज करें।");
-        return;
-    }
-
-    salaryRecords.push({
-        id: makeId(),
-        type: "salary",
-        month: month,
-        date: date,
-        amount: amount,
-        note: document.getElementById("salaryNote").value.trim()
+        updateTeachingCalculation();
     });
 
-    saveTeachingData();
+    ["teachingCount", "teachingRate"].forEach(id => {
+        $(id).addEventListener("input", updateTeachingCalculation);
+    });
 
-    document.getElementById("salaryPaymentAmount").value = "";
-    document.getElementById("salaryNote").value = "";
+    ["copyCount", "copyRate"].forEach(id => {
+        $(id).addEventListener("input", updateCopyCalculation);
+    });
 
-    renderSalaryHistory();
-    updateSalarySummary();
-    updateDashboardSummary();
+    $("teachingTiming").addEventListener("change", () => {
+        const otherTiming = $("teachingTiming").value === "अन्य";
+
+        $("customTimingBox").classList.toggle("hidden", !otherTiming);
+    });
+
+    $("teachingForm").addEventListener("submit", event => {
+        event.preventDefault();
+
+        const count = Math.max(1, Number($("teachingCount").value) || 1);
+        const rate = Math.max(0, Number($("teachingRate").value) || 0);
+
+        const timingValue = $("teachingTiming").value;
+        const timing = timingValue === "अन्य"
+            ? $("customTiming").value.trim()
+            : timingValue;
+
+        teaching.push({
+            id: newId(),
+            date: $("teachingDate").value,
+            count,
+            rate,
+            total: count * rate,
+            className: $("teachingBatch").value.trim(),
+            timing,
+            note: $("teachingNote").value.trim()
+        });
+
+        persist();
+        $("teachingForm").reset();
+
+        $("teachingDate").value = today();
+        $("teachingCount").value = 1;
+        $("teachingRate").value = 150;
+        $("customTimingBox").classList.add("hidden");
+
+        updateTeachingCalculation();
+        refreshSummary();
+        renderHistory();
+
+        alert("Teaching record saved.");
+    });
+
+    $("copyForm").addEventListener("submit", event => {
+        event.preventDefault();
+
+        const count = Math.max(1, Number($("copyCount").value) || 1);
+        const rate = Math.max(0, Number($("copyRate").value) || 0);
+
+        copies.push({
+            id: newId(),
+            date: $("copyDate").value,
+            count,
+            rate,
+            total: count * rate,
+            className: $("copyClass").value.trim(),
+            note: $("copyNote").value.trim()
+        });
+
+        persist();
+        $("copyForm").reset();
+
+        $("copyDate").value = today();
+        $("copyCount").value = 1;
+        $("copyRate").value = 225;
+
+        updateCopyCalculation();
+        refreshSummary();
+        renderHistory();
+
+        alert("Copy checking record saved.");
+    });
+
+    $("historyType").addEventListener("change", renderHistory);
+    $("historySearch").addEventListener("input", renderHistory);
+    $("salaryMonth").addEventListener("change", refreshSalarySection);
+
+    $("teachingDate").value = today();
+    $("copyDate").value = today();
+    $("salaryPaymentDate").value = today();
+    $("salaryMonth").value = currentMonth();
+
+    updateTeachingCalculation();
+    updateCopyCalculation();
+    refreshSummary();
     renderHistory();
-
-    alert("Salary Payment सेव हो गया!");
-}
-
-// ==========================================
-// SALARY CALCULATION
-// ==========================================
-
-function getSalaryReceived(month) {
-    return salaryRecords
-        .filter(item => item.month === month)
-        .reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
-}
-
-function updateSalarySummary() {
-    const month = getSelectedMonth();
-    const received = getSalaryReceived(month);
-    const dues = Math.max(0, monthlySalary - received);
-
-    document.getElementById("salaryExpected").textContent =
-        money(monthlySalary);
-
-    document.getElementById("salaryMonthReceived").textContent =
-        money(received);
-
-    document.getElementById("salaryMonthDues").textContent =
-        money(dues);
-
-    renderSalaryHistory();
-    updateDashboardSummary();
-}
-
-// ==========================================
-// SALARY HISTORY
-// ==========================================
-
-function renderSalaryHistory() {
-    const container = document.getElementById("salaryHistory");
-
-    if (!container) return;
-
-    container.innerHTML = "";
-
-    const month = getSelectedMonth();
-
-    const records = salaryRecords
-        .filter(item => item.month === month)
-        .sort((a, b) => b.date.localeCompare(a.date));
-
-    if (records.length === 0) {
-        container.textContent = "इस महीने कोई Salary Payment दर्ज नहीं है।";
-        return;
-    }
-
-    records.forEach(function(item) {
-        const row = document.createElement("div");
-        row.className = "record";
-
-        const details = document.createElement("p");
-        details.textContent =
-            item.date + " | " + money(item.amount) +
-            (item.note ? " | " + item.note : "");
-
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "🗑️ Delete";
-        deleteButton.className = "secondary";
-
-        deleteButton.onclick = function() {
-            deleteSalaryRecord(item.id);
-        };
-
-        row.append(details, deleteButton);
-        container.appendChild(row);
-    });
-}
-
-function deleteSalaryRecord(id) {
-    if (!confirm("क्या यह Salary Payment हटाना चाहते हैं?")) return;
-
-    salaryRecords = salaryRecords.filter(item => item.id !== id);
-
-    saveTeachingData();
-    refreshAll();
-}
-
-// ==========================================
-// COPY MONTH SUMMARY
-// ==========================================
-
-function updateCopySummary() {
-    const month = todayDate().slice(0, 7);
-
-    const records = teachingRecords.filter(
-        item => item.type === "copy" && item.date.startsWith(month)
-    );
-
-    const count = records.reduce(
-        (sum, item) => sum + (Number(item.count) || 0),
-        0
-    );
-
-    const total = records.reduce(
-        (sum, item) => sum + (Number(item.amount) || 0),
-        0
-    );
-
-    document.getElementById("copyMonthCount").textContent = count;
-
-    document.getElementById("copyMonthTotal").textContent =
-        money(total);
-}
-
-// ==========================================
-// DASHBOARD TOTALS
-// ==========================================
-
-function updateDashboardSummary() {
-    const teachingTotal = teachingRecords
-        .filter(item => item.type === "teaching")
-        .reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
-
-    const copyTotal = teachingRecords
-        .filter(item => item.type === "copy")
-        .reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
-
-    const salaryReceivedTotal = salaryRecords.reduce(
-        (sum, item) => sum + (Number(item.amount) || 0),
-        0
-    );
-
-    // वर्तमान महीने का बकाया दिखाया जाता है।
-    // पुराने महीनों के बकाये के लिए आगे अलग salary ledger जोड़ेंगे।
-    const currentMonth = todayDate().slice(0, 7);
-
-    const currentMonthDues = Math.max(
-        0,
-        monthlySalary - getSalaryReceived(currentMonth)
-    );
-
-    document.getElementById("teachingTotal").textContent =
-        money(teachingTotal);
-
-    document.getElementById("copyTotal").textContent =
-        money(copyTotal);
-
-    document.getElementById("salaryReceivedTotal").textContent =
-        money(salaryReceivedTotal);
-
-    document.getElementById("totalDues").textContent =
-        money(currentMonthDues);
-}
-
-// ==========================================
-// HISTORY SEARCH
-// ==========================================
-
-function renderHistory() {
-    const container = document.getElementById("completeHistory");
-
-    if (!container) return;
-
-    const type = document.getElementById("historyType").value;
-
-    const query = document.getElementById("historySearch")
-        .value.trim().toLowerCase();
-
-    let records = [
-        ...teachingRecords,
-        ...salaryRecords
-    ];
-
-    records = records.filter(function(item) {
-        if (type !== "all" && item.type !== type) {
-            return false;
-        }
-
-        const searchableText = [
-            item.date,
-            item.month,
-            item.batch,
-            item.timing,
-            item.className,
-            item.note,
-            item.amount,
-            item.count
-        ].filter(Boolean).join(" ").toLowerCase();
-
-        return searchableText.includes(query);
-    });
-
-    records.sort(function(a, b) {
-        const dateA = a.date || a.month || "";
-        const dateB = b.date || b.month || "";
-
-        return dateB.localeCompare(dateA);
-    });
-
-    container.innerHTML = "";
-
-    if (records.length === 0) {
-        container.textContent = "कोई रिकॉर्ड नहीं मिला।";
-        return;
-    }
-
-    records.forEach(function(item) {
-        const row = document.createElement("div");
-        row.className = "record";
-
-        const title = document.createElement("strong");
-
-        if (item.type === "teaching") {
-            title.textContent = "📚 Teaching";
-        } else if (item.type === "copy") {
-            title.textContent = "📝 Copy Checking";
-        } else {
-            title.textContent = "💼 Salary Payment";
-        }
-
-        const details = document.createElement("p");
-
-        if (item.type === "teaching") {
-            details.textContent =
-                item.date +
-                " | " + (item.batch || "बैच नहीं") +
-                " | " + (item.timing || "टाइमिंग नहीं") +
-                " | " + item.count + " बेल" +
-                " × " + money(item.rate) +
-                " = " + money(item.amount) +
-                (item.note ? " | " + item.note : "");
-        } else if (item.type === "copy") {
-            details.textContent =
-                item.date +
-                " | " + (item.className || "क्लास नहीं") +
-                " | " + item.count + " क्लास" +
-                " × " + money(item.rate) +
-                " = " + money(item.amount) +
-                (item.note ? " | " + item.note : "");
-        } else {
-            details.textContent =
-                item.date +
-                " | महीना: " + item.month +
-                " | प्राप्त: " + money(item.amount) +
-                (item.note ? " | " + item.note : "");
-        }
-
-        row.append(title, details);
-
-        if (item.type === "teaching") {
-            row.appendChild(
-                makeEditButton("✏️ Edit", function() {
-                    editTeachingRecord(item.id);
-                })
-            );
-
-            row.appendChild(
-                makeEditButton("🗑️ Delete", function() {
-                    deleteTeachingRecord(item.id);
-                })
-            );
-        }
-
-        if (item.type === "copy") {
-            row.appendChild(
-                makeEditButton("✏️ Edit", function() {
-                    editCopyRecord(item.id);
-                })
-            );
-
-            row.appendChild(
-                makeEditButton("🗑️ Delete", function() {
-                    deleteTeachingRecord(item.id);
-                })
-            );
-        }
-
-        if (item.type === "salary") {
-            row.appendChild(
-                makeEditButton("🗑️ Delete", function() {
-                    deleteSalaryRecord(item.id);
-                })
-            );
-        }
-
-        container.appendChild(row);
-    });
-}
-
-function makeEditButton(label, callback) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.textContent = label;
-    button.className = "secondary";
-    button.onclick = callback;
-
-    return button;
-}
-
-// ==========================================
-// EDIT TEACHING
-// ==========================================
-
-function editTeachingRecord(id) {
-    const item = teachingRecords.find(
-        record => record.id === id && record.type === "teaching"
-    );
-
-    if (!item) return;
-
-    showSection("teachingSection");
-
-    editingTeachingId = item.id;
-
-    document.getElementById("teachingDate").value = item.date;
-
-    document.getElementById("teachingType").value =
-        item.classType === "custom" ? "custom" : String(item.rate);
-
-    document.getElementById("teachingRate").readOnly =
-        item.classType !== "custom";
-
-    document.getElementById("teachingRate").value = item.rate;
-    document.getElementById("teachingCount").value = item.count;
-    document.getElementById("teachingBatch").value = item.batch || "";
-
-    const timingSelect = document.getElementById("teachingTiming");
-
-    const knownTimings = Array.from(timingSelect.options).map(
-        option => option.value
-    );
-
-    if (knownTimings.includes(item.timing || "")) {
-        timingSelect.value = item.timing || "";
-        document.getElementById("customTiming").value = "";
-    } else if (item.timing) {
-        timingSelect.value = "अन्य";
-        document.getElementById("customTiming").value = item.timing;
-    } else {
-        timingSelect.value = "";
-        document.getElementById("customTiming").value = "";
-    }
-
-    updateTeachingTiming();
-
-    document.getElementById("teachingNote").value = item.note || "";
-
-    document.querySelector(
-        "#teachingForm button[type='submit']"
-    ).textContent = "💾 Update Teaching Record";
-
-    calculateTeachingAmount();
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-}
-
-
-// ==========================================
-// EDIT COPY CHECKING
-// ==========================================
-
-function editCopyRecord(id) {
-    const item = teachingRecords.find(
-        record => record.id === id && record.type === "copy"
-    );
-
-    if (!item) return;
-
-    showSection("copySection");
-
-    editingCopyId = item.id;
-
-    document.getElementById("copyDate").value = item.date;
-    document.getElementById("copyClass").value = item.className || "";
-    document.getElementById("copyCount").value = item.count;
-    document.getElementById("copyRate").value = item.rate;
-    document.getElementById("copyNote").value = item.note || "";
-
-    document.querySelector(
-        "#copyForm button[type='submit']"
-    ).textContent = "💾 Update Copy Checking";
-
-    calculateCopyAmount();
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-}
-
-
-// ==========================================
-// DELETE TEACHING / COPY RECORD
-// ==========================================
-
-function deleteTeachingRecord(id) {
-    const item = teachingRecords.find(
-        record => record.id === id
-    );
-
-    if (!item) return;
-
-    if (!confirm("क्या आप यह रिकॉर्ड हटाना चाहते हैं?")) {
-        return;
-    }
-
-    teachingRecords = teachingRecords.filter(
-        record => record.id !== id
-    );
-
-    saveTeachingData();
-    refreshAll();
-
-    alert("रिकॉर्ड डिलीट हो गया!");
-}
-
-
-// ==========================================
-// REFRESH ALL DATA
-// ==========================================
-
-function refreshAll() {
-    updateDashboardSummary();
-    updateSalarySummary();
-    updateCopySummary();
-    renderSalaryHistory();
-    renderHistory();
-}
-
-
-// ==========================================
-// INITIALIZATION
-// ==========================================
-
-function initializeTeachingIncome() {
-    document.getElementById("teachingDate").value = todayDate();
-    document.getElementById("copyDate").value = todayDate();
-    document.getElementById("salaryPaymentDate").value = todayDate();
-
-    document.getElementById("salaryMonth").value =
-        todayDate().slice(0, 7);
-
-    document.getElementById("monthlySalary").value = monthlySalary;
-
-    document.getElementById("teachingForm").addEventListener(
-        "submit",
-        handleTeachingSubmit
-    );
-
-    document.getElementById("copyForm").addEventListener(
-        "submit",
-        handleCopySubmit
-    );
-
-    document.getElementById("teachingType").addEventListener(
-        "change",
-        updateTeachingRate
-    );
-
-    document.getElementById("teachingCount").addEventListener(
-        "input",
-        calculateTeachingAmount
-    );
-
-    document.getElementById("teachingRate").addEventListener(
-        "input",
-        calculateTeachingAmount
-    );
-
-    document.getElementById("teachingTiming").addEventListener(
-        "change",
-        updateTeachingTiming
-    );
-
-    document.getElementById("copyCount").addEventListener(
-        "input",
-        calculateCopyAmount
-    );
-
-    document.getElementById("copyRate").addEventListener(
-        "input",
-        calculateCopyAmount
-    );
-
-    document.getElementById("salaryMonth").addEventListener(
-        "change",
-        function() {
-            renderSalaryHistory();
-            updateSalarySummary();
-        }
-    );
-
-    document.getElementById("historyType").addEventListener(
-        "change",
-        renderHistory
-    );
-
-    document.getElementById("historySearch").addEventListener(
-        "input",
-        renderHistory
-    );
-
-    updateTeachingRate();
-    calculateTeachingAmount();
-    calculateCopyAmount();
-    updateTeachingTiming();
-
-    refreshAll();
-}
-
-
-// ==========================================
-// START APP
-// ==========================================
-
-if (document.readyState === "loading") {
-    document.addEventListener(
-        "DOMContentLoaded",
-        initializeTeachingIncome
-    );
-} else {
-    initializeTeachingIncome();
-}
+})();
