@@ -1,15 +1,14 @@
 /* =========================================================
    ArthaFlow - Teaching Income Manager
-   PART 1 OF 3
-   Storage, Date Helpers, Data Normalization & Calculations
+   REVISED VERSION - PART 1 OF 3
+   Core Storage, Salary Modes, Date & Calculation Helpers
    ========================================================= */
 
 (function () {
   "use strict";
 
   /* ---------------------------------------------------------
-     1. EXISTING STORAGE KEYS
-     Do not change these keys: old records must remain available.
+     1. PRESERVE EXISTING LOCAL STORAGE KEYS
      --------------------------------------------------------- */
 
   const KEYS = {
@@ -23,92 +22,76 @@
      2. GENERAL HELPERS
      --------------------------------------------------------- */
 
-  function getElement(id) {
+  function el(id) {
     return document.getElementById(id);
   }
 
-  function getValue(id, fallback = "") {
-    const element = getElement(id);
-
-    if (!element || element.value === undefined) {
-      return fallback;
-    }
-
-    return String(element.value).trim();
+  function value(id, fallback = "") {
+    const node = el(id);
+    return node ? String(node.value ?? "").trim() : fallback;
   }
 
-  function setText(id, value) {
-    const element = getElement(id);
-
-    if (element) {
-      element.textContent = value;
-    }
+  function number(input) {
+    const result = Number(input);
+    return Number.isFinite(result) ? result : 0;
   }
 
-  function toNumber(value) {
-    const number = Number(value);
-
-    return Number.isFinite(number) ? number : 0;
-  }
-
-  function formatMoney(value) {
-    return "₹" + toNumber(value).toLocaleString("en-IN", {
+  function money(amount) {
+    return "₹" + number(amount).toLocaleString("en-IN", {
       maximumFractionDigits: 2
     });
   }
 
-  function createId() {
+  function id() {
     return (
       Date.now().toString(36) +
-      Math.random().toString(36).slice(2, 9)
+      Math.random().toString(36).slice(2, 10)
     );
   }
 
-  function escapeHTML(value) {
-    return String(value ?? "").replace(/[&<>"']/g, function (character) {
-      const entities = {
+  function safeHTML(input) {
+    return String(input ?? "").replace(/[&<>"']/g, function (ch) {
+      return {
         "&": "&amp;",
         "<": "&lt;",
         ">": "&gt;",
         '"': "&quot;",
         "'": "&#39;"
-      };
-
-      return entities[character];
+      }[ch];
     });
   }
 
+  function setText(elementId, text) {
+    const node = el(elementId);
+    if (node) node.textContent = text;
+  }
+
   /* ---------------------------------------------------------
-     3. SAFE LOCAL STORAGE HELPERS
-     Existing records are read without changing their keys.
+     3. SAFE STORAGE
      --------------------------------------------------------- */
 
   function readArray(key) {
     try {
       const raw = localStorage.getItem(key);
+      if (!raw) return [];
 
-      if (!raw) {
-        return [];
-      }
-
-      const parsed = JSON.parse(raw);
-
-      return Array.isArray(parsed) ? parsed : [];
+      const data = JSON.parse(raw);
+      return Array.isArray(data) ? data : [];
     } catch (error) {
-      console.error("Unable to read records:", key, error);
+      console.error("Unable to read local data:", key, error);
       return [];
     }
   }
 
-  function writeArray(key, records) {
+  function writeArray(key, data) {
     try {
-      localStorage.setItem(key, JSON.stringify(records));
+      localStorage.setItem(key, JSON.stringify(data));
       return true;
     } catch (error) {
-      console.error("Unable to save records:", key, error);
+      console.error("Unable to save local data:", key, error);
 
       alert(
-        "Unable to save data. Please check your device storage " +
+        "Unable to save data. Please check device storage " +
         "and keep a backup of your records."
       );
 
@@ -116,90 +99,32 @@
     }
   }
 
-  function readMonthlySalary() {
-    try {
-      const raw = localStorage.getItem(KEYS.monthlySalary);
-
-      if (!raw) {
-        return 0;
-      }
-
-      // Supports a number stored directly.
-      const parsed = JSON.parse(raw);
-
-      // Also supports an object containing an amount.
-      if (parsed && typeof parsed === "object") {
-        return toNumber(
-          parsed.amount ??
-          parsed.salary ??
-          parsed.monthlySalary ??
-          0
-        );
-      }
-
-      return toNumber(parsed);
-    } catch (error) {
-      // Supports an older value stored as plain text.
-      return toNumber(localStorage.getItem(KEYS.monthlySalary));
-    }
-  }
-
-  function saveMonthlySalary(amount) {
-    const safeAmount = Math.max(0, toNumber(amount));
-
-    try {
-      localStorage.setItem(
-        KEYS.monthlySalary,
-        JSON.stringify(safeAmount)
-      );
-
-      return true;
-    } catch (error) {
-      console.error("Unable to save monthly salary:", error);
-      alert("Unable to save the monthly salary amount.");
-      return false;
-    }
-  }
-
   /* ---------------------------------------------------------
      4. DATE & MONTH HELPERS
-     Month format: YYYY-MM
-     Display format: August 2026, September 2026, etc.
      --------------------------------------------------------- */
 
-  function todayString() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, "0");
-    const day = String(now.getDate()).padStart(2, "0");
+  function today() {
+    const date = new Date();
 
-    return `${year}-${month}-${day}`;
+    return [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, "0"),
+      String(date.getDate()).padStart(2, "0")
+    ].join("-");
   }
 
-  function currentMonthKey() {
-    return todayString().slice(0, 7);
+  function currentMonth() {
+    return today().slice(0, 7);
   }
 
   function monthFromDate(dateValue) {
-    if (!dateValue) {
-      return "";
-    }
+    const match = String(dateValue || "").match(/^(\d{4})-(\d{2})/);
 
-    const text = String(dateValue).trim();
+    if (match) return match[1] + "-" + match[2];
 
-    // Standard HTML date: YYYY-MM-DD
-    const standardMatch = text.match(/^(\d{4})-(\d{2})/);
+    const date = new Date(dateValue);
 
-    if (standardMatch) {
-      return `${standardMatch[1]}-${standardMatch[2]}`;
-    }
-
-    // Fallback for other valid date formats.
-    const date = new Date(text);
-
-    if (Number.isNaN(date.getTime())) {
-      return "";
-    }
+    if (Number.isNaN(date.getTime())) return "";
 
     return (
       date.getFullYear() +
@@ -208,613 +133,749 @@
     );
   }
 
-  function monthLabel(monthKey) {
-    if (!/^\d{4}-\d{2}$/.test(String(monthKey))) {
+  function monthName(month) {
+    if (!/^\d{4}-\d{2}$/.test(String(month))) {
       return "Unknown Month";
     }
 
-    const parts = monthKey.split("-").map(Number);
-    const date = new Date(parts[0], parts[1] - 1, 1);
+    const parts = month.split("-").map(Number);
 
-    return date.toLocaleDateString("en-US", {
-      month: "long",
-      year: "numeric"
-    });
-  }
-
-  function getSelectedMonth() {
-    const salaryMonth = getValue("salaryMonth");
-
-    if (/^\d{4}-\d{2}$/.test(salaryMonth)) {
-      return salaryMonth;
-    }
-
-    const selectedDate = getValue("teachingDate");
-
-    if (selectedDate) {
-      return monthFromDate(selectedDate) || currentMonthKey();
-    }
-
-    return currentMonthKey();
-  }
-
-  function recordMonth(record) {
-    if (!record || typeof record !== "object") {
-      return "";
-    }
-
-    // Salary records may have an explicit month.
-    if (/^\d{4}-\d{2}$/.test(String(record.month || ""))) {
-      return record.month;
-    }
-
-    // Old salary records may not have a month field.
-    // Their payment date is used as a fallback.
-    return monthFromDate(
-      record.date ||
-      record.paymentDate ||
-      record.createdAt ||
-      ""
-    );
+    return new Date(parts[0], parts[1] - 1, 1)
+      .toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric"
+      });
   }
 
   /* ---------------------------------------------------------
-     5. LOAD EXISTING RECORDS
-     Old records are normalized in memory only.
-     They are not automatically deleted or overwritten.
+     5. SALARY MODE CONFIGURATION
+
+     Backward compatibility:
+     An old monthlySalary value such as 25000 is treated as
+     Fixed Salary until the user selects another mode.
+     --------------------------------------------------------- */
+
+  function getSalaryConfig() {
+    const raw = localStorage.getItem(KEYS.monthlySalary);
+
+    if (!raw) {
+      return {
+        mode: "fixed",
+        fixedAmount: 0,
+        defaultRate: 150
+      };
+    }
+
+    try {
+      const saved = JSON.parse(raw);
+
+      if (saved && typeof saved === "object") {
+        return {
+          mode: saved.mode === "period" ? "period" : "fixed",
+          fixedAmount: Math.max(
+            0,
+            number(saved.fixedAmount ?? saved.amount ?? saved.salary)
+          ),
+          defaultRate: Math.max(
+            0,
+            number(saved.defaultRate ?? 150)
+          )
+        };
+      }
+
+      // Old storage format: a plain numeric monthly salary.
+      return {
+        mode: "fixed",
+        fixedAmount: Math.max(0, number(saved)),
+        defaultRate: 150
+      };
+    } catch (error) {
+      return {
+        mode: "fixed",
+        fixedAmount: Math.max(
+          0,
+          number(raw)
+        ),
+        defaultRate: 150
+      };
+    }
+  }
+
+  function saveSalaryConfig(config) {
+    const clean = {
+      mode: config.mode === "period" ? "period" : "fixed",
+      fixedAmount: Math.max(0, number(config.fixedAmount)),
+      defaultRate: Math.max(0, number(config.defaultRate || 150))
+    };
+
+    try {
+      localStorage.setItem(
+        KEYS.monthlySalary,
+        JSON.stringify(clean)
+      );
+      return true;
+    } catch (error) {
+      console.error("Unable to save salary configuration:", error);
+      alert("Unable to save salary settings.");
+      return false;
+    }
+  }
+
+  /* ---------------------------------------------------------
+     6. NORMALIZE EXISTING RECORDS
      --------------------------------------------------------- */
 
   function getTeachingRecords() {
     return readArray(KEYS.teaching).map(function (record) {
       return {
         ...record,
-        id: record.id || createId(),
-        amount: toNumber(record.amount),
-        count: toNumber(record.count),
-        rate: toNumber(record.rate),
+        id: record.id || id(),
         date: record.date || "",
-        category: record.category || record.type || "Teaching"
+        amount: number(record.amount),
+        count: number(record.count),
+        rate: number(record.rate)
       };
     });
   }
 
   function getCopyRecords() {
     return readArray(KEYS.copy).map(function (record) {
-      const earned = toNumber(
-        record.earned ??
-        record.amount ??
-        record.total ??
-        0
-      );
-
-      // Older records may not contain a separate received amount.
-      // Do not assume that the full earned amount was received.
-      const received = toNumber(
-        record.received ??
-        record.amountReceived ??
-        0
+      const earned = number(
+        record.earned ?? record.amount ?? record.total ?? 0
       );
 
       return {
         ...record,
-        id: record.id || createId(),
+        id: record.id || id(),
+        date: record.date || "",
         amount: earned,
         earned: earned,
-        received: received,
-        count: toNumber(record.count),
-        rate: toNumber(record.rate),
-        date: record.date || ""
+        received: number(record.received ?? record.amountReceived ?? 0),
+        count: number(record.count),
+        rate: number(record.rate)
       };
     });
   }
 
+  /*
+   * Salary storage now supports two types:
+   *
+   * type: "period"  -> one day's periods for a class/batch
+   * type: "payment" -> money actually received
+   *
+   * Old records without a type are treated as payments.
+   */
+
   function getSalaryRecords() {
     return readArray(KEYS.salary).map(function (record) {
-      const amount = toNumber(
-        record.amount ??
-        record.amountReceived ??
-        record.received ??
-        0
-      );
+      const recordType =
+        record.type === "period" ? "period" : "payment";
 
       return {
         ...record,
-        id: record.id || createId(),
+        id: record.id || id(),
+        type: recordType,
         date: record.date || "",
         month: record.month || monthFromDate(record.date || ""),
-        amount: amount,
+        amount: number(record.amount),
+        periods: number(record.periods),
+        rate: number(record.rate),
         note: record.note || ""
       };
     });
   }
 
-  /* ---------------------------------------------------------
-     6. MONTH-WISE RECORD FILTERING
-     --------------------------------------------------------- */
+  function recordMonth(record) {
+    if (!record) return "";
 
-  function filterByMonth(records, monthKey) {
+    if (/^\d{4}-\d{2}$/.test(String(record.month || ""))) {
+      return record.month;
+    }
+
+    return monthFromDate(record.date || "");
+  }
+
+  function monthRecords(records, month) {
     return records.filter(function (record) {
-      return recordMonth(record) === monthKey;
+      return recordMonth(record) === month;
     });
   }
 
-  function sumAmounts(records, amountField = "amount") {
-    return records.reduce(function (total, record) {
-      return total + toNumber(record[amountField]);
+  /* ---------------------------------------------------------
+     7. DAILY PERIOD EARNING
+
+     Different classes/batches can have different rates.
+     Example:
+       4 periods × ₹150 = ₹600
+       3 periods × ₹200 = ₹600
+       Daily total = ₹1,200
+     --------------------------------------------------------- */
+
+  function calculatePeriodRecord(record) {
+    return Math.max(0, number(record.periods)) *
+           Math.max(0, number(record.rate));
+  }
+
+  function getPeriodRecords(month) {
+    return monthRecords(getSalaryRecords(), month).filter(
+      function (record) {
+        return record.type === "period";
+      }
+    );
+  }
+
+  function getPaymentRecords(month) {
+    return monthRecords(getSalaryRecords(), month).filter(
+      function (record) {
+        return record.type === "payment";
+      }
+    );
+  }
+
+  function totalPeriodEarning(month) {
+    return getPeriodRecords(month).reduce(function (total, record) {
+      return total + calculatePeriodRecord(record);
+    }, 0);
+  }
+
+  function totalPeriods(month) {
+    return getPeriodRecords(month).reduce(function (total, record) {
+      return total + Math.max(0, number(record.periods));
+    }, 0);
+  }
+
+  function totalSalaryPayments(month) {
+    return getPaymentRecords(month).reduce(function (total, record) {
+      return total + Math.max(0, number(record.amount));
     }, 0);
   }
 
   /* ---------------------------------------------------------
-     7. MONTHLY FINANCIAL CALCULATIONS
-     Teaching Earning = teaching records
-     Copy Earned = copy work completed
-     Copy Received = actual copy payments received
-     Salary Received = salary payment records
+     8. MONTHLY FINANCIAL SUMMARY
+
+     Fixed mode:
+       Salary Earned = configured fixed monthly amount
+
+     Period mode:
+       Salary Earned = sum of daily periods × their rates
+
+     Due never becomes negative.
      --------------------------------------------------------- */
 
-  function calculateMonth(monthKey) {
-    const teachingRecords = filterByMonth(
-      getTeachingRecords(),
-      monthKey
-    );
+  function calculateSalaryMonth(month) {
+    const config = getSalaryConfig();
 
-    const copyRecords = filterByMonth(
-      getCopyRecords(),
-      monthKey
-    );
+    const earned = config.mode === "period"
+      ? totalPeriodEarning(month)
+      : config.fixedAmount;
 
-    const salaryRecords = filterByMonth(
-      getSalaryRecords(),
-      monthKey
-    );
+    const received = totalSalaryPayments(month);
 
-    const teachingEarning = sumAmounts(
-      teachingRecords,
-      "amount"
-    );
+    const due = Math.max(0, earned - received);
 
-    const copyEarned = sumAmounts(
-      copyRecords,
-      "earned"
-    );
-
-    const copyReceived = sumAmounts(
-      copyRecords,
-      "received"
-    );
-
-    const salaryReceived = sumAmounts(
-      salaryRecords,
-      "amount"
-    );
-
-    const totalEarning = teachingEarning + copyEarned;
-
-    const copyDue = Math.max(
-      0,
-      copyEarned - copyReceived
-    );
-
-    const salaryExpected = readMonthlySalary();
-
-    const salaryDue = Math.max(
-      0,
-      salaryExpected - salaryReceived
-    );
-
-    const totalRemaining = salaryDue + copyDue;
+    const percentage = earned > 0
+      ? Math.min(100, (received / earned) * 100)
+      : 0;
 
     return {
-      month: monthKey,
-      monthLabel: monthLabel(monthKey),
-
-      teachingEarning,
-      copyEarned,
-      copyReceived,
-      copyDue,
-
-      totalEarning,
-
-      salaryExpected,
-      salaryReceived,
-      salaryDue,
-
-      totalRemaining,
-
-      teachingCount: teachingRecords.length,
-      copyCount: copyRecords.length,
-      salaryPaymentCount: salaryRecords.length
+      month: month,
+      monthName: monthName(month),
+      mode: config.mode,
+      periods: totalPeriods(month),
+      earned: earned,
+      received: received,
+      due: due,
+      percentage: percentage
     };
   }
 
   /* ---------------------------------------------------------
-     8. CURRENT MONTH SUMMARY
-     Later parts will connect these calculations to the UI.
+     9. GENERAL DASHBOARD CALCULATIONS
      --------------------------------------------------------- */
 
-  function getAllMonthKeys() {
-    const keys = new Set();
+  function calculateMonth(month) {
+    const teaching = monthRecords(getTeachingRecords(), month);
+    const copy = monthRecords(getCopyRecords(), month);
 
-    getTeachingRecords().forEach(function (record) {
-      const month = recordMonth(record);
-      if (month) keys.add(month);
-    });
+    const teachingEarning = teaching.reduce(function (sum, record) {
+      return sum + number(record.amount);
+    }, 0);
 
-    getCopyRecords().forEach(function (record) {
-      const month = recordMonth(record);
-      if (month) keys.add(month);
-    });
+    const copyEarned = copy.reduce(function (sum, record) {
+      return sum + number(record.earned);
+    }, 0);
 
-    getSalaryRecords().forEach(function (record) {
-      const month = recordMonth(record);
-      if (month) keys.add(month);
-    });
+    const copyReceived = copy.reduce(function (sum, record) {
+      return sum + number(record.received);
+    }, 0);
 
-    keys.add(currentMonthKey());
+    const salary = calculateSalaryMonth(month);
 
-    return Array.from(keys).sort();
-  }
+    return {
+      month: month,
+      monthName: monthName(month),
 
-  function getMonthlySummary(monthKey) {
-    return calculateMonth(monthKey || currentMonthKey());
+      teachingEarning: teachingEarning,
+      copyEarned: copyEarned,
+      copyReceived: copyReceived,
+      copyDue: Math.max(0, copyEarned - copyReceived),
+
+      salaryMode: salary.mode,
+      salaryPeriods: salary.periods,
+      salaryEarned: salary.earned,
+      salaryReceived: salary.received,
+      salaryDue: salary.due,
+      salaryPercentage: salary.percentage,
+
+      totalEarning: teachingEarning + copyEarned,
+      totalRemaining:
+        salary.due + Math.max(0, copyEarned - copyReceived)
+    };
   }
 
   // PART 1 END
-  // Do not run the file yet.
-  // Part 2 will continue inside this same function.
+  // Paste Part 2 directly below this line.
+  // Do not run until Parts 2 and 3 are added.
 
-     /* =========================================================
+   /* =========================================================
      ArthaFlow - Teaching Income Manager
-     PART 2 OF 3
-     Forms, Saving, Editing & Salary Payments
+     REVISED VERSION - PART 2 OF 3
+     Daily Period Entry, Batch Rates & Salary Payments
      ========================================================= */
 
   /* ---------------------------------------------------------
-     9. SET DEFAULT FORM DATES
+     10. ENSURE DAILY PERIOD ENTRY FORM
      --------------------------------------------------------- */
 
-  function setDefaultDates() {
-    const today = todayString();
+  function ensurePeriodEntryUI() {
+    let host = el("periodSalarySection");
 
-    ["teachingDate", "copyDate", "salaryPaymentDate"].forEach(
-      function (id) {
-        const element = getElement(id);
+    if (host) return host;
 
-        if (element && !element.value) {
-          element.value = today;
-        }
-      }
-    );
+    host = document.createElement("section");
+    host.id = "periodSalarySection";
+    host.style.cssText =
+      "margin:16px 0;padding:16px;border:1px solid #d1d5db;" +
+      "border-radius:14px;";
 
-    const monthElement = getElement("salaryMonth");
+    host.innerHTML = `
+      <h2>Period-Wise Salary</h2>
+      <p>Record the periods taught each day for each class or batch.</p>
 
-    if (monthElement && !monthElement.value) {
-      monthElement.value = currentMonthKey();
-    }
-  }
+      <form id="periodEntryForm">
+        <div style="margin-bottom:12px">
+          <label for="periodDate">Date</label>
+          <input id="periodDate" type="date" required
+            style="display:block;width:100%;box-sizing:border-box">
+        </div>
 
-  /* ---------------------------------------------------------
-     10. SHOW / HIDE SECTIONS
-     --------------------------------------------------------- */
+        <div style="margin-bottom:12px">
+          <label for="periodClass">Class / Batch</label>
+          <input id="periodClass" type="text" required
+            placeholder="e.g. Class 10 - Morning Batch"
+            style="display:block;width:100%;box-sizing:border-box">
+        </div>
 
-  function showSection(sectionId) {
-    const sections = [
-      "teachingSection",
-      "salarySection",
-      "copySection",
-      "historySection"
-    ];
+        <div style="margin-bottom:12px">
+          <label for="periodCount">Periods Taught</label>
+          <input id="periodCount" type="number" min="1" step="1"
+            required placeholder="Enter number of periods"
+            style="display:block;width:100%;box-sizing:border-box">
+        </div>
 
-    sections.forEach(function (id) {
-      const section = getElement(id);
+        <div style="margin-bottom:12px">
+          <label for="periodRate">Rate per Period (₹)</label>
+          <input id="periodRate" type="number" min="0.01" step="0.01"
+            required placeholder="Enter rate for this class/batch"
+            style="display:block;width:100%;box-sizing:border-box">
+        </div>
 
-      if (section) {
-        section.style.display = id === sectionId ? "block" : "none";
-      }
-    });
+        <div style="margin-bottom:12px">
+          <label for="periodNote">Notes (optional)</label>
+          <input id="periodNote" type="text"
+            placeholder="Optional notes"
+            style="display:block;width:100%;box-sizing:border-box">
+        </div>
 
-    if (sectionId === "historySection") {
-      renderHistory();
-    }
+        <p id="periodCalculation">
+          Daily Earning: ₹0
+        </p>
 
-    if (sectionId === "teachingSection") {
-      updateTeachingCalculation();
-    }
+        <button type="submit">Save Period Entry</button>
+        <button type="button" id="cancelPeriodEdit"
+          style="display:none">Cancel Edit</button>
+      </form>
 
-    if (sectionId === "copySection") {
-      updateCopyCalculation();
-    }
+      <hr>
+      <h3>Daily Period Records</h3>
+      <div id="periodHistory"></div>
+    `;
 
-    if (sectionId === "salarySection") {
-      renderSalarySection();
-    }
+    const salarySection = el("salarySection");
 
-    updateDashboard();
-  }
-
-  /* ---------------------------------------------------------
-     11. TEACHING CALCULATION
-     --------------------------------------------------------- */
-
-  function updateTeachingCalculation() {
-    const type = getValue("teachingType", "150");
-    const count = Math.max(0, toNumber(getValue("teachingCount")));
-    const customRate = Math.max(0, toNumber(getValue("teachingRate")));
-
-    let rate = 0;
-
-    if (type === "custom") {
-      rate = customRate;
+    if (salarySection) {
+      salarySection.appendChild(host);
     } else {
-      rate = toNumber(type);
+      document.body.appendChild(host);
     }
 
+    return host;
+  }
+
+  /* ---------------------------------------------------------
+     11. ENSURE SALARY MODE SELECTOR
+     --------------------------------------------------------- */
+
+  function ensureSalaryModeUI() {
+    let host = el("salaryModeControls");
+
+    if (host) return host;
+
+    host = document.createElement("div");
+    host.id = "salaryModeControls";
+    host.style.cssText =
+      "margin:16px 0;padding:14px;border:1px solid #d1d5db;" +
+      "border-radius:12px;";
+
+    host.innerHTML = `
+      <h3>Salary Calculation Mode</h3>
+
+      <label for="salaryModeSelect">Choose Salary Type</label>
+      <select id="salaryModeSelect"
+        style="display:block;width:100%;max-width:100%;padding:8px">
+        <option value="fixed">Fixed Salary</option>
+        <option value="period">Period-Wise Salary</option>
+      </select>
+
+      <div id="fixedSalaryControls" style="margin-top:12px">
+        <label for="monthlySalary">Fixed Monthly Salary (₹)</label>
+        <input id="monthlySalary" type="number" min="0" step="0.01"
+          placeholder="Enter fixed monthly salary"
+          style="display:block;width:100%;box-sizing:border-box">
+        <button type="button" id="saveFixedSalaryButton">
+          Save Fixed Salary
+        </button>
+      </div>
+
+      <div id="periodSalaryControls" style="display:none;margin-top:12px">
+        <p>Salary is calculated from the daily period entries below.</p>
+        <label for="defaultPeriodRate">Suggested Default Rate (₹)</label>
+        <input id="defaultPeriodRate" type="number" min="0" step="0.01"
+          placeholder="e.g. 150"
+          style="display:block;width:100%;box-sizing:border-box">
+        <p>
+          Each class or batch can have its own rate.
+          The default rate is only a suggestion for new entries.
+        </p>
+      </div>
+    `;
+
+    const salarySection = el("salarySection");
+
+    if (salarySection) {
+      salarySection.prepend(host);
+    } else {
+      document.body.appendChild(host);
+    }
+
+    return host;
+  }
+
+  /* ---------------------------------------------------------
+     12. CLASS / BATCH RATE MEMORY
+     --------------------------------------------------------- */
+
+  /*
+   * Rates are remembered in this page session by class/batch name.
+   * This does not create another localStorage key.
+   * Every saved daily record permanently retains its own rate.
+   */
+
+  const batchRateMemory = Object.create(null);
+
+  function rememberBatchRate(batchName, rate) {
+    const key = String(batchName || "").trim().toLowerCase();
+
+    if (key && number(rate) > 0) {
+      batchRateMemory[key] = number(rate);
+    }
+  }
+
+  function getRememberedBatchRate(batchName) {
+    const key = String(batchName || "").trim().toLowerCase();
+    return number(batchRateMemory[key]);
+  }
+
+  function updatePeriodCalculation() {
+    const count = Math.max(0, number(value("periodCount")));
+    const rate = Math.max(0, number(value("periodRate")));
     const total = count * rate;
 
-    const calculation = getElement("teachingCalculation");
-
-    if (calculation) {
-      calculation.textContent =
-        "Total: " + formatMoney(total) +
-        " (" + count + " × " + formatMoney(rate) + ")";
-    }
-
-    const rateElement = getElement("teachingRate");
-
-    if (rateElement) {
-      rateElement.disabled = type !== "custom";
-
-      if (type !== "custom") {
-        rateElement.value = rate;
-      }
-    }
+    setText("periodCalculation", "Daily Earning: " + money(total));
 
     return total;
   }
 
-  /* ---------------------------------------------------------
-     12. SAVE TEACHING RECORD
-     --------------------------------------------------------- */
+  function suggestBatchRate() {
+    const batch = value("periodClass");
+    const rememberedRate = getRememberedBatchRate(batch);
+    const rateInput = el("periodRate");
 
-  function saveTeachingRecord(event) {
-    if (event) {
-      event.preventDefault();
+    if (!rateInput) return;
+
+    if (rememberedRate > 0 && !rateInput.dataset.userEdited) {
+      rateInput.value = rememberedRate;
+    } else if (!rateInput.value) {
+      const config = getSalaryConfig();
+
+      if (config.defaultRate > 0) {
+        rateInput.value = config.defaultRate;
+      }
     }
 
-    const date = getValue("teachingDate") || todayString();
-    const type = getValue("teachingType", "150");
-    const count = Math.max(0, toNumber(getValue("teachingCount")));
-    const rate = type === "custom"
-      ? Math.max(0, toNumber(getValue("teachingRate")))
-      : toNumber(type);
+    updatePeriodCalculation();
+  }
 
-    const batch = getValue("teachingBatch");
-    const timing = getValue("teachingTiming");
-    const customTiming = getValue("customTiming");
-    const note = getValue("teachingNote");
+  /* ---------------------------------------------------------
+     13. RESET PERIOD FORM
+     --------------------------------------------------------- */
 
-    if (count <= 0) {
-      alert("Please enter a valid teaching count.");
+  function resetPeriodForm() {
+    const form = el("periodEntryForm");
+
+    if (!form) return;
+
+    form.reset();
+    delete form.dataset.editingId;
+
+    if (el("periodDate")) {
+      el("periodDate").value = today();
+    }
+
+    const rateInput = el("periodRate");
+
+    if (rateInput) {
+      delete rateInput.dataset.userEdited;
+    }
+
+    setText("periodCalculation", "Daily Earning: ₹0");
+
+    const button = form.querySelector('button[type="submit"]');
+
+    if (button) {
+      button.textContent = "Save Period Entry";
+    }
+
+    const cancel = el("cancelPeriodEdit");
+
+    if (cancel) {
+      cancel.style.display = "none";
+    }
+  }
+
+  /* ---------------------------------------------------------
+     14. SAVE / UPDATE DAILY PERIOD ENTRY
+     --------------------------------------------------------- */
+
+  function savePeriodEntry(event) {
+    if (event) event.preventDefault();
+
+    const date = value("periodDate") || today();
+    const batch = value("periodClass");
+    const periods = number(value("periodCount"));
+    const rate = number(value("periodRate"));
+    const note = value("periodNote");
+
+    if (!batch) {
+      alert("Please enter the class or batch name.");
+      return;
+    }
+
+    if (!Number.isInteger(periods) || periods <= 0) {
+      alert("Please enter a valid number of periods.");
       return;
     }
 
     if (rate <= 0) {
-      alert("Please enter a valid teaching rate.");
-      return;
-    }
-
-    const records = readArray(KEYS.teaching);
-    const editingId = getValue("teachingForm")
-      ? (getElement("teachingForm").dataset.editingId || "")
-      : "";
-
-    const record = {
-      id: editingId || createId(),
-      date: date,
-      count: count,
-      rate: rate,
-      amount: count * rate,
-      category: "Teaching",
-      type: type,
-      batch: batch,
-      timing: timing === "अन्य" ? customTiming : timing,
-      note: note,
-      updatedAt: new Date().toISOString()
-    };
-
-    const existingIndex = records.findIndex(function (item) {
-      return String(item.id) === String(record.id);
-    });
-
-    if (existingIndex >= 0) {
-      records[existingIndex] = {
-        ...records[existingIndex],
-        ...record
-      };
-    } else {
-      records.push(record);
-    }
-
-    if (!writeArray(KEYS.teaching, records)) {
-      return;
-    }
-
-    const form = getElement("teachingForm");
-
-    if (form) {
-      form.reset();
-      delete form.dataset.editingId;
-    }
-
-    setDefaultDates();
-    updateTeachingCalculation();
-    updateDashboard();
-    renderHistory();
-
-    alert(editingId
-      ? "Teaching record updated successfully."
-      : "Teaching record saved successfully."
-    );
-  }
-
-  /* ---------------------------------------------------------
-     13. COPY CHECKING FORM
-     --------------------------------------------------------- */
-
-  function updateCopyCalculation() {
-    const count = Math.max(0, toNumber(getValue("copyCount")));
-    const rate = Math.max(0, toNumber(getValue("copyRate")));
-    const total = count * rate;
-
-    const calculation = getElement("copyCalculation");
-
-    if (calculation) {
-      calculation.textContent =
-        "Total Earned: " + formatMoney(total) +
-        " (" + count + " × " + formatMoney(rate) + ")";
-    }
-
-    return total;
-  }
-
-  /*
-   * Copy checking requires separate tracking of:
-   * - Earned amount
-   * - Amount actually received
-   *
-   * If the HTML does not yet contain copyReceived, Part 3 will
-   * add the missing input dynamically.
-   */
-
-  function saveCopyRecord(event) {
-    if (event) {
-      event.preventDefault();
-    }
-
-    const date = getValue("copyDate") || todayString();
-    const className = getValue("copyClass");
-    const count = Math.max(0, toNumber(getValue("copyCount")));
-    const rate = Math.max(0, toNumber(getValue("copyRate")));
-    const note = getValue("copyNote");
-
-    const receivedInput = getValue("copyReceived", "0");
-    const received = Math.max(0, toNumber(receivedInput));
-    const earned = count * rate;
-
-    if (count <= 0) {
-      alert("Please enter a valid copy checking count.");
-      return;
-    }
-
-    if (rate < 0) {
-      alert("Please enter a valid copy checking rate.");
-      return;
-    }
-
-    if (received > earned) {
-      alert("Amount received cannot exceed the earned amount.");
-      return;
-    }
-
-    const records = readArray(KEYS.copy);
-    const form = getElement("copyForm");
-    const editingId = form ? (form.dataset.editingId || "") : "";
-
-    const record = {
-      id: editingId || createId(),
-      date: date,
-      className: className,
-      count: count,
-      rate: rate,
-      amount: earned,
-      earned: earned,
-      received: received,
-      note: note,
-      updatedAt: new Date().toISOString()
-    };
-
-    const existingIndex = records.findIndex(function (item) {
-      return String(item.id) === String(record.id);
-    });
-
-    if (existingIndex >= 0) {
-      records[existingIndex] = {
-        ...records[existingIndex],
-        ...record
-      };
-    } else {
-      records.push(record);
-    }
-
-    if (!writeArray(KEYS.copy, records)) {
-      return;
-    }
-
-    if (form) {
-      form.reset();
-      delete form.dataset.editingId;
-    }
-
-    setDefaultDates();
-    updateCopyCalculation();
-    updateDashboard();
-    renderHistory();
-
-    alert(editingId
-      ? "Copy checking record updated successfully."
-      : "Copy checking record saved successfully."
-    );
-  }
-
-  /* ---------------------------------------------------------
-     14. SALARY SETUP
-     --------------------------------------------------------- */
-
-  function saveSalarySetup() {
-    const salaryInput = getElement("monthlySalary");
-
-    if (!salaryInput) {
-      alert("Monthly salary input was not found.");
-      return;
-    }
-
-    const amount = Math.max(0, toNumber(salaryInput.value));
-
-    if (!saveMonthlySalary(amount)) {
-      return;
-    }
-
-    updateDashboard();
-    renderSalarySection();
-
-    alert("Monthly salary amount saved successfully.");
-  }
-
-  /* ---------------------------------------------------------
-     15. ADD SALARY PAYMENT
-     --------------------------------------------------------- */
-
-  function addSalaryPayment(event) {
-    if (event) {
-      event.preventDefault();
-    }
-
-    const month = getValue("salaryMonth") || currentMonthKey();
-    const date = getValue("salaryPaymentDate") || todayString();
-    const amount = Math.max(0, toNumber(getValue("salaryPaymentAmount")));
-    const note = getValue("salaryNote");
-
-    if (amount <= 0) {
-      alert("Please enter a payment amount greater than zero.");
+      alert("Please enter a rate greater than zero.");
       return;
     }
 
     const records = readArray(KEYS.salary);
-    const form = getElement("salaryForm");
-    const editingId = form ? (form.dataset.editingId || "") : "";
+    const form = el("periodEntryForm");
+    const editingId = form ? form.dataset.editingId || "" : "";
 
     const record = {
-      id: editingId || createId(),
+      id: editingId || id(),
+      type: "period",
+      date: date,
+      month: monthFromDate(date),
+      batch: batch,
+      className: batch,
+      periods: periods,
+      rate: rate,
+      amount: periods * rate,
+      note: note,
+      updatedAt: new Date().toISOString()
+    };
+
+    const existingIndex = records.findIndex(function (item) {
+      return String(item.id) === String(record.id);
+    });
+
+    if (existingIndex >= 0) {
+      records[existingIndex] = {
+        ...records[existingIndex],
+        ...record
+      };
+    } else {
+      records.push(record);
+    }
+
+    if (!writeArray(KEYS.salary, records)) return;
+
+    rememberBatchRate(batch, rate);
+    resetPeriodForm();
+
+    updateDashboard();
+    renderPeriodHistory();
+    renderSalarySection();
+    renderHistory();
+
+    alert(editingId
+      ? "Period entry updated successfully."
+      : "Period entry saved successfully."
+    );
+  }
+
+  /* ---------------------------------------------------------
+     15. SAVE SALARY MODE SETTINGS
+     --------------------------------------------------------- */
+
+  function saveSalaryModeSettings() {
+    const mode = value("salaryModeSelect", "fixed");
+    const oldConfig = getSalaryConfig();
+
+    const fixedAmount = Math.max(
+      0,
+      number(value("monthlySalary", String(oldConfig.fixedAmount)))
+    );
+
+    const defaultRate = Math.max(
+      0,
+      number(value("defaultPeriodRate", String(oldConfig.defaultRate || 150)))
+    );
+
+    const config = {
+      mode: mode === "period" ? "period" : "fixed",
+      fixedAmount: fixedAmount,
+      defaultRate: defaultRate || 150
+    };
+
+    if (!saveSalaryConfig(config)) return;
+
+    updateSalaryModeVisibility();
+    updateDashboard();
+    renderSalarySection();
+    renderHistory();
+
+    alert("Salary settings saved successfully.");
+  }
+
+  function updateSalaryModeVisibility() {
+    const config = getSalaryConfig();
+    const mode = value("salaryModeSelect", config.mode);
+
+    const fixedControls = el("fixedSalaryControls");
+    const periodControls = el("periodSalaryControls");
+    const periodSection = el("periodSalarySection");
+
+    if (fixedControls) {
+      fixedControls.style.display = mode === "fixed" ? "block" : "none";
+    }
+
+    if (periodControls) {
+      periodControls.style.display = mode === "period" ? "block" : "none";
+    }
+
+    if (periodSection) {
+      periodSection.style.display = mode === "period" ? "block" : "none";
+    }
+  }
+
+  /* ---------------------------------------------------------
+     16. RECORD SALARY PAYMENT
+     --------------------------------------------------------- */
+
+  function ensureSalaryPaymentForm() {
+    let form = el("salaryPaymentForm");
+
+    if (form) return form;
+
+    const host = el("salarySection") || document.body;
+
+    const wrapper = document.createElement("section");
+    wrapper.id = "salaryPaymentPanel";
+    wrapper.style.cssText =
+      "margin:16px 0;padding:14px;border:1px solid #d1d5db;" +
+      "border-radius:12px;";
+
+    wrapper.innerHTML = `
+      <h3>Record Salary Payment</h3>
+      <form id="salaryPaymentForm">
+        <label for="salaryMonth">Salary Month</label>
+        <input id="salaryMonth" type="month" required
+          style="display:block;width:100%;box-sizing:border-box">
+
+        <label for="salaryPaymentDate">Payment Date</label>
+        <input id="salaryPaymentDate" type="date" required
+          style="display:block;width:100%;box-sizing:border-box">
+
+        <label for="salaryPaymentAmount">Amount Received (₹)</label>
+        <input id="salaryPaymentAmount" type="number" min="0.01"
+          step="0.01" required
+          style="display:block;width:100%;box-sizing:border-box">
+
+        <label for="salaryNote">Notes (optional)</label>
+        <input id="salaryNote" type="text"
+          style="display:block;width:100%;box-sizing:border-box">
+
+        <button type="submit">Save Payment</button>
+        <button type="button" id="cancelSalaryEdit"
+          style="display:none">Cancel Edit</button>
+      </form>
+    `;
+
+    host.appendChild(wrapper);
+
+    return el("salaryPaymentForm");
+  }
+
+  function saveSalaryPayment(event) {
+    if (event) event.preventDefault();
+
+    const month = value("salaryMonth") || currentMonth();
+    const date = value("salaryPaymentDate") || today();
+    const amount = number(value("salaryPaymentAmount"));
+    const note = value("salaryNote");
+
+    if (!/^\d{4}-\d{2}$/.test(month)) {
+      alert("Please select the salary month.");
+      return;
+    }
+
+    if (amount <= 0) {
+      alert("Please enter an amount greater than zero.");
+      return;
+    }
+
+    const records = readArray(KEYS.salary);
+    const form = el("salaryPaymentForm");
+    const editingId = form ? form.dataset.editingId || "" : "";
+
+    const payment = {
+      id: editingId || id(),
+      type: "payment",
       month: month,
       date: date,
       amount: amount,
@@ -822,37 +883,25 @@
       updatedAt: new Date().toISOString()
     };
 
-    const existingIndex = records.findIndex(function (item) {
-      return String(item.id) === String(record.id);
+    const index = records.findIndex(function (record) {
+      return String(record.id) === String(payment.id);
     });
 
-    if (existingIndex >= 0) {
-      records[existingIndex] = {
-        ...records[existingIndex],
-        ...record
+    if (index >= 0) {
+      records[index] = {
+        ...records[index],
+        ...payment
       };
     } else {
-      records.push(record);
+      records.push(payment);
     }
 
-    if (!writeArray(KEYS.salary, records)) {
-      return;
-    }
+    if (!writeArray(KEYS.salary, records)) return;
 
-    if (form) {
-      form.reset();
-      delete form.dataset.editingId;
-    } else {
-      const amountInput = getElement("salaryPaymentAmount");
-      const noteInput = getElement("salaryNote");
-
-      if (amountInput) amountInput.value = "";
-      if (noteInput) noteInput.value = "";
-    }
-
-    setDefaultDates();
+    resetSalaryPaymentForm();
     updateDashboard();
     renderSalarySection();
+    renderPeriodHistory();
     renderHistory();
 
     alert(editingId
@@ -861,481 +910,564 @@
     );
   }
 
-  /* ---------------------------------------------------------
-     16. EDIT EXISTING RECORDS
-     --------------------------------------------------------- */
+  function resetSalaryPaymentForm() {
+    const form = el("salaryPaymentForm");
 
-  function editRecord(type, id) {
-    let key;
-    let formId;
+    if (!form) return;
 
-    if (type === "teaching") {
-      key = KEYS.teaching;
-      formId = "teachingForm";
-      showSection("teachingSection");
-    } else if (type === "copy") {
-      key = KEYS.copy;
-      formId = "copyForm";
-      showSection("copySection");
-    } else if (type === "salary") {
-      key = KEYS.salary;
-      formId = "salaryForm";
-      showSection("salarySection");
-    } else {
-      alert("Unknown record type.");
-      return;
+    form.reset();
+    delete form.dataset.editingId;
+
+    if (el("salaryMonth")) {
+      el("salaryMonth").value = currentMonth();
     }
 
-    const records = readArray(key);
-    const record = records.find(function (item) {
-      return String(item.id) === String(id);
-    });
-
-    if (!record) {
-      alert("Record not found.");
-      return;
+    if (el("salaryPaymentDate")) {
+      el("salaryPaymentDate").value = today();
     }
 
-    const form = getElement(formId);
+    const button = form.querySelector('button[type="submit"]');
 
-    if (!form) {
-      alert("The required form could not be found.");
-      return;
-    }
+    if (button) button.textContent = "Save Payment";
 
-    form.dataset.editingId = record.id;
+    const cancel = el("cancelSalaryEdit");
 
-    if (type === "teaching") {
-      if (getElement("teachingDate")) getElement("teachingDate").value = record.date || "";
-      if (getElement("teachingCount")) getElement("teachingCount").value = record.count ?? "";
-      if (getElement("teachingRate")) getElement("teachingRate").value = record.rate ?? "";
-      if (getElement("teachingBatch")) getElement("teachingBatch").value = record.batch || "";
-      if (getElement("teachingTiming")) getElement("teachingTiming").value = record.timing || "";
-      if (getElement("teachingNote")) getElement("teachingNote").value = record.note || "";
-
-      const typeInput = getElement("teachingType");
-
-      if (typeInput) {
-        typeInput.value = ["150", "200"].includes(String(record.type))
-          ? String(record.type)
-          : "custom";
-      }
-
-      updateTeachingCalculation();
-    }
-
-    if (type === "copy") {
-      if (getElement("copyDate")) getElement("copyDate").value = record.date || "";
-      if (getElement("copyClass")) getElement("copyClass").value = record.className || "";
-      if (getElement("copyCount")) getElement("copyCount").value = record.count ?? "";
-      if (getElement("copyRate")) getElement("copyRate").value = record.rate ?? "";
-      if (getElement("copyNote")) getElement("copyNote").value = record.note || "";
-      if (getElement("copyReceived")) {
-        getElement("copyReceived").value =
-          record.received ?? record.amountReceived ?? 0;
-      }
-
-      updateCopyCalculation();
-    }
-
-    if (type === "salary") {
-      if (getElement("salaryMonth")) {
-        getElement("salaryMonth").value =
-          record.month || monthFromDate(record.date) || currentMonthKey();
-      }
-
-      if (getElement("salaryPaymentDate")) {
-        getElement("salaryPaymentDate").value = record.date || todayString();
-      }
-
-      if (getElement("salaryPaymentAmount")) {
-        getElement("salaryPaymentAmount").value = record.amount ?? "";
-      }
-
-      if (getElement("salaryNote")) {
-        getElement("salaryNote").value = record.note || "";
-      }
-    }
-
-    const submitButton = form.querySelector(
-      'button[type="submit"], input[type="submit"]'
-    );
-
-    if (submitButton) {
-      submitButton.dataset.originalText =
-        submitButton.dataset.originalText || submitButton.textContent;
-
-      if (submitButton.tagName === "INPUT") {
-        submitButton.value = "Update Record";
-      } else {
-        submitButton.textContent = "Update Record";
-      }
-    }
-
-    window.scrollTo({
-      top: form.getBoundingClientRect().top + window.scrollY - 20,
-      behavior: "smooth"
-    });
+    if (cancel) cancel.style.display = "none";
   }
 
   /* ---------------------------------------------------------
-     17. DELETE EXISTING RECORDS
+     17. EDIT / DELETE PERIOD & PAYMENT RECORDS
      --------------------------------------------------------- */
 
-  function deleteRecord(type, id) {
-    const keys = {
-      teaching: KEYS.teaching,
-      copy: KEYS.copy,
-      salary: KEYS.salary
-    };
+  function editSalaryRecord(recordId) {
+    const records = readArray(KEYS.salary);
 
-    const key = keys[type];
-
-    if (!key) {
-      alert("Unknown record type.");
-      return;
-    }
-
-    if (!confirm("Are you sure you want to delete this record?")) {
-      return;
-    }
-
-    const records = readArray(key);
-    const updated = records.filter(function (record) {
-      return String(record.id) !== String(id);
+    const record = records.find(function (item) {
+      return String(item.id) === String(recordId);
     });
 
-    if (updated.length === records.length) {
-      alert("Record not found.");
+    if (!record) {
+      alert("Salary record not found.");
       return;
     }
 
-    if (!writeArray(key, updated)) {
+    if (record.type === "period") {
+      ensurePeriodEntryUI();
+
+      const form = el("periodEntryForm");
+
+      if (!form) return;
+
+      form.dataset.editingId = record.id;
+
+      if (el("periodDate")) el("periodDate").value = record.date || today();
+      if (el("periodClass")) el("periodClass").value = record.batch || record.className || "";
+      if (el("periodCount")) el("periodCount").value = record.periods ?? "";
+      if (el("periodRate")) el("periodRate").value = record.rate ?? "";
+      if (el("periodNote")) el("periodNote").value = record.note || "";
+
+      const button = form.querySelector('button[type="submit"]');
+
+      if (button) button.textContent = "Update Period Entry";
+
+      if (el("cancelPeriodEdit")) {
+        el("cancelPeriodEdit").style.display = "inline-block";
+      }
+
+      updatePeriodCalculation();
+      form.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
+
+    ensureSalaryPaymentForm();
+
+    const paymentForm = el("salaryPaymentForm");
+
+    if (!paymentForm) return;
+
+    paymentForm.dataset.editingId = record.id;
+
+    if (el("salaryMonth")) el("salaryMonth").value = record.month || monthFromDate(record.date);
+    if (el("salaryPaymentDate")) el("salaryPaymentDate").value = record.date || today();
+    if (el("salaryPaymentAmount")) el("salaryPaymentAmount").value = record.amount ?? "";
+    if (el("salaryNote")) el("salaryNote").value = record.note || "";
+
+    const button = paymentForm.querySelector('button[type="submit"]');
+
+    if (button) button.textContent = "Update Payment";
+
+    if (el("cancelSalaryEdit")) {
+      el("cancelSalaryEdit").style.display = "inline-block";
+    }
+
+    paymentForm.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function deleteSalaryRecord(recordId) {
+    const records = readArray(KEYS.salary);
+
+    const record = records.find(function (item) {
+      return String(item.id) === String(recordId);
+    });
+
+    if (!record) {
+      alert("Salary record not found.");
+      return;
+    }
+
+    const label = record.type === "period"
+      ? "this period entry"
+      : "this salary payment";
+
+    if (!confirm("Are you sure you want to delete " + label + "?")) {
+      return;
+    }
+
+    const updated = records.filter(function (item) {
+      return String(item.id) !== String(recordId);
+    });
+
+    if (!writeArray(KEYS.salary, updated)) return;
 
     updateDashboard();
-    renderHistory();
+    renderPeriodHistory();
     renderSalarySection();
+    renderHistory();
 
     alert("Record deleted successfully.");
   }
 
-  /* ---------------------------------------------------------
-     18. PART 2 END
-     Part 3 will add dashboard, monthly history, UI wiring,
-     dynamic fields, and the final closing code.
-     --------------------------------------------------------- */
+  // PART 2 END
+  // Paste Part 3 directly below this line.
+  // Do not run until all three parts are joined.
 
-
-     /* =========================================================
+   /* =========================================================
      ArthaFlow - Teaching Income Manager
-     PART 3 OF 3
-     Dashboard, Monthly History, Search & Initialization
+     REVISED VERSION - PART 3 OF 3
+     Dashboard, Monthly Summary, History & Initialization
      ========================================================= */
 
   /* ---------------------------------------------------------
-     19. CREATE MISSING INPUTS SAFELY
+     18. SAFE HTML DISPLAY HELPERS
      --------------------------------------------------------- */
 
-  function ensureCopyReceivedField() {
-    const form = getElement("copyForm");
+  function displayDate(date) {
+    if (!date) return "—";
 
-    if (!form || getElement("copyReceived")) {
-      return;
+    const parts = String(date).split("-");
+
+    if (parts.length === 3) {
+      return parts[2] + "/" + parts[1] + "/" + parts[0];
     }
 
-    const wrapper = document.createElement("div");
-    wrapper.id = "copyReceivedWrapper";
-    wrapper.style.margin = "12px 0";
-
-    const label = document.createElement("label");
-    label.htmlFor = "copyReceived";
-    label.textContent = "Amount Received (₹)";
-    label.style.display = "block";
-    label.style.marginBottom = "6px";
-
-    const input = document.createElement("input");
-    input.id = "copyReceived";
-    input.name = "copyReceived";
-    input.type = "number";
-    input.min = "0";
-    input.step = "0.01";
-    input.value = "0";
-    input.placeholder = "Enter amount actually received";
-    input.style.width = "100%";
-    input.style.boxSizing = "border-box";
-
-    wrapper.appendChild(label);
-    wrapper.appendChild(input);
-
-    const note = getElement("copyNote");
-
-    if (note && note.parentElement) {
-      note.parentElement.before(wrapper);
-    } else {
-      form.appendChild(wrapper);
-    }
+    return String(date);
   }
 
-  function ensureSummaryContainer() {
-    let container = getElement("teachingMonthlySummary");
-
-    if (!container) {
-      const dashboard =
-        getElement("teachingSection") ||
-        getElement("historySection") ||
-        document.body;
-
-      container = document.createElement("div");
-      container.id = "teachingMonthlySummary";
-      container.style.margin = "16px 0";
-      container.style.padding = "14px";
-      container.style.border = "1px solid #d1d5db";
-      container.style.borderRadius = "10px";
-
-      const heading = document.createElement("h3");
-      heading.textContent = "Monthly Financial Summary";
-
-      container.appendChild(heading);
-      dashboard.prepend(container);
-    }
-
-    return container;
+  function escapeText(text) {
+    return safeHTML(text == null ? "" : String(text));
   }
 
-  function ensureMonthSelector() {
-    let selector = getElement("incomeMonthFilter");
+  function actionButton(label, action, recordId) {
+    return `
+      <button type="button"
+        onclick="${action}('${escapeText(recordId)}')">
+        ${label}
+      </button>
+    `;
+  }
 
-    if (selector) {
-      return selector;
+  function getRecordAmount(record) {
+    if (record.type === "period") {
+      return calculatePeriodRecord(record);
     }
 
-    const host =
-      getElement("teachingSection") ||
-      getElement("historySection");
-
-    if (!host) {
-      return null;
-    }
-
-    const wrapper = document.createElement("div");
-    wrapper.style.margin = "12px 0";
-
-    const label = document.createElement("label");
-    label.htmlFor = "incomeMonthFilter";
-    label.textContent = "Select Month";
-    label.style.display = "block";
-    label.style.marginBottom = "6px";
-
-    selector = document.createElement("input");
-    selector.id = "incomeMonthFilter";
-    selector.type = "month";
-    selector.value = currentMonthKey();
-    selector.style.maxWidth = "100%";
-
-    wrapper.appendChild(label);
-    wrapper.appendChild(selector);
-    host.prepend(wrapper);
-
-    return selector;
+    return number(record.amount);
   }
 
   /* ---------------------------------------------------------
-     20. DASHBOARD SUMMARY
+     19. MONTH-WISE SALARY SUMMARY
+     --------------------------------------------------------- */
+
+  /*
+   * Fixed mode:
+   * Earned = fixed salary for the selected month.
+   *
+   * Period mode:
+   * Earned = sum of daily periods × the saved rate per entry.
+   *
+   * Payments are assigned to their selected salary month.
+   * Previous month's unpaid balance is not added to the
+   * next month's salary earnings.
+   */
+
+  function calculateSalaryMonth(month) {
+    const config = getSalaryConfig();
+    const mode = config.mode === "period" ? "period" : "fixed";
+
+    const periodRecords = getPeriodRecords(month);
+    const paymentRecords = getPaymentRecords(month);
+
+    const earned = mode === "period"
+      ? periodRecords.reduce(function (sum, record) {
+          return sum + calculatePeriodRecord(record);
+        }, 0)
+      : Math.max(0, number(config.fixedAmount));
+
+    const received = paymentRecords.reduce(function (sum, record) {
+      return sum + number(record.amount);
+    }, 0);
+
+    const due = Math.max(0, earned - received);
+
+    const percentage = earned > 0
+      ? Math.min(100, (received / earned) * 100)
+      : 0;
+
+    return {
+      month: month,
+      mode: mode,
+      earned: earned,
+      received: received,
+      due: due,
+      percentage: percentage,
+      periods: periodRecords.reduce(function (sum, record) {
+        return sum + number(record.periods);
+      }, 0),
+      periodRecords: periodRecords,
+      paymentRecords: paymentRecords
+    };
+  }
+
+  /* ---------------------------------------------------------
+     20. MONTH-WISE TEACHING / COPY SUMMARY
+     --------------------------------------------------------- */
+
+  function getMonthRecordsFromKey(key, month) {
+    return readArray(key).filter(function (record) {
+      return recordMonth(record) === month;
+    });
+  }
+
+  function sumAmounts(records) {
+    return records.reduce(function (sum, record) {
+      return sum + number(record.amount);
+    }, 0);
+  }
+
+  function calculateMonth(month) {
+    const teachingRecords = getMonthRecordsFromKey(KEYS.teaching, month);
+    const copyRecords = getMonthRecordsFromKey(KEYS.copy, month);
+    const salary = calculateSalaryMonth(month);
+
+    const teachingEarning = sumAmounts(teachingRecords);
+    const copyEarned = sumAmounts(copyRecords);
+
+    /*
+     * Copy checking earned and received are different concepts.
+     * Existing copy records count as earned income.
+     * If a copy record has a received field, it is used;
+     * otherwise its amount is treated as earned, not as a
+     * separate receipt.
+     */
+
+    const copyReceived = copyRecords.reduce(function (sum, record) {
+      if (record.receivedAmount != null) {
+        return sum + number(record.receivedAmount);
+      }
+
+      if (record.received != null) {
+        return sum + number(record.received);
+      }
+
+      return sum;
+    }, 0);
+
+    const copyDue = Math.max(0, copyEarned - copyReceived);
+
+    return {
+      month: month,
+      teachingEarning: teachingEarning,
+      copyEarned: copyEarned,
+      copyReceived: copyReceived,
+      copyDue: copyDue,
+
+      salaryMode: salary.mode,
+      salaryPeriods: salary.periods,
+      salaryEarned: salary.earned,
+      salaryReceived: salary.received,
+      salaryDue: salary.due,
+      salaryPercentage: salary.percentage,
+
+      totalEarning: teachingEarning + copyEarned,
+      totalRemaining: salary.due + copyDue
+    };
+  }
+
+  /* ---------------------------------------------------------
+     21. DASHBOARD UPDATE
      --------------------------------------------------------- */
 
   function updateDashboard() {
-    const monthSelector = getElement("incomeMonthFilter");
-    const month = monthSelector && monthSelector.value
-      ? monthSelector.value
-      : currentMonthKey();
-
+    const month = currentMonth();
     const summary = calculateMonth(month);
 
-    // Existing dashboard elements.
-    setText("teachingTotal", formatMoney(summary.teachingEarning));
-    setText("copyTotal", formatMoney(summary.copyEarned));
-    setText("salaryReceivedTotal", formatMoney(summary.salaryReceived));
-    setText("totalDues", formatMoney(summary.salaryDue + summary.copyDue));
-    setText("salaryExpected", formatMoney(summary.salaryExpected));
-    setText("salaryMonthReceived", formatMoney(summary.salaryReceived));
-    setText("salaryMonthDues", formatMoney(summary.salaryDue));
+    setText("teachingTotal", money(summary.teachingEarning));
+    setText("copyTotal", money(summary.copyEarned));
+    setText("salaryReceivedTotal", money(summary.salaryReceived));
+    setText("totalDues", money(summary.totalRemaining));
 
-    // Existing monthly salary input.
-    const salaryInput = getElement("monthlySalary");
+    setText("salaryExpected", money(summary.salaryEarned));
+    setText("salaryMonthReceived", money(summary.salaryReceived));
+    setText("salaryMonthDues", money(summary.salaryDue));
 
-    if (salaryInput && document.activeElement !== salaryInput) {
-      salaryInput.value = readMonthlySalary() || "";
-    }
+    setText(
+      "copyMonthTotal",
+      money(summary.copyEarned)
+    );
 
-    // Copy checking monthly count and amount.
-    const copyRecords = filterByMonth(getCopyRecords(), month);
-    const copyCount = copyRecords.reduce(function (total, record) {
-      return total + toNumber(record.count);
+    const copyRecords = getMonthRecordsFromKey(KEYS.copy, month);
+    const copyCount = copyRecords.reduce(function (sum, record) {
+      return sum + number(record.count);
     }, 0);
 
     setText("copyMonthCount", String(copyCount));
-    setText("copyMonthTotal", formatMoney(summary.copyEarned));
 
-    // New financial summary panel.
-    const container = getElement("teachingMonthlySummary");
+    /*
+     * If the dashboard contains these optional IDs,
+     * update them too. Existing layouts remain unchanged.
+     */
 
-    if (container) {
-      container.innerHTML = `
-        <h3>Monthly Financial Summary</h3>
-        <p><strong>Month:</strong> ${escapeHTML(monthLabel(month))}</p>
-        <p><strong>Teaching Earning:</strong> ${formatMoney(summary.teachingEarning)}</p>
-        <p><strong>Copy Checking Earned:</strong> ${formatMoney(summary.copyEarned)}</p>
-        <p><strong>Copy Checking Received:</strong> ${formatMoney(summary.copyReceived)}</p>
-        <p><strong>Copy Checking Due:</strong> ${formatMoney(summary.copyDue)}</p>
-        <hr>
-        <p><strong>Total Earning:</strong> ${formatMoney(summary.totalEarning)}</p>
-        <p><strong>Salary Expected:</strong> ${formatMoney(summary.salaryExpected)}</p>
-        <p><strong>Salary Received:</strong> ${formatMoney(summary.salaryReceived)}</p>
-        <p><strong>Salary Due:</strong> ${formatMoney(summary.salaryDue)}</p>
-        <p><strong>Total Remaining:</strong> ${formatMoney(summary.totalRemaining)}</p>
-      `;
+    setText("totalEarning", money(summary.totalEarning));
+    setText("totalIncome", money(summary.totalEarning));
+    setText("salaryDue", money(summary.salaryDue));
+    setText("salaryPercentage", summary.salaryPercentage.toFixed(1) + "%");
+    setText("salaryPeriodsTotal", String(summary.salaryPeriods));
+
+    const salaryConfig = getSalaryConfig();
+
+    if (el("salaryModeSelect")) {
+      el("salaryModeSelect").value = salaryConfig.mode;
     }
 
-    return summary;
+    if (el("monthlySalary")) {
+      el("monthlySalary").value = salaryConfig.fixedAmount || "";
+    }
+
+    if (el("defaultPeriodRate")) {
+      el("defaultPeriodRate").value = salaryConfig.defaultRate || "";
+    }
+
+    updateSalaryModeVisibility();
   }
 
   /* ---------------------------------------------------------
-     21. SALARY SECTION & PAYMENT HISTORY
+     22. RENDER DAILY PERIOD HISTORY
      --------------------------------------------------------- */
 
-  function renderSalarySection() {
-    const month = getValue("salaryMonth") || currentMonthKey();
-    const summary = calculateMonth(month);
+  function renderPeriodHistory() {
+    const host = el("periodHistory");
 
-    setText("salaryExpected", formatMoney(summary.salaryExpected));
-    setText("salaryMonthReceived", formatMoney(summary.salaryReceived));
-    setText("salaryMonthDues", formatMoney(summary.salaryDue));
+    if (!host) return;
 
-    const host = getElement("salaryHistory");
+    const month = value("salaryMonth") || currentMonth();
 
-    if (!host) {
-      updateDashboard();
+    const records = getPeriodRecords(month).sort(function (a, b) {
+      return String(b.date || "").localeCompare(String(a.date || ""));
+    });
+
+    if (!records.length) {
+      host.innerHTML = "<p>No period entries found for this month.</p>";
       return;
     }
 
-    const payments = filterByMonth(getSalaryRecords(), month)
-      .sort(function (a, b) {
-        return String(b.date).localeCompare(String(a.date));
-      });
+    let totalPeriodsCount = 0;
+    let totalEarned = 0;
 
-    if (payments.length === 0) {
-      host.innerHTML = "<p>No salary payments recorded for this month.</p>";
-      updateDashboard();
-      return;
-    }
+    const rows = records.map(function (record) {
+      const periods = number(record.periods);
+      const amount = calculatePeriodRecord(record);
+
+      totalPeriodsCount += periods;
+      totalEarned += amount;
+
+      return `
+        <tr>
+          <td>${escapeText(displayDate(record.date))}</td>
+          <td>${escapeText(record.batch || record.className || "—")}</td>
+          <td>${periods}</td>
+          <td>${escapeText(money(record.rate))}</td>
+          <td>${escapeText(money(amount))}</td>
+          <td>
+            ${actionButton("Edit", "editSalaryRecord", record.id)}
+            ${actionButton("Delete", "deleteSalaryRecord", record.id)}
+          </td>
+        </tr>
+      `;
+    }).join("");
 
     host.innerHTML = `
-      <h3>Salary Payment History — ${escapeHTML(monthLabel(month))}</h3>
+      <p><strong>Total Periods:</strong> ${totalPeriodsCount}</p>
+      <p><strong>Total Period-Wise Earning:</strong> ${escapeText(money(totalEarned))}</p>
+
       <div style="overflow-x:auto">
         <table style="width:100%;border-collapse:collapse">
           <thead>
             <tr>
-              <th style="text-align:left;padding:8px">Date</th>
-              <th style="text-align:left;padding:8px">Amount</th>
-              <th style="text-align:left;padding:8px">Notes</th>
-              <th style="text-align:left;padding:8px">Actions</th>
+              <th>Date</th>
+              <th>Class / Batch</th>
+              <th>Periods</th>
+              <th>Rate</th>
+              <th>Earned</th>
+              <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
-            ${payments.map(function (record) {
-              return `
-                <tr>
-                  <td style="padding:8px">${escapeHTML(record.date)}</td>
-                  <td style="padding:8px">${formatMoney(record.amount)}</td>
-                  <td style="padding:8px">${escapeHTML(record.note || "—")}</td>
-                  <td style="padding:8px">
-                    <button type="button"
-                      onclick="editRecord('salary','${escapeHTML(record.id)}')">
-                      Edit
-                    </button>
-                    <button type="button"
-                      onclick="deleteRecord('salary','${escapeHTML(record.id)}')">
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              `;
-            }).join("")}
-          </tbody>
+          <tbody>${rows}</tbody>
         </table>
       </div>
     `;
-
-    updateDashboard();
   }
 
   /* ---------------------------------------------------------
-     22. COMPLETE MONTH-WISE HISTORY
+     23. RENDER SALARY MONTH SUMMARY & PAYMENTS
+     --------------------------------------------------------- */
+
+  function renderSalarySection() {
+    const month = value("salaryMonth") || currentMonth();
+    const summary = calculateSalaryMonth(month);
+
+    setText("salaryExpected", money(summary.earned));
+    setText("salaryMonthReceived", money(summary.received));
+    setText("salaryMonthDues", money(summary.due));
+
+    const history = el("salaryHistory");
+
+    if (history) {
+      const payments = summary.paymentRecords.slice().sort(function (a, b) {
+        return String(b.date || "").localeCompare(String(a.date || ""));
+      });
+
+      if (!payments.length) {
+        history.innerHTML = "<p>No salary payments recorded for this month.</p>";
+      } else {
+        history.innerHTML = `
+          <div style="overflow-x:auto">
+            <table style="width:100%;border-collapse:collapse">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Amount Received</th>
+                  <th>Notes</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${payments.map(function (record) {
+                  return `
+                    <tr>
+                      <td>${escapeText(displayDate(record.date))}</td>
+                      <td>${escapeText(money(record.amount))}</td>
+                      <td>${escapeText(record.note || "—")}</td>
+                      <td>
+                        ${actionButton("Edit", "editSalaryRecord", record.id)}
+                        ${actionButton("Delete", "deleteSalaryRecord", record.id)}
+                      </td>
+                    </tr>
+                  `;
+                }).join("")}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+    }
+
+    const percent = summary.percentage.toFixed(1);
+
+    setText("salaryPercentage", percent + "%");
+
+    const progress = el("salaryPaymentProgress");
+
+    if (progress) {
+      progress.max = 100;
+      progress.value = summary.percentage;
+    }
+
+    renderPeriodHistory();
+  }
+
+  /* ---------------------------------------------------------
+     24. RENDER COMPLETE TRANSACTION HISTORY
      --------------------------------------------------------- */
 
   function renderHistory() {
-    const host = getElement("completeHistory");
+    const host = el("completeHistory");
 
-    if (!host) {
-      return;
-    }
+    if (!host) return;
 
-    const selectedType = getValue("historyType", "all").toLowerCase();
-    const search = getValue("historySearch").toLowerCase();
-    const month = getValue("incomeMonthFilter");
+    const typeFilter = value("historyType", "all");
+    const search = value("historySearch").trim().toLowerCase();
 
-    let records = [];
+    const teaching = readArray(KEYS.teaching).map(function (record) {
+      return {
+        ...record,
+        _type: "teaching",
+        _amount: number(record.amount),
+        _label: record.batch || record.type || "Teaching"
+      };
+    });
 
-    if (selectedType === "all" || selectedType === "teaching") {
-      getTeachingRecords().forEach(function (record) {
-        records.push({ ...record, recordType: "teaching" });
-      });
-    }
+    const copy = readArray(KEYS.copy).map(function (record) {
+      return {
+        ...record,
+        _type: "copy",
+        _amount: number(record.amount),
+        _label: record.className || record.class || "Copy Checking"
+      };
+    });
 
-    if (selectedType === "all" || selectedType === "copy") {
-      getCopyRecords().forEach(function (record) {
-        records.push({ ...record, recordType: "copy" });
-      });
-    }
+    const salary = readArray(KEYS.salary).map(function (record) {
+      const isPeriod = record.type === "period";
 
-    if (selectedType === "all" || selectedType === "salary") {
-      getSalaryRecords().forEach(function (record) {
-        records.push({ ...record, recordType: "salary" });
-      });
-    }
+      return {
+        ...record,
+        _type: isPeriod ? "period" : "salary",
+        _amount: isPeriod
+          ? calculatePeriodRecord(record)
+          : number(record.amount),
+        _label: isPeriod
+          ? (record.batch || record.className || "Period Entry")
+          : "Salary Payment"
+      };
+    });
+
+    let records = teaching.concat(copy, salary);
 
     records = records.filter(function (record) {
-      const recordDate = record.date || "";
-      const recordMonthKey = recordMonth(record);
+      if (
+        typeFilter !== "all" &&
+        typeFilter !== record._type
+      ) {
+        return false;
+      }
 
-      const searchableText = [
-        recordDate,
-        recordMonthKey,
-        monthLabel(recordMonthKey),
+      const searchable = [
+        record.date,
+        record.month,
+        record._label,
         record.note,
         record.batch,
-        record.className,
-        record.timing,
-        record.recordType,
-        record.amount,
-        record.earned,
-        record.received
+        record.className
       ].join(" ").toLowerCase();
 
-      const matchesSearch = !search || searchableText.includes(search);
-      const matchesMonth = !month || recordMonthKey === month;
-
-      return matchesSearch && matchesMonth;
+      return !search || searchable.includes(search);
     });
 
     records.sort(function (a, b) {
       return String(b.date || "").localeCompare(String(a.date || ""));
     });
 
-    if (records.length === 0) {
-      host.innerHTML = "<p>No records found for the selected filters.</p>";
+    if (!records.length) {
+      host.innerHTML = "<p>No matching records found.</p>";
       return;
     }
 
@@ -1344,222 +1476,254 @@
         <table style="width:100%;border-collapse:collapse">
           <thead>
             <tr>
-              <th style="text-align:left;padding:8px">Date</th>
-              <th style="text-align:left;padding:8px">Type</th>
-              <th style="text-align:left;padding:8px">Details</th>
-              <th style="text-align:left;padding:8px">Earned / Amount</th>
-              <th style="text-align:left;padding:8px">Received</th>
-              <th style="text-align:left;padding:8px">Due</th>
-              <th style="text-align:left;padding:8px">Actions</th>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Class / Details</th>
+              <th>Periods</th>
+              <th>Amount</th>
+              <th>Notes</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             ${records.map(function (record) {
-              const type = record.recordType;
-              const earned = type === "copy"
-                ? toNumber(record.earned)
-                : toNumber(record.amount);
+              const canEditSalary =
+                record._type === "salary" ||
+                record._type === "period";
 
-              const received = type === "copy"
-                ? toNumber(record.received)
-                : type === "salary"
-                  ? toNumber(record.amount)
-                  : 0;
-
-              const due = type === "copy"
-                ? Math.max(0, earned - received)
-                : 0;
-
-              const details = type === "teaching"
-                ? [record.batch, record.timing, record.note].filter(Boolean).join(" • ")
-                : type === "copy"
-                  ? [record.className, record.note].filter(Boolean).join(" • ")
-                  : [record.note, record.month].filter(Boolean).join(" • ");
+              const actions = canEditSalary
+                ? actionButton("Edit", "editSalaryRecord", record.id) +
+                  actionButton("Delete", "deleteSalaryRecord", record.id)
+                : "";
 
               return `
                 <tr>
-                  <td style="padding:8px">${escapeHTML(record.date || "—")}</td>
-                  <td style="padding:8px">${escapeHTML(type)}</td>
-                  <td style="padding:8px">${escapeHTML(details || "—")}</td>
-                  <td style="padding:8px">${formatMoney(earned)}</td>
-                  <td style="padding:8px">${type === "copy" || type === "salary" ? formatMoney(received) : "—"}</td>
-                  <td style="padding:8px">${type === "copy" ? formatMoney(due) : "—"}</td>
-                  <td style="padding:8px">
-                    <button type="button"
-                      onclick="editRecord('${type}','${escapeHTML(record.id)}')">
-                      Edit
-                    </button>
-                    <button type="button"
-                      onclick="deleteRecord('${type}','${escapeHTML(record.id)}')">
-                      Delete
-                    </button>
-                  </td>
+                  <td>${escapeText(displayDate(record.date))}</td>
+                  <td>${escapeText(record._type)}</td>
+                  <td>${escapeText(record._label)}</td>
+                  <td>${record._type === "period" ? number(record.periods) : "—"}</td>
+                  <td>${escapeText(money(record._amount))}</td>
+                  <td>${escapeText(record.note || "—")}</td>
+                  <td>${actions}</td>
                 </tr>
               `;
             }).join("")}
           </tbody>
         </table>
       </div>
-      <p><strong>Records:</strong> ${records.length}</p>
     `;
   }
 
   /* ---------------------------------------------------------
-     23. SHOW / HIDE CUSTOM TIMING
+     25. MONTH FILTERS
      --------------------------------------------------------- */
 
-  function updateCustomTimingVisibility() {
-    const timing = getValue("teachingTiming");
-    const box = getElement("customTimingBox");
-
-    if (box) {
-      box.style.display = timing === "अन्य" ? "block" : "none";
-    }
+  function refreshSelectedMonth() {
+    updateDashboard();
+    renderSalarySection();
+    renderHistory();
   }
 
   /* ---------------------------------------------------------
-     24. FORM AND INPUT EVENTS
+     26. CONNECT EXISTING FORMS & BUTTONS
      --------------------------------------------------------- */
 
-  function connectForms() {
-    const teachingForm = getElement("teachingForm");
+  function bindIncomeEvents() {
+    ensureSalaryModeUI();
+    ensurePeriodEntryUI();
+    ensureSalaryPaymentForm();
 
-    if (teachingForm) {
-      teachingForm.addEventListener("submit", saveTeachingRecord);
+    const periodForm = el("periodEntryForm");
+
+    if (periodForm && !periodForm.dataset.bound) {
+      periodForm.addEventListener("submit", savePeriodEntry);
+      periodForm.dataset.bound = "1";
     }
 
-    const copyForm = getElement("copyForm");
+    const paymentForm = el("salaryPaymentForm");
 
-    if (copyForm) {
-      copyForm.addEventListener("submit", saveCopyRecord);
+    if (paymentForm && !paymentForm.dataset.bound) {
+      paymentForm.addEventListener("submit", saveSalaryPayment);
+      paymentForm.dataset.bound = "1";
     }
 
-    const salaryForm = getElement("salaryForm");
+    const modeSelect = el("salaryModeSelect");
 
-    if (salaryForm) {
-      salaryForm.addEventListener("submit", addSalaryPayment);
-    }
-
-    [
-      "teachingType",
-      "teachingCount",
-      "teachingRate"
-    ].forEach(function (id) {
-      const element = getElement(id);
-
-      if (element) {
-        element.addEventListener("input", updateTeachingCalculation);
-        element.addEventListener("change", updateTeachingCalculation);
-      }
-    });
-
-    [
-      "copyCount",
-      "copyRate"
-    ].forEach(function (id) {
-      const element = getElement(id);
-
-      if (element) {
-        element.addEventListener("input", updateCopyCalculation);
-        element.addEventListener("change", updateCopyCalculation);
-      }
-    });
-
-    const timing = getElement("teachingTiming");
-
-    if (timing) {
-      timing.addEventListener("change", updateCustomTimingVisibility);
-    }
-
-    const monthSelector = getElement("incomeMonthFilter");
-
-    if (monthSelector) {
-      monthSelector.addEventListener("change", function () {
-        updateDashboard();
-        renderHistory();
+    if (modeSelect && !modeSelect.dataset.bound) {
+      modeSelect.addEventListener("change", function () {
+        updateSalaryModeVisibility();
       });
+
+      modeSelect.dataset.bound = "1";
     }
 
-    const salaryMonth = getElement("salaryMonth");
+    const saveButton = el("saveFixedSalaryButton");
 
-    if (salaryMonth) {
-      salaryMonth.addEventListener("change", function () {
-        renderSalarySection();
-        updateDashboard();
+    if (saveButton && !saveButton.dataset.bound) {
+      saveButton.addEventListener("click", saveSalaryModeSettings);
+      saveButton.dataset.bound = "1";
+    }
+
+    const periodDate = el("periodDate");
+
+    if (periodDate && !periodDate.value) {
+      periodDate.value = today();
+    }
+
+    const salaryMonthInput = el("salaryMonth");
+
+    if (salaryMonthInput) {
+      if (!salaryMonthInput.value) {
+        salaryMonthInput.value = currentMonth();
+      }
+
+      if (!salaryMonthInput.dataset.bound) {
+        salaryMonthInput.addEventListener("change", refreshSelectedMonth);
+        salaryMonthInput.dataset.bound = "1";
+      }
+    }
+
+    const paymentDate = el("salaryPaymentDate");
+
+    if (paymentDate && !paymentDate.value) {
+      paymentDate.value = today();
+    }
+
+    const periodClass = el("periodClass");
+
+    if (periodClass && !periodClass.dataset.bound) {
+      periodClass.addEventListener("change", suggestBatchRate);
+      periodClass.dataset.bound = "1";
+    }
+
+    const periodRate = el("periodRate");
+
+    if (periodRate && !periodRate.dataset.bound) {
+      periodRate.addEventListener("input", function () {
+        periodRate.dataset.userEdited = "1";
+        updatePeriodCalculation();
       });
+
+      periodRate.dataset.bound = "1";
     }
 
-    const historyType = getElement("historyType");
+    const periodCount = el("periodCount");
 
-    if (historyType) {
-      historyType.addEventListener("change", renderHistory);
+    if (periodCount && !periodCount.dataset.bound) {
+      periodCount.addEventListener("input", updatePeriodCalculation);
+      periodCount.dataset.bound = "1";
     }
 
-    const historySearch = getElement("historySearch");
+    const cancelPeriod = el("cancelPeriodEdit");
 
-    if (historySearch) {
+    if (cancelPeriod && !cancelPeriod.dataset.bound) {
+      cancelPeriod.addEventListener("click", resetPeriodForm);
+      cancelPeriod.dataset.bound = "1";
+    }
+
+    const cancelPayment = el("cancelSalaryEdit");
+
+    if (cancelPayment && !cancelPayment.dataset.bound) {
+      cancelPayment.addEventListener("click", resetSalaryPaymentForm);
+      cancelPayment.dataset.bound = "1";
+    }
+
+    const historySearch = el("historySearch");
+
+    if (historySearch && !historySearch.dataset.bound) {
       historySearch.addEventListener("input", renderHistory);
+      historySearch.dataset.bound = "1";
     }
+
+    const historyType = el("historyType");
+
+    if (historyType && !historyType.dataset.bound) {
+      historyType.addEventListener("change", renderHistory);
+      historyType.dataset.bound = "1";
+    }
+
+    /*
+     * Keep existing inline HTML handlers working.
+     * These functions are also exposed globally below.
+     */
   }
 
   /* ---------------------------------------------------------
-     25. EXPOSE FUNCTIONS FOR EXISTING HTML BUTTONS
-     Existing inline onclick handlers will continue to work.
+     27. GLOBAL HANDLERS FOR EXISTING HTML
      --------------------------------------------------------- */
 
-  window.showSection = showSection;
-  window.saveSalarySetup = saveSalarySetup;
-  window.addSalaryPayment = addSalaryPayment;
-  window.renderHistory = renderHistory;
+  window.saveSalarySetup = function () {
+    saveSalaryModeSettings();
+  };
+
+  window.addSalaryPayment = function () {
+    saveSalaryPayment();
+  };
+
+  window.savePeriodEntry = function () {
+    savePeriodEntry();
+  };
+
+  window.editSalaryRecord = function (recordId) {
+    editSalaryRecord(recordId);
+  };
+
+  window.deleteSalaryRecord = function (recordId) {
+    deleteSalaryRecord(recordId);
+  };
+
+  /*
+   * If the old page already calls updateDashboard(),
+   * renderHistory(), or renderSalarySection(), those calls
+   * will continue to work.
+   */
+
   window.updateDashboard = updateDashboard;
-  window.updateTeachingCalculation = updateTeachingCalculation;
-  window.updateCopyCalculation = updateCopyCalculation;
-  window.saveTeachingRecord = saveTeachingRecord;
-  window.saveCopyRecord = saveCopyRecord;
-  window.editRecord = editRecord;
-  window.deleteRecord = deleteRecord;
+  window.renderHistory = renderHistory;
   window.renderSalarySection = renderSalarySection;
-
-  // Compatibility aliases in case existing HTML uses these names.
-  window.editTeaching = function (id) {
-    editRecord("teaching", id);
-  };
-
-  window.deleteTeaching = function (id) {
-    deleteRecord("teaching", id);
-  };
-
-  window.editCopy = function (id) {
-    editRecord("copy", id);
-  };
-
-  window.deleteCopy = function (id) {
-    deleteRecord("copy", id);
-  };
-
-  window.updateTeachingPreview = updateTeachingCalculation;
-  window.updateCopyPreview = updateCopyCalculation;
+  window.renderPeriodHistory = renderPeriodHistory;
 
   /* ---------------------------------------------------------
-     26. INITIALIZE APPLICATION
+     28. INITIALIZE
      --------------------------------------------------------- */
 
   function initializeTeachingIncome() {
-    setDefaultDates();
+    ensureSalaryModeUI();
+    ensurePeriodEntryUI();
+    ensureSalaryPaymentForm();
 
-    ensureCopyReceivedField();
-    ensureMonthSelector();
-    ensureSummaryContainer();
+    bindIncomeEvents();
 
-    connectForms();
+    const config = getSalaryConfig();
 
-    updateCustomTimingVisibility();
-    updateTeachingCalculation();
-    updateCopyCalculation();
+    if (el("salaryModeSelect")) {
+      el("salaryModeSelect").value = config.mode;
+    }
+
+    if (el("monthlySalary")) {
+      el("monthlySalary").value = config.fixedAmount || "";
+    }
+
+    if (el("defaultPeriodRate")) {
+      el("defaultPeriodRate").value = config.defaultRate || 150;
+    }
+
+    if (el("periodDate")) {
+      el("periodDate").value = today();
+    }
+
+    if (el("salaryMonth")) {
+      el("salaryMonth").value = currentMonth();
+    }
+
+    if (el("salaryPaymentDate")) {
+      el("salaryPaymentDate").value = today();
+    }
 
     updateDashboard();
     renderSalarySection();
     renderHistory();
+    updatePeriodCalculation();
   }
 
   if (document.readyState === "loading") {
@@ -1572,8 +1736,7 @@
     initializeTeachingIncome();
   }
 
-  /* ---------------------------------------------------------
-     END OF ARTHAFLOW TEACHING INCOME MANAGER
-     --------------------------------------------------------- */
-
-})();
+  /* =========================================================
+     END OF PART 3
+     Close the IIFE started in Part 1.
+     =====
