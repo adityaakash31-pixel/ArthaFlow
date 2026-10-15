@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,18 +6,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ArthaFlow - Teaching Income Manager</title>
 <link rel="stylesheet" href="./css/style.css">
+
 <style>
-:root{--blue:#233f8b;--navy:#142b68;--bg:#f0f4fa;--border:#e1e7f0;--text:#202938}
+:root{
+  --blue:#233f8b;
+  --navy:#142b68;
+  --bg:#f0f4fa;
+  --border:#e1e7f0;
+  --text:#202938;
+}
 *{box-sizing:border-box}
-body{margin:0;padding:12px;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+body{
+  margin:0;padding:12px;background:var(--bg);
+  color:var(--text);font-family:Arial,Helvetica,sans-serif
+}
 .wrap{max-width:1000px;margin:auto}
-.hero{background:linear-gradient(135deg,#142b68,#3158b8);color:white;border-radius:14px;padding:20px 16px;margin-bottom:14px}
+.hero{
+  background:linear-gradient(135deg,#142b68,#3158b8);
+  color:white;border-radius:14px;padding:20px 16px;margin-bottom:14px
+}
 .hero h1{font-size:22px;margin:0 0 6px}
 .hero p{margin:0;font-size:13px;opacity:.9}
-.panel,.stat{background:#fff;border:1px solid #e9edf4;border-radius:12px;padding:14px;box-shadow:0 3px 12px #172b4d0a}
+.panel,.stat{
+  background:#fff;border:1px solid #e9edf4;border-radius:12px;
+  padding:14px;box-shadow:0 3px 12px #172b4d0a
+}
 .panel{margin-bottom:13px}
 .panel h2{font-size:17px;margin:0 0 12px}
-.summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:14px}
+.summary{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;margin-bottom:14px
+}
 .stat .label{font-size:12px;color:#536176;margin-bottom:8px}
 .stat .value{font-weight:800;font-size:18px;overflow-wrap:anywhere}
 .stat small{display:block;color:#758197;font-size:11px;margin-top:5px}
@@ -27,252 +47,308 @@ body{margin:0;padding:12px;background:var(--bg);color:var(--text);font-family:Ar
 .due{border-top:4px solid #e05252}
 .percent{border-top:4px solid #13a6a6}
 label{display:block;font-size:12px;font-weight:700;margin:10px 0 5px}
-input,select,textarea{width:100%;min-height:40px;border:1px solid #d6deea;border-radius:8px;padding:9px 10px;font:inherit;font-size:13px;background:white;color:var(--text)}
+input,select,textarea{
+  width:100%;min-height:40px;border:1px solid #d6deea;
+  border-radius:8px;padding:9px 10px;font:inherit;
+  font-size:13px;background:white;color:var(--text)
+}
 textarea{min-height:65px;resize:vertical}
-button,.tab{border:0;border-radius:8px;background:var(--blue);color:white;padding:10px 12px;font-size:12px;font-weight:700;cursor:pointer}
+button,.tab{
+  border:0;border-radius:8px;background:var(--blue);color:white;
+  padding:10px 12px;font-size:12px;font-weight:700;cursor:pointer
+}
 button.secondary{background:#566579}
 button.danger{background:#b42318}
 button.light{background:#eaf0ff;color:#203d86}
 .tabs,.modebar{display:flex;flex-wrap:wrap;gap:7px;margin:13px 0}
-.tab.active,.modebar button.active{background:var(--navy);outline:2px solid #c5d2f4}
-.row,.filterbar{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.calc{background:#eef4ff;border-radius:8px;padding:11px;margin:12px 0;font-size:13px;font-weight:700}
+.tab.active,.modebar button.active{
+  background:var(--navy);outline:2px solid #c5d2f4
+}
+.row,.filterbar{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px
+}
+.calc{
+  background:#eef4ff;border-radius:8px;padding:11px;
+  margin:12px 0;font-size:13px;font-weight:700
+}
 .hidden{display:none!important}
 .hint{font-size:11px;color:#667085;line-height:1.5;margin-top:8px}
-.record{border:1px solid var(--border);border-radius:10px;padding:11px;margin:9px 0;background:#fff}
-.record-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.record{
+  border:1px solid var(--border);border-radius:10px;
+  padding:11px;margin:9px 0;background:#fff
+}
+.record-top{
+  display:flex;justify-content:space-between;
+  gap:10px;align-items:flex-start
+}
 .record-title{font-weight:800;font-size:13px}
 .record-amount{font-weight:800;color:#203d86;white-space:nowrap}
-.record-meta{color:#667085;font-size:12px;line-height:1.6;margin-top:6px;white-space:pre-wrap}
+.record-meta{
+  color:#667085;font-size:12px;line-height:1.6;
+  margin-top:6px;white-space:pre-wrap
+}
 .record-actions{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
 .record-actions button{padding:7px 9px}
 .empty{font-size:13px;color:#667085;padding:12px 0}
-.breakdown{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
-.breakdown th,.breakdown td{border-bottom:1px solid #e7ebf2;padding:9px 5px;text-align:left;white-space:nowrap}
+.breakdown{
+  width:100%;border-collapse:collapse;font-size:12px;margin-top:8px
+}
+.breakdown th,.breakdown td{
+  border-bottom:1px solid #e7ebf2;padding:9px 5px;
+  text-align:left;white-space:nowrap
+}
 .breakdown th{color:#536176;background:#f7f9fc}
 .back{display:inline-block;text-decoration:none;margin:4px 0 12px}
+.teaching-rate-row{background:#f9fbff!important}
+.rate-total{margin:0}
 @media(min-width:700px){
-body{padding:22px}
-.summary{grid-template-columns:repeat(3,minmax(0,1fr))}
-.panel{padding:18px}
-.hero h1{font-size:26px}
+  body{padding:22px}
+  .summary{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .panel{padding:18px}
+  .hero h1{font-size:26px}
+}
+@media(max-width:380px){
+  .row,.filterbar{grid-template-columns:1fr}
 }
 </style>
 </head>
+
 <body>
 <div class="wrap">
 
 <header class="hero">
-<h1>📚 ArthaFlow Teaching Income Manager</h1>
-<p>Teaching Earnings • Salary • Copy Checking • Complete History</p>
+  <h1>📚 ArthaFlow Teaching Income Manager</h1>
+  <p>Teaching Earnings • Salary • Copy Checking • Complete History</p>
 </header>
 
 <section class="panel">
-<h2>🔎 Dashboard Summary</h2>
-<div class="filterbar">
-<div>
-<label for="periodMonth">Select Month</label>
-<input type="month" id="periodMonth">
-</div>
-<div>
-<label for="periodYear">Select Year</label>
-<select id="periodYear"></select>
-</div>
-</div>
-<div class="modebar">
-<button type="button" class="active" data-view="month">Month</button>
-<button type="button" data-view="year">Year</button>
-<button type="button" data-view="total">Total / All Time</button>
-</div>
-<p class="hint" id="periodLabel">Showing selected month</p>
+  <h2>🔎 Dashboard Summary</h2>
+
+  <div class="filterbar">
+    <div>
+      <label for="periodMonth">Select Month</label>
+      <input type="month" id="periodMonth">
+    </div>
+    <div>
+      <label for="periodYear">Select Year</label>
+      <select id="periodYear"></select>
+    </div>
+  </div>
+
+  <div class="modebar">
+    <button type="button" class="active" data-view="month">Month</button>
+    <button type="button" data-view="year">Year</button>
+    <button type="button" data-view="total">Total / All Time</button>
+  </div>
+
+  <p class="hint" id="periodLabel">Showing selected month</p>
 </section>
 
 <section class="summary">
-<div class="stat teach">
-<div class="label">📚 Teaching Earning</div>
-<div class="value" id="teachingTotal">₹0</div>
-<small>Selected period</small>
-</div>
-<div class="stat copy">
-<div class="label">📝 Copy Checking</div>
-<div class="value" id="copyTotal">₹0</div>
-<small>Selected period</small>
-</div>
-<div class="stat total">
-<div class="label">💰 Total Earning</div>
-<div class="value" id="totalEarning">₹0</div>
-<small>Teaching + Copy Checking</small>
-</div>
-<div class="stat received">
-<div class="label">💵 Salary Received</div>
-<div class="value" id="salaryReceivedTotal">₹0</div>
-<small>Payments in selected period</small>
-</div>
-<div class="stat due">
-<div class="label">🟠 Total Due</div>
-<div class="value" id="totalDues">₹0</div>
-<small>Earned salary minus received salary</small>
-</div>
-<div class="stat percent">
-<div class="label">📊 Received Percentage</div>
-<div class="value" id="receivedPercent">0%</div>
-<small>Salary received / salary earned</small>
-</div>
+  <div class="stat teach">
+    <div class="label">📚 Teaching Earning</div>
+    <div class="value" id="teachingTotal">₹0</div>
+    <small>Selected period</small>
+  </div>
+
+  <div class="stat copy">
+    <div class="label">📝 Copy Checking</div>
+    <div class="value" id="copyTotal">₹0</div>
+    <small>Selected period</small>
+  </div>
+
+  <div class="stat total">
+    <div class="label">💰 Total Earning</div>
+    <div class="value" id="totalEarning">₹0</div>
+    <small>Teaching + Copy Checking</small>
+  </div>
+
+  <div class="stat received">
+    <div class="label">💵 Salary Received</div>
+    <div class="value" id="salaryReceivedTotal">₹0</div>
+    <small>Payments in selected period</small>
+  </div>
+
+  <div class="stat due">
+    <div class="label">🟠 Total Due</div>
+    <div class="value" id="totalDues">₹0</div>
+    <small>Earned salary minus received salary</small>
+  </div>
+
+  <div class="stat percent">
+    <div class="label">📊 Received Percentage</div>
+    <div class="value" id="receivedPercent">0%</div>
+    <small>Salary received / salary earned</small>
+  </div>
 </section>
 
 <section class="panel">
-<h2>📈 Period Breakdown</h2>
-<div id="periodBreakdown"></div>
+  <h2>📈 Period Breakdown</h2>
+  <div id="periodBreakdown"></div>
 </section>
 
 <nav class="tabs">
-<button class="tab active" data-tab="teachingSection" type="button">📚 Teaching</button>
-<button class="tab" data-tab="salarySection" type="button">💼 Salary</button>
-<button class="tab" data-tab="copySection" type="button">📝 Copy Checking</button>
-<button class="tab" data-tab="historySection" type="button">📋 History</button>
+  <button class="tab active" data-tab="teachingSection" type="button">📚 Teaching</button>
+  <button class="tab" data-tab="salarySection" type="button">💼 Salary</button>
+  <button class="tab" data-tab="copySection" type="button">📝 Copy Checking</button>
+  <button class="tab" data-tab="historySection" type="button">📋 History</button>
 </nav>
 
+<!-- TEACHING SECTION -->
 <section class="panel tab-panel" id="teachingSection">
-<h2>📚 Add Teaching Record</h2>
-<form id="teachingForm">
-<input type="hidden" id="teachingEditId">
+  <h2>📚 Add Teaching Record</h2>
 
-<label for="teachingDate">Date</label>
-<input type="date" id="teachingDate" required>
+  <form id="teachingForm">
+    <input type="hidden" id="teachingEditId">
 
-<div class="row">
-<div>
-<label for="teachingType">Rate Option</label>
-<select id="teachingType">
-<option value="150">Regular Bell — ₹150</option>
-<option value="200">Special 1-Hour Class — ₹200</option>
-<option value="225">Other Class — ₹225</option>
-<option value="custom">Custom Rate</option>
-</select>
-</div>
-<div>
-<label for="teachingRate">Rate per Period (₹)</label>
-<input type="number" id="teachingRate" min="0" step="0.01" value="150" required>
-</div>
-</div>
+    <label for="teachingDate">Date</label>
+    <input type="date" id="teachingDate" required>
 
-<div class="row">
-<div>
-<label for="teachingCount">Number of Periods / Bells</label>
-<input type="number" id="teachingCount" min="1" step="1" value="1" required>
-</div>
-<div>
-<label for="teachingClass">Batch / Class (optional)</label>
-<input id="teachingClass" placeholder="e.g. Class 10">
-</div>
-</div>
+    <div class="row">
+      <div>
+        <label for="teachingClass">Batch / Class (optional)</label>
+        <input id="teachingClass" placeholder="e.g. Class 10">
+      </div>
+      <div>
+        <label for="teachingTiming">Timing</label>
+        <select id="teachingTiming">
+          <option value="Morning (6 AM – 9 AM)">Morning (6 AM – 9 AM)</option>
+          <option value="Evening (3 PM – 6 PM)">Evening (3 PM – 6 PM)</option>
+          <option value="Custom / Not Specified">Custom / Not Specified</option>
+        </select>
+      </div>
+    </div>
 
-<label for="teachingTiming">Timing</label>
-<select id="teachingTiming">
-<option value="Morning (6 AM – 9 AM)">Morning (6 AM – 9 AM)</option>
-<option value="Evening (3 PM – 6 PM)">Evening (3 PM – 6 PM)</option>
-<option value="Custom / Not Specified">Custom / Not Specified</option>
-</select>
+    <div style="margin-top:18px">
+      <h2 style="margin-bottom:5px">💵 Rate-wise Periods</h2>
+      <p class="hint">
+        Ek hi date par alag-alag rates par padhaya ho, to har rate ke liye
+        alag row add karein.
+      </p>
+    </div>
 
-<label for="teachingNote">Notes (optional)</label>
-<textarea id="teachingNote"></textarea>
+    <div id="teachingRateRows"></div>
 
-<div class="calc">Entry Total: <span id="teachingEntryTotal">₹150</span></div>
-<button type="submit" id="saveTeachingBtn">➕ Save Teaching Record</button>
-<button type="button" class="secondary hidden" id="cancelTeachingEdit">Cancel Edit</button>
-</form>
+    <button type="button" id="addTeachingRate" class="light">
+      ➕ Add Another Rate
+    </button>
 
-<h2 style="margin-top:20px">Rate-wise Summary</h2>
-<div id="rateSummary"></div>
+    <div class="calc">
+      Total Periods: <span id="teachingTotalCount">1</span>
+      <br>
+      Total Teaching Earning: <span id="teachingEntryTotal">₹150</span>
+    </div>
+
+    <label for="teachingNote">Notes (optional)</label>
+    <textarea id="teachingNote" placeholder="Any extra details"></textarea>
+
+    <button type="submit" id="saveTeachingBtn">➕ Save Teaching Record</button>
+    <button type="button" class="secondary hidden" id="cancelTeachingEdit">Cancel Edit</button>
+  </form>
+
+  <h2 style="margin-top:20px">📊 Rate-wise Summary</h2>
+  <div id="rateSummary"></div>
 </section>
 
+<!-- SALARY SECTION -->
 <section class="panel tab-panel hidden" id="salarySection">
-<h2>💼 Salary Settings & Payments</h2>
+  <h2>💼 Salary Settings & Payments</h2>
 
-<label for="salaryMode">Salary Calculation Mode</label>
-<select id="salaryMode">
-<option value="period">Period-Wise Salary (from Teaching records)</option>
-<option value="fixed">Fixed Monthly Salary</option>
-</select>
+  <label for="salaryMode">Salary Calculation Mode</label>
+  <select id="salaryMode">
+    <option value="period">Period-Wise Salary (from Teaching records)</option>
+    <option value="fixed">Fixed Monthly Salary</option>
+  </select>
 
-<div id="fixedSalaryBox">
-<label for="monthlySalary">Fixed Monthly Salary (₹)</label>
-<input type="number" id="monthlySalary" min="0" step="0.01" placeholder="Enter fixed monthly salary">
-<button type="button" id="saveSalarySetup" style="margin-top:8px">Save Fixed Salary</button>
-</div>
+  <div id="fixedSalaryBox">
+    <label for="monthlySalary">Fixed Monthly Salary (₹)</label>
+    <input type="number" id="monthlySalary" min="0" step="0.01"
+      placeholder="Enter fixed monthly salary">
+    <button type="button" id="saveSalarySetup" style="margin-top:8px">
+      Save Fixed Salary
+    </button>
+  </div>
 
-<div id="periodSalaryInfo" class="calc">
-Period-Wise: salary earned is calculated automatically from Teaching records. Salary payments below track Received and Due.
-</div>
+  <div id="periodSalaryInfo" class="calc">
+    Period-Wise: salary earned is calculated from Teaching records.
+    Use the payment form below to record the amount actually received.
+  </div>
 
-<form id="salaryForm">
-<input type="hidden" id="salaryEditId">
+  <form id="salaryForm">
+    <input type="hidden" id="salaryEditId">
 
-<label for="salaryDate">Payment Date</label>
-<input type="date" id="salaryDate" required>
+    <label for="salaryDate">Payment Date</label>
+    <input type="date" id="salaryDate" required>
 
-<label for="salaryAmount">Amount Received (₹)</label>
-<input type="number" id="salaryAmount" min="0.01" step="0.01" required>
+    <label for="salaryAmount">Amount Received (₹)</label>
+    <input type="number" id="salaryAmount" min="0.01" step="0.01" required>
 
-<label for="salaryNote">Notes (optional)</label>
-<textarea id="salaryNote" placeholder="e.g. October salary part payment"></textarea>
+    <label for="salaryNote">Notes (optional)</label>
+    <textarea id="salaryNote" placeholder="e.g. October salary part payment"></textarea>
 
-<button type="submit" id="saveSalaryBtn">➕ Save Salary Payment</button>
-<button type="button" class="secondary hidden" id="cancelSalaryEdit">Cancel Edit</button>
-</form>
+    <button type="submit" id="saveSalaryBtn">➕ Save Salary Payment</button>
+    <button type="button" class="secondary hidden" id="cancelSalaryEdit">Cancel Edit</button>
+  </form>
 
-<h2 style="margin-top:18px">Salary Payment History</h2>
-<div id="salaryHistory"></div>
+  <h2 style="margin-top:18px">Salary Payment History</h2>
+  <div id="salaryHistory"></div>
 </section>
 
+<!-- COPY CHECKING SECTION -->
 <section class="panel tab-panel hidden" id="copySection">
-<h2>📝 Add Copy Checking Record</h2>
-<form id="copyForm">
-<input type="hidden" id="copyEditId">
+  <h2>📝 Add Copy Checking Record</h2>
 
-<label for="copyDate">Date</label>
-<input type="date" id="copyDate" required>
+  <form id="copyForm">
+    <input type="hidden" id="copyEditId">
 
-<div class="row">
-<div>
-<label for="copyClass">Class / Batch</label>
-<input id="copyClass" placeholder="e.g. Class 10">
-</div>
-<div>
-<label for="copyCount">Number of Copies / Sets</label>
-<input type="number" id="copyCount" min="1" step="1" value="1" required>
-</div>
-</div>
+    <label for="copyDate">Date</label>
+    <input type="date" id="copyDate" required>
 
-<label for="copyRate">Rate per Copy / Set (₹)</label>
-<input type="number" id="copyRate" min="0" step="0.01" value="225" required>
+    <div class="row">
+      <div>
+        <label for="copyClass">Class / Batch</label>
+        <input id="copyClass" placeholder="e.g. Class 10">
+      </div>
+      <div>
+        <label for="copyCount">Number of Copies / Sets</label>
+        <input type="number" id="copyCount" min="1" step="1" value="1" required>
+      </div>
+    </div>
 
-<label for="copyNote">Notes (optional)</label>
-<textarea id="copyNote"></textarea>
+    <label for="copyRate">Rate per Copy / Set (₹)</label>
+    <input type="number" id="copyRate" min="0" step="0.01" value="225" required>
 
-<div class="calc">Entry Total: <span id="copyEntryTotal">₹225</span></div>
-<button type="submit" id="saveCopyBtn">➕ Save Copy Checking Record</button>
-<button type="button" class="secondary hidden" id="cancelCopyEdit">Cancel Edit</button>
-</form>
+    <label for="copyNote">Notes (optional)</label>
+    <textarea id="copyNote"></textarea>
+
+    <div class="calc">Entry Total: <span id="copyEntryTotal">₹225</span></div>
+
+    <button type="submit" id="saveCopyBtn">➕ Save Copy Checking Record</button>
+    <button type="button" class="secondary hidden" id="cancelCopyEdit">Cancel Edit</button>
+  </form>
 </section>
 
+<!-- HISTORY SECTION -->
 <section class="panel tab-panel hidden" id="historySection">
-<h2>📋 Complete Record History</h2>
-<label for="historyFilter">Record Type</label>
-<select id="historyFilter">
-<option value="all">All Records</option>
-<option value="teaching">Teaching</option>
-<option value="copy">Copy Checking</option>
-<option value="salary">Salary Payments</option>
-</select>
-<div id="allHistory"></div>
+  <h2>📋 Complete Record History</h2>
+
+  <label for="historyFilter">Record Type</label>
+  <select id="historyFilter">
+    <option value="all">All Records</option>
+    <option value="teaching">Teaching</option>
+    <option value="copy">Copy Checking</option>
+    <option value="salary">Salary Payments</option>
+  </select>
+
+  <div id="allHistory"></div>
 </section>
 
 <a class="back" href="./index.html">
-<button type="button" class="secondary">← Back to ArthaFlow Dashboard</button>
+  <button type="button" class="secondary">← Back to ArthaFlow Dashboard</button>
 </a>
 
 </div>
+
 <script src="./js/teaching-income.js"></script>
 </body>
-    </html>
+</html>
