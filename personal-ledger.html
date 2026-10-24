@@ -5,100 +5,274 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#1e3a8a">
+
 <title>ArthaFlow - Personal Ledger</title>
+
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+
 <style>
-.ledger-container{max-width:1000px;margin:20px auto;padding:15px}
-.ledger-card{background:var(--card-bg,#fff);padding:18px;margin-bottom:18px;border-radius:14px;box-shadow:0 3px 12px #00000012}
-.ledger-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.ledger-form input,.ledger-form select,.ledger-form textarea{width:100%;box-sizing:border-box;padding:12px;border:1px solid #ccc;border-radius:8px;font:inherit}
-.ledger-btn{padding:12px 16px;border:0;border-radius:8px;cursor:pointer;font:inherit;font-weight:600;background:#1e3a8a;color:white}
-.ledger-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
-.ledger-stat{padding:14px;border-radius:10px;background:#eef2ff}
-.ledger-stat h3{font-size:14px;margin:0 0 8px}
-.ledger-stat p{font-size:20px;font-weight:bold;margin:0;overflow-wrap:anywhere}
-.ledger-table-wrap{overflow-x:auto}
-.ledger-table{width:100%;border-collapse:collapse;min-width:650px}
-.ledger-table th,.ledger-table td{padding:10px;border-bottom:1px solid #ddd;text-align:left}
-.ledger-muted{color:#666;font-size:14px}
+.ledger-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 15px;
+}
+.ledger-card {
+    background: var(--card-bg, #fff);
+    padding: 18px;
+    margin-bottom: 18px;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px #00000012;
+}
+.ledger-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+}
+.ledger-form input,
+.ledger-form select,
+.ledger-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font: inherit;
+}
+.ledger-btn {
+    padding: 12px 16px;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 600;
+    background: #1e3a8a;
+    color: white;
+}
+.ledger-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+}
+.ledger-stat {
+    padding: 14px;
+    border-radius: 10px;
+    background: #eef2ff;
+}
+.ledger-stat h3 {
+    font-size: 14px;
+    margin: 0 0 8px;
+}
+.ledger-stat p {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+.ledger-table-wrap {
+    overflow-x: auto;
+}
+.ledger-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+.ledger-table th,
+.ledger-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+.ledger-muted {
+    color: #666;
+    font-size: 14px;
+}
 </style>
 </head>
+
 <body>
+
 <header class="top-header">
-  <div class="premium-banner">
-    <h2>📒 Personal Ledger</h2>
-    <p>Personal Udhar Khata • No Interest</p>
-  </div>
+    <div class="premium-banner">
+        <h2>📒 Personal Ledger</h2>
+        <p>Personal Accounts • No Interest</p>
+    </div>
 </header>
 
 <nav class="navbar">
-  <a href="index.html">🏠 Dashboard</a>
-  <a href="personal-ledger.html">📒 Personal Ledger</a>
+    <a href="index.html">🏠 Dashboard</a>
+    <a href="personal-ledger.html">📒 Personal Ledger</a>
 </nav>
 
 <main class="ledger-container">
-  <section class="ledger-card">
-    <h2>💰 Ledger Summary</h2>
-    <div class="ledger-summary">
-      <div class="ledger-stat"><h3>Total Given</h3><p id="totalGiven">₹0</p></div>
-      <div class="ledger-stat"><h3>Received Back</h3><p id="totalReceived">₹0</p></div>
-      <div class="ledger-stat"><h3>Still to Receive</h3><p id="stillToReceive">₹0</p></div>
-      <div class="ledger-stat"><h3>Total Borrowed</h3><p id="totalBorrowed">₹0</p></div>
-      <div class="ledger-stat"><h3>Paid Back</h3><p id="totalRepaid">₹0</p></div>
-      <div class="ledger-stat"><h3>Still to Pay</h3><p id="stillToPay">₹0</p></div>
-    </div>
-  </section>
 
-  <section class="ledger-card">
-    <h2>➕ Add Ledger Entry</h2>
-    <p class="ledger-muted">पहले उधार दिया या लिया हुआ पैसा दर्ज करें। बाद में partial payment भी दर्ज कर सकेंगे।</p>
-    <form id="ledgerForm" class="ledger-form">
-      <select id="entryType" required>
-        <option value="given">मैंने पैसे दिए</option>
-        <option value="borrowed">मैंने पैसे उधार लिए</option>
-      </select>
-      <input id="personName" type="text" placeholder="व्यक्ति का नाम" required maxlength="100">
-      <input id="personMobile" type="tel" placeholder="मोबाइल नंबर (वैकल्पिक)" maxlength="20">
-      <input id="entryAmount" type="number" placeholder="राशि (₹)" min="0.01" step="0.01" required>
-      <input id="entryDate" type="date" required>
-      <input id="entryNote" type="text" placeholder="नोट (वैकल्पिक)" maxlength="250">
-      <button class="ledger-btn" type="submit">Save Ledger Entry</button>
-    </form>
-  </section>
+    <section class="ledger-card">
+        <h2>💰 Ledger Summary</h2>
 
-  <section class="ledger-card">
-    <h2>💳 Record Repayment</h2>
-    <p class="ledger-muted">किसी व्यक्ति ने पैसे लौटाए हों या आपने उधार चुकाया हो, तो यहाँ दर्ज करें।</p>
-    <form id="repaymentForm" class="ledger-form">
-      <select id="repaymentEntry" required>
-        <option value="">पहले कोई Ledger Entry चुनें</option>
-      </select>
-      <input id="repaymentAmount" type="number" placeholder="वापस की गई राशि (₹)" min="0.01" step="0.01" required>
-      <input id="repaymentDate" type="date" required>
-      <input id="repaymentNote" type="text" placeholder="नोट (वैकल्पिक)" maxlength="250">
-      <button class="ledger-btn" type="submit">Save Repayment</button>
-    </form>
-  </section>
+        <div class="ledger-summary">
+            <div class="ledger-stat">
+                <h3>Total Given</h3>
+                <p id="totalGiven">₹0</p>
+            </div>
 
-  <section class="ledger-card">
-    <h2>📋 People & Transaction History</h2>
-    <input id="ledgerSearch" type="search" placeholder="नाम से खोजें..." style="width:100%;box-sizing:border-box;padding:12px;border:1px solid #ccc;border-radius:8px;margin-bottom:12px">
-    <div id="ledgerMessage" role="status" aria-live="polite" class="ledger-muted">Ledger तैयार हो रहा है...</div>
-    <div class="ledger-table-wrap">
-      <table class="ledger-table">
-        <thead>
-          <tr>
-            <th>तारीख</th><th>व्यक्ति</th><th>प्रकार</th><th>राशि</th><th>बाकी राशि</th><th>नोट</th>
-          </tr>
-        </thead>
-        <tbody id="ledgerHistory"></tbody>
-      </table>
-    </div>
-  </section>
+            <div class="ledger-stat">
+                <h3>Received Back</h3>
+                <p id="totalReceived">₹0</p>
+            </div>
+
+            <div class="ledger-stat">
+                <h3>Receivable Balance</h3>
+                <p id="stillToReceive">₹0</p>
+            </div>
+
+            <div class="ledger-stat">
+                <h3>Total Borrowed</h3>
+                <p id="totalBorrowed">₹0</p>
+            </div>
+
+            <div class="ledger-stat">
+                <h3>Total Repaid</h3>
+                <p id="totalRepaid">₹0</p>
+            </div>
+
+            <div class="ledger-stat">
+                <h3>Payable Balance</h3>
+                <p id="stillToPay">₹0</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="ledger-card">
+        <h2>➕ Add Ledger Entry</h2>
+        <p class="ledger-muted">
+            Record money given to or borrowed from a person.
+        </p>
+
+        <form id="ledgerForm" class="ledger-form">
+
+            <select id="entryType" required>
+                <option value="given">Money Given</option>
+                <option value="borrowed">Money Borrowed</option>
+            </select>
+
+            <input
+                id="personName"
+                type="text"
+                placeholder="Person Name"
+                required
+                maxlength="100"
+            >
+
+            <input
+                id="personMobile"
+                type="tel"
+                placeholder="Mobile Number (Optional)"
+                maxlength="20"
+            >
+
+            <input
+                id="entryAmount"
+                type="number"
+                placeholder="Amount (₹)"
+                min="0.01"
+                step="0.01"
+                required
+            >
+
+            <input id="entryDate" type="date" required>
+
+            <input
+                id="entryNote"
+                type="text"
+                placeholder="Note (Optional)"
+                maxlength="250"
+            >
+
+            <button class="ledger-btn" type="submit">
+                Save Ledger Entry
+            </button>
+
+        </form>
+    </section>
+
+    <section class="ledger-card">
+        <h2>💳 Record Repayment</h2>
+        <p class="ledger-muted">
+            Record money received back or borrowed money repaid.
+        </p>
+
+        <form id="repaymentForm" class="ledger-form">
+
+            <select id="repaymentEntry" required>
+                <option value="">Select Ledger Entry</option>
+            </select>
+
+            <input
+                id="repaymentAmount"
+                type="number"
+                placeholder="Repayment Amount (₹)"
+                min="0.01"
+                step="0.01"
+                required
+            >
+
+            <input id="repaymentDate" type="date" required>
+
+            <input
+                id="repaymentNote"
+                type="text"
+                placeholder="Note (Optional)"
+                maxlength="250"
+            >
+
+            <button class="ledger-btn" type="submit">
+                Save Repayment
+            </button>
+
+        </form>
+    </section>
+
+    <section class="ledger-card">
+        <h2>📋 People & Transaction History</h2>
+
+        <input
+            id="ledgerSearch"
+            type="search"
+            placeholder="Search by name, type, or note..."
+            style="width:100%;box-sizing:border-box;padding:12px;border:1px solid #ccc;border-radius:8px;margin-bottom:12px"
+        >
+
+        <div
+            id="ledgerMessage"
+            role="status"
+            aria-live="polite"
+            class="ledger-muted"
+        >
+            Loading Personal Ledger...
+        </div>
+
+        <div class="ledger-table-wrap">
+            <table class="ledger-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Person</th>
+                        <th>Transaction Type</th>
+                        <th>Amount</th>
+                        <th>Remaining Balance</th>
+                        <th>Note</th>
+                    </tr>
+                </thead>
+
+                <tbody id="ledgerHistory"></tbody>
+            </table>
+        </div>
+    </section>
+
 </main>
 
 <script src="js/personal-ledger.js"></script>
+
 </body>
 </html>
