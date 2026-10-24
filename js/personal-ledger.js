@@ -415,11 +415,413 @@
         });
     }
 
-    function render() {
+    
+    // ===== PERSON-WISE DETAILS AND PDF REPORTS =====
+
+    let selectedPersonName = "";
+
+    function getPersonEntries(personName) {
+        return entries.filter(
+            entry =>
+                (entry.personName || "").trim().toLowerCase() ===
+                personName.trim().toLowerCase()
+        );
+    }
+
+    function getPersonNames() {
+        return [...new Set(
+            entries
+                .map(entry => (entry.personName || "").trim())
+                .filter(Boolean)
+        )].sort((a, b) => a.localeCompare(b));
+    }
+
+    function getPersonTotals(personName) {
+        const personEntries = getPersonEntries(personName);
+
+        let given = 0;
+        let received = 0;
+        let borrowed = 0;
+        let repaid = 0;
+
+        personEntries.forEach(entry => {
+            const paid = repaymentsTotal(entry);
+
+            if (entry.type === "given") {
+                given += Number(entry.amount || 0);
+                received += paid;
+            } else {
+                borrowed += Number(entry.amount || 0);
+                repaid += paid;
+            }
+        });
+
+        return {
+            entries: personEntries,
+            given,
+            received,
+            toReceive: Math.max(0, given - received),
+            borrowed,
+            repaid,
+            toPay: Math.max(0, borrowed - repaid)
+        };
+    }
+
+    function getPersonTransactions(personName) {
+        const personEntries = getPersonEntries(personName);
+        const rows = [];
+
+        personEntries.forEach(entry => {
+            rows.push({
+                date: entry.date || "",
+                type: entry.type === "given"
+                    ? "Money Given"
+                    : "Money Borrowed",
+                amount: Number(entry.amount || 0),
+                note: entry.note || "",
+                entryId: entry.id,
+                remaining: remaining(entry)
+            });
+
+            (entry.repayments || []).forEach(payment => {
+                rows.push({
+                    date: payment.date || "",
+                    type: entry.type === "given"
+                        ? "Repayment Received"
+                        : "Loan Repaid",
+                    amount: Number(payment.amount || 0),
+                    note: payment.note || "",
+                    entryId: entry.id,
+                    remaining: remaining(entry)
+                });
+            });
+        });
+
+        return rows.sort((a, b) =>
+            a.date.localeCompare(b.date)
+        );
+    }
+
+    function renderPeopleList() {
+        const tableWrap = document.querySelector(".ledger-table-wrap");
+        if (!tableWrap) return;
+
+        let peopleBox = $("ledgerPeopleList");
+
+        if (!peopleBox) {
+            peopleBox = document.createElement("div");
+            peopleBox.id = "ledgerPeopleList";
+            peopleBox.style.margin = "16px 0";
+
+            const heading = document.createElement("h3");
+            heading.textContent = "People — View Individual Accounts";
+            peopleBox.appendChild(heading);
+
+            const list = document.createElement("div");
+            list.id = "ledgerPeopleButtons";
+            list.style.display = "flex";
+            list.style.flexWrap = "wrap";
+            list.style.gap = "8px";
+
+            peopleBox.appendChild(list);
+            tableWrap.parentNode.insertBefore(peopleBox, tableWrap);
+        }
+
+        const list = $("ledgerPeopleButtons");
+        list.innerHTML = "";
+
+        const names = getPersonNames();
+
+        if (!names.length) {
+            const message = document.createElement("p");
+            message.textContent = "People will appear here after you add ledger entries.";
+            list.appendChild(message);
+            return;
+        }
+
+        names.forEach(name => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.textContent = name;
+            button.style.padding = "10px 14px";
+            button.style.border = "0";
+            button.style.borderRadius = "8px";
+            button.style.cursor = "pointer";
+            button.style.background = "#1e3a8a";
+            button.style.color = "#fff";
+            button.addEventListener("click", () => showPersonDetails(name));
+            list.appendChild(button);
+        });
+    }
+
+    function showPersonDetails(personName) {
+        const section = $("personDetailsSection");
+        const summary = $("personDetailsSummary");
+        const history = $("personDetailsHistory");
+
+        if (!section || !summary || !history) {
+            showMessage("Person details section is missing from the HTML.");
+            return;
+        }
+
+        selectedPersonName = personName;
+
+        const totals = getPersonTotals(personName);
+        const rows = getPersonTransactions(personName);
+
+        $("personDetailsTitle").textContent =
+            "Account Details: " + personName;
+
+        summary.innerHTML = "";
+
+        const info = [
+            ["Total Money Given", money(totals.given)],
+            ["Repayment Received", money(totals.received)],
+            ["Still To Receive", money(totals.toReceive)],
+            ["Total Money Borrowed", money(totals.borrowed)],
+            ["Loan Repaid", money(totals.repaid)],
+            ["Still To Pay", money(totals.toPay)]
+        ];
+
+        info.forEach(([label, value]) => {
+            const item = document.createElement("p");
+            const strong = document.createElement("strong");
+            strong.textContent = label + ": ";
+            item.appendChild(strong);
+            item.appendChild(document.createTextNode(value));
+            summary.appendChild(item);
+        });
+
+        history.innerHTML = "";
+
+        const table = document.createElement("table");
+        table.className = "ledger-table";
+
+        const thead = document.createElement("thead");
+        const headRow = document.createElement("tr");
+
+        ["Date", "Transaction", "Amount", "Remaining Balance", "Note"]
+            .forEach(label => {
+                const th = document.createElement("th");
+                th.textContent = label;
+                headRow.appendChild(th);
+            });
+
+        thead.appendChild(headRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+
+        if (!rows.length) {
+            const tr = document.createElement("tr");
+            const td = document.createElement("td");
+            td.colSpan = 5;
+            td.textContent = "No transactions found.";
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+        } else {
+            rows.forEach(row => {
+                const tr = document.createElement("tr");
+
+                [
+                    row.date,
+                    row.type,
+                    money(row.amount),
+                    money(row.remaining),
+                    row.note || "—"
+                ].forEach(value => {
+                    const td = document.createElement("td");
+                    td.textContent = value;
+                    tr.appendChild(td);
+                });
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        table.appendChild(tbody);
+        history.appendChild(table);
+
+        section.style.display = "block";
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function closePersonDetails() {
+        const section = $("personDetailsSection");
+        if (section) section.style.display = "none";
+        selectedPersonName = "";
+    }
+
+    function createPDFDocument() {
+        if (!window.jspdf || !window.jspdf.jsPDF) {
+            showMessage("PDF library did not load. Check your internet connection and refresh the page.");
+            return null;
+        }
+
+        return new window.jspdf.jsPDF({
+            orientation: "portrait",
+            unit: "mm",
+            format: "a4"
+        });
+    }
+
+    function addPDFLine(doc, text, state) {
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const lines = doc.splitTextToSize(
+            String(text),
+            180
+        );
+
+        lines.forEach(line => {
+            if (state.y > pageHeight - 15) {
+                doc.addPage();
+                state.y = 15;
+            }
+
+            doc.text(line, 15, state.y);
+            state.y += 7;
+        });
+    }
+
+    function downloadPersonLedgerPDF() {
+        if (!selectedPersonName) {
+            showMessage("Please select a person first.");
+            return;
+        }
+
+        const doc = createPDFDocument();
+        if (!doc) return;
+
+        const name = selectedPersonName;
+        const totals = getPersonTotals(name);
+        const rows = getPersonTransactions(name);
+        const state = { y: 18 };
+
+        doc.setFontSize(18);
+        addPDFLine(doc, "ArthaFlow - Personal Ledger", state);
+
+        doc.setFontSize(12);
+        addPDFLine(doc, "Person: " + name, state);
+        addPDFLine(doc, "Report Generated: " + today(), state);
+
+        state.y += 3;
+        addPDFLine(doc, "ACCOUNT SUMMARY", state);
+        addPDFLine(doc, "Total Money Given: " + money(totals.given), state);
+        addPDFLine(doc, "Repayment Received: " + money(totals.received), state);
+        addPDFLine(doc, "Still To Receive: " + money(totals.toReceive), state);
+        addPDFLine(doc, "Total Money Borrowed: " + money(totals.borrowed), state);
+        addPDFLine(doc, "Loan Repaid: " + money(totals.repaid), state);
+        addPDFLine(doc, "Still To Pay: " + money(totals.toPay), state);
+
+        state.y += 3;
+        addPDFLine(doc, "DATE-WISE TRANSACTIONS", state);
+
+        if (!rows.length) {
+            addPDFLine(doc, "No transactions recorded.", state);
+        }
+
+        rows.forEach(row => {
+            addPDFLine(doc, "Date: " + (row.date || "Not specified"), state);
+            addPDFLine(doc, "Type: " + row.type, state);
+            addPDFLine(doc, "Amount: " + money(row.amount), state);
+            addPDFLine(doc, "Remaining Balance: " + money(row.remaining), state);
+            addPDFLine(doc, "Note: " + (row.note || "—"), state);
+            state.y += 2;
+        });
+
+        addPDFLine(doc, "This report is generated from the recorded ledger entries.", state);
+
+        const safeName = name
+            .replace(/[^\w -]/g, "")
+            .trim()
+            .replace(/\s+/g, "-") || "Person";
+
+        doc.save("ArthaFlow-" + safeName + "-Ledger.pdf");
+    }
+
+    function downloadFullLedgerPDF() {
+        const doc = createPDFDocument();
+        if (!doc) return;
+
+        const state = { y: 18 };
+
+        let given = 0;
+        let received = 0;
+        let borrowed = 0;
+        let repaid = 0;
+
+        entries.forEach(entry => {
+            const paid = repaymentsTotal(entry);
+
+            if (entry.type === "given") {
+                given += Number(entry.amount || 0);
+                received += paid;
+            } else {
+                borrowed += Number(entry.amount || 0);
+                repaid += paid;
+            }
+        });
+
+        doc.setFontSize(18);
+        addPDFLine(doc, "ArthaFlow - Complete Personal Ledger", state);
+
+        doc.setFontSize(12);
+        addPDFLine(doc, "Report Generated: " + today(), state);
+
+        state.y += 3;
+        addPDFLine(doc, "OVERALL SUMMARY", state);
+        addPDFLine(doc, "Total Money Given: " + money(given), state);
+        addPDFLine(doc, "Repayment Received: " + money(received), state);
+        addPDFLine(doc, "Still To Receive: " + money(Math.max(0, given - received)), state);
+        addPDFLine(doc, "Total Money Borrowed: " + money(borrowed), state);
+        addPDFLine(doc, "Loan Repaid: " + money(repaid), state);
+        addPDFLine(doc, "Still To Pay: " + money(Math.max(0, borrowed - repaid)), state);
+
+        getPersonNames().forEach(name => {
+            const totals = getPersonTotals(name);
+            const rows = getPersonTransactions(name);
+
+            state.y += 4;
+            addPDFLine(doc, "PERSON: " + name, state);
+            addPDFLine(doc, "Given: " + money(totals.given) +
+                " | Received: " + money(totals.received) +
+                " | To Receive: " + money(totals.toReceive), state);
+            addPDFLine(doc, "Borrowed: " + money(totals.borrowed) +
+                " | Repaid: " + money(totals.repaid) +
+                " | To Pay: " + money(totals.toPay), state);
+
+            rows.forEach(row => {
+                addPDFLine(
+                    doc,
+                    (row.date || "No date") + " | " +
+                    row.type + " | " +
+                    money(row.amount) + " | Remaining: " +
+                    money(row.remaining) + " | " +
+                    (row.note || "—"),
+                    state
+                );
+            });
+        });
+
+        if (!entries.length) {
+            addPDFLine(doc, "No ledger entries recorded.", state);
+        }
+
+        doc.save("ArthaFlow-Complete-Ledger.pdf");
+    }
+
+    // Make HTML buttons able to call these functions.
+    window.downloadPersonLedgerPDF = downloadPersonLedgerPDF;
+    window.downloadFullLedgerPDF = downloadFullLedgerPDF;
+    window.closePersonDetails = closePersonDetails;
+            
+
+        function render() {
         renderSummary();
         renderRepaymentOptions();
+        renderPeopleList();
         renderHistory();
-    }
+        }
 
     ledgerForm.addEventListener("submit", function (event) {
         event.preventDefault();
