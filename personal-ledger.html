@@ -269,11 +269,35 @@
                 <tbody id="ledgerHistory"></tbody>
             </table>
         </div>
+        </section>
+
+    <!-- Ledger PDF Actions -->
+    <div class="ledger-report-actions">
+        <button type="button" onclick="downloadFullLedgerPDF()">
+            Download Complete Ledger PDF
+        </button>
+    </div>
+
+    <!-- Person Details -->
+    <section id="personDetailsSection" class="ledger-card" style="display:none;">
+        <h2 id="personDetailsTitle">Person Details</h2>
+
+        <div id="personDetailsSummary"></div>
+
+        <button type="button" onclick="downloadPersonLedgerPDF()">
+            Download This Person's PDF
+        </button>
+
+        <button type="button" onclick="closePersonDetails()">
+            Close Details
+        </button>
+
+        <div id="personDetailsHistory"></div>
     </section>
 
 </main>
 
 <script src="js/personal-ledger.js"></script>
-
+    
 </body>
 </html>
