@@ -708,6 +708,205 @@
         });
     }
 
+    
+    function drawReportHeader(doc, title, subtitle) {
+        const pageWidth = doc.internal.pageSize.getWidth();
+
+        doc.setFillColor(22, 59, 120);
+        doc.rect(0, 0, pageWidth, 42, "F");
+
+        doc.setTextColor(255, 255, 255);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(21);
+        doc.text("ArthaFlow", 15, 15);
+
+        doc.setFontSize(14);
+        doc.text(title, 15, 25);
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(9);
+        doc.text(subtitle, 15, 34);
+
+        doc.setTextColor(35, 45, 65);
+        return 52;
+    }
+
+    function drawSummaryCard(doc, x, y, w, label, value, rgb) {
+        doc.setFillColor(rgb[0], rgb[1], rgb[2]);
+        doc.roundedRect(x, y, w, 20, 2, 2, "F");
+
+        doc.setTextColor(65, 75, 90);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(8);
+        doc.text(label, x + 4, y + 7);
+
+        doc.setTextColor(25, 40, 65);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(10);
+
+        const valueLines = doc.splitTextToSize(value, w - 8);
+        doc.text(valueLines[0], x + 4, y + 15);
+    }
+
+    function drawTransactionTable(doc, rows, startY) {
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const margin = 12;
+        const widths = [25, 43, 28, 35, 45];
+        const headers = [
+            "Date",
+            "Transaction",
+            "Amount",
+            "Balance",
+            "Note"
+        ];
+
+        let y = startY;
+
+        function drawTableHeader() {
+            doc.setFillColor(37, 99, 235);
+            doc.rect(margin, y, pageWidth - margin * 2, 9, "F");
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(8);
+            doc.setTextColor(255, 255, 255);
+
+            let x = margin;
+
+            headers.forEach((header, i) => {
+                doc.text(header, x + 2, y + 6);
+                x += widths[i];
+            });
+
+            y += 9;
+        }
+
+        drawTableHeader();
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(7.5);
+
+        rows.forEach((row, index) => {
+            const noteLines = doc.splitTextToSize(
+                row.note || "—",
+                widths[4] - 4
+            );
+
+            const typeLines = doc.splitTextToSize(
+                row.type,
+                widths[1] - 4
+            );
+
+            const lineCount = Math.max(
+                1,
+                noteLines.length,
+                typeLines.length
+            );
+
+            const rowHeight = Math.max(9, lineCount * 4 + 4);
+            const pageHeight = doc.internal.pageSize.getHeight();
+
+            if (y + rowHeight > pageHeight - 15) {
+                doc.addPage();
+                y = 15;
+                drawTableHeader();
+
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(7.5);
+            }
+
+            if (index % 2 === 0) {
+                doc.setFillColor(239, 246, 255);
+                doc.rect(
+                    margin,
+                    y,
+                    pageWidth - margin * 2,
+                    rowHeight,
+                    "F"
+                );
+            }
+
+            doc.setDrawColor(220, 228, 239);
+            doc.line(margin, y + rowHeight, pageWidth - margin, y + rowHeight);
+
+            const values = [
+                row.date || "—",
+                typeLines,
+                money(row.amount),
+                money(row.remaining),
+                noteLines
+            ];
+
+            let x = margin;
+
+            values.forEach((value, i) => {
+                if (i === 2) {
+                    doc.setTextColor(29, 78, 216);
+                } else if (i === 3) {
+                    doc.setTextColor(
+                        row.remaining > 0 ? 185 : 5,
+                        row.remaining > 0 ? 28 : 120,
+                        row.remaining > 0 ? 28 : 70
+                    );
+                } else {
+                    doc.setTextColor(45, 55, 72);
+                }
+
+                const lines = Array.isArray(value) ? value : [value];
+
+                lines.forEach((line, lineIndex) => {
+                    const maxWidth = widths[i] - 4;
+                    const text = doc.splitTextToSize(
+                        String(line),
+                        maxWidth
+                    )[0];
+
+                    doc.text(
+                        text,
+                        x + 2,
+                        y + 5 + lineIndex * 4
+                    );
+                });
+
+                x += widths[i];
+            });
+
+            y += rowHeight;
+        });
+
+        return y;
+    }
+
+    function addPageNumbers(doc) {
+        const pageCount = doc.getNumberOfPages();
+
+        for (let page = 1; page <= pageCount; page++) {
+            doc.setPage(page);
+
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+
+            doc.setDrawColor(215, 225, 238);
+            doc.line(12, pageHeight - 11, pageWidth - 12, pageHeight - 11);
+
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(8);
+            doc.setTextColor(100, 110, 125);
+
+            doc.text(
+                "ArthaFlow Personal Ledger",
+                12,
+                pageHeight - 6
+            );
+
+            doc.text(
+                "Page " + page + " of " + pageCount,
+                pageWidth - 12,
+                pageHeight - 6,
+                { align: "right" }
+            );
+        }
+    }
+
     function downloadPersonLedgerPDF() {
         if (!selectedPersonName) {
             showMessage("Please select a person first.");
@@ -720,41 +919,47 @@
         const name = selectedPersonName;
         const totals = getPersonTotals(name);
         const rows = getPersonTransactions(name);
-        const state = { y: 18 };
 
-        doc.setFontSize(18);
-        addPDFLine(doc, "ArthaFlow - Personal Ledger", state);
+        let y = drawReportHeader(
+            doc,
+            "PERSON-WISE LEDGER",
+            "Account Statement | Generated: " + today()
+        );
 
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(13);
+        doc.setTextColor(22, 59, 120);
+        doc.text("Person: " + name, 12, y);
+
+        y += 10;
+
+        const gap = 4;
+        const cardWidth = (doc.internal.pageSize.getWidth() - 24 - gap) / 2;
+
+        drawSummaryCard(doc, 12, y, cardWidth, "MONEY GIVEN", money(totals.given), [220, 252, 231]);
+        drawSummaryCard(doc, 12 + cardWidth + gap, y, cardWidth, "RECEIVED BACK", money(totals.received), [219, 234, 254]);
+
+        y += 24;
+
+        drawSummaryCard(doc, 12, y, cardWidth, "STILL TO RECEIVE", money(totals.toReceive), [254, 243, 199]);
+        drawSummaryCard(doc, 12 + cardWidth + gap, y, cardWidth, "MONEY BORROWED", money(totals.borrowed), [237, 233, 254]);
+
+        y += 24;
+
+        drawSummaryCard(doc, 12, y, cardWidth, "LOAN REPAID", money(totals.repaid), [204, 251, 241]);
+        drawSummaryCard(doc, 12 + cardWidth + gap, y, cardWidth, "STILL TO PAY", money(totals.toPay), [254, 226, 226]);
+
+        y += 29;
+
+        doc.setFont("helvetica", "bold");
         doc.setFontSize(12);
-        addPDFLine(doc, "Person: " + name, state);
-        addPDFLine(doc, "Report Generated: " + today(), state);
+        doc.setTextColor(22, 59, 120);
+        doc.text("Date-wise Transaction History", 12, y);
 
-        state.y += 3;
-        addPDFLine(doc, "ACCOUNT SUMMARY", state);
-        addPDFLine(doc, "Total Money Given: " + money(totals.given), state);
-        addPDFLine(doc, "Repayment Received: " + money(totals.received), state);
-        addPDFLine(doc, "Still To Receive: " + money(totals.toReceive), state);
-        addPDFLine(doc, "Total Money Borrowed: " + money(totals.borrowed), state);
-        addPDFLine(doc, "Loan Repaid: " + money(totals.repaid), state);
-        addPDFLine(doc, "Still To Pay: " + money(totals.toPay), state);
+        y += 6;
 
-        state.y += 3;
-        addPDFLine(doc, "DATE-WISE TRANSACTIONS", state);
-
-        if (!rows.length) {
-            addPDFLine(doc, "No transactions recorded.", state);
-        }
-
-        rows.forEach(row => {
-            addPDFLine(doc, "Date: " + (row.date || "Not specified"), state);
-            addPDFLine(doc, "Type: " + row.type, state);
-            addPDFLine(doc, "Amount: " + money(row.amount), state);
-            addPDFLine(doc, "Remaining Balance: " + money(row.remaining), state);
-            addPDFLine(doc, "Note: " + (row.note || "—"), state);
-            state.y += 2;
-        });
-
-        addPDFLine(doc, "This report is generated from the recorded ledger entries.", state);
+        drawTransactionTable(doc, rows, y);
+        addPageNumbers(doc);
 
         const safeName = name
             .replace(/[^\w -]/g, "")
@@ -762,7 +967,123 @@
             .replace(/\s+/g, "-") || "Person";
 
         doc.save("ArthaFlow-" + safeName + "-Ledger.pdf");
+        showMessage("Person-wise PDF downloaded successfully.");
     }
+
+    function downloadFullLedgerPDF() {
+        const doc = createPDFDocument();
+        if (!doc) return;
+
+        let given = 0;
+        let received = 0;
+        let borrowed = 0;
+        let repaid = 0;
+
+        entries.forEach(entry => {
+            const paid = repaymentsTotal(entry);
+
+            if (entry.type === "given") {
+                given += Number(entry.amount || 0);
+                received += paid;
+            } else {
+                borrowed += Number(entry.amount || 0);
+                repaid += paid;
+            }
+        });
+
+        let y = drawReportHeader(
+            doc,
+            "COMPLETE LEDGER REPORT",
+            "All Accounts | Generated: " + today()
+        );
+
+        const gap = 4;
+        const cardWidth = (doc.internal.pageSize.getWidth() - 24 - gap) / 2;
+
+        drawSummaryCard(doc, 12, y, cardWidth, "TOTAL MONEY GIVEN", money(given), [220, 252, 231]);
+        drawSummaryCard(doc, 12 + cardWidth + gap, y, cardWidth, "RECEIVED BACK", money(received), [219, 234, 254]);
+
+        y += 24;
+
+        drawSummaryCard(doc, 12, y, cardWidth, "STILL TO RECEIVE", money(Math.max(0, given - received)), [254, 243, 199]);
+        drawSummaryCard(doc, 12 + cardWidth + gap, y, cardWidth, "TOTAL BORROWED", money(borrowed), [237, 233, 254]);
+
+        y += 24;
+
+        drawSummaryCard(doc, 12, y, cardWidth, "LOAN REPAID", money(repaid), [204, 251, 241]);
+        drawSummaryCard(doc, 12 + cardWidth + gap, y, cardWidth, "STILL TO PAY", money(Math.max(0, borrowed - repaid)), [254, 226, 226]);
+
+        y += 30;
+
+        const names = getPersonNames();
+
+        if (!names.length) {
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(11);
+            doc.setTextColor(70, 80, 95);
+            doc.text("No ledger entries recorded.", 12, y);
+        }
+
+        names.forEach(name => {
+            const totals = getPersonTotals(name);
+            const rows = getPersonTransactions(name);
+
+            if (y > doc.internal.pageSize.getHeight() - 65) {
+                doc.addPage();
+                y = 18;
+            }
+
+            doc.setFillColor(22, 59, 120);
+            doc.roundedRect(
+                12,
+                y,
+                doc.internal.pageSize.getWidth() - 24,
+                10,
+                2,
+                2,
+                "F"
+            );
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(11);
+            doc.setTextColor(255, 255, 255);
+            doc.text("Person: " + name, 16, y + 6.5);
+
+            y += 16;
+
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(8.5);
+            doc.setTextColor(35, 45, 65);
+
+            doc.text(
+                "Given: " + money(totals.given) +
+                " | Received: " + money(totals.received) +
+                " | To Receive: " + money(totals.toReceive),
+                12,
+                y
+            );
+
+            y += 6;
+
+            doc.text(
+                "Borrowed: " + money(totals.borrowed) +
+                " | Repaid: " + money(totals.repaid) +
+                " | To Pay: " + money(totals.toPay),
+                12,
+                y
+            );
+
+            y += 7;
+
+            y = drawTransactionTable(doc, rows, y);
+            y += 10;
+        });
+
+        addPageNumbers(doc);
+        doc.save("ArthaFlow-Complete-Ledger.pdf");
+        showMessage("Complete Ledger PDF downloaded successfully.");
+    }
+
 
     function downloadFullLedgerPDF() {
         const doc = createPDFDocument();
