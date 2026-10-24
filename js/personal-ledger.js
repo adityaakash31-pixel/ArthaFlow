@@ -14,6 +14,7 @@
     if (!ledgerForm || !repaymentForm) return;
 
     let entries = [];
+    let storageReady = true;
 
     function today() {
         const d = new Date();
@@ -53,15 +54,25 @@
 
             entries = parsed;
         } catch (error) {
+            storageReady = false;
             entries = [];
+
             showMessage(
-                "Unable to read saved ledger data. Please check your browser data before making changes."
+                "Unable to read saved data. Editing and saving have been disabled to protect your existing records."
             );
+
             console.error("Personal Ledger load error:", error);
         }
     }
 
     function saveEntries() {
+        if (!storageReady) {
+            showMessage(
+                "Saving is disabled because the existing ledger data could not be read."
+            );
+            return false;
+        }
+
         try {
             localStorage.setItem(
                 STORAGE_KEY,
@@ -165,6 +176,142 @@
         }
     }
 
+    function addCell(row, value) {
+        const td = document.createElement("td");
+        td.textContent = value;
+        row.appendChild(td);
+        return td;
+    }
+
+    function addActionButton(container, label, action, isDelete) {
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.textContent = label;
+        button.style.margin = "3px";
+        button.style.padding = "7px 10px";
+        button.style.border = "0";
+        button.style.borderRadius = "6px";
+        button.style.cursor = "pointer";
+        button.style.color = "#fff";
+        button.style.background = isDelete ? "#b91c1c" : "#1e3a8a";
+        button.disabled = !storageReady;
+
+        button.addEventListener("click", action);
+        container.appendChild(button);
+    }
+
+    function editEntry(entryId) {
+        if (!storageReady) return;
+
+        const entry = entries.find((item) => item.id === entryId);
+        if (!entry) {
+            showMessage("Ledger entry not found.");
+            return;
+        }
+
+        const name = prompt("Person Name:", entry.personName);
+        if (name === null) return;
+
+        if (!name.trim()) {
+            showMessage("Person name cannot be empty.");
+            return;
+        }
+
+        const amountText = prompt(
+            "Original Amount (₹):",
+            String(entry.amount)
+        );
+        if (amountText === null) return;
+
+        const amount = Number(amountText);
+
+        if (!Number.isFinite(amount) || amount <= 0) {
+            showMessage("Please enter a valid amount.");
+            return;
+        }
+
+        const paid = repaymentsTotal(entry);
+
+        if (amount + 0.000001 < paid) {
+            showMessage(
+                "Original amount cannot be less than repayments already recorded (" +
+                money(paid) + ")."
+            );
+            return;
+        }
+
+        const date = prompt("Transaction Date (YYYY-MM-DD):", entry.date);
+        if (date === null) return;
+
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date) ||
+            Number.isNaN(Date.parse(date + "T00:00:00"))) {
+            showMessage("Please enter a valid date in YYYY-MM-DD format.");
+            return;
+        }
+
+        const note = prompt("Note:", entry.note || "");
+        if (note === null) return;
+
+        const mobile = prompt(
+            "Mobile Number (optional):",
+            entry.personMobile || ""
+        );
+        if (mobile === null) return;
+
+        const oldEntry = { ...entry };
+
+        entry.personName = name.trim();
+        entry.amount = amount;
+        entry.date = date;
+        entry.note = note.trim();
+        entry.personMobile = mobile.trim();
+
+        if (!saveEntries()) {
+            Object.assign(entry, oldEntry);
+            return;
+        }
+
+        render();
+        showMessage("Ledger entry updated successfully.");
+    }
+
+    function deleteEntry(entryId) {
+        if (!storageReady) return;
+
+        const index = entries.findIndex(
+            (item) => item.id === entryId
+        );
+
+        if (index === -1) {
+            showMessage("Ledger entry not found.");
+            return;
+        }
+
+        const entry = entries[index];
+        const paymentCount = (entry.repayments || []).length;
+
+        const warning = paymentCount
+            ? "Delete this ledger entry and all " +
+              paymentCount +
+              " linked repayment record(s)? This cannot be undone."
+            : "Delete this ledger entry? This cannot be undone.";
+
+        if (!confirm(warning)) return;
+
+        const removed = entries.splice(index, 1)[0];
+
+        if (!saveEntries()) {
+            entries.splice(index, 0, removed);
+            return;
+        }
+
+        render();
+        showMessage(
+            "Ledger entry and its linked repayments deleted successfully."
+        );
+    }
+
     function renderHistory() {
         const tbody = $("ledgerHistory");
         const query = (
@@ -184,7 +331,8 @@
                     : "Money Borrowed",
                 amount: Number(entry.amount),
                 entryId: entry.id,
-                note: entry.note || ""
+                note: entry.note || "",
+                isRepayment: false
             });
 
             (entry.repayments || []).forEach((payment) => {
@@ -196,7 +344,8 @@
                         : "Loan Repaid",
                     amount: Number(payment.amount),
                     entryId: entry.id,
-                    note: payment.note || ""
+                    note: payment.note || "",
+                    isRepayment: true
                 });
             });
         });
@@ -215,7 +364,7 @@
             const tr = document.createElement("tr");
             const td = document.createElement("td");
 
-            td.colSpan = 6;
+            td.colSpan = 7;
             td.textContent = query
                 ? "No matching transactions found."
                 : "No transactions recorded yet.";
@@ -227,25 +376,41 @@
 
         filtered.forEach((row) => {
             const tr = document.createElement("tr");
+
             const entry = entries.find(
                 (item) => item.id === row.entryId
             );
 
-            const values = [
-                row.date,
-                row.personName,
-                row.type,
-                money(row.amount),
-                entry ? money(remaining(entry)) : "—",
-                row.note || "—"
-            ];
+            addCell(tr, row.date);
+            addCell(tr, row.personName);
+            addCell(tr, row.type);
+            addCell(tr, money(row.amount));
+            addCell(tr, entry ? money(remaining(entry)) : "—");
+            addCell(tr, row.note || "—");
 
-            values.forEach((value) => {
-                const td = document.createElement("td");
-                td.textContent = value;
-                tr.appendChild(td);
-            });
+            const actionCell = document.createElement("td");
 
+            if (!row.isRepayment) {
+                addActionButton(
+                    actionCell,
+                    "Edit",
+                    () => editEntry(row.entryId),
+                    false
+                );
+
+                addActionButton(
+                    actionCell,
+                    "Delete",
+                    () => deleteEntry(row.entryId),
+                    true
+                );
+            } else {
+                const label = document.createElement("span");
+                label.textContent = "Managed with entry";
+                actionCell.appendChild(label);
+            }
+
+            tr.appendChild(actionCell);
             tbody.appendChild(tr);
         });
     }
@@ -258,6 +423,8 @@
 
     ledgerForm.addEventListener("submit", function (event) {
         event.preventDefault();
+
+        if (!storageReady) return;
 
         const type = $("entryType").value;
         const personName = $("personName").value.trim();
@@ -304,6 +471,8 @@
 
     repaymentForm.addEventListener("submit", function (event) {
         event.preventDefault();
+
+        if (!storageReady) return;
 
         const entryId = $("repaymentEntry").value;
         const amount = Number($("repaymentAmount").value);
@@ -375,7 +544,7 @@
     loadEntries();
     render();
 
-    if (!localStorage.getItem(STORAGE_KEY)) {
+    if (storageReady && !localStorage.getItem(STORAGE_KEY)) {
         showMessage("Personal Ledger is ready.");
     }
 })();
