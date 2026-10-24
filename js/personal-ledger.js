@@ -467,32 +467,56 @@
         };
     }
 
+    
     function getPersonTransactions(personName) {
         const personEntries = getPersonEntries(personName);
         const rows = [];
 
         personEntries.forEach(entry => {
-            rows.push({
+            const transactions = [{
                 date: entry.date || "",
                 type: entry.type === "given"
                     ? "Money Given"
                     : "Money Borrowed",
                 amount: Number(entry.amount || 0),
                 note: entry.note || "",
-                entryId: entry.id,
-                remaining: remaining(entry)
-            });
+                isOriginal: true,
+                order: 0
+            }];
 
             (entry.repayments || []).forEach(payment => {
-                rows.push({
+                transactions.push({
                     date: payment.date || "",
                     type: entry.type === "given"
                         ? "Repayment Received"
                         : "Loan Repaid",
                     amount: Number(payment.amount || 0),
                     note: payment.note || "",
+                    isOriginal: false,
+                    order: 1
+                });
+            });
+
+            transactions.sort((a, b) =>
+                a.date.localeCompare(b.date) || a.order - b.order
+            );
+
+            let balance = 0;
+
+            transactions.forEach(transaction => {
+                if (transaction.isOriginal) {
+                    balance = transaction.amount;
+                } else {
+                    balance = Math.max(0, balance - transaction.amount);
+                }
+
+                rows.push({
+                    date: transaction.date,
+                    type: transaction.type,
+                    amount: transaction.amount,
+                    note: transaction.note,
                     entryId: entry.id,
-                    remaining: remaining(entry)
+                    remaining: balance
                 });
             });
         });
@@ -501,6 +525,7 @@
             a.date.localeCompare(b.date)
         );
     }
+
 
     function renderPeopleList() {
         const tableWrap = document.querySelector(".ledger-table-wrap");
