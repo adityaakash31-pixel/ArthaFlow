@@ -33,6 +33,17 @@
         });
     }
 
+    
+function pdfMoney(value) {
+    const amount = Number(value || 0);
+
+    return "INR " + amount.toLocaleString("en-IN", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
+    
+
     function makeId() {
         return Date.now().toString(36) +
             Math.random().toString(36).slice(2, 9);
