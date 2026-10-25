@@ -981,119 +981,160 @@ function pdfMoney(value) {
         showMessage("Person-wise PDF downloaded successfully.");
     }
 
-    function downloadFullLedgerPDF() {
-        const doc = createPDFDocument();
-        if (!doc) return;
+    function pdfMoney(value) {
+    return "INR " + Number(value || 0).toLocaleString("en-IN", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
 
-        let given = 0;
-        let received = 0;
-        let borrowed = 0;
-        let repaid = 0;
+function downloadFullLedgerPDF() {
+    const doc = createPDFDocument();
+    if (!doc) return;
 
-        entries.forEach(entry => {
-            const paid = repaymentsTotal(entry);
+    let given = 0;
+    let received = 0;
+    let borrowed = 0;
+    let repaid = 0;
 
-            if (entry.type === "given") {
-                given += Number(entry.amount || 0);
-                received += paid;
-            } else {
-                borrowed += Number(entry.amount || 0);
-                repaid += paid;
-            }
-        });
+    entries.forEach(entry => {
+        const paid = repaymentsTotal(entry);
 
-        let y = drawReportHeader(
-            doc,
-            "COMPLETE LEDGER REPORT",
-            "All Accounts | Generated: " + today()
-        );
+        if (entry.type === "given") {
+            given += Number(entry.amount || 0);
+            received += paid;
+        } else {
+            borrowed += Number(entry.amount || 0);
+            repaid += paid;
+        }
+    });
 
-        const gap = 4;
-        const cardWidth = (doc.internal.pageSize.getWidth() - 24 - gap) / 2;
+    let y = drawReportHeader(
+        doc,
+        "COMPLETE LEDGER REPORT",
+        "All Accounts | Generated: " + today()
+    );
 
-        drawSummaryCard(doc, 12, y, cardWidth, "TOTAL MONEY GIVEN", money(given), [220, 252, 231]);
-        drawSummaryCard(doc, 12 + cardWidth + gap, y, cardWidth, "RECEIVED BACK", money(received), [219, 234, 254]);
+    const gap = 4;
+    const cardWidth =
+        (doc.internal.pageSize.getWidth() - 24 - gap) / 2;
 
-        y += 24;
+    drawSummaryCard(
+        doc, 12, y, cardWidth,
+        "TOTAL MONEY GIVEN",
+        pdfMoney(given),
+        [220, 252, 231]
+    );
 
-        drawSummaryCard(doc, 12, y, cardWidth, "STILL TO RECEIVE", money(Math.max(0, given - received)), [254, 243, 199]);
-        drawSummaryCard(doc, 12 + cardWidth + gap, y, cardWidth, "TOTAL BORROWED", money(borrowed), [237, 233, 254]);
+    drawSummaryCard(
+        doc, 12 + cardWidth + gap, y, cardWidth,
+        "RECEIVED BACK",
+        pdfMoney(received),
+        [219, 234, 254]
+    );
 
-        y += 24;
+    y += 24;
 
-        drawSummaryCard(doc, 12, y, cardWidth, "LOAN REPAID", money(repaid), [204, 251, 241]);
-        drawSummaryCard(doc, 12 + cardWidth + gap, y, cardWidth, "STILL TO PAY", money(Math.max(0, borrowed - repaid)), [254, 226, 226]);
+    drawSummaryCard(
+        doc, 12, y, cardWidth,
+        "STILL TO RECEIVE",
+        pdfMoney(Math.max(0, given - received)),
+        [254, 243, 199]
+    );
 
-        y += 30;
+    drawSummaryCard(
+        doc, 12 + cardWidth + gap, y, cardWidth,
+        "TOTAL BORROWED",
+        pdfMoney(borrowed),
+        [237, 233, 254]
+    );
 
-        const names = getPersonNames();
+    y += 24;
 
-        if (!names.length) {
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(11);
-            doc.setTextColor(70, 80, 95);
-            doc.text("No ledger entries recorded.", 12, y);
+    drawSummaryCard(
+        doc, 12, y, cardWidth,
+        "LOAN REPAID",
+        pdfMoney(repaid),
+        [204, 251, 241]
+    );
+
+    drawSummaryCard(
+        doc, 12 + cardWidth + gap, y, cardWidth,
+        "STILL TO PAY",
+        pdfMoney(Math.max(0, borrowed - repaid)),
+        [254, 226, 226]
+    );
+
+    y += 30;
+
+    const names = getPersonNames();
+
+    if (!names.length) {
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(11);
+        doc.setTextColor(70, 80, 95);
+        doc.text("No ledger entries recorded.", 12, y);
+    }
+
+    names.forEach(name => {
+        const totals = getPersonTotals(name);
+        const rows = getPersonTransactions(name);
+
+        if (y > doc.internal.pageSize.getHeight() - 65) {
+            doc.addPage();
+            y = 18;
         }
 
-        names.forEach(name => {
-            const totals = getPersonTotals(name);
-            const rows = getPersonTransactions(name);
+        doc.setFillColor(22, 59, 120);
+        doc.roundedRect(
+            12,
+            y,
+            doc.internal.pageSize.getWidth() - 24,
+            10,
+            2,
+            2,
+            "F"
+        );
 
-            if (y > doc.internal.pageSize.getHeight() - 65) {
-                doc.addPage();
-                y = 18;
-            }
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(11);
+        doc.setTextColor(255, 255, 255);
+        doc.text("Person: " + name, 16, y + 6.5);
 
-            doc.setFillColor(22, 59, 120);
-            doc.roundedRect(
-                12,
-                y,
-                doc.internal.pageSize.getWidth() - 24,
-                10,
-                2,
-                2,
-                "F"
-            );
+        y += 16;
 
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(11);
-            doc.setTextColor(255, 255, 255);
-            doc.text("Person: " + name, 16, y + 6.5);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(8.5);
+        doc.setTextColor(35, 45, 65);
 
-            y += 16;
+        doc.text(
+            "Given: " + pdfMoney(totals.given) +
+            " | Received: " + pdfMoney(totals.received) +
+            " | To Receive: " + pdfMoney(totals.toReceive),
+            12,
+            y
+        );
 
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(8.5);
-            doc.setTextColor(35, 45, 65);
+        y += 6;
 
-            doc.text(
-                "Given: " + money(totals.given) +
-                " | Received: " + money(totals.received) +
-                " | To Receive: " + money(totals.toReceive),
-                12,
-                y
-            );
+        doc.text(
+            "Borrowed: " + pdfMoney(totals.borrowed) +
+            " | Repaid: " + pdfMoney(totals.repaid) +
+            " | To Pay: " + pdfMoney(totals.toPay),
+            12,
+            y
+        );
 
-            y += 6;
+        y += 7;
 
-            doc.text(
-                "Borrowed: " + money(totals.borrowed) +
-                " | Repaid: " + money(totals.repaid) +
-                " | To Pay: " + money(totals.toPay),
-                12,
-                y
-            );
+        y = drawTransactionTable(doc, rows, y);
+        y += 10;
+    });
 
-            y += 7;
-
-            y = drawTransactionTable(doc, rows, y);
-            y += 10;
-        });
-
-        addPageNumbers(doc);
-        doc.save("ArthaFlow-Complete-Ledger.pdf");
-        showMessage("Complete Ledger PDF downloaded successfully.");
-    }
+    addPageNumbers(doc);
+    doc.save("ArthaFlow-Complete-Ledger.pdf");
+    showMessage("Complete Ledger PDF downloaded successfully.");
+}
 
 
     // Make HTML buttons able to call these functions.
