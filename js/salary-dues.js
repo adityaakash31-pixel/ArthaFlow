@@ -13,453 +13,405 @@
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   };
 
-  const makeId = () => `${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+  const id = () => `${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
 
-  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;',
+    '"': '&quot;', "'": '&#39;'
   }[c]));
 
-  function loadData() {
+  function load() {
     try {
-      const data = JSON.parse(localStorage.getItem(KEY) || '{"months":[],"payments":[]}');
-      return {
-        months: Array.isArray(data.months) ? data.months : [],
-        payments: Array.isArray(data.payments) ? data.payments : []
-      };
+      const d = JSON.parse(localStorage.getItem(KEY) || '{"records":[]}');
+
+      // Supports records created by the earlier Salary Dues version.
+      if (Array.isArray(d.records)) return d.records;
+
+      if (Array.isArray(d.months)) {
+        return d.months.map(m => {
+          const payments = (d.payments || []).filter(p =>
+            String(p.monthId) === String(m.id)
+          );
+
+          const cash = payments.reduce((s, p) => s + (Number(p.cash) || 0), 0);
+          const online = payments.reduce((s, p) => s + (Number(p.online) || 0), 0);
+
+          return {
+            id: m.id || id(),
+            date: (m.month || today().slice(0, 7)) + '-01',
+            total: Number(m.total) || 0,
+            received: cash + online,
+            givenBy: m.givenBy || '',
+            method: cash && online ? 'Both' : online ? 'Online' : 'Cash',
+            cash,
+            online,
+            note: m.note || ''
+          };
+        });
+      }
+
+      return [];
     } catch (e) {
-      console.error('Salary dues data could not be read:', e);
-      return { months: [], payments: [] };
+      console.error('Could not load Salary Dues records:', e);
+      return [];
     }
   }
 
-  let data = loadData();
-  let editingMonthId = '';
-  let editingPaymentId = '';
+  let records = load();
+  let editingId = '';
 
-  function saveData() {
-    localStorage.setItem(KEY, JSON.stringify(data));
+  function save() {
+    localStorage.setItem(KEY, JSON.stringify({ records }));
   }
 
-  function paymentsFor(monthId) {
-    return data.payments.filter(p => String(p.monthId) === String(monthId));
+  function remaining(r) {
+    return (Number(r.total) || 0) - (Number(r.received) || 0);
   }
 
-  function receivedFor(monthId) {
-    return paymentsFor(monthId).reduce(
-      (total, p) => total + (Number(p.cash) || 0) + (Number(p.online) || 0), 0
-    );
-  }
-
-  function remainingFor(month) {
-    return (Number(month.total) || 0) - receivedFor(month.id);
-  }
-
-  function monthName(value) {
-    if (!value || !/^\d{4}-\d{2}$/.test(value)) return value || '';
-    const [year, month] = value.split('-').map(Number);
-    return new Date(year, month - 1, 1).toLocaleDateString('en-IN', {
-      month: 'long', year: 'numeric'
-    });
-  }
-
-  function sortedMonths() {
-    return [...data.months].sort((a, b) => b.month.localeCompare(a.month));
-  }
-
-  function getFilteredMonths() {
+  function filteredRecords() {
     const from = $('duesFrom').value;
     const to = $('duesTo').value;
 
-    return sortedMonths().filter(m =>
-      (!from || m.month >= from) && (!to || m.month <= to)
-    );
+    return [...records]
+      .filter(r => (!from || r.date >= from) && (!to || r.date <= to))
+      .sort((a, b) => b.date.localeCompare(a.date));
   }
 
   function refreshTotals() {
-    const totalSalary = data.months.reduce((s, m) => s + (Number(m.total) || 0), 0);
-    const totalReceived = data.payments.reduce(
-      (s, p) => s + (Number(p.cash) || 0) + (Number(p.online) || 0), 0
+    const list = filteredRecords();
+
+    $('duesTotalSalary').textContent =
+      money(list.reduce((s, r) => s + Number(r.total || 0), 0));
+
+    $('duesTotalReceived').textContent =
+      money(list.reduce((s, r) => s + Number(r.received || 0), 0));
+
+    $('duesTotalRemaining').textContent =
+      money(list.reduce((s, r) => s + remaining(r), 0));
+  }
+
+  function updateRemaining() {
+    const total = Number($('duesTotal').value) || 0;
+    const received = Number($('duesReceived').value) || 0;
+
+    $('duesRemaining').value = (total - received).toFixed(2);
+  }
+
+  function updateMethodFields() {
+    const method = $('duesMethod').value;
+
+    $('duesCashBox').classList.toggle(
+      'hidden', method !== 'Both' && method !== 'Cash'
     );
-    const totalRemaining = totalSalary - totalReceived;
 
-    $('duesTotalSalary').textContent = money(totalSalary);
-    $('duesTotalReceived').textContent = money(totalReceived);
-    $('duesTotalRemaining').textContent = money(totalRemaining);
-    $('duesTotalRemaining').style.color = totalRemaining > 0 ? '#b45309' : '#15803d';
-  }
+    $('duesOnlineBox').classList.toggle(
+      'hidden', method !== 'Both' && method !== 'Online'
+    );
 
-  function refreshPaymentMonthOptions() {
-    const select = $('duesPaymentMonth');
-    const previous = select.value;
-
-    select.innerHTML = '<option value="">Select salary month</option>';
-
-    sortedMonths().forEach(m => {
-      const option = document.createElement('option');
-      option.value = m.id;
-      option.textContent = `${monthName(m.month)} — Due ${money(remainingFor(m))}`;
-      select.appendChild(option);
-    });
-
-    if (data.months.some(m => String(m.id) === String(previous))) {
-      select.value = previous;
-    } else if (editingPaymentId) {
-      const p = data.payments.find(x => String(x.id) === String(editingPaymentId));
-      if (p) select.value = p.monthId;
+    if (method === 'Cash') {
+      $('duesCash').value = $('duesReceived').value || '0';
+      $('duesOnline').value = '0';
+    } else if (method === 'Online') {
+      $('duesOnline').value = $('duesReceived').value || '0';
+      $('duesCash').value = '0';
+    } else {
+      $('duesCash').value = '0';
+      $('duesOnline').value = '0';
     }
   }
 
-  function renderHistory() {
-    const months = getFilteredMonths();
-
-    if (!months.length) {
-      $('salaryDuesHistory').innerHTML =
-        '<div class="empty">No salary records in this month range.</div>';
-      return;
-    }
-
-    $('salaryDuesHistory').innerHTML = months.map(month => {
-      const payments = paymentsFor(month.id).sort((a, b) =>
-        String(a.date).localeCompare(String(b.date))
-      );
-      const received = receivedFor(month.id);
-      const remaining = remainingFor(month);
-      const overpaid = remaining < 0;
-
-      const paymentRows = payments.length ? payments.map(p => `
-        <article class="record">
-          <div class="record-top">
-            <div class="record-title">💸 Payment • ${esc(p.date)}</div>
-            <div class="record-amount">${money((Number(p.cash) || 0) + (Number(p.online) || 0))}</div>
-          </div>
-          <div class="record-meta">
-            Cash: ${money(p.cash)} • Online: ${money(p.online)}
-            ${p.givenBy ? '<br>Given By: ' + esc(p.givenBy) : ''}
-            ${p.note ? '<br>Note: ' + esc(p.note) : ''}
-          </div>
-          <div class="record-actions">
-            <button type="button" class="light" data-dues-edit-payment="${esc(p.id)}">✏️ Edit Payment</button>
-            <button type="button" class="danger" data-dues-delete-payment="${esc(p.id)}">🗑 Delete Payment</button>
-          </div>
-        </article>
-      `).join('') : '<div class="empty">No payments recorded for this month.</div>';
-
-      return `
-        <article class="record" style="border-left:5px solid ${overpaid ? '#dc2626' : remaining > 0 ? '#f59e0b' : '#16a34a'}">
-          <div class="record-top">
-            <div class="record-title">📅 ${esc(monthName(month.month))}</div>
-            <div class="record-amount">${money(month.total)}</div>
-          </div>
-          <div class="record-meta">
-            <strong>Total Salary:</strong> ${money(month.total)}<br>
-            <strong>Received:</strong> ${money(received)}<br>
-            <strong>Remaining:</strong> ${money(remaining)}
-            ${month.givenBy ? '<br><strong>Salary From:</strong> ' + esc(month.givenBy) : ''}
-            ${month.note ? '<br><strong>Note:</strong> ' + esc(month.note) : ''}
-            ${overpaid ? '<br><strong>Warning:</strong> Payments exceed the recorded salary.' : ''}
-          </div>
-          <div class="record-actions">
-            <button type="button" class="light" data-dues-add-payment="${esc(month.id)}">➕ Add Payment</button>
-            <button type="button" class="light" data-dues-edit-month="${esc(month.id)}">✏️ Edit Salary</button>
-            <button type="button" class="danger" data-dues-delete-month="${esc(month.id)}">🗑 Delete Month</button>
-          </div>
-          <h3 style="margin-top:16px">Payment Details</h3>
-          ${paymentRows}
-        </article>
-      `;
-    }).join('');
-  }
-
-  function refresh() {
+  function render() {
     refreshTotals();
-    refreshPaymentMonthOptions();
-    renderHistory();
+
+    const list = filteredRecords();
+
+    $('salaryDuesHistory').innerHTML = list.length ? list.map(r => `
+      <article class="record">
+        <div class="record-top">
+          <div class="record-title">${esc(r.date)} • ${esc(r.method)}</div>
+          <div class="record-amount">${money(r.total)}</div>
+        </div>
+
+        <div class="record-meta">
+          <strong>Date:</strong> ${esc(r.date)}<br>
+          <strong>Salary / Amount:</strong> ${money(r.total)}<br>
+          <strong>Received:</strong> ${money(r.received)}<br>
+          <strong>Remaining:</strong> ${money(remaining(r))}<br>
+          <strong>Given By:</strong> ${esc(r.givenBy || '—')}<br>
+          <strong>Method:</strong> ${esc(r.method)}<br>
+          ${r.method === 'Both' || r.method === 'Cash'
+            ? '<strong>Cash:</strong> ' + money(r.cash) + '<br>' : ''}
+          ${r.method === 'Both' || r.method === 'Online'
+            ? '<strong>Online:</strong> ' + money(r.online) + '<br>' : ''}
+          ${r.note ? '<strong>Notes:</strong> ' + esc(r.note) : ''}
+        </div>
+
+        <div class="record-actions">
+          <button type="button" class="light" data-dues-edit="${esc(r.id)}">
+            ✏️ Edit
+          </button>
+          <button type="button" class="danger" data-dues-delete="${esc(r.id)}">
+            🗑 Delete
+          </button>
+        </div>
+      </article>
+    `).join('') : '<div class="empty">No salary records found.</div>';
   }
 
-  function resetMonthForm() {
+  function resetForm() {
     $('salaryDuesForm').reset();
-    $('duesMonth').value = today().slice(0, 7);
-    editingMonthId = '';
-    $('duesSaveBtn').textContent = '➕ Save Monthly Salary';
+    $('duesDate').value = today();
+    $('duesReceived').value = '0';
+    $('duesCash').value = '0';
+    $('duesOnline').value = '0';
+    $('duesMethod').value = 'Cash';
+
+    editingId = '';
+    $('duesFormTitle').textContent = 'Add Salary Record';
+    $('duesSaveBtn').textContent = 'Save Salary Record';
     $('duesCancelEdit').classList.add('hidden');
+
+    updateMethodFields();
+    updateRemaining();
   }
 
-  function resetPaymentForm() {
-    $('duesPaymentForm').reset();
-    $('duesPaymentDate').value = today();
-    $('duesPaymentCash').value = '0';
-    $('duesPaymentOnline').value = '0';
-    editingPaymentId = '';
-    $('duesPaymentSaveBtn').textContent = '💾 Save Payment';
-    $('duesPaymentCancelEdit').classList.add('hidden');
-    refreshPaymentMonthOptions();
-  }
+  $('duesTotal').addEventListener('input', updateRemaining);
+
+  $('duesReceived').addEventListener('input', () => {
+    updateRemaining();
+
+    if ($('duesMethod').value === 'Cash') {
+      $('duesCash').value = $('duesReceived').value || '0';
+    } else if ($('duesMethod').value === 'Online') {
+      $('duesOnline').value = $('duesReceived').value || '0';
+    }
+  });
+
+  $('duesMethod').addEventListener('change', updateMethodFields);
+
+  ['duesCash', 'duesOnline'].forEach(field => {
+    $(field).addEventListener('input', () => {
+      const method = $('duesMethod').value;
+
+      if (method === 'Both') {
+        const total = (Number($('duesCash').value) || 0) +
+          (Number($('duesOnline').value) || 0);
+
+        $('duesReceived').value = total.toFixed(2);
+        updateRemaining();
+      } else if (method === 'Cash') {
+        $('duesReceived').value = $('duesCash').value || '0';
+        updateRemaining();
+      } else if (method === 'Online') {
+        $('duesReceived').value = $('duesOnline').value || '0';
+        updateRemaining();
+      }
+    });
+  });
 
   $('salaryDuesForm').addEventListener('submit', e => {
     e.preventDefault();
 
-    const month = $('duesMonth').value;
+    const date = $('duesDate').value;
     const total = Number($('duesTotal').value);
+    const received = Number($('duesReceived').value);
+    const method = $('duesMethod').value;
+    const cash = Number($('duesCash').value) || 0;
+    const online = Number($('duesOnline').value) || 0;
 
-    if (!month || !Number.isFinite(total) || total <= 0) {
-      alert('Enter a valid month and salary amount.');
+    if (!date || !Number.isFinite(total) || total <= 0 ||
+        !Number.isFinite(received) || received < 0) {
+      alert('Please enter a valid Date, Salary / Amount and Received amount.');
       return;
     }
 
-    const duplicate = data.months.find(m =>
-      m.month === month && String(m.id) !== String(editingMonthId)
-    );
-
-    if (duplicate) {
-      alert('This month already has a salary record. Edit that record instead.');
+    if (method === 'Both' && Math.abs(cash + online - received) > 0.01) {
+      alert('Cash Amount + Online Amount must equal Received.');
       return;
     }
 
-    const old = data.months.find(m => String(m.id) === String(editingMonthId));
+    if (method === 'Cash' && Math.abs(cash - received) > 0.01) {
+      alert('Cash Amount must equal Received.');
+      return;
+    }
 
-    if (old) {
-      const alreadyReceived = receivedFor(old.id);
-      if (total < alreadyReceived) {
-        const proceed = confirm(
-          `Payments already total ${money(alreadyReceived)}, which is more than this new salary. Save anyway?`
-        );
-        if (!proceed) return;
-      }
+    if (method === 'Online' && Math.abs(online - received) > 0.01) {
+      alert('Online Amount must equal Received.');
+      return;
     }
 
     const record = {
-      id: editingMonthId || makeId(),
-      month,
+      id: editingId || id(),
+      date,
       total,
+      received,
       givenBy: $('duesGivenBy').value.trim(),
+      method,
+      cash: method === 'Online' ? 0 : cash,
+      online: method === 'Cash' ? 0 : online,
       note: $('duesNote').value.trim()
     };
 
-    if (editingMonthId) {
-      data.months = data.months.map(m =>
-        String(m.id) === String(editingMonthId) ? record : m
-      );
+    if (editingId) {
+      records = records.map(r => r.id === editingId ? record : r);
     } else {
-      data.months.push(record);
+      records.push(record);
     }
 
-    saveData();
-    resetMonthForm();
-    refresh();
-    alert('Monthly salary record saved.');
+    save();
+    resetForm();
+    render();
+    alert('Salary record saved successfully.');
   });
 
-  $('duesPaymentForm').addEventListener('submit', e => {
-    e.preventDefault();
+  $('duesCancelEdit').addEventListener('click', resetForm);
 
-    const monthId = $('duesPaymentMonth').value;
-    const date = $('duesPaymentDate').value;
-    const cash = Number($('duesPaymentCash').value);
-    const online = Number($('duesPaymentOnline').value);
-
-    if (!data.months.some(m => String(m.id) === String(monthId))) {
-      alert('Select a salary month first.');
-      return;
-    }
-
-    if (!date || !Number.isFinite(cash) || !Number.isFinite(online) ||
-        cash < 0 || online < 0 || cash + online <= 0) {
-      alert('Enter a valid date and a positive Cash/Online payment amount.');
-      return;
-    }
-
-    const record = {
-      id: editingPaymentId || makeId(),
-      monthId,
-      date,
-      cash,
-      online,
-      givenBy: $('duesPaymentGivenBy').value.trim(),
-      note: $('duesPaymentNote').value.trim()
-    };
-
-    if (editingPaymentId) {
-      data.payments = data.payments.map(p =>
-        String(p.id) === String(editingPaymentId) ? record : p
-      );
-    } else {
-      data.payments.push(record);
-    }
-
-    saveData();
-    resetPaymentForm();
-    refresh();
-    alert('Salary payment saved.');
-  });
-
-  $('duesCancelEdit').addEventListener('click', resetMonthForm);
-  $('duesPaymentCancelEdit').addEventListener('click', resetPaymentForm);
-  $('duesFrom').addEventListener('change', renderHistory);
-  $('duesTo').addEventListener('change', renderHistory);
+  $('duesFrom').addEventListener('change', render);
+  $('duesTo').addEventListener('change', render);
 
   $('salaryDuesHistory').addEventListener('click', e => {
-    const addPayment = e.target.closest('[data-dues-add-payment]');
-    if (addPayment) {
-      resetPaymentForm();
-      $('duesPaymentMonth').value = addPayment.dataset.duesAddPayment;
-      $('duesPaymentDate').value = today();
-      $('duesPaymentGivenBy').focus();
-      $('duesPaymentForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      return;
-    }
+    const editBtn = e.target.closest('[data-dues-edit]');
+    const deleteBtn = e.target.closest('[data-dues-delete]');
 
-    const editMonth = e.target.closest('[data-dues-edit-month]');
-    if (editMonth) {
-      const m = data.months.find(x => String(x.id) === editMonth.dataset.duesEditMonth);
-      if (!m) return;
-      editingMonthId = m.id;
-      $('duesMonth').value = m.month;
-      $('duesTotal').value = m.total;
-      $('duesGivenBy').value = m.givenBy || '';
-      $('duesNote').value = m.note || '';
-      $('duesSaveBtn').textContent = '💾 Update Monthly Salary';
+    if (editBtn) {
+      const r = records.find(x => x.id === editBtn.dataset.duesEdit);
+      if (!r) return;
+
+      editingId = r.id;
+      $('duesDate').value = r.date;
+      $('duesTotal').value = r.total;
+      $('duesReceived').value = r.received;
+      $('duesGivenBy').value = r.givenBy || '';
+      $('duesMethod').value = r.method || 'Cash';
+      $('duesCash').value = r.cash || 0;
+      $('duesOnline').value = r.online || 0;
+      $('duesNote').value = r.note || '';
+
+      $('duesFormTitle').textContent = 'Edit Salary Record';
+      $('duesSaveBtn').textContent = 'Update Salary Record';
       $('duesCancelEdit').classList.remove('hidden');
-      $('salaryDuesForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      return;
+
+      updateMethodFields();
+      updateRemaining();
+      $('salaryDuesForm').scrollIntoView({ behavior: 'smooth' });
     }
 
-    const editPayment = e.target.closest('[data-dues-edit-payment]');
-    if (editPayment) {
-      const p = data.payments.find(x => String(x.id) === editPayment.dataset.duesEditPayment);
-      if (!p) return;
-      editingPaymentId = p.id;
-      refreshPaymentMonthOptions();
-      $('duesPaymentMonth').value = p.monthId;
-      $('duesPaymentDate').value = p.date || today();
-      $('duesPaymentCash').value = p.cash || 0;
-      $('duesPaymentOnline').value = p.online || 0;
-      $('duesPaymentGivenBy').value = p.givenBy || '';
-      $('duesPaymentNote').value = p.note || '';
-      $('duesPaymentSaveBtn').textContent = '💾 Update Payment';
-      $('duesPaymentCancelEdit').classList.remove('hidden');
-      $('duesPaymentForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      return;
-    }
+    if (deleteBtn) {
+      const record = records.find(x => x.id === deleteBtn.dataset.duesDelete);
+      if (!record) return;
 
-    const deletePayment = e.target.closest('[data-dues-delete-payment]');
-    if (deletePayment) {
-      if (!confirm('Delete this payment record?')) return;
-      data.payments = data.payments.filter(p =>
-        String(p.id) !== deletePayment.dataset.duesDeletePayment
-      );
-      saveData();
-      refresh();
-      return;
-    }
+      if (!confirm('Delete this salary record? This cannot be undone.')) return;
 
-    const deleteMonth = e.target.closest('[data-dues-delete-month]');
-    if (deleteMonth) {
-      const id = deleteMonth.dataset.duesDeleteMonth;
-      const count = paymentsFor(id).length;
-      if (!confirm(`Delete this salary month and its ${count} payment record(s)? This cannot be undone.`)) return;
-      data.months = data.months.filter(m => String(m.id) !== id);
-      data.payments = data.payments.filter(p => String(p.monthId) !== id);
-      saveData();
-      refresh();
+      records = records.filter(x => x.id !== record.id);
+      save();
+      render();
     }
   });
 
-  function makeReportHtml(months) {
-    const totalSalary = months.reduce((s, m) => s + (Number(m.total) || 0), 0);
-    const totalReceived = months.reduce((s, m) => s + receivedFor(m.id), 0);
-    const totalRemaining = totalSalary - totalReceived;
+  function reportHtml(list) {
+    const total = list.reduce((s, r) => s + Number(r.total || 0), 0);
+    const received = list.reduce((s, r) => s + Number(r.received || 0), 0);
+    const remaining = total - received;
 
-    const rows = months.map(m => `
+    const rows = list.map(r => `
       <tr>
-        <td>${esc(monthName(m.month))}</td>
-        <td>${esc(m.givenBy || '—')}</td>
-        <td class="num">${money(m.total)}</td>
-        <td class="num">${money(receivedFor(m.id))}</td>
-        <td class="num">${money(remainingFor(m))}</td>
+        <td>${esc(r.date)}</td>
+        <td>${money(r.total)}</td>
+        <td>${money(r.received)}</td>
+        <td>${money(remainingForReport(r))}</td>
+        <td>${esc(r.givenBy || '—')}</td>
+        <td>${esc(r.method)}</td>
+        <td>${money(r.cash)}</td>
+        <td>${money(r.online)}</td>
       </tr>
     `).join('');
 
-    const paymentRows = months.flatMap(m =>
-      paymentsFor(m.id).map(p => ({
-        month: monthName(m.month),
-        ...p
-      }))
-    ).sort((a, b) => String(a.date).localeCompare(String(b.date))).map(p => `
-      <tr>
-        <td>${esc(p.month)}</td>
-        <td>${esc(p.date)}</td>
-        <td>${esc(p.givenBy || '—')}</td>
-        <td class="num">${money(p.cash)}</td>
-        <td class="num">${money(p.online)}</td>
-        <td class="num">${money((Number(p.cash) || 0) + (Number(p.online) || 0))}</td>
-        <td>${esc(p.note || '—')}</td>
-      </tr>
-    `).join('');
+    function remainingForReport(r) {
+      return Number(r.total || 0) - Number(r.received || 0);
+    }
 
     return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Salary Dues Report</title>
+<title>ArthaFlow Salary Dues Report</title>
 <style>
-  body{font-family:Arial,sans-serif;color:#172033;margin:24px}
-  h1{color:#1e3a8a;margin-bottom:4px}
-  .subtitle{color:#64748b;margin-top:0}
-  .summary{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}
-  .stat{flex:1;min-width:150px;padding:14px;border-radius:10px;color:#fff}
-  .blue{background:#1e40af}.green{background:#15803d}.orange{background:#c2410c}
-  .label{font-size:12px;text-transform:uppercase;letter-spacing:.5px}
-  .value{font-size:21px;font-weight:bold;margin-top:7px}
-  h2{margin-top:26px;color:#1e3a8a}
-  table{width:100%;border-collapse:collapse;margin:12px 0 22px;font-size:12px}
-  th{background:#1e3a8a;color:white;text-align:left}
-  th,td{border:1px solid #dbe3ef;padding:8px}
-  tbody tr:nth-child(even){background:#f1f5f9}
-  .num{text-align:right;white-space:nowrap}
-  .footer{margin-top:25px;color:#64748b;font-size:11px}
-  @media print{body{margin:10mm}.no-print{display:none}.stat{-webkit-print-color-adjust:exact;print-color-adjust:exact}th,.blue,.green,.orange{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+  body{font-family:Arial,sans-serif;margin:25px;color:#172033}
+  h1{color:#1e3a8a;margin-bottom:5px}
+  p{color:#64748b}
+  .summary{display:flex;gap:12px;margin:24px 0;flex-wrap:wrap}
+  .box{flex:1;min-width:160px;padding:18px;border-radius:10px;color:white}
+  .blue{background:#1d4ed8}.green{background:#15803d}.orange{background:#c2410c}
+  .label{font-size:12px;text-transform:uppercase}
+  .amount{font-size:23px;font-weight:bold;margin-top:8px}
+  table{width:100%;border-collapse:collapse;margin-top:20px;font-size:12px}
+  th{background:#1e3a8a;color:white}
+  th,td{padding:9px;border:1px solid #dbe3ef;text-align:left}
+  tbody tr:nth-child(even){background:#eff6ff}
+  @media print{
+    body{margin:10mm}
+    .box,th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
 </style>
 </head>
 <body>
   <h1>ArthaFlow — Salary Dues Report</h1>
-  <p class="subtitle">Month-wise salary, received payments and outstanding dues</p>
+  <p>Salary / Amount • Received • Remaining • Payment Method</p>
+
   <div class="summary">
-    <div class="stat blue"><div class="label">Total Salary</div><div class="value">${money(totalSalary)}</div></div>
-    <div class="stat green"><div class="label">Total Received</div><div class="value">${money(totalReceived)}</div></div>
-    <div class="stat orange"><div class="label">Total Remaining</div><div class="value">${money(totalRemaining)}</div></div>
+    <div class="box blue">
+      <div class="label">Total Amount</div>
+      <div class="amount">${money(total)}</div>
+    </div>
+    <div class="box green">
+      <div class="label">Total Received</div>
+      <div class="amount">${money(received)}</div>
+    </div>
+    <div class="box orange">
+      <div class="label">Total Remaining</div>
+      <div class="amount">${money(remaining)}</div>
+    </div>
   </div>
-  <h2>Monthly Summary</h2>
-  <table><thead><tr><th>Month</th><th>Salary From</th><th>Total Salary</th><th>Received</th><th>Remaining</th></tr></thead>
-  <tbody>${rows || '<tr><td colspan="5">No records in this range.</td></tr>'}</tbody></table>
-  <h2>Payment Details</h2>
-  <table><thead><tr><th>Salary Month</th><th>Payment Date</th><th>Given By</th><th>Cash</th><th>Online</th><th>Total</th><th>Notes</th></tr></thead>
-  <tbody>${paymentRows || '<tr><td colspan="7">No payments recorded.</td></tr>'}</tbody></table>
-  <p class="footer">Generated from ArthaFlow. Please verify amounts before sharing.</p>
-  <button class="no-print" onclick="window.print()">Print / Save as PDF</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th><th>Salary / Amount</th><th>Received</th>
+        <th>Remaining</th><th>Given By</th><th>Method</th>
+        <th>Cash</th><th>Online</th>
+      </tr>
+    </thead>
+    <tbody>${rows || '<tr><td colspan="8">No records found.</td></tr>'}</tbody>
+  </table>
+
+  <p>Generated by ArthaFlow.</p>
   <script>window.onload=()=>setTimeout(()=>window.print(),300);<\/script>
-</body></html>`;
+</body>
+</html>`;
   }
 
   $('duesExportPdf').addEventListener('click', () => {
-    const months = getFilteredMonths();
-    if (!months.length) {
-      alert('There are no salary records in the selected month range.');
+    const list = filteredRecords();
+
+    if (!list.length) {
+      alert('No records available for the selected date range.');
       return;
     }
 
-    const reportWindow = window.open('', '_blank');
-    if (!reportWindow) {
-      alert('The report window was blocked. Allow pop-ups for this site, then try again.');
+    const w = window.open('', '_blank');
+
+    if (!w) {
+      alert('Please allow pop-ups for this website to export the report.');
       return;
     }
 
-    reportWindow.document.open();
-    reportWindow.document.write(makeReportHtml(months));
-    reportWindow.document.close();
+    w.document.open();
+    w.document.write(reportHtml(list));
+    w.document.close();
   });
 
-  $('duesMonth').value = today().slice(0, 7);
-  $('duesPaymentDate').value = today();
-  refresh();
+  $('duesDate').value = today();
+  updateMethodFields();
+  updateRemaining();
+  render();
 })();
