@@ -334,89 +334,79 @@ button.light{background:#eaf0ff;color:#203d86}
   <!-- SALARY DUES HISTORY SECTION -->
 <section class="panel tab-panel hidden" id="salaryDuesSection">
   <h2>💰 Salary Dues History</h2>
-  <p class="hint">Month-wise salary, payments received and remaining dues.</p>
 
   <div class="summary">
     <div class="stat total">
-      <div class="label">💰 Total Salary</div>
+      <div class="label">Total Amount</div>
       <div class="value" id="duesTotalSalary">₹0</div>
     </div>
     <div class="stat received">
-      <div class="label">💵 Total Received</div>
+      <div class="label">Total Received</div>
       <div class="value" id="duesTotalReceived">₹0</div>
     </div>
     <div class="stat due">
-      <div class="label">🟠 Total Remaining</div>
+      <div class="label">Total Remaining</div>
       <div class="value" id="duesTotalRemaining">₹0</div>
     </div>
   </div>
 
   <div class="panel">
-    <h2>➕ Add Monthly Salary</h2>
-    <form id="salaryDuesForm">
-      <label for="duesMonth">Month / Year</label>
-      <input type="month" id="duesMonth" required>
+    <h2 id="duesFormTitle">Add Salary Record</h2>
 
-      <label for="duesTotal">Total Salary (₹)</label>
+    <form id="salaryDuesForm">
+      <label for="duesDate">Date</label>
+      <input type="date" id="duesDate" required>
+
+      <label for="duesTotal">Salary / Amount (₹)</label>
       <input type="number" id="duesTotal" min="0.01" step="0.01" required>
 
-      <label for="duesGivenBy">Salary Given By / Institute</label>
+      <label for="duesReceived">Received (₹)</label>
+      <input type="number" id="duesReceived" min="0" step="0.01" value="0" required>
+
+      <label for="duesRemaining">Remaining (₹)</label>
+      <input type="number" id="duesRemaining" readonly>
+
+      <label for="duesGivenBy">Given By</label>
       <input type="text" id="duesGivenBy" placeholder="Institute / Owner / Sir">
 
-      <label for="duesNote">Notes (optional)</label>
-      <textarea id="duesNote" placeholder="Any details about this month's salary"></textarea>
-
-      <button type="submit" id="duesSaveBtn">➕ Save Monthly Salary</button>
-      <button type="button" class="secondary hidden" id="duesCancelEdit">Cancel Edit</button>
-    </form>
-  </div>
-
-  <div class="panel">
-    <h2>💸 Add Salary Payment</h2>
-    <p class="hint">एक महीने की सैलरी कई किस्तों में मिली हो, तो हर किस्त की अलग एंट्री करो।</p>
-
-    <form id="duesPaymentForm">
-      <label for="duesPaymentMonth">Salary Month</label>
-      <select id="duesPaymentMonth" required>
-        <option value="">पहले Monthly Salary रिकॉर्ड जोड़ें</option>
+      <label for="duesMethod">Method</label>
+      <select id="duesMethod" required>
+        <option value="Cash">Cash</option>
+        <option value="Online">Online</option>
+        <option value="Both">Both</option>
       </select>
 
-      <label for="duesPaymentDate">Payment Date</label>
-      <input type="date" id="duesPaymentDate" required>
-
-      <label for="duesPaymentGivenBy">Payment Given By</label>
-      <input type="text" id="duesPaymentGivenBy" placeholder="Owner / Institute / Sir">
-
-      <div class="row">
-        <div>
-          <label for="duesPaymentCash">Cash Received (₹)</label>
-          <input type="number" id="duesPaymentCash" min="0" step="0.01" value="0" required>
-        </div>
-        <div>
-          <label for="duesPaymentOnline">Online Received (₹)</label>
-          <input type="number" id="duesPaymentOnline" min="0" step="0.01" value="0" required>
-        </div>
+      <div id="duesCashBox" class="hidden">
+        <label for="duesCash">Cash Amount (₹)</label>
+        <input type="number" id="duesCash" min="0" step="0.01" value="0">
       </div>
 
-      <label for="duesPaymentNote">Payment Notes (optional)</label>
-      <textarea id="duesPaymentNote" placeholder="UPI, bank transfer, partial payment, etc."></textarea>
+      <div id="duesOnlineBox" class="hidden">
+        <label for="duesOnline">Online Amount (₹)</label>
+        <input type="number" id="duesOnline" min="0" step="0.01" value="0">
+      </div>
 
-      <button type="submit" id="duesPaymentSaveBtn">💾 Save Payment</button>
-      <button type="button" class="secondary hidden" id="duesPaymentCancelEdit">Cancel Edit</button>
+      <label for="duesNote">Notes (Optional)</label>
+      <textarea id="duesNote" placeholder="Additional details"></textarea>
+
+      <button type="submit" id="duesSaveBtn">Save Salary Record</button>
+      <button type="button" id="duesCancelEdit" class="secondary hidden">
+        Cancel Edit
+      </button>
     </form>
   </div>
 
   <div class="panel">
-    <h2>📋 Month-wise Salary History</h2>
+    <h2>Salary Records</h2>
 
     <div class="filterbar">
       <div>
-        <label for="duesFrom">From Month</label>
-        <input type="month" id="duesFrom">
+        <label for="duesFrom">From Date</label>
+        <input type="date" id="duesFrom">
       </div>
       <div>
-        <label for="duesTo">To Month</label>
-        <input type="month" id="duesTo">
+        <label for="duesTo">To Date</label>
+        <input type="date" id="duesTo">
       </div>
     </div>
 
@@ -424,7 +414,9 @@ button.light{background:#eaf0ff;color:#203d86}
       <div class="empty">No salary records yet.</div>
     </div>
 
-    <button type="button" id="duesExportPdf">📄 Print / Save Salary Dues PDF</button>
+    <button type="button" id="duesExportPdf">
+      📄 Export Color PDF
+    </button>
   </div>
 </section>
 
