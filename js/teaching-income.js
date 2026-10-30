@@ -154,9 +154,9 @@ function renderBreakdown() {
       .reduce((s,r)=>s+teachingTotal(r),0);
     const c=sum(copies.filter(r=>monthKey(r.date)===m));
     const rec=sum(salaries.filter(r=>monthKey(r.date)===m),'amount');
-    const earned=salaryMode==='period'?t:monthlySalary;
-    const due=Math.max(0,earned-rec);
-    const pct=earned?Math.min(100,rec/earned*100):0;
+    const earned=t+c;
+const due=Math.max(0,earned-rec);
+const pct=earned?Math.min(100,rec/earned*100):0;
 
     return `<tr>
       <td>${esc(m)}</td><td>${money(t)}</td><td>${money(c)}</td>
@@ -209,9 +209,9 @@ function refreshSummary() {
     .reduce((s,r)=>s+teachingTotal(r),0);
   const c=sum(copies.filter(periodMatch));
   const rec=sum(salaries.filter(periodMatch),'amount');
-  const earned=earnedSalary();
-  const due=Math.max(0,earned-rec);
-  const pct=earned?Math.min(100,rec/earned*100):0;
+  const earned=t+c;
+const due=Math.max(0,earned-rec);
+const pct=earned?Math.min(100,rec/earned*100):0;
 
   $('teachingTotal').textContent=money(t);
   $('copyTotal').textContent=money(c);
