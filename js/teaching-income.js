@@ -458,10 +458,11 @@ function edit(type,id) {
     $('saveCopyBtn').textContent='💾 Update Copy Record';
     $('cancelCopyEdit').classList.remove('hidden');
     updateCopyTotal();
-  } else {
+    } else {
     showTab('salarySection');
     $('salaryEditId').value=r.id;
     $('salaryDate').value=r.date||today();
+    $('salaryForMonth').value=r.salaryForMonth||monthKey(r.date||today());
     $('salaryAmount').value=r.amount||'';
     $('salaryNote').value=r.note||'';
     $('saveSalaryBtn').textContent='💾 Update Salary Payment';
