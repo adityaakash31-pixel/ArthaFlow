@@ -139,12 +139,20 @@ function periodName() {
 
 function renderBreakdown() {
   let months=[...new Set(
-    [...teaching,...copies,...salaries]
-      .map(r=>monthKey(r.date)).filter(Boolean)
+    [
+      ...teaching.map(r=>monthKey(r.date)),
+      ...copies.map(r=>monthKey(r.date)),
+      ...salaries.map(r=>r.salaryForMonth || monthKey(r.date))
+    ].filter(Boolean)
   )].sort().reverse();
 
-  if(view==='month') months=months.filter(m=>m===$('periodMonth').value);
-  if(view==='year') months=months.filter(m=>m.startsWith($('periodYear').value));
+  if(view==='month') {
+    months=months.filter(m=>m===$('periodMonth').value);
+  }
+
+  if(view==='year') {
+    months=months.filter(m=>m.startsWith($('periodYear').value));
+  }
 
   if(view==='month' && salaryMode==='fixed' && monthlySalary &&
      !months.includes($('periodMonth').value)) {
@@ -159,11 +167,17 @@ function renderBreakdown() {
   const rows=months.map(m=>{
     const t=teaching.filter(r=>monthKey(r.date)===m)
       .reduce((s,r)=>s+teachingTotal(r),0);
+
     const c=sum(copies.filter(r=>monthKey(r.date)===m));
-    const rec=sum(salaries.filter(r=>monthKey(r.date)===m),'amount');
+
+    const rec=sum(
+      salaries.filter(r=>(r.salaryForMonth || monthKey(r.date))===m),
+      'amount'
+    );
+
     const earned=t+c;
-const due=Math.max(0,earned-rec);
-const pct=earned?Math.min(100,rec/earned*100):0;
+    const due=Math.max(0,earned-rec);
+    const pct=earned?Math.min(100,rec/earned*100):0;
 
     return `<tr>
       <td>${esc(m)}</td><td>${money(t)}</td><td>${money(c)}</td>
