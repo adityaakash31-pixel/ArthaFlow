@@ -593,23 +593,41 @@ $('salaryForm').addEventListener('submit',e=>{
   e.preventDefault();
 
   const amount=Number($('salaryAmount').value);
+
   if(!Number.isFinite(amount)||amount<=0) {
     alert('Enter the amount actually received.');
     return;
   }
 
+  const salaryForMonth=$('salaryForMonth').value;
+
+  if(!salaryForMonth) {
+    alert('Please select Salary Month.');
+    return;
+  }
+
   const id=$('salaryEditId').value;
+
   const r={
-    id:id||newId(),date:$('salaryDate').value,amount,
+    id:id||newId(),
+    date:$('salaryDate').value,
+    salaryForMonth:salaryForMonth,
+    amount:amount,
     note:$('salaryNote').value.trim()
   };
 
-  if(id) salaries=salaries.map(x=>String(x.id)===String(id)?r:x);
-  else salaries.push(r);
+  if(id) {
+    salaries=salaries.map(x=>
+      String(x.id)===String(id)?{...x,...r}:x
+    );
+  } else {
+    salaries.push(r);
+  }
 
   persist();
   resetSalary();
   refresh();
+
   alert(id?'Salary payment updated.':'Salary payment saved.');
 });
 
