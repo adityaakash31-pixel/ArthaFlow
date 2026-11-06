@@ -88,10 +88,17 @@ function teachingTotal(r) {
 }
 
 function periodMatch(r) {
-  const d = String(r.date||'');
-  if (view==='total') return true;
-  if (view==='year') return yearKey(d)===$('periodYear').value;
-  return monthKey(d)===$('periodMonth').value;
+  const d = String(
+    r.salaryForMonth || r.date || ''
+  );
+
+  if (view === 'total') return true;
+
+  if (view === 'year') {
+    return yearKey(d) === $('periodYear').value;
+  }
+
+  return monthKey(d) === $('periodMonth').value;
 }
 
 function earnedSalary() {
