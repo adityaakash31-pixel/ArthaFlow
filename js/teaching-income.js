@@ -425,9 +425,10 @@ function resetCopy() {
 
 function resetSalary() {
   $('salaryForm').reset();
-  $('salaryEditId').value='';
-  $('salaryDate').value=today();
-  $('saveSalaryBtn').textContent='➕ Save Salary Payment';
+  $('salaryEditId').value = '';
+  $('salaryDate').value = today();
+  $('salaryForMonth').value = today().slice(0, 7);
+  $('saveSalaryBtn').textContent = '➕ Save Salary Payment';
   $('cancelSalaryEdit').classList.add('hidden');
 }
 
