@@ -148,6 +148,47 @@ onclick="toggleTheme()">
 📊 Financial Overview
 </h2>
 
+<label for="dashboardPeriod">
+    📅 Select Period
+</label>
+
+<select
+    id="dashboardPeriod"
+    onchange="updateDashboardPeriod()">
+
+    <option value="daily">Daily</option>
+    <option value="weekly">Weekly</option>
+    <option value="monthly" selected>Monthly</option>
+    <option value="yearly">Yearly</option>
+    <option value="all">All Time</option>
+
+</select>
+
+<input
+    type="date"
+    id="dashboardDatePicker"
+    onchange="updateDashboardPeriod()"
+    style="display:none;">
+
+<input
+    type="week"
+    id="dashboardWeekPicker"
+    onchange="updateDashboardPeriod()"
+    style="display:none;">
+
+<input
+    type="month"
+    id="dashboardMonthPicker"
+    onchange="updateDashboardPeriod()">
+
+<input
+    type="number"
+    id="dashboardYearPicker"
+    placeholder="Select Year"
+    style="display:none;"
+    onchange="updateDashboardPeriod()">
+
+<hr>
 
 <div class="summary-grid">
 
