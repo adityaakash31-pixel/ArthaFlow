@@ -12948,3 +12948,138 @@ if (document.readyState === "loading") {
     initializeExpenseSummary();
 
 }
+
+// ==========================================
+// ARTHAFLOW DASHBOARD PERIOD SUMMARY
+// ==========================================
+
+function updateDashboardPeriod() {
+
+    const period = document.getElementById("dashboardPeriod")?.value;
+
+    const datePicker = document.getElementById("dashboardDatePicker");
+    const weekPicker = document.getElementById("dashboardWeekPicker");
+    const monthPicker = document.getElementById("dashboardMonthPicker");
+    const yearPicker = document.getElementById("dashboardYearPicker");
+
+    if (!period) return;
+
+    datePicker.style.display = period === "daily" ? "block" : "none";
+    weekPicker.style.display = period === "weekly" ? "block" : "none";
+    monthPicker.style.display = period === "monthly" ? "block" : "none";
+    yearPicker.style.display = period === "yearly" ? "block" : "none";
+
+    const today = new Date();
+
+    if (!datePicker.value) {
+        datePicker.value = today.toISOString().split("T")[0];
+    }
+
+    if (!weekPicker.value) {
+        const d = new Date(today);
+        d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+        const yearStart = new Date(d.getFullYear(), 0, 1);
+        const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+        weekPicker.value = `${d.getFullYear()}-W${String(week).padStart(2, "0")}`;
+    }
+
+    if (!monthPicker.value) {
+        monthPicker.value = today.toISOString().slice(0, 7);
+    }
+
+    if (!yearPicker.value) {
+        yearPicker.value = today.getFullYear();
+    }
+
+    calculateDashboardPeriod();
+}
+
+function calculateDashboardPeriod() {
+
+    const period = document.getElementById("dashboardPeriod")?.value;
+
+    if (!period) return;
+
+    const incomeKey = typeof incomeHistoryKey !== "undefined"
+        ? incomeHistoryKey : "incomeHistory";
+
+    const expenseKey = typeof expenseHistoryKey !== "undefined"
+        ? expenseHistoryKey : "expenseHistory";
+
+    const incomes = JSON.parse(localStorage.getItem(incomeKey) || "[]");
+    const expenses = JSON.parse(localStorage.getItem(expenseKey) || "[]");
+
+    let startDate = null;
+    let endDate = null;
+
+    const dateValue = period === "daily"
+        ? document.getElementById("dashboardDatePicker").value
+        : period === "weekly"
+        ? document.getElementById("dashboardWeekPicker").value
+        : period === "monthly"
+        ? document.getElementById("dashboardMonthPicker").value
+        : null;
+
+    if (period === "daily" && dateValue) {
+        startDate = dateValue;
+        endDate = dateValue;
+    }
+
+    if (period === "monthly" && dateValue) {
+        const [y, m] = dateValue.split("-").map(Number);
+        startDate = `${y}-${String(m).padStart(2, "0")}-01`;
+        endDate = new Date(y, m, 0).toISOString().slice(0, 10);
+    }
+
+    if (period === "yearly") {
+        const y = Number(document.getElementById("dashboardYearPicker").value);
+        if (y) {
+            startDate = `${y}-01-01`;
+            endDate = `${y}-12-31`;
+        }
+    }
+
+    if (period === "weekly" && dateValue) {
+        const [y, w] = dateValue.split("-W").map(Number);
+        const jan4 = new Date(y, 0, 4);
+        const monday = new Date(jan4);
+        monday.setDate(jan4.getDate() - ((jan4.getDay() + 6) % 7) + (w - 1) * 7);
+        const sunday = new Date(monday);
+        sunday.setDate(monday.getDate() + 6);
+
+        startDate = monday.toISOString().slice(0, 10);
+        endDate = sunday.toISOString().slice(0, 10);
+    }
+
+    function inPeriod(record) {
+        if (period === "all") return true;
+        if (!record.date || !startDate || !endDate) return false;
+        return record.date >= startDate && record.date <= endDate;
+    }
+
+    const totalIncome = incomes
+        .filter(inPeriod)
+        .reduce((sum, r) => sum + Number(r.amount || 0), 0);
+
+    const totalExpense = expenses
+        .filter(inPeriod)
+        .reduce((sum, r) => sum + Number(r.amount || 0), 0);
+
+    const balance = totalIncome - totalExpense;
+
+    document.getElementById("dashboardIncome").textContent =
+        "₹" + totalIncome.toLocaleString("en-IN");
+
+    document.getElementById("dashboardExpense").textContent =
+        "₹" + totalExpense.toLocaleString("en-IN");
+
+    document.getElementById("dashboardBalance").textContent =
+        "₹" + balance.toLocaleString("en-IN");
+
+    document.getElementById("dashboardSavings").textContent =
+        "₹" + balance.toLocaleString("en-IN");
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    updateDashboardPeriod();
+});
