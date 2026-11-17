@@ -241,28 +241,63 @@ href="favicon-64.png">
 
 
 <!-- ============================= -->
-<!-- Monthly Income Summary -->
+<!-- INCOME PERIOD SUMMARY -->
 <!-- ============================= -->
 
 <div class="card">
 
-    <h2>
-        📊 Monthly Income Summary
-    </h2>
+    <h2>📊 Income Summary</h2>
+
+    <label>Select Period</label>
+
+    <select
+        id="incomePeriodType"
+        onchange="updateIncomeSummary()">
+
+        <option value="week">Week Wise</option>
+        <option value="month" selected>Month Wise</option>
+        <option value="year">Year Wise</option>
+        <option value="all">All Time</option>
+
+    </select>
+
+    <input
+        type="week"
+        id="incomeWeekPicker"
+        onchange="updateIncomeSummary()"
+        style="display:none;">
+
+    <input
+        type="month"
+        id="incomeMonthPicker"
+        onchange="updateIncomeSummary()">
+
+    <input
+        type="number"
+        id="incomeYearPicker"
+        placeholder="Enter Year"
+        style="display:none;"
+        onchange="updateIncomeSummary()">
+
+    <hr>
 
     <p>
-        Total Income :
-        <b id="monthIncome">
-            ₹0
-        </b>
+        Total Income:
+        <b id="monthIncome">₹0</b>
     </p>
 
     <p>
-        Total Entries :
-        <b id="incomeEntries">
-            0
-        </b>
+        Total Entries:
+        <b id="incomeEntries">0</b>
     </p>
+
+    <h3>Category Wise Income</h3>
+
+    <div id="incomeCategorySummary">
+
+        No Data Available
+
+    </div>
 
 </div>
 
