@@ -12675,3 +12675,276 @@ if (document.readyState === "loading") {
     initializeIncomeSummary();
 
 }
+
+// ==========================================
+// ARTHAFLOW - EXPENSE PERIOD SUMMARY
+// Week Wise | Month Wise | Year Wise | All Time
+// ==========================================
+
+function getExpenseISOWeek(dateValue) {
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateValue || "")) {
+        return "";
+    }
+
+    const parts = dateValue.split("-").map(Number);
+
+    const date = new Date(Date.UTC(
+        parts[0],
+        parts[1] - 1,
+        parts[2]
+    ));
+
+    date.setUTCDate(
+        date.getUTCDate() + 4 -
+        (date.getUTCDay() || 7)
+    );
+
+    const year = date.getUTCFullYear();
+
+    const yearStart = new Date(Date.UTC(year, 0, 1));
+
+    const week = Math.ceil(
+        (((date - yearStart) / 86400000) + 1) / 7
+    );
+
+    return year + "-W" + String(week).padStart(2, "0");
+}
+
+
+// ==========================================
+// UPDATE EXPENSE SUMMARY
+// ==========================================
+
+function updateExpenseSummary() {
+
+    const periodType =
+        document.getElementById("expensePeriodType");
+
+    const weekPicker =
+        document.getElementById("expenseWeekPicker");
+
+    const monthPicker =
+        document.getElementById("expenseMonthPicker");
+
+    const yearPicker =
+        document.getElementById("expenseYearPicker");
+
+    const totalBox =
+        document.getElementById("monthExpense");
+
+    const entriesBox =
+        document.getElementById("expenseEntries");
+
+    const categoryBox =
+        document.getElementById("expenseCategorySummary");
+
+    if (
+        !periodType ||
+        !totalBox ||
+        !entriesBox ||
+        !categoryBox
+    ) {
+        return;
+    }
+
+    const type = periodType.value;
+
+    if (weekPicker) {
+        weekPicker.style.display =
+            type === "week" ? "block" : "none";
+    }
+
+    if (monthPicker) {
+        monthPicker.style.display =
+            type === "month" ? "block" : "none";
+    }
+
+    if (yearPicker) {
+        yearPicker.style.display =
+            type === "year" ? "block" : "none";
+    }
+
+    const selectedWeek =
+        weekPicker ? weekPicker.value : "";
+
+    const selectedMonth =
+        monthPicker ? monthPicker.value : "";
+
+    const selectedYear =
+        yearPicker ? yearPicker.value : "";
+
+    const records =
+        typeof expenseHistory !== "undefined" &&
+        Array.isArray(expenseHistory)
+            ? expenseHistory
+            : [];
+
+    const filteredExpenses = records.filter(function(item) {
+
+        if (type === "all") {
+            return true;
+        }
+
+        if (!item.date) {
+            return false;
+        }
+
+        if (type === "week") {
+            return selectedWeek &&
+                getExpenseISOWeek(item.date) === selectedWeek;
+        }
+
+        if (type === "month") {
+            return selectedMonth &&
+                item.date.startsWith(selectedMonth);
+        }
+
+        if (type === "year") {
+            return selectedYear &&
+                item.date.startsWith(selectedYear + "-");
+        }
+
+        return false;
+
+    });
+
+    let total = 0;
+
+    const categoryTotals = {};
+
+    filteredExpenses.forEach(function(item) {
+
+        const amount = Number(item.amount) || 0;
+
+        total += amount;
+
+        const category =
+            item.category || "Other";
+
+        categoryTotals[category] =
+            (categoryTotals[category] || 0) + amount;
+
+    });
+
+    totalBox.innerText =
+        "₹" + total.toLocaleString("en-IN");
+
+    entriesBox.innerText =
+        filteredExpenses.length;
+
+    categoryBox.innerHTML = "";
+
+    const categories =
+        Object.entries(categoryTotals);
+
+    if (categories.length === 0) {
+
+        categoryBox.innerText =
+            "No Data Available";
+
+        return;
+
+    }
+
+    categories.sort(function(a, b) {
+        return b[1] - a[1];
+    });
+
+    categories.forEach(function(item) {
+
+        const row = document.createElement("p");
+
+        const name = document.createElement("span");
+
+        const amount = document.createElement("b");
+
+        name.textContent = item[0];
+
+        amount.textContent =
+            "₹" + item[1].toLocaleString("en-IN");
+
+        row.appendChild(name);
+        row.appendChild(amount);
+
+        row.style.display = "flex";
+        row.style.justifyContent = "space-between";
+        row.style.gap = "12px";
+
+        categoryBox.appendChild(row);
+
+    });
+
+}
+
+
+// ==========================================
+// INITIALIZE EXPENSE PERIOD SUMMARY
+// ==========================================
+
+function initializeExpenseSummary() {
+
+    const periodType =
+        document.getElementById("expensePeriodType");
+
+    const weekPicker =
+        document.getElementById("expenseWeekPicker");
+
+    const monthPicker =
+        document.getElementById("expenseMonthPicker");
+
+    const yearPicker =
+        document.getElementById("expenseYearPicker");
+
+    if (!periodType) {
+        return;
+    }
+
+    const now = new Date();
+
+    const year = now.getFullYear();
+
+    const month = String(
+        now.getMonth() + 1
+    ).padStart(2, "0");
+
+    const day = String(
+        now.getDate()
+    ).padStart(2, "0");
+
+    const today =
+        year + "-" + month + "-" + day;
+
+    if (weekPicker) {
+        weekPicker.value =
+            getExpenseISOWeek(today);
+    }
+
+    if (monthPicker) {
+        monthPicker.value =
+            year + "-" + month;
+    }
+
+    if (yearPicker) {
+        yearPicker.value = year;
+    }
+
+    updateExpenseSummary();
+
+}
+
+window.updateExpenseSummary =
+    updateExpenseSummary;
+
+if (document.readyState === "loading") {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeExpenseSummary
+    );
+
+} else {
+
+    initializeExpenseSummary();
+
+}
