@@ -376,39 +376,66 @@ onchange="filterExpense()">
 </div>
 
 
+
 <!-- ============================= -->
-<!-- Monthly Expense Summary -->
+<!-- EXPENSE PERIOD SUMMARY -->
 <!-- ============================= -->
 
 <div class="card">
 
-    <h2>
-        📊 Monthly Expense Summary
-    </h2>
+    <h2>📊 Expense Summary</h2>
 
+    <label>Select Period</label>
+
+    <select
+        id="expensePeriodType"
+        onchange="updateExpenseSummary()">
+
+        <option value="week">Week Wise</option>
+        <option value="month" selected>Month Wise</option>
+        <option value="year">Year Wise</option>
+        <option value="all">All Time</option>
+
+    </select>
+
+    <input
+        type="week"
+        id="expenseWeekPicker"
+        onchange="updateExpenseSummary()"
+        style="display:none;">
+
+    <input
+        type="month"
+        id="expenseMonthPicker"
+        onchange="updateExpenseSummary()">
+
+    <input
+        type="number"
+        id="expenseYearPicker"
+        placeholder="Enter Year"
+        style="display:none;"
+        onchange="updateExpenseSummary()">
+
+    <hr>
 
     <p>
-
-        Total Expense :
-
-        <b id="monthExpense">
-            ₹0
-        </b>
-
+        Total Expense:
+        <b id="monthExpense">₹0</b>
     </p>
-
 
     <p>
-
-        Total Entries :
-
-        <b id="expenseEntries">
-            0
-        </b>
-
+        Total Entries:
+        <b id="expenseEntries">0</b>
     </p>
+
+    <h3>Category Wise Expense</h3>
+
+    <div id="expenseCategorySummary">
+        No Data Available
+    </div>
 
 </div>
+
 
 
 <!-- ============================= -->
