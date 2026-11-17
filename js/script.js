@@ -917,6 +917,7 @@ async function syncToCloud(){
 // Save Expense
 // ==========================================
 
+
 async function saveExpense(){
 
     let category =
@@ -926,10 +927,9 @@ async function saveExpense(){
         .trim();
 
     let space =
-    document
-    .getElementById("expenseSpace")
-    .value;
-
+        document
+        .getElementById("expenseSpace")
+        .value || "Personal";
 
     let amount =
         Number(
@@ -938,12 +938,10 @@ async function saveExpense(){
             .value
         );
 
-
     let date =
         document
         .getElementById("expenseDate")
         .value;
-
 
     let note =
         document
@@ -951,90 +949,59 @@ async function saveExpense(){
         .value
         .trim();
 
-
     if(category === ""){
-
         alert("Enter Category");
-
         return;
-
     }
-
 
     if(amount <= 0){
-
         alert("Enter Amount");
-
         return;
-
     }
 
-
     // Add Expense History
+    expenseHistory.push({
 
-expenseHistory.push({
+        id: "EXP" + Date.now(),
 
-    category: category,
+        category: category,
 
-    amount: amount,
+        amount: amount,
 
-    date: date,
+        date: date,
 
-    note: note,
+        note: note,
 
-    space: "Personal"
+        space: space
 
-});
-
+    });
 
     // Update Total Expense
-
     totalExpense += amount;
 
-
     // Save LocalStorage
+    localStorage.setItem(
+        expenseHistoryKey,
+        JSON.stringify(expenseHistory)
+    );
 
     localStorage.setItem(
-    expenseHistoryKey,
-    JSON.stringify(expenseHistory)
-);
+        expenseKey,
+        totalExpense
+    );
 
-localStorage.setItem(
-    expenseKey,
-    totalExpense
-);
-
-    // ☁️ Firebase Cloud Sync
-
+    // Firebase Cloud Sync
     await syncToCloud();
 
-
     // Clear Form
-
-    document
-        .getElementById("expenseCategory")
-        .value = "";
-
-
-    document
-        .getElementById("expenseAmount")
-        .value = "";
-
-
-    document
-        .getElementById("expenseDate")
-        .value = "";
-
-
-    document
-        .getElementById("expenseNote")
-        .value = "";
-
+    document.getElementById("expenseCategory").value = "";
+    document.getElementById("expenseAmount").value = "";
+    document.getElementById("expenseDate").value = "";
+    document.getElementById("expenseNote").value = "";
 
     showNotification(
         "💸 Expense Saved Successfully"
     );
-
 
     location.reload();
 
@@ -1045,51 +1012,57 @@ localStorage.setItem(
 // Delete Expense
 // ==========================================
 
+
 async function deleteExpense(index){
 
     if(
-        !confirm(
-            "Delete this expense?"
-        )
+        !confirm("Delete this expense?")
     ){
-
         return;
-
     }
 
+    // Check valid index
+    if(
+        index < 0 ||
+        index >= expenseHistory.length
+    ){
+        alert("Expense not found!");
+        return;
+    }
 
-    totalExpense -=
-        expenseHistory[index].amount;
+    // Get deleted expense
+    const deletedExpense =
+        expenseHistory[index];
 
+    // Update total
+    totalExpense =
+        Math.max(
+            0,
+            totalExpense - Number(deletedExpense.amount || 0)
+        );
 
-    expenseHistory.splice(
-        index,
-        1
+    // Remove transaction
+    expenseHistory.splice(index, 1);
+
+    // Save correct user-specific history
+    localStorage.setItem(
+        expenseHistoryKey,
+        JSON.stringify(expenseHistory)
     );
 
-
-    // Save LocalStorage
-
+    // Save correct user-specific total
     localStorage.setItem(
-    expenseKey,
-    totalExpense
-);
+        expenseKey,
+        String(totalExpense)
+    );
 
-
-    localStorage.setItem(
-    "expenseHistory",
-    JSON.stringify(expenseHistory)
-);
-
-
-    // ☁️ Firebase Cloud Sync
-
+    // Firebase Cloud Sync
     await syncToCloud();
-
 
     location.reload();
 
 }
+
 
 
 // ==========================================
